@@ -17,6 +17,9 @@ func _init() -> void:
 
 func _run() -> void:
 	await process_frame
+	var cheats: Node = root.get_node_or_null("Cheats")
+	if cheats != null:
+		cheats.screenshot_mode = true
 	var cfg: Dictionary = _load_cfg()
 	var sizes: Dictionary = cfg.get("sizes", {"portrait": [1080, 1920], "landscape": [1920, 1080]})
 	var shots: Array = cfg.get("shots", [])

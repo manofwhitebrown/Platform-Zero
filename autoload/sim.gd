@@ -11,6 +11,15 @@ const CAR_IDS: Array = ["car_obs", "car_sleep", "car_lp", "car_pass", "car_dine"
 const CAR_KINDS: Array = ["obs", "sleep", "lp", "pass", "dine", "lug"]
 const CAR_UNLOCK_TIER: Dictionary = {"car_lp": 0, "car_pass": 0, "car_dine": 0, "car_sleep": 1, "car_obs": 2, "car_lug": 3}
 const SPOT_KINDS: Array = ["seat", "rack", "floor", "bin", "sill", "curtain", "table", "seat"]
+## Spot layout per car kind (8 spots each; index 0 and 7 stay seats). lp/pass keep the tutorial layout.
+const SPOT_LAYOUT: Dictionary = {
+	"lp": ["seat", "rack", "floor", "bin", "sill", "curtain", "table", "seat"],
+	"pass": ["seat", "rack", "floor", "bin", "sill", "curtain", "table", "seat"],
+	"dine": ["seat", "table", "table", "floor", "sill", "bin", "table", "seat"],
+	"sleep": ["seat", "curtain", "floor", "rack", "curtain", "sill", "bin", "seat"],
+	"obs": ["seat", "sill", "sill", "floor", "rack", "bin", "curtain", "seat"],
+	"lug": ["seat", "rack", "rack", "floor", "rack", "floor", "bin", "seat"],
+}
 const TIER_THRESHOLDS: Array = [0, 10, 30, 70, 150]
 const TOKEN_BY_RARITY: Dictionary = {"common": 5, "odd": 8, "rare": 15}
 const REP_BY_RARITY: Dictionary = {"common": 1, "odd": 2, "rare": 3}
@@ -123,7 +132,7 @@ func _build_cars() -> void:
 		var cid: String = String(CAR_IDS[i])
 		_cars.append({"id": cid, "kind": CAR_KINDS[i], "index": i, "x": i * CAR_W, "width": CAR_W, "unlocked": int(CAR_UNLOCK_TIER[cid]) <= 0})
 		for s in range(8):
-			_spots.append({"id": "%s_s%d" % [cid, s], "car_id": cid, "x": i * CAR_W + 150.0 + s * 200.0, "kind": SPOT_KINDS[s], "item_iid": ""})
+			_spots.append({"id": "%s_s%d" % [cid, s], "car_id": cid, "x": i * CAR_W + 150.0 + s * 200.0, "kind": (SPOT_LAYOUT.get(String(CAR_KINDS[i]), SPOT_KINDS) as Array)[s], "item_iid": ""})
 
 
 func new_game(seed_value: int) -> void:
@@ -645,11 +654,19 @@ func _tick_passenger(p: Dictionary, dt: float) -> void:
 					_walk_toward(p, _door_x(), speed * dt)
 					p["car_id"] = _car_at(float(p["x"]))
 					return
-				if p["mood"] == "shy" and float(p["t"]) < 1.5:
-					p["t"] = float(p["t"]) + dt
+				var door_pause: String = _door_pause_state(String(p["mood"])) if float(p["t"]) < 90.0 else ""
+				if door_pause != "":
+					_set_pstate(p, door_pause)
 					return
 				_queue.append(p["pid"])
 			_head_to_slot(p, speed * dt)
+		"hesitating", "knocking":
+			p["facing"] = -1
+			p["t"] = float(p["t"]) + dt
+			if float(p["t"]) >= (2.2 if p["state"] == "hesitating" else 1.0):
+				_set_pstate(p, "walking")
+				p["t"] = 99.0  # already paused at the door; don't pause again
+				_queue.append(p["pid"])
 		"queued":
 			_head_to_slot(p, BASE_WALK * dt)
 		"at_counter":
@@ -672,6 +689,15 @@ func _tick_passenger(p: Dictionary, dt: float) -> void:
 			p["car_id"] = _car_at(float(p["x"]))
 			if float(p["x"]) > _door_x() + 150.0:
 				_remove_passenger(p)
+
+
+## Shy/worried people hesitate at the door, grumpy/hurried ones knock; calm walk straight in.
+func _door_pause_state(mood: String) -> String:
+	if mood == "shy" or mood == "worried":
+		return "hesitating"
+	if mood == "grumpy" or mood == "hurried":
+		return "knocking"
+	return ""
 
 
 func _walk_toward(p: Dictionary, tx: float, step: float) -> void:
@@ -1117,7 +1143,14 @@ func refuse(pid: String) -> Dictionary:
 
 func call_next() -> Dictionary:
 	_touch()
-	return {"ok": true, "queue": _queue.size()}
+	var called: String = ""
+	if _queue.size() < MAX_CLAIMANTS:
+		for p in _passengers.values():
+			if p["kind"] != "ambient" and p["state"] == "seated":
+				p["t"] = 0.0  # stand up now
+				called = String(p["pid"])
+				break
+	return {"ok": true, "queue": _queue.size(), "called": called}
 
 
 func buy(upgrade_id: String) -> Dictionary:
@@ -1127,6 +1160,20 @@ func buy(upgrade_id: String) -> Dictionary:
 func set_time_scale(x: float) -> Dictionary:
 	time_scale = clampf(x, 0.0, 100.0)
 	return {"ok": true, "time_scale": time_scale}
+
+
+## Fast-forward until the train starts arriving at the next stop (cheat / screenshots).
+func skip_to_next_stop() -> Dictionary:
+	var guard: int = 0
+	var was_arriving: bool = _train["state"] == "arriving"
+	while guard < 2000:
+		tick(0.5)
+		guard += 1
+		if _train["state"] == "arriving" and not was_arriving:
+			break
+		if _train["state"] != "arriving":
+			was_arriving = false
+	return {"ok": true, "stop": _train["stop"]}
 
 
 func skip_tutorial() -> Dictionary:
