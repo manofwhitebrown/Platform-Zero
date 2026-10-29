@@ -36,6 +36,7 @@ func run(root: Node) -> int:
 	_test_generated_content()
 	_test_shop()
 	_test_arcs()
+	_test_daily()
 	return fails
 
 
@@ -572,3 +573,29 @@ func _test_arcs() -> void:
 			owners += 1
 	_check(owners == content.owners.size(), "every regular has a 3-5 step arc (%d/%d)" % [owners, content.owners.size()])
 	_check(not content.arc_beat("own_001", 1).is_empty() and content.arc_beat("own_001", 9).is_empty(), "arc_beat lookup")
+
+
+# ---- A3.4 daily Night Case ----
+func _test_daily() -> void:
+	var d1: Dictionary = _sim.get_daily("2026-03-01")
+	_check(d1["def_id"] == _sim.get_daily("2026-03-01")["def_id"], "daily is deterministic per date")
+	_check(_sim.daily_number("2026-01-01") == 1 and _sim.daily_number("2026-03-01") == 60, "daily numbering")
+	_sim.new_game(31)
+	_check(_sim.daily_share_text("2026-03-01") == "", "no share text before solving")
+	var st: Dictionary = _sim.start_daily("2026-03-01")
+	_check(bool(st["ok"]), "daily starts")
+	var iid: String = String(st["iid"])
+	var pid: String = ""
+	for p in _sim.get_passengers():
+		if p["kind"] == "claimant" and String(p["wants_item_def"]) == d1["def_id"]:
+			pid = String(p["pid"])
+	_check(pid != "", "daily owner is waiting")
+	_sim.pick_up(String(_sim._items[iid]["spot_id"]))
+	var res: Dictionary = _sim.hand_over(iid, pid)
+	_check(bool(res["correct"]) and bool(_sim.get_daily("2026-03-01")["done"]), "daily completes on the right handover")
+	var share: String = _sim.daily_share_text("2026-03-01")
+	_check(share.begins_with("Platform Zero") and share.find(String(d1["title"])) == -1, "share text has no spoilers")
+	_check(not bool(_sim.start_daily("2026-03-01")["ok"]), "can't replay a solved daily")
+	_sim.cheated = true
+	_check(_sim.daily_share_text("2026-03-01") == "" and not bool(_sim.start_daily("2026-03-02")["ok"]), "cheated runs excluded from daily")
+	_sim.cheated = false

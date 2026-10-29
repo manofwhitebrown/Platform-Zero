@@ -58,6 +58,8 @@ var stop_index: int = 0
 var clock_s: float = 0.0
 var cheated: bool = false
 var _upgrades: Dictionary = {}  # upgrade id -> level
+var _daily: Dictionary = {}  # {date, def_id, iid, wrong, started, done, share}
+var _daily_log: Dictionary = {}  # date -> {wrong, clues, done}
 var tokens: int = 0
 var rep: int = 0
 var first_delivery_done: bool = false
@@ -144,6 +146,7 @@ func new_game(seed_value: int) -> void:
 	clock_s = 0.0
 	cheated = false
 	_upgrades = {}
+	_daily = {}
 	tokens = 0
 	rep = 0
 	first_delivery_done = false
@@ -1129,6 +1132,8 @@ func hand_over(iid: String, pid: String) -> Dictionary:
 	var is_imposter: bool = p["kind"] == "imposter"
 	var correct: bool = (not is_imposter) and String(item["def_id"]) == String(p["wants_item_def"])
 	var res: Dictionary = {"ok": true, "correct": correct, "was_imposter": is_imposter, "tokens": 0, "rep": 0, "story": "", "line": String(w.get("wrong_line", "Hm, that's not mine."))}
+	if not correct and not is_imposter and not _daily.is_empty() and String(item["def_id"]) == String(_daily.get("def_id", "")) and not bool(_daily.get("done", false)):
+		_daily["wrong"] = int(_daily.get("wrong", 0)) + 1
 	if correct:
 		var rarity: String = String(item["rarity"])
 		var tip: int = int(_econ("tip_high", 2)) if float(p["patience"]) > 0.66 else (int(_econ("tip_mid", 1)) if float(p["patience"]) > 0.33 else 0)
@@ -1140,6 +1145,7 @@ func hand_over(iid: String, pid: String) -> Dictionary:
 		if String(_player["carrying"]) == iid:
 			_player["carrying"] = ""
 		_delivered_defs.append(String(item["def_id"]))
+		_daily_check_done(item)
 		_owner_deliveries[String(p["owner_id"])] = int(_owner_deliveries.get(String(p["owner_id"]), 0)) + 1
 		var beat: Dictionary = Content.arc_beat(String(p["owner_id"]), int(_owner_deliveries[String(p["owner_id"])]))
 		if not beat.is_empty():
@@ -1295,7 +1301,7 @@ func _add_rep(n: int) -> void:
 # ======================= save / load (A1.5) =======================
 func to_dict() -> Dictionary:
 	return {
-		"version": SAVE_VERSION, "seed_base": seed_base, "stop_index": stop_index, "clock_s": clock_s, "cheated": cheated, "upgrades": _upgrades.duplicate(true),
+		"version": SAVE_VERSION, "seed_base": seed_base, "stop_index": stop_index, "clock_s": clock_s, "cheated": cheated, "upgrades": _upgrades.duplicate(true), "daily": _daily.duplicate(true), "daily_log": _daily_log.duplicate(true),
 		"tokens": tokens, "rep": rep, "first_delivery_done": first_delivery_done, "tutorial_done": tutorial_done, "bram_spawned": bram_spawned,
 		"rng_state": str(rng.state), "cars_unlocked": _cars.map(func(c): return bool(c["unlocked"])),
 		"spots": _spots.map(func(s): return String(s["item_iid"])), "items": _items.duplicate(true), "passengers": _passengers.duplicate(true), "queue": _queue.duplicate(true),
@@ -1314,6 +1320,8 @@ func from_dict(d: Dictionary) -> bool:
 	clock_s = float(d.get("clock_s", 0.0))
 	cheated = bool(d.get("cheated", false))
 	_upgrades = (d.get("upgrades", {}) as Dictionary).duplicate(true)
+	_daily = (d.get("daily", {}) as Dictionary).duplicate(true)
+	_daily_log = (d.get("daily_log", {}) as Dictionary).duplicate(true)
 	tokens = int(d.get("tokens", 0))
 	rep = int(d.get("rep", 0))
 	first_delivery_done = bool(d.get("first_delivery_done", false))
@@ -1406,3 +1414,82 @@ func _migrate_v1() -> bool:
 	for c in _cars:
 		c["unlocked"] = int(CAR_UNLOCK_TIER[c["id"]]) <= int(_player["tier"])
 	return true
+
+
+# ======================= daily Night Case (A3.4) =======================
+func daily_date() -> String:
+	return Time.get_date_string_from_system(true)
+
+
+func daily_number(date: String) -> int:
+	return int(Time.get_unix_time_from_datetime_string(date + "T00:00:00") / 86400.0) - 20453  # #1 = 2026-01-01
+
+
+## Deterministic pick for a date: same item on every device, independent of the Sim rng.
+func daily_def_for(date: String) -> String:
+	var ids: Array = []
+	for o in Content.objects:
+		ids.append(String(o["id"]))
+	for o in Content.generated_objects:
+		ids.append(String(o["id"]))
+	ids.sort()
+	if ids.is_empty():
+		return ""
+	return String(ids[absi(date.hash()) % ids.size()])
+
+
+func get_daily(date: String = "") -> Dictionary:
+	var dt: String = date if date != "" else daily_date()
+	var did: String = daily_def_for(dt)
+	var log: Dictionary = _daily_log.get(dt, {})
+	var def: Dictionary = Content.object_by_id(did)
+	return {"date": dt, "number": daily_number(dt), "def_id": did, "title": String(def.get("name", "")), "owner_id": String(def.get("owner_id", "")),
+		"started": _daily.get("date", "") == dt, "done": bool(log.get("done", false)), "wrong": int(log.get("wrong", _daily.get("wrong", 0))),
+		"available": not cheated, "share": daily_share_text(dt)}
+
+
+## Puts today's case on the train: the item on a free spot and its owner queued at the door.
+func start_daily(date: String = "") -> Dictionary:
+	if cheated:
+		return {"ok": false, "reason": "cheated runs can't play the Night Case"}
+	var dt: String = date if date != "" else daily_date()
+	if bool((_daily_log.get(dt, {}) as Dictionary).get("done", false)):
+		return {"ok": false, "reason": "already solved today"}
+	if _daily.get("date", "") == dt:
+		return {"ok": true, "iid": String(_daily.get("iid", "")), "resumed": true}
+	var did: String = daily_def_for(dt)
+	for it in _items.values():
+		if String(it["def_id"]) == did:
+			return {"ok": false, "reason": "that item is already on the train"}
+	var sp: String = _free_spot_id()
+	if did == "" or sp == "":
+		return {"ok": false, "reason": "no room right now"}
+	var it2: Dictionary = _spawn_item(did, sp)
+	var oid: String = String(Content.object_by_id(did).get("owner_id", ""))
+	if oid != "" and not _owner_has_claimant(oid) and _active_claimants() < MAX_CLAIMANTS:
+		_spawn_claimant(oid, did, false)
+	_daily = {"date": dt, "def_id": did, "iid": String(it2["iid"]), "wrong": 0, "done": false}
+	Events.toast.emit("Night Case #%d is on the train." % daily_number(dt), "info")
+	return {"ok": true, "iid": String(it2["iid"])}
+
+
+func _daily_check_done(item: Dictionary) -> void:
+	if _daily.is_empty() or cheated or bool(_daily.get("done", false)) or String(item["def_id"]) != String(_daily["def_id"]):
+		return
+	_daily["done"] = true
+	var dt: String = String(_daily["date"])
+	var res: Dictionary = {"date": dt, "wrong": int(_daily.get("wrong", 0)), "clues": (item["clues_known"] as Array).size(), "done": true}
+	_daily_log[dt] = res
+	Events.daily_completed.emit(get_daily(dt))
+
+
+## Spoiler-free emoji share text; "" until solved or if the run was cheated.
+func daily_share_text(date: String = "") -> String:
+	var dt: String = date if date != "" else daily_date()
+	var log: Dictionary = _daily_log.get(dt, {})
+	if cheated or not bool(log.get("done", false)):
+		return ""
+	var w: int = int(log.get("wrong", 0))
+	var clues: int = int(log.get("clues", 0))
+	var row: String = "\u2753".repeat(0) + "\U0001F50D".repeat(clues) + "\u274C".repeat(w) + "\u2705"
+	return "Platform Zero \u00B7 Night Case #%d\n%s\n%s" % [daily_number(dt), row, "Solved clean" if w == 0 else "%d wrong guess%s" % [w, "" if w == 1 else "es"]]
