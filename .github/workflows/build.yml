@@ -43,6 +43,12 @@ jobs:
             'export/android/debug_keystore_user = "androiddebugkey"' \
             'export/android/debug_keystore_pass = "android"' \
             'export/android/shutdown_adb_on_exit = true' > "$HOME/.config/godot/editor_settings-4.3.tres"
+      - name: SDK diagnostics
+        run: |
+          SDK=$(grep android_sdk_path "$HOME/.config/godot/editor_settings-4.3.tres" | cut -d'"' -f2)
+          for d in "$SDK" "$SDK/build-tools" "$SDK/platforms" "$SDK/platform-tools" "$SDK/cmdline-tools"; do echo "== $d"; ls "$d" 2>&1 | head -20; done | tee -a /tmp/ci.log
+          java -version 2>&1 | tee -a /tmp/ci.log
+          ls "$HOME/.local/share/godot/export_templates/4.3.stable" 2>&1 | head -30 | tee -a /tmp/ci.log
       - name: Import project
         run: godot --headless --import 2>&1 | tee -a /tmp/ci.log || true
       - name: Run tests
@@ -55,7 +61,7 @@ jobs:
       - name: Report failure tail
         if: failure()
         run: |
-          echo "::error title=CI log tail::$(tail -c 3000 /tmp/ci.log 2>/dev/null | sed -e ':a' -e 'N' -e '$!ba' -e 's/%/%25/g' -e 's/\r//g' -e 's/\n/%0A/g')"
+          echo "::error title=CI log tail::$(tail -c 7000 /tmp/ci.log 2>/dev/null | sed -e ':a' -e 'N' -e '$!ba' -e 's/%/%25/g' -e 's/\r//g' -e 's/\n/%0A/g')"
       - uses: actions/upload-artifact@v4
         with:
           name: unclaimed-apk
