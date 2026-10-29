@@ -347,6 +347,12 @@ func _pick_def() -> String:
 		if id != "" and not used.has(id):
 			pool.append(id)
 	if pool.is_empty():
+		# handwritten set exhausted: fall back to procedural items (A3.1)
+		for o in Content.generated_objects:
+			var gid: String = String((o as Dictionary).get("id", ""))
+			if gid != "" and not used.has(gid):
+				pool.append(gid)
+	if pool.is_empty():
 		return ""
 	return String(pool[rng.randi_range(0, pool.size() - 1)])
 

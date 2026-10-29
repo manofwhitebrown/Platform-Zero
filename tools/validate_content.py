@@ -27,6 +27,7 @@ HATS = {"cap", "none", "top", "scarf"}
 ACCESSORIES = {"none", "glasses", "beard", "pipe"}
 HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
 OBJ_ID = re.compile(r"^obj_\d{3}$")
+GEN_MIN = 200
 OWN_ID = re.compile(r"^own_\d{3}$")
 EXPECTED_OBJECTS = 40
 
@@ -96,13 +97,15 @@ def check_owners(owners) -> dict:
     return index
 
 
-def check_objects(objects, owner_index: dict) -> dict:
+def check_objects(objects, owner_index: dict, expected: int = EXPECTED_OBJECTS, label: str = "objects.json") -> dict:
     index: dict = {}
     if not isinstance(objects, list):
         err("objects.json: top level must be an array")
         return index
-    if len(objects) != EXPECTED_OBJECTS:
-        err(f"objects.json: expected {EXPECTED_OBJECTS} objects, found {len(objects)}")
+    if expected >= 0 and len(objects) != expected:
+        err(f"{label}: expected {expected} objects, found {len(objects)}")
+    elif expected < 0 and len(objects) < GEN_MIN:
+        err(f"{label}: expected at least {GEN_MIN} objects, found {len(objects)}")
     for o in objects:
         if not isinstance(o, dict):
             err("objects.json: entry is not an object")
@@ -257,6 +260,14 @@ def check_writing(content: str) -> None:
                     err(f"barks.json: claimant_intro.{m} lines must contain {{item}}")
 
 
+def object_index_all(path: str) -> set:
+    try:
+        with open(path, encoding="utf-8") as f:
+            return {o.get("id") for o in json.load(f) if isinstance(o, dict)}
+    except Exception:  # noqa: BLE001
+        return set()
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--strict", action="store_true")
@@ -279,6 +290,25 @@ def main() -> int:
             cross_check(object_index, owner_index)
     else:
         (err if args.strict else warn)("objects.json not present yet")
+
+    gen_path = os.path.join(content, "generated.json")
+    if os.path.exists(gen_path):
+        gen = load(gen_path)
+        if isinstance(gen, dict):
+            g_owners = check_owners(gen.get("owners"))
+            g_objs = check_objects(gen.get("objects"), g_owners, -1, "generated.json")
+            if g_owners and g_objs:
+                cross_check(g_objs, g_owners)
+            for k in g_objs:
+                if owner_index and k in object_index_all(objects_path):
+                    err(f"generated.json: {k} collides with objects.json")
+            for k in g_owners:
+                if k in owner_index:
+                    err(f"generated.json: {k} collides with owners.json")
+        else:
+            err("generated.json: top level must be an object")
+    elif args.strict:
+        err("generated.json not present (run tools/gen_procedural.py)")
 
     check_writing(content)
 

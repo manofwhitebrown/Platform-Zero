@@ -1,0 +1,743 @@
+{
+ "_doc": "Templates for tools/gen_procedural.py -> content/generated.json (AI-A). Do not hand-edit generated.json; edit this and rerun: python3 tools/gen_procedural.py",
+ "seed": 7,
+ "count": 240,
+ "kinds": {
+  "mitten": {
+   "article_noun": "a mitten",
+   "names": [
+    "Mitten",
+    "Knitted Mitten",
+    "Pocket Mitten"
+   ],
+   "materials": [
+    "wool",
+    "leather",
+    "fleece"
+   ],
+   "smells": [
+    "smoke",
+    "tea",
+    "rain",
+    "coal"
+   ],
+   "sounds": [
+    "muffled"
+   ]
+  },
+  "watch": {
+   "article_noun": "a pocket watch",
+   "names": [
+    "Pocket Watch",
+    "Watch",
+    "Station Watch"
+   ],
+   "materials": [
+    "brass",
+    "silver",
+    "gold",
+    "steel"
+   ],
+   "smells": [
+    "oil",
+    "polish",
+    "tobacco"
+   ],
+   "sounds": [
+    "ticks",
+    "click",
+    "tap"
+   ]
+  },
+  "card": {
+   "article_noun": "a card",
+   "names": [
+    "Calling Card",
+    "Card",
+    "Visiting Card"
+   ],
+   "materials": [
+    "paper",
+    "linen",
+    "pasteboard"
+   ],
+   "smells": [
+    "ink",
+    "paper",
+    "lavender",
+    "tea"
+   ],
+   "sounds": [
+    "flutters",
+    "tap"
+   ]
+  },
+  "jar": {
+   "article_noun": "a jar",
+   "names": [
+    "Glass Jar",
+    "Jar",
+    "Sealed Jar"
+   ],
+   "materials": [
+    "glass",
+    "tin",
+    "clay"
+   ],
+   "smells": [
+    "tea",
+    "cocoa",
+    "lavender",
+    "polish"
+   ],
+   "sounds": [
+    "clinks",
+    "rattles",
+    "click"
+   ]
+  },
+  "umbrella": {
+   "article_noun": "an umbrella",
+   "names": [
+    "Umbrella",
+    "Folding Umbrella",
+    "Walking Umbrella"
+   ],
+   "materials": [
+    "canvas",
+    "silk",
+    "wood",
+    "cotton"
+   ],
+   "smells": [
+    "rain",
+    "oil",
+    "tobacco"
+   ],
+   "sounds": [
+    "snaps",
+    "tap",
+    "flaps"
+   ]
+  },
+  "key": {
+   "article_noun": "a key",
+   "names": [
+    "Key",
+    "Brass Key",
+    "Old Key"
+   ],
+   "materials": [
+    "brass",
+    "iron",
+    "steel",
+    "silver"
+   ],
+   "smells": [
+    "oil",
+    "polish",
+    "coal"
+   ],
+   "sounds": [
+    "jingles",
+    "clinks",
+    "tap"
+   ]
+  },
+  "glove": {
+   "article_noun": "a glove",
+   "names": [
+    "Glove",
+    "Driving Glove",
+    "Evening Glove"
+   ],
+   "materials": [
+    "leather",
+    "wool",
+    "silk",
+    "suede"
+   ],
+   "smells": [
+    "polish",
+    "lavender",
+    "smoke",
+    "rain"
+   ],
+   "sounds": [
+    "creaks",
+    "muffled"
+   ]
+  },
+  "book": {
+   "article_noun": "a book",
+   "names": [
+    "Book",
+    "Pocket Book",
+    "Notebook"
+   ],
+   "materials": [
+    "leather",
+    "paper",
+    "cloth",
+    "canvas"
+   ],
+   "smells": [
+    "paper",
+    "ink",
+    "tea",
+    "tobacco"
+   ],
+   "sounds": [
+    "flutters",
+    "creaks",
+    "thump"
+   ]
+  },
+  "hat": {
+   "article_noun": "a hat",
+   "names": [
+    "Hat",
+    "Felt Hat",
+    "Traveller's Hat"
+   ],
+   "materials": [
+    "felt",
+    "wool",
+    "straw",
+    "leather"
+   ],
+   "smells": [
+    "tobacco",
+    "rain",
+    "polish",
+    "lavender"
+   ],
+   "sounds": [
+    "muffled",
+    "thump"
+   ]
+  },
+  "ring": {
+   "article_noun": "a ring",
+   "names": [
+    "Ring",
+    "Signet Ring",
+    "Plain Ring"
+   ],
+   "materials": [
+    "gold",
+    "silver",
+    "brass",
+    "gilt"
+   ],
+   "smells": [
+    "polish",
+    "lavender",
+    "oil"
+   ],
+   "sounds": [
+    "clinks",
+    "tap",
+    "click"
+   ]
+  },
+  "bag": {
+   "article_noun": "a bag",
+   "names": [
+    "Bag",
+    "Carpet Bag",
+    "Satchel"
+   ],
+   "materials": [
+    "leather",
+    "canvas",
+    "linen",
+    "tweed"
+   ],
+   "smells": [
+    "tobacco",
+    "paper",
+    "rain",
+    "tea",
+    "oil"
+   ],
+   "sounds": [
+    "rattles",
+    "shuffles",
+    "thump",
+    "jingles"
+   ]
+  },
+  "scarf": {
+   "article_noun": "a scarf",
+   "names": [
+    "Scarf",
+    "Long Scarf",
+    "Muffler"
+   ],
+   "materials": [
+    "wool",
+    "silk",
+    "cotton",
+    "linen"
+   ],
+   "smells": [
+    "smoke",
+    "lavender",
+    "rain",
+    "tea"
+   ],
+   "sounds": [
+    "muffled"
+   ]
+  },
+  "spectacles": {
+   "article_noun": "some spectacles",
+   "names": [
+    "Spectacles",
+    "Reading Glasses",
+    "Round Spectacles"
+   ],
+   "materials": [
+    "glass",
+    "tortoiseshell",
+    "brass",
+    "steel"
+   ],
+   "smells": [
+    "polish",
+    "ink",
+    "paper"
+   ],
+   "sounds": [
+    "clinks",
+    "click",
+    "tap"
+   ]
+  },
+  "ticket": {
+   "article_noun": "a ticket",
+   "names": [
+    "Ticket",
+    "Return Ticket",
+    "Punched Ticket"
+   ],
+   "materials": [
+    "paper",
+    "pasteboard",
+    "card"
+   ],
+   "smells": [
+    "ink",
+    "paper",
+    "smoke",
+    "tea"
+   ],
+   "sounds": [
+    "flutters",
+    "tap"
+   ]
+  },
+  "lantern": {
+   "article_noun": "a lantern",
+   "names": [
+    "Lantern",
+    "Hand Lantern",
+    "Signal Lantern"
+   ],
+   "materials": [
+    "brass",
+    "tin",
+    "iron",
+    "glass"
+   ],
+   "smells": [
+    "oil",
+    "smoke",
+    "coal",
+    "polish"
+   ],
+   "sounds": [
+    "clinks",
+    "rattles",
+    "click"
+   ]
+  },
+  "doll": {
+   "article_noun": "a doll",
+   "names": [
+    "Doll",
+    "Rag Doll",
+    "Little Doll"
+   ],
+   "materials": [
+    "cloth",
+    "porcelain",
+    "wood",
+    "wool"
+   ],
+   "smells": [
+    "lavender",
+    "paper",
+    "tea",
+    "cocoa"
+   ],
+   "sounds": [
+    "rattles",
+    "creaks",
+    "muffled"
+   ]
+  },
+  "flute": {
+   "article_noun": "a flute",
+   "names": [
+    "Flute",
+    "Tin Flute",
+    "Pocket Flute"
+   ],
+   "materials": [
+    "wood",
+    "silver",
+    "brass",
+    "bone"
+   ],
+   "smells": [
+    "polish",
+    "oil",
+    "tea"
+   ],
+   "sounds": [
+    "breathy",
+    "click",
+    "tap"
+   ]
+  },
+  "compass": {
+   "article_noun": "a compass",
+   "names": [
+    "Compass",
+    "Pocket Compass",
+    "Brass Compass"
+   ],
+   "materials": [
+    "brass",
+    "silver",
+    "steel",
+    "wood"
+   ],
+   "smells": [
+    "oil",
+    "polish",
+    "rain"
+   ],
+   "sounds": [
+    "clicks",
+    "ticks",
+    "click"
+   ]
+  },
+  "thermos": {
+   "article_noun": "a flask",
+   "names": [
+    "Flask",
+    "Thermos",
+    "Tea Flask"
+   ],
+   "materials": [
+    "tin",
+    "steel",
+    "glass",
+    "copper"
+   ],
+   "smells": [
+    "tea",
+    "cocoa",
+    "smoke",
+    "oil"
+   ],
+   "sounds": [
+    "sloshes",
+    "clinks",
+    "thump"
+   ]
+  },
+  "letter": {
+   "article_noun": "a letter",
+   "names": [
+    "Letter",
+    "Sealed Letter",
+    "Folded Letter"
+   ],
+   "materials": [
+    "paper",
+    "linen",
+    "parchment"
+   ],
+   "smells": [
+    "ink",
+    "lavender",
+    "paper",
+    "tobacco"
+   ],
+   "sounds": [
+    "flutters",
+    "tap"
+   ]
+  },
+  "shoe": {
+   "article_noun": "a shoe",
+   "names": [
+    "Shoe",
+    "Dancing Shoe",
+    "Walking Boot"
+   ],
+   "materials": [
+    "leather",
+    "canvas",
+    "suede",
+    "wood"
+   ],
+   "smells": [
+    "polish",
+    "rain",
+    "coal",
+    "oil"
+   ],
+   "sounds": [
+    "thump",
+    "tap",
+    "creaks"
+   ]
+  },
+  "coin": {
+   "article_noun": "a coin",
+   "names": [
+    "Coin",
+    "Lucky Coin",
+    "Old Coin"
+   ],
+   "materials": [
+    "silver",
+    "brass",
+    "gold",
+    "copper"
+   ],
+   "smells": [
+    "polish",
+    "oil",
+    "coal"
+   ],
+   "sounds": [
+    "clinks",
+    "click",
+    "tap"
+   ]
+  },
+  "photo": {
+   "article_noun": "a photograph",
+   "names": [
+    "Photograph",
+    "Framed Photo",
+    "Tintype"
+   ],
+   "materials": [
+    "tintype",
+    "paper",
+    "glass",
+    "card"
+   ],
+   "smells": [
+    "paper",
+    "lavender",
+    "tea",
+    "ink"
+   ],
+   "sounds": [
+    "flutters",
+    "tap"
+   ]
+  },
+  "music_box": {
+   "article_noun": "a music box",
+   "names": [
+    "Music Box",
+    "Little Music Box",
+    "Tin Music Box"
+   ],
+   "materials": [
+    "wood",
+    "brass",
+    "tin",
+    "tortoiseshell"
+   ],
+   "smells": [
+    "polish",
+    "lavender",
+    "oil",
+    "paper"
+   ],
+   "sounds": [
+    "lullaby",
+    "ticks",
+    "click"
+   ]
+  }
+ },
+ "colors": {
+  "red": "#C8503C",
+  "blue": "#4F6FA8",
+  "green": "#4F7A58",
+  "yellow": "#D9B650",
+  "purple": "#6D5A7A",
+  "orange": "#D9803C",
+  "white": "#EADFC8",
+  "black": "#2A2A30",
+  "grey": "#8A8F99",
+  "brown": "#7A5A3C",
+  "pink": "#D98BA0",
+  "teal": "#3F8A8A"
+ },
+ "wear": [
+  "frayed",
+  "scuffed",
+  "patched",
+  "faded",
+  "dented",
+  "chipped",
+  "threadbare",
+  "tarnished",
+  "creased",
+  "mended",
+  "sticky",
+  "polished smooth",
+  "sooty",
+  "water-stained"
+ ],
+ "adjectives": [
+  "Little",
+  "Old",
+  "Odd",
+  "Travelling",
+  "Pocket",
+  "Lost",
+  "Worn",
+  "Dusty",
+  "Quiet",
+  "Mended",
+  "Favourite",
+  "Faded",
+  "Careful",
+  "Tiny",
+  "Heavy",
+  "Forgotten"
+ ],
+ "extra_stations": [
+  "Wren Hollow",
+  "Gull Point",
+  "Marrow Gate",
+  "Lantern Cross",
+  "Ashgrove Siding",
+  "Tallow Bridge",
+  "Kettle End",
+  "Moth Lane",
+  "Brindle Green",
+  "Ferry Steps"
+ ],
+ "clue_text": {
+  "color": [
+   "Mostly {v}, under the grime.",
+   "It is {v}, no question.",
+   "A {v} sort of thing, in the lamplight.",
+   "Under the lamp it shows {v}."
+  ],
+  "material": [
+   "Made of {v}, by the feel of it.",
+   "The lamp shows {v} through and through.",
+   "Plainly {v}, worn smooth.",
+   "Looks like {v} when the light catches it."
+  ],
+  "smell": [
+   "Smells faintly of {v}.",
+   "A whiff of {v} clings to it.",
+   "Hold it close: {v}.",
+   "It carries the smell of {v}."
+  ],
+  "sound": [
+   "Gives a {v} sound when shaken.",
+   "Listen close: it {v}.",
+   "Held to the ear, it {v}.",
+   "A small {v} noise from inside."
+  ],
+  "wear": [
+   "It is rather {v}.",
+   "Quite {v}, from long use.",
+   "Clearly {v} at the edges.",
+   "The brush shows it is {v}."
+  ],
+  "initials": [
+   "Initials scratched inside: {v}",
+   "Marked with the initials {v}",
+   "Stitched or stamped: {v}",
+   "Under the glass, the initials {v}"
+  ],
+  "station_stamp": [
+   "Stamped: {v}.",
+   "A faded stamp reads {v}.",
+   "Station stamp: {v}.",
+   "Under the magnifier: stamped {v}."
+  ]
+ },
+ "owner_text": {
+  "vague": [
+   "It matters more than it looks.",
+   "I had it just before the last stop.",
+   "I'd know it anywhere.",
+   "I can't sleep without knowing it's safe.",
+   "It isn't worth much to anyone else.",
+   "Please, I've looked everywhere."
+  ],
+  "thanks": [
+   "Oh, thank you. Truly.",
+   "You've no idea what this means.",
+   "There it is. Bless you.",
+   "You found it. I'm so relieved.",
+   "Thank you, kind attendant."
+  ],
+  "wrong": [
+   "No, that isn't mine.",
+   "Close, but no.",
+   "That belongs to someone else.",
+   "Hm. Not mine, I'm afraid."
+  ],
+  "story": [
+   "{n} turns it over twice, then smiles. \"Back where it belongs.\"",
+   "{n} holds it close. \"I thought the night had taken it.\"",
+   "\"Funny,\" says {n}, \"how small things carry whole years.\"",
+   "{n} tucks it away with a nod. \"The Zero Line keeps its promises, after all.\""
+  ],
+  "clue_weights": {
+   "color": 3,
+   "material": 3,
+   "smell": 3,
+   "sound": 3,
+   "wear": 3,
+   "initials": 1,
+   "station_stamp": 1
+  },
+  "hair_styles": [
+   "short",
+   "long",
+   "bun",
+   "bob",
+   "curly",
+   "bald"
+  ],
+  "builds": [
+   "slim",
+   "avg",
+   "round",
+   "broad",
+   "small"
+  ]
+ }
+}

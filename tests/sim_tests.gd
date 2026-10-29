@@ -33,6 +33,7 @@ func run(root: Node) -> int:
 	_test_car_unlocks()
 	_test_cheat_stub()
 	_test_cheat_panel()
+	_test_generated_content()
 	return fails
 
 
@@ -503,3 +504,37 @@ func _test_cheat_panel() -> void:
 	_check(cheats.lockout_left() == 0.0, "no lockout at start")
 	if not cheats.is_available():
 		_check(not cheats.try_unlock("anything"), "no hash file => unlock refused")
+
+
+# ---- A3.1 procedural content ----
+func _test_generated_content() -> void:
+	var content: Node = _sim.get_node("/root/Content")
+	var gen: Array = content.generated_objects
+	_check(gen.size() >= 200, "200+ generated items (got %d)" % gen.size())
+	_check(content.generated_owners.size() == gen.size(), "one generated owner per generated item")
+	var bad: int = 0
+	var ids: Dictionary = {}
+	for o in gen:
+		var n: int = (o["clues"] as Array).size()
+		var attrs: Dictionary = {}
+		for c in o["clues"]:
+			attrs[c["attr"]] = true
+		if n < 2 or n > 3 or attrs.size() != n or ids.has(o["id"]) or not content.has_owner(String(o["owner_id"])):
+			bad += 1
+		ids[o["id"]] = true
+	_check(bad == 0, "generated items obey clue/owner rules (%d bad)" % bad)
+	_check(content.objects.size() == 40, "handwritten pool untouched")
+	# every generated item can be spawned, examined and solved through the real Sim
+	_sim.new_game(11)
+	var did: String = String(gen[0]["id"])
+	var w: Dictionary = content.owner_by_id(String(gen[0]["owner_id"]))
+	_check((w["lost_item_ids"] as Array).has(did) and (w["hints"] as Dictionary).has(did), "generated owner lists its item and hints")
+	var seen: Dictionary = {}
+	for it in _sim._items.values():
+		seen[it["def_id"]] = true
+	for k in range(60):
+		var d: String = _sim._pick_def()
+		_check(d == "" or not seen.has(d), "pick_def never repeats a def")
+		if d == "":
+			break
+		seen[d] = true

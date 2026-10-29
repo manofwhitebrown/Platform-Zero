@@ -7,6 +7,7 @@ const DEFAULT_OWNERS_PATH: String = "res://content/owners.json"
 const DEFAULT_DIALOGUE_PATH: String = "res://content/dialogue.json"
 const DEFAULT_BARKS_PATH: String = "res://content/barks.json"
 const DEFAULT_NAMES_PATH: String = "res://content/names.json"
+const GENERATED_PATH: String = "res://content/generated.json"
 
 const ICON_KEYS: PackedStringArray = [
 	"mitten", "watch", "card", "jar", "umbrella", "key", "glove", "book", "hat", "ring",
@@ -25,6 +26,10 @@ var dialogue: Dictionary = {}
 var barks: Dictionary = {}
 var names: Dictionary = {}
 
+## Procedural items/owners (A3.1, content/generated.json). Indexed for lookups but kept out of
+## `objects`/`owners` so handwritten content stays the primary pool.
+var generated_objects: Array = []
+var generated_owners: Array = []
 var objects: Array = []
 var owners: Array = []
 ## Human-readable problems found while loading (also sent to push_warning).
@@ -73,6 +78,7 @@ func _rebuild() -> void:
 		if _owner_index.has(w["id"]):
 			_warn("duplicate owner id %s" % w["id"])
 		_owner_index[w["id"]] = w
+	_load_generated()
 	_check_refs()
 
 
@@ -105,6 +111,22 @@ func lost_items_of(owner_id: String) -> Array:
 		if _object_index.has(iid):
 			out.append(iid)
 	return out
+
+
+func _load_generated() -> void:
+	generated_objects = []
+	generated_owners = []
+	if objects_path != DEFAULT_OBJECTS_PATH:
+		return  # test fixtures: no generated content
+	var d: Dictionary = _load_dict(GENERATED_PATH)
+	for o in d.get("objects", []):
+		if typeof(o) == TYPE_DICTIONARY and o.has("id") and not _object_index.has(o["id"]):
+			generated_objects.append(o)
+			_object_index[o["id"]] = o
+	for w in d.get("owners", []):
+		if typeof(w) == TYPE_DICTIONARY and w.has("id") and not _owner_index.has(w["id"]):
+			generated_owners.append(w)
+			_owner_index[w["id"]] = w
 
 
 func _check_refs() -> void:
