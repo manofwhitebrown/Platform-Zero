@@ -36,6 +36,14 @@ h3{margin:18px 0 6px;font-size:15px;color:var(--mist);font-weight:600}
 .runs li{display:flex;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid #1c3b46}
 .runs a{color:var(--paper)}
 #err{padding:0 32px;color:var(--bad)}
+.screens{grid-column:1/-1}
+.screens h3{margin:14px 0 8px}
+.strip{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 12px;scroll-snap-type:x proximity}
+.strip figure{margin:0;flex:0 0 auto;scroll-snap-align:start}
+.strip img{display:block;height:300px;width:auto;border-radius:12px;border:1px solid var(--line);background:var(--deep)}
+.strip.land img{height:220px}
+.strip figcaption{font-size:13px;color:var(--mist);margin-top:4px;max-width:260px}
+.strip a:focus-visible{outline:2px solid var(--lamp);outline-offset:2px;border-radius:12px;display:inline-block}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style></head><body>
 <header>
@@ -50,6 +58,7 @@ h3{margin:18px 0 6px;font-size:15px;color:var(--mist);font-weight:600}
 <main>
   <section class="plat" id="A"></section>
   <section class="plat" id="B"></section>
+  <section class="plat screens" id="screens"><div class="sign"><div class="letter" style="font-size:26px">&#128247;</div><div><h2>Latest screens</h2><p>Real renders from the build, newest push. If this is empty, no one has seen the game run yet.</p></div></div><div id="shotsbody"></div></section>
   <section class="plat ci"><div class="sign"><div class="letter" style="font-size:26px">CI</div><div><h2>APK builds</h2><p>Latest workflow runs. Open a green run and download the <b>platform-zero-apk</b> artifact.</p></div></div><ul class="runs" id="runs"></ul></section>
 </main>
 <script>
@@ -97,6 +106,22 @@ async function refresh(){
   }catch(e){$('#err').textContent='Cannot read the repo ('+e.message+'). Check the repo name and token.'}
 }
 $('#repo').value=cfg.repo;$('#tok').value=cfg.tok;
-$('#save').onclick=()=>{cfg.repo=$('#repo').value.trim();cfg.tok=$('#tok').value.trim();localStorage.pzRepo=cfg.repo;localStorage.pzTok=cfg.tok;refresh()};
-refresh();setInterval(refresh,cfg.tok?60000:300000);
+$('#save').onclick=()=>{cfg.repo=$('#repo').value.trim();cfg.tok=$('#tok').value.trim();localStorage.pzRepo=cfg.repo;localStorage.pzTok=cfg.tok;refresh();loadScreens()};
+
+async function loadScreens(){
+  const box=$('#shotsbody');
+  try{
+    const base='https://raw.githubusercontent.com/'+cfg.repo+'/main/docs/screens/';
+    const r=await fetch(base+'index.json?t='+Date.now());
+    if(!r.ok)throw new Error(r.status);
+    const idx=await r.json();
+    const list=Array.isArray(idx)?idx:(idx.shots||[]);
+    if(!list.length){box.innerHTML='<p style="color:var(--mist)">No screenshots yet.</p>';return}
+    const group=(o)=>list.filter(x=>(x.orientation||'portrait')===o);
+    const fig=x=>`<figure><a href="${esc(base+x.file)}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(base+x.file)}?t=${Date.now()}" alt="${esc(x.title||x.id)}"></a><figcaption>${esc(x.title||x.id)}${x.milestone?' · '+esc(x.milestone):''}</figcaption></figure>`;
+    const p=group('portrait'),l=group('landscape');
+    box.innerHTML=(p.length?`<h3>Portrait (${p.length})</h3><div class="strip">${p.map(fig).join('')}</div>`:'')+(l.length?`<h3>Landscape (${l.length})</h3><div class="strip land">${l.map(fig).join('')}</div>`:'');
+  }catch(e){box.innerHTML='<p style="color:var(--mist)">No screenshots published yet (docs/screens/index.json not found).</p>'}
+}
+refresh();loadScreens();setInterval(()=>{refresh();loadScreens()},cfg.tok?60000:300000);
 </script></body></html>
