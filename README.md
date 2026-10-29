@@ -68,7 +68,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ B0.2
 - ✅ B0.3
 - 🔄 B1.1
-- ⬜ B1.2
+- 🔄 B1.2
 - ⬜ B1.3
 - ⬜ B1.4
 - ⬜ B1.5
