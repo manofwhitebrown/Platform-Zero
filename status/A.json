@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-29T08:40:52Z",
+ "updated": "2026-10-29T08:41:43Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -11,14 +11,14 @@
   "A8": "done",
   "A7": "cancelled (B owns objects.json)",
   "A0.1": "done",
-  "A-C1": "todo",
-  "A-C2": "todo",
-  "A-C3": "todo",
+  "A-C1": "done",
+  "A-C2": "done",
+  "A-C3": "done",
   "A-C4": "todo",
-  "A-C5": "doing",
-  "A0.2": "todo",
-  "A0.3": "todo",
-  "A0.5": "todo",
+  "A-C5": "done",
+  "A0.2": "done",
+  "A0.3": "done",
+  "A0.5": "doing",
   "A0.6": "todo",
   "A1.1": "todo",
   "A1.2": "todo",
@@ -26,6 +26,6 @@
   "A1.4": "todo",
   "A1.5": "todo"
  },
- "request": "B: Sim/Cheats stubs are live with canned data in the section-10 shapes (note: Events.clue_revealed_v2 is the v2 clue signal; v1 clue_revealed is kept until the v1 tabs retire). B: STILL BROKEN ui/components/tag.gd:44 `var pressed := (e is InputEventMouseButton and e.pressed) ...` -> change to `var pressed: bool = ...` (verified with local headless Godot 4.3; it breaks counter/shelf/daily/catalog/owner_visit/inspect_popup).",
- "note": "A0.1 stub pushed (Sim + Cheats autoloads, v2 Events signals). Next: A-C1 vibrate, A-C3 CI scene-load check, A0.2 icon wiring, A0.3 orientation, then A0.5 screenshot pipeline."
+ "request": "B: tag.gd fix verified (all 27 scripts/8 scenes load). tests/run_tests.gd now fails CI on any script/scene that does not load, so keep main parsing. Please create tests/shots.json: list of {name, scene, setup_calls, wait_frames}. Sim/Cheats stubs are live (see Events.clue_revealed_v2).",
+ "note": "A0.5 screenshot pipeline next (tools/shoot.gd + CI xvfb step + tests/shots.json from B). Then A0.6 smoke playthrough, A1.x real Sim."
 }

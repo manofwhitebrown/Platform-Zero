@@ -35,8 +35,7 @@ func reload() -> void:
 	objects = _load_array(objects_path)
 	owners = _load_array(owners_path)
 	if objects.is_empty():
-		_warn("objects.json missing or empty; using built-in fallback objects")
-		objects = _fallback_objects()
+		_warn("objects.json missing or empty")
 	_rebuild()
 
 
@@ -138,14 +137,3 @@ func _warn(msg: String) -> void:
 
 
 ## Minimal objects used only until content/objects.json exists.
-func _fallback_objects() -> Array:
-	return [
-		{"id": "obj_001", "name": "Smoky Mitten", "icon": "mitten", "tint": "#C8503C", "rarity": "common", "owner_id": "own_001",
-		"clues": [{"id": "c1", "text": "Smells faintly of woodsmoke.", "attr": "smell", "value": "smoke"},
-			{"id": "c2", "text": "One thumb is darned in blue wool.", "attr": "wear", "value": "darned"}],
-		"story": "Bram warms his hands on it every winter."},
-		{"id": "obj_004", "name": "Stopped Pocket Watch", "icon": "watch", "tint": "#B8893E", "rarity": "odd", "owner_id": "own_002",
-		"clues": [{"id": "c1", "text": "Engraved with the initials M.T.", "attr": "initials", "value": "MT"},
-			{"id": "c2", "text": "It ticks only on Tuesdays.", "attr": "sound", "value": "tick"}],
-		"story": "Madame Odile's grandfather wound it every dawn."},
-	]

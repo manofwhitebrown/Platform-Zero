@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate content
-        run: python3 tools/validate_content.py
+        run: python3 tools/validate_content.py --strict
 
   build:
     needs: validate
@@ -72,6 +72,14 @@ jobs:
           mkdir -p build
           godot --headless --verbose --export-debug "Android" build/platform-zero.apk 2>&1 | tee -a /tmp/ci.log
           ls -la build | tee -a /tmp/ci.log
+      - name: Assert launcher icon is in the APK
+        run: |
+          apt-get install -y -qq unzip >/dev/null 2>&1 || true
+          unzip -l build/platform-zero.apk | tee /tmp/apk_list.txt | grep -E "res/.*ic_launcher|mipmap" | head -20
+          if ! grep -qE "ic_launcher" /tmp/apk_list.txt; then
+            echo "::error title=No launcher icon::APK has no ic_launcher resource (check export_presets.cfg launcher_icons)"
+            exit 1
+          fi
       - name: Report failure tail
         if: failure()
         run: |
