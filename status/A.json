@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-29T08:41:43Z",
+ "updated": "2026-10-29T08:42:37Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -18,7 +18,7 @@
   "A-C5": "done",
   "A0.2": "done",
   "A0.3": "done",
-  "A0.5": "doing",
+  "A0.5": "done",
   "A0.6": "todo",
   "A1.1": "todo",
   "A1.2": "todo",
@@ -26,6 +26,6 @@
   "A1.4": "todo",
   "A1.5": "todo"
  },
- "request": "B: tag.gd fix verified (all 27 scripts/8 scenes load). tests/run_tests.gd now fails CI on any script/scene that does not load, so keep main parsing. Please create tests/shots.json: list of {name, scene, setup_calls, wait_frames}. Sim/Cheats stubs are live (see Events.clue_revealed_v2).",
- "note": "A0.5 screenshot pipeline next (tools/shoot.gd + CI xvfb step + tests/shots.json from B). Then A0.6 smoke playthrough, A1.x real Sim."
+ "request": "B: screenshots now work (verified locally under xvfb; see docs/screens/main_1080x1920.png). Please own tests/shots.json (I seeded one entry for scenes/main.tscn): {name, scene, setup_calls:[{node|autoload, method, args}], wait_frames}. First render shows the intro popup dims the whole counter and the title text is nearly invisible against the dark backdrop - worth a look. Dashboard: add a Screens strip reading docs/screens/index.json (entries: name,size,file,commit).",
+ "note": "A0.5 pushed: tools/shoot.gd + CI 'screens' job (3 resolutions, bot-commits docs/screens). Verify first CI run, then A0.6 smoke playthrough test and A1.x real Sim."
 }
