@@ -22,7 +22,7 @@ func get_shelf_items() -> Array:
 	return _shelf.duplicate(true)
 
 func inspect(item_id: String) -> Dictionary:
-	var item: Dictionary = Content.get_object(item_id)
+	var item: Dictionary = Content.object_by_id(item_id)
 	if item.is_empty():
 		return {}
 	var rev: Array = _revealed.get(item_id, [])
@@ -35,8 +35,8 @@ func inspect(item_id: String) -> Dictionary:
 	return {}
 
 func try_match(item_id: String, owner_id: String) -> Dictionary:
-	var item: Dictionary = Content.get_object(item_id)
-	var owner: Dictionary = Content.get_owner(owner_id)
+	var item: Dictionary = Content.object_by_id(item_id)
+	var owner: Dictionary = Content.owner_by_id(owner_id)
 	var ok: bool = not item.is_empty() and item["owner_id"] == owner_id
 	var reward: int = 10 if ok else 0
 	if ok:

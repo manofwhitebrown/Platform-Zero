@@ -30,14 +30,18 @@ var owners: Array = [
 ]
 var warnings: Array = []
 
-func get_object(id: String) -> Dictionary:
+func object_by_id(id: String) -> Dictionary:
 	for o in objects:
 		if o["id"] == id:
 			return o
 	return {}
 
-func get_owner(id: String) -> Dictionary:
+func owner_by_id(id: String) -> Dictionary:
 	for o in owners:
 		if o["id"] == id:
 			return o
 	return {}
+
+## Compatibility alias (front-end currently calls this; prefer GameState APIs).
+func get_object(id: String) -> Dictionary:
+	return object_by_id(id)
