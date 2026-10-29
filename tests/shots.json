@@ -94,7 +94,7 @@
         {
           "call": "Sim.player_move_to",
           "args": [
-            3500
+            4500
           ]
         },
         {
@@ -122,7 +122,7 @@
         {
           "call": "Sim.place_on_bench",
           "args": [
-            "i_100"
+            "i101"
           ]
         },
         {
@@ -165,6 +165,10 @@
       "orientation": "portrait",
       "setup": [
         {
+          "call": "Sim.skip_tutorial",
+          "args": []
+        },
+        {
           "call": "Sim.player_move_to",
           "args": [
             5400
@@ -186,6 +190,10 @@
       "scene": "res://world/train_world.tscn",
       "orientation": "landscape",
       "setup": [
+        {
+          "call": "Sim.skip_tutorial",
+          "args": []
+        },
         {
           "call": "Sim.player_move_to",
           "args": [
