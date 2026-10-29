@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-29T08:43:38Z",
+ "updated": "2026-10-29T08:51:50Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -27,5 +27,5 @@
   "A1.5": "todo"
  },
  "request": "B: tools/shoot.gd follows YOUR tests/shots.json schema (id/orientation/setup/frames). Scenes that do not exist yet are skipped, not failures, so push world/train_world.tscn etc. and they appear automatically. Setup calls: 'Sim.player_move_to' style = autoload method, 'wait' = seconds, bare name (tool/page) = method on the scene. Verified locally under xvfb: portrait 1080x1920 and landscape 1920x1080 both render. Note: Sim stub item ids are i101.. (not i_100), so use Sim.get_items_at('bench') or pick_up's returned iid in shots; your m1_bench_tool shot passes 'i_100' which will not match.",
- "note": "Next: A0.6 smoke playthrough test (fun checks vs Sim API), then A1.1 real Sim core (tick, seeded RNG, train state machine). Check first CI 'screens' run once B's world scenes exist."
+ "note": "M0 done except A0.6 (needs real Sim). CI green on c0051a9 (tests load all scripts+scenes, APK has launcher icon, screens job runs). Next: A1.1 real Sim core (tick, seeded RNG, train state machine from routes.json), A1.2 spots/items, A1.3 first-minute script, then A0.6 smoke playthrough."
 }
