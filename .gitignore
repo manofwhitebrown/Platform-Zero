@@ -1,0 +1,7 @@
+.godot/
+*.apk
+*.aab
+build/
+handoff/
+*.keystore
+AI_*_INSTRUCTIONS.md
