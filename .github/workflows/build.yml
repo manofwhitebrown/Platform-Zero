@@ -105,14 +105,12 @@ jobs:
         run: apt-get update -qq && apt-get install -y -qq xvfb libgl1-mesa-dri libglx-mesa0 libegl1 git
       - name: Import project
         run: godot --headless --import 2>&1 | tail -5 || true
-      - name: Take screenshots (portrait, landscape, small portrait)
+      - name: Take screenshots (sizes per shot from tests/shots.json)
         continue-on-error: true
         env:
           LIBGL_ALWAYS_SOFTWARE: "1"
         run: |
-          for res in 1080x1920 1920x1080 720x1280; do
-            xvfb-run -a -s "-screen 0 1920x1920x24" godot --rendering-driver opengl3 --resolution $res --script tools/shoot.gd 2>&1 | tail -15
-          done
+          xvfb-run -a -s "-screen 0 1920x1920x24" godot --rendering-driver opengl3 --script tools/shoot.gd 2>&1 | grep -vi "alsa\|audio" | tail -30
           ls -la docs/screens
       - uses: actions/upload-artifact@v4
         with:
