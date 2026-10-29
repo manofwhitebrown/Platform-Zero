@@ -2,8 +2,8 @@ extends Node
 ## Content loader: reads objects.json + owners.json, indexes by id,
 ## and collects a list of warnings for bad references.
 
-const OBJECTS_PATH: String = "res://content/objects.json"
-const OWNERS_PATH: String = "res://content/owners.json"
+const DEFAULT_OBJECTS_PATH: String = "res://content/objects.json"
+const DEFAULT_OWNERS_PATH: String = "res://content/owners.json"
 
 const ICON_KEYS: PackedStringArray = [
 	"mitten", "watch", "card", "jar", "umbrella", "key", "glove", "book", "hat", "ring",
@@ -11,6 +11,11 @@ const ICON_KEYS: PackedStringArray = [
 	"thermos", "letter", "shoe", "coin", "photo", "music_box",
 ]
 const RARITIES: PackedStringArray = ["common", "odd", "rare"]
+
+## Overridable (tests point these at fixtures, then call reload()).
+var objects_path: String = DEFAULT_OBJECTS_PATH
+var owners_path: String = DEFAULT_OWNERS_PATH
+var log_warnings: bool = true
 
 var objects: Array = []
 var owners: Array = []
@@ -27,11 +32,21 @@ func _ready() -> void:
 
 func reload() -> void:
 	warnings.clear()
-	objects = _load_array(OBJECTS_PATH)
-	owners = _load_array(OWNERS_PATH)
+	objects = _load_array(objects_path)
+	owners = _load_array(owners_path)
 	if objects.is_empty():
 		_warn("objects.json missing or empty; using built-in fallback objects")
 		objects = _fallback_objects()
+	_rebuild()
+
+
+## Replace the object list in memory (tests / tools) and reindex.
+func set_objects(list: Array) -> void:
+	objects = list
+	_rebuild()
+
+
+func _rebuild() -> void:
 	_object_index.clear()
 	_owner_index.clear()
 	for o in objects:
@@ -118,7 +133,8 @@ func _load_array(path: String) -> Array:
 
 func _warn(msg: String) -> void:
 	warnings.append(msg)
-	push_warning("[Content] " + msg)
+	if log_warnings:
+		push_warning("[Content] " + msg)
 
 
 ## Minimal objects used only until content/objects.json exists.

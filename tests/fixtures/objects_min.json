@@ -1,0 +1,30 @@
+[
+  {"id": "obj_001", "name": "Smoky Mitten", "icon": "mitten", "tint": "#C8503C", "rarity": "common", "owner_id": "own_001",
+   "clues": [
+     {"id": "c1", "text": "Smells faintly of woodsmoke.", "attr": "smell", "value": "smoke"},
+     {"id": "c2", "text": "The left thumb is darned in blue wool.", "attr": "wear", "value": "darned"}],
+   "story": "Bram warms his hands on it every winter."},
+  {"id": "obj_004", "name": "Tuesday Watch", "icon": "watch", "tint": "#B8893E", "rarity": "odd", "owner_id": "own_002",
+   "clues": [
+     {"id": "c1", "text": "It ticks only on Tuesdays.", "attr": "sound", "value": "ticks"},
+     {"id": "c2", "text": "Engraved with a curling M.", "attr": "initials", "value": "M"},
+     {"id": "c3", "text": "The chain smells of lavender.", "attr": "smell", "value": "lavender"}],
+   "story": "Madame Odile's grandfather wound it every dawn."},
+  {"id": "obj_009", "name": "Black Umbrella", "icon": "umbrella", "tint": "#12303B", "rarity": "common", "owner_id": "own_004",
+   "clues": [
+     {"id": "c1", "text": "Black as a closed door.", "attr": "color", "value": "black"},
+     {"id": "c2", "text": "Stamped with the Lantern Row station mark.", "attr": "station_stamp", "value": "lantern_row"}],
+   "story": "It has never once kept the rain off, and the Inspector refuses to admit it."},
+  {"id": "obj_011", "name": "Pipe-Smoke Letter", "icon": "letter", "tint": "#EADFC8", "rarity": "rare", "owner_id": "own_004",
+   "clues": [
+     {"id": "c1", "text": "Reeks of pipe tobacco.", "attr": "smell", "value": "tobacco"},
+     {"id": "c2", "text": "Sealed, but the seal is thumbed soft.", "attr": "wear", "value": "thumbed"},
+     {"id": "c3", "text": "Addressed in a tidy copperplate hand.", "attr": "material", "value": "paper"},
+     {"id": "c4", "text": "Something inside rattles faintly.", "attr": "sound", "value": "rattle"}],
+   "story": "A confession the Inspector never quite posted."},
+  {"id": "obj_013", "name": "Canvas Satchel", "icon": "bag", "tint": "#7FA6A3", "rarity": "odd", "owner_id": "own_005",
+   "clues": [
+     {"id": "c1", "text": "Rough, waxed canvas.", "attr": "material", "value": "canvas"},
+     {"id": "c2", "text": "A faded 'W' is stitched inside the flap.", "attr": "initials", "value": "W"}],
+   "story": "Wren carries everyone's luggage and, it turns out, loses her own."}
+]

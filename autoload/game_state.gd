@@ -10,9 +10,9 @@ const BOOT_VISIT_DELAY: int = 3          # seconds until first owner after launc
 const NEXT_VISIT_DELAY: int = 6          # seconds until next owner after a match
 const RETURN_DELAY: int = 90             # seconds until an owner returns after a wrong match
 const STARTER_ID: String = "obj_001"
-const TIER_THRESHOLDS: Array = [0, 10, 30, 70]
+const TIER_THRESHOLDS: Array = [0, 10, 30, 70, 150]
 const REWARD_BY_RARITY: Dictionary = {"common": 5, "odd": 10, "rare": 20}
-const REPUTATION_BY_RARITY: Dictionary = {"common": 2, "odd": 3, "rare": 5}
+const REPUTATION_BY_RARITY: Dictionary = {"common": 3, "odd": 5, "rare": 8}
 
 ## Overridable for tests.
 var save_path: String = "user://save.json"
@@ -131,8 +131,7 @@ func try_match(item_id: String, owner_id: String) -> Dictionary:
 	Events.match_result.emit(item_id, owner_id, correct, reward)
 	if shelf_dirty:
 		Events.shelf_changed.emit()
-	if correct:
-		Events.reputation_changed.emit(_reputation, get_tier())
+	Events.reputation_changed.emit(_reputation, get_tier())
 	save()
 	return {"correct": correct, "reward": reward, "story": story, "line": line}
 
@@ -159,6 +158,15 @@ func get_tier() -> int:
 		if _reputation >= int(TIER_THRESHOLDS[i]):
 			tier = i
 	return tier
+
+
+## Grant reputation from outside the matching loop (e.g. the daily mystery).
+func award_reputation(amount: int) -> void:
+	if amount == 0:
+		return
+	_reputation = maxi(0, _reputation + amount)
+	_dirty = true
+	Events.reputation_changed.emit(_reputation, get_tier())
 
 
 func get_coins() -> int:
