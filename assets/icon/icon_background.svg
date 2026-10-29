@@ -1,14 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="432" height="432" viewBox="0 0 432 432">
-  <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#12303B"/>
-      <stop offset="1" stop-color="#0B1E26"/>
-    </linearGradient>
-    <radialGradient id="pool" cx="216" cy="262" r="200" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#F2B84B" stop-opacity="0.22"/>
-      <stop offset="1" stop-color="#F2B84B" stop-opacity="0"/>
+  <defs><radialGradient id="bgr" cx="216.0" cy="216.0" r="311.03999999999996" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#12303B"/><stop offset="1" stop-color="#0B1E26"/>
     </radialGradient>
-  </defs>
-  <rect width="432" height="432" fill="url(#sky)"/>
+    <radialGradient id="pool" cx="160" cy="150" r="216.0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F2B84B" stop-opacity="0.25"/><stop offset="0.55" stop-color="#F2B84B" stop-opacity="0.09"/><stop offset="1" stop-color="#F2B84B" stop-opacity="0"/>
+    </radialGradient></defs>
+  <rect width="432" height="432" fill="url(#bgr)"/>
   <rect width="432" height="432" fill="url(#pool)"/>
 </svg>

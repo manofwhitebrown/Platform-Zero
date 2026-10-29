@@ -1,8 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#12303B"/>
-  <circle cx="32" cy="40" r="22" fill="#F2B84B" opacity="0.3"/>
-  <path d="M21 7H43L54 18V53Q54 58 49 58H15Q10 58 10 53V18Z" fill="#EADFC8" stroke="#B8893E" stroke-width="3.5" stroke-linejoin="round"/>
-  <circle cx="32" cy="19" r="7" fill="#B8893E"/>
-  <circle cx="32" cy="19" r="3" fill="#0B1E26"/>
-  <circle cx="32" cy="40" r="11" fill="#F2B84B"/>
+  <defs>
+    <radialGradient id="bgr" cx="32" cy="32" r="46" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#12303B"/><stop offset="1" stop-color="#0B1E26"/></radialGradient>
+    <radialGradient id="pool" cx="22" cy="20" r="40" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F2B84B" stop-opacity="0.25"/><stop offset="1" stop-color="#F2B84B" stop-opacity="0"/></radialGradient>
+    <radialGradient id="key" cx="32" cy="40" r="14" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F2B84B"/><stop offset="0.6" stop-color="#E6AC42"/><stop offset="1" stop-color="#B8893E"/></radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bgr)"/>
+  <rect width="64" height="64" rx="14" fill="url(#pool)"/>
+  <g transform="rotate(-10 32 33)">
+    <path d="M20 5H44L53 14V52Q53 59 46 59H18Q11 59 11 52V14Z" fill="#CDBB98"/>
+    <path d="M20 5H44L50 11V52Q50 56 46 56H18Q11 56 11 52V14Z" fill="#EADFC8"/>
+    <circle cx="32" cy="13" r="4.2" fill="#B8893E"/>
+    <circle cx="32" cy="13" r="1.6" fill="#0B1E26"/>
+    <path d="M19 52V34A13 13 0 0 1 45 34V52Z" fill="#0B1E26" stroke="#C8503C" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="32" cy="38" r="6.8" fill="url(#key)"/>
+    <path d="M28.6 43L26.8 50H37.2L35.4 43Z" fill="url(#key)"/>
+  </g>
 </svg>
