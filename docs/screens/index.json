@@ -1,37 +1,92 @@
 [
  {
-  "id": "m1_car_portrait",
-  "file": "m1_car_portrait.png",
-  "title": "Lost Property car (portrait)",
-  "orientation": "portrait",
-  "milestone": "M1"
- },
- {
-  "id": "m1_car_landscape",
-  "file": "m1_car_landscape.png",
-  "title": "Lost Property car (landscape)",
-  "orientation": "landscape",
-  "milestone": "M1"
- },
- {
-  "id": "m1_actor_lineup",
+  "commit": "0517e52",
   "file": "m1_actor_lineup.png",
-  "title": "Actor rig: attendant, 15 regulars, ambient",
+  "id": "m1_actor_lineup",
+  "milestone": "M1",
   "orientation": "portrait",
-  "milestone": "M1"
+  "size": "1080x1920",
+  "title": "Actor rig: attendant, 15 regulars, ambient"
  },
  {
-  "id": "m1_highlight",
+  "commit": "0517e52",
   "file": "m1_highlight.png",
-  "title": "Guided highlight on the bin item + prompt chip",
+  "id": "m1_highlight",
+  "milestone": "M1",
   "orientation": "portrait",
-  "milestone": "M1"
+  "size": "1080x1920",
+  "title": "Guided highlight on the bin item + prompt chip"
  },
  {
-  "id": "m1_carry",
+  "commit": "0517e52",
   "file": "m1_carry.png",
-  "title": "Item carried overhead, bench highlighted",
+  "id": "m1_carry",
+  "milestone": "M1",
   "orientation": "portrait",
-  "milestone": "M1"
+  "size": "1080x1920",
+  "title": "Item picked up, carried over head, bench highlighted"
+ },
+ {
+  "commit": "0517e52",
+  "file": "m1_car_portrait.png",
+  "id": "m1_car_portrait",
+  "milestone": "M1",
+  "orientation": "portrait",
+  "size": "1080x1920",
+  "title": "Lost Property car (portrait)"
+ },
+ {
+  "commit": "0517e52",
+  "file": "m1_car_landscape.png",
+  "id": "m1_car_landscape",
+  "milestone": "M1",
+  "orientation": "landscape",
+  "size": "1920x1080",
+  "title": "Lost Property car (landscape)"
+ },
+ {
+  "commit": "0517e52",
+  "file": "m1_claimant_bubble.png",
+  "id": "m1_claimant_bubble",
+  "milestone": "M1",
+  "orientation": "portrait",
+  "size": "1080x1920",
+  "title": "Bram at the counter with a speech bubble"
+ },
+ {
+  "commit": "0517e52",
+  "file": "m1_tutorial.png",
+  "id": "m1_tutorial",
+  "milestone": "M1",
+  "orientation": "portrait",
+  "size": "1080x1920",
+  "title": "First-minute tutorial arrow at the bin"
+ },
+ {
+  "commit": "0517e52",
+  "file": "m2_car_pass.png",
+  "id": "m2_car_pass",
+  "milestone": "M2",
+  "orientation": "portrait",
+  "size": "1080x1920",
+  "title": "Passenger car with ambient passengers"
+ },
+ {
+  "commit": "0517e52",
+  "file": "m2_car_dine.png",
+  "id": "m2_car_dine",
+  "milestone": "M2",
+  "orientation": "landscape",
+  "size": "1920x1080",
+  "title": "Dining car"
+ },
+ {
+  "commit": "0517e52",
+  "file": "m2_station_arrival.png",
+  "id": "m2_station_arrival",
+  "milestone": "M2",
+  "orientation": "landscape",
+  "size": "1920x1080",
+  "title": "Station arrival with platform and board"
  }
 ]
