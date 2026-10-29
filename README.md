@@ -32,7 +32,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ⬜ Tests + integration fixes
 - ⬜ 40 objects content
 
-**Platform B · Front** — 11/11 done
+**Platform B · Front** — 13/24 done
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -45,6 +45,19 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Audio, haptics, polish
 - ✅ I1
 - ✅ B10
+- 🔄 B-C1
+- 🔄 B-C2
+- ✅ B-C3
+- ✅ B-C4
+- ⬜ B0.1
+- ⬜ B0.2
+- ⬜ B0.3
+- ⬜ B1.1
+- ⬜ B1.2
+- ⬜ B1.3
+- ⬜ B1.4
+- ⬜ B1.5
+- ⬜ B1.6
 <!-- STATUS:END -->
 
 Live view: **https://manofwhitebrown.github.io/Platform-Zero/**
