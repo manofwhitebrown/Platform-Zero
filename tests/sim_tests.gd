@@ -32,6 +32,7 @@ func run(root: Node) -> int:
 	_test_state_machine()
 	_test_car_unlocks()
 	_test_cheat_stub()
+	_test_cheat_panel()
 	return fails
 
 
@@ -487,3 +488,18 @@ func _test_cheat_stub() -> void:
 	_check(bool(cheats.run("skip_next_stop", true)["ok"]), "skip_next_stop works for screenshots")
 	_check(_sim.stop_index == before + 1 and String(_sim.get_train()["state"]) == "arriving", "skip_next_stop lands on the arriving state")
 	cheats.screenshot_mode = false
+
+
+# ---- A5.1 cheat panel backend ----
+func _test_cheat_panel() -> void:
+	var cheats: Node = _sim.get_node("/root/Cheats")
+	cheats.screenshot_mode = false
+	cheats.lock()
+	var cats: Dictionary = {}
+	for c in cheats.list():
+		cats[c["category"]] = true
+	_check(cats.size() >= 7, "cheat list covers all categories")
+	_check(not bool(cheats.run("tier_up")["ok"]), "cheats locked by default")
+	_check(cheats.lockout_left() == 0.0, "no lockout at start")
+	if not cheats.is_available():
+		_check(not cheats.try_unlock("anything"), "no hash file => unlock refused")

@@ -57,6 +57,14 @@ jobs:
           for d in "$SDK" "$SDK/build-tools" "$SDK/platforms" "$SDK/platform-tools" "$SDK/cmdline-tools"; do echo "== $d"; ls "$d" 2>&1 | head -20; done | tee -a /tmp/ci.log
           java -version 2>&1 | tee -a /tmp/ci.log
           ls "$HOME/.local/share/godot/export_templates/4.3.stable" 2>&1 | head -30 | tee -a /tmp/ci.log
+      - name: Write cheat hash (from secret, never committed)
+        env:
+          CHEAT_PW_HASH: ${{ secrets.CHEAT_PW_HASH }}
+        run: |
+          mkdir -p generated
+          if [ -n "$CHEAT_PW_HASH" ]; then
+            printf 'const HASH := "%s"\n' "$CHEAT_PW_HASH" > generated/cheat_hash.gd
+          fi
       - name: Import project
         run: godot --headless --import 2>&1 | tee -a /tmp/ci.log || true
       - name: Fail on engine script errors
