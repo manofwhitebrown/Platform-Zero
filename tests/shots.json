@@ -22,6 +22,51 @@
       "frames": 45
     },
     {
+      "id": "m1_highlight",
+      "milestone": "M1",
+      "title": "Guided highlight on the bin item + prompt chip",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.player_move_to",
+          "args": [
+            4300
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            1.5
+          ]
+        }
+      ],
+      "frames": 30
+    },
+    {
+      "id": "m1_carry",
+      "milestone": "M1",
+      "title": "Item picked up, carried over head, bench highlighted",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "tap_world",
+          "args": [
+            4350,
+            780
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            2.5
+          ]
+        }
+      ],
+      "frames": 20
+    },
+    {
       "id": "m1_car_portrait",
       "milestone": "M1",
       "title": "Lost Property car (portrait)",

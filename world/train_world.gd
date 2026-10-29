@@ -23,6 +23,10 @@ var _cam_x: float = 0.0
 var _look: float = 0.0
 var _follow_x: float = 0.0
 var low_effects: bool = false
+var attendant: Passenger
+var winput: WorldInput
+var _dir_look: float = 0.0
+var _last_follow: float = 0.0
 
 
 func _ready() -> void:
@@ -63,6 +67,14 @@ func _build() -> void:
 	cam.make_current()
 	_follow_x = float(Sim.get_player().get("x", 4500.0))
 	_cam_x = _follow_x
+
+	attendant = Passenger.new()
+	attendant.position = Vector2(_follow_x, FLOOR_Y)
+	add_child(attendant)
+	attendant.setup({"skin": "#e8b88f", "hair": "#2a1d14", "coat": "#12303B", "hat": "cap", "accessory": "none", "build": "avg", "height": 1.0, "hair_style": "short", "pants": "#1a2a33", "shoes": "#14100d"}, "calm", "attendant")
+	winput = WorldInput.new()
+	add_child(winput)
+	winput.setup(self, attendant)
 
 	_fx_layer = CanvasLayer.new()
 	_fx_layer.layer = 50
@@ -127,7 +139,13 @@ func _process(delta: float) -> void:
 		spd = 0.0
 	_scroll += delta * spd * 260.0
 	var p: Dictionary = Sim.get_player()
-	_follow_x = lerpf(_follow_x, float(p.get("x", _follow_x)), clampf(delta * 5.0, 0.0, 1.0))
+	var tx: float = float(p.get("x", _follow_x))
+	var mv: float = tx - _last_follow
+	_last_follow = tx
+	var want_look: float = clampf(mv / maxf(delta, 0.0001) * 0.5, -140.0, 140.0) if absf(mv) > 0.01 else 0.0
+	_dir_look = lerpf(_dir_look, want_look, clampf(delta * 2.5, 0.0, 1.0))
+	_look = _dir_look
+	_follow_x = lerpf(_follow_x, tx, clampf(delta * 5.0, 0.0, 1.0))
 	_update_camera(delta)
 	var wheel: float = _scroll * 0.05
 	for k in shells:
@@ -158,5 +176,8 @@ func _update_camera(_delta: float) -> void:
 
 ## Scene-specific shot setup hook (see ShotHook).
 func shot_setup(call: String, args: Array) -> void:
-	if call == "noop":
-		return
+	match call:
+		"tap_world":
+			winput.tap_world(Vector2(float(args[0]), float(args[1]) if args.size() > 1 else 800.0))
+		_:
+			pass

@@ -19,5 +19,19 @@
   "title": "Actor rig: attendant, 15 regulars, ambient",
   "orientation": "portrait",
   "milestone": "M1"
+ },
+ {
+  "id": "m1_highlight",
+  "file": "m1_highlight.png",
+  "title": "Guided highlight on the bin item + prompt chip",
+  "orientation": "portrait",
+  "milestone": "M1"
+ },
+ {
+  "id": "m1_carry",
+  "file": "m1_carry.png",
+  "title": "Item carried overhead, bench highlighted",
+  "orientation": "portrait",
+  "milestone": "M1"
  }
 ]
