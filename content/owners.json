@@ -1,751 +1,826 @@
 [
- {
-  "id": "own_001",
-  "name": "Bram the Stoker",
-  "look": {
-   "skin": "#d9a47a",
-   "hair": "#3b2a20",
-   "coat": "#7FA6A3",
-   "hat": "cap",
-   "accessory": "beard"
-  },
-  "lost_item_ids": [
-   "obj_001",
-   "obj_002",
-   "obj_003"
-  ],
-  "claim_lines": [
-   "I lost a mitten. Red? Sort of red.",
-   "Left something warm. Smelled like work, I think."
-  ],
-  "hints": {
-   "obj_001": [
-    {
-     "attr": "smell",
-     "value": "smoke"
-    }
-   ],
-   "obj_002": [
-    {
-     "attr": "material",
-     "value": "wool"
-    }
-   ],
-   "obj_003": [
-    {
-     "attr": "smell",
-     "value": "coal"
-    }
-   ]
-  },
-  "thanks_line": "Bless you. My hands thank you.",
-  "wrong_line": "Hm, that's not mine.",
-  "arc": [
-   {
-    "after_matches": 3,
-    "line": "Third time you've found my things. I'm starting to think you're the lucky one."
-   },
-   {
-    "after_matches": 6,
-    "line": "Come by the engine room sometime. Tea's always hot."
-   }
-  ]
- },
- {
-  "id": "own_002",
-  "name": "Madame Odile",
-  "look": {
-   "skin": "#f0c9a4",
-   "hair": "#bfbfbf",
-   "coat": "#C8503C",
-   "hat": "top",
-   "accessory": "glasses"
-  },
-  "lost_item_ids": [
-   "obj_004",
-   "obj_005",
-   "obj_006"
-  ],
-  "claim_lines": [
-   "A little watch. Gold. Or gilt. Ticks funny.",
-   "Something shiny and expensive-ish."
-  ],
-  "hints": {
-   "obj_004": [
-    {
-     "attr": "sound",
-     "value": "ticks"
+  {
+    "id": "own_001",
+    "name": "Bram the Stoker",
+    "look": {
+      "skin": "#d9a47a",
+      "hair": "#3b2a20",
+      "coat": "#7FA6A3",
+      "hat": "cap",
+      "accessory": "beard",
+      "build": "broad",
+      "height": 1.0,
+      "hair_style": "short",
+      "pants": "#2f3a40",
+      "shoes": "#2a1d14"
     },
-    {
-     "attr": "color",
-     "value": "gold"
-    }
-   ],
-   "obj_005": [
-    {
-     "attr": "material",
-     "value": "gilt"
-    }
-   ],
-   "obj_006": [
-    {
-     "attr": "initials",
-     "value": "M.O."
-    }
-   ]
+    "lost_item_ids": [
+      "obj_001",
+      "obj_002",
+      "obj_003"
+    ],
+    "claim_lines": [
+      "I lost a mitten. Red? Sort of red.",
+      "Left something warm. Smelled like work, I think."
+    ],
+    "hints": {
+      "obj_001": [
+        {
+          "attr": "smell",
+          "value": "smoke"
+        }
+      ],
+      "obj_002": [
+        {
+          "attr": "material",
+          "value": "wool"
+        }
+      ],
+      "obj_003": [
+        {
+          "attr": "smell",
+          "value": "coal"
+        }
+      ]
+    },
+    "thanks_line": "Bless you. My hands thank you.",
+    "wrong_line": "Hm, that's not mine.",
+    "arc": [
+      {
+        "after_matches": 3,
+        "line": "Third time you've found my things. I'm starting to think you're the lucky one."
+      },
+      {
+        "after_matches": 6,
+        "line": "Come by the engine room sometime. Tea's always hot."
+      }
+    ]
   },
-  "thanks_line": "Darling, you're a marvel.",
-  "wrong_line": "Oh no, no. Not mine, dear.",
-  "arc": [
-   {
-    "after_matches": 3,
-    "line": "You remind me of a conductor I once adored."
-   },
-   {
-    "after_matches": 6,
-    "line": "I shall name a small, unimportant star after you."
-   }
-  ]
- },
- {
-  "id": "own_003",
-  "name": "Pip Wetherby",
-  "look": {
-   "skin": "#e8b88f",
-   "hair": "#c8793a",
-   "coat": "#F2B84B",
-   "hat": "none",
-   "accessory": "none"
+  {
+    "id": "own_002",
+    "name": "Madame Odile",
+    "look": {
+      "skin": "#f0c9a4",
+      "hair": "#bfbfbf",
+      "coat": "#C8503C",
+      "hat": "top",
+      "accessory": "glasses",
+      "build": "slim",
+      "height": 0.98,
+      "hair_style": "bun",
+      "pants": "#4a2a2a",
+      "shoes": "#1d1414"
+    },
+    "lost_item_ids": [
+      "obj_004",
+      "obj_005",
+      "obj_006"
+    ],
+    "claim_lines": [
+      "A little watch. Gold. Or gilt. Ticks funny.",
+      "Something shiny and expensive-ish."
+    ],
+    "hints": {
+      "obj_004": [
+        {
+          "attr": "sound",
+          "value": "ticks"
+        },
+        {
+          "attr": "color",
+          "value": "gold"
+        }
+      ],
+      "obj_005": [
+        {
+          "attr": "material",
+          "value": "gilt"
+        }
+      ],
+      "obj_006": [
+        {
+          "attr": "initials",
+          "value": "M.O."
+        }
+      ]
+    },
+    "thanks_line": "Darling, you're a marvel.",
+    "wrong_line": "Oh no, no. Not mine, dear.",
+    "arc": [
+      {
+        "after_matches": 3,
+        "line": "You remind me of a conductor I once adored."
+      },
+      {
+        "after_matches": 6,
+        "line": "I shall name a small, unimportant star after you."
+      }
+    ]
   },
-  "lost_item_ids": [
-   "obj_007",
-   "obj_008"
-  ],
-  "claim_lines": [
-   "It was a jar. With a thing in it. Maybe a bug?",
-   "Round-ish. Glass-ish."
-  ],
-  "hints": {
-   "obj_007": [
-    {
-     "attr": "wear",
-     "value": "glowing"
-    }
-   ],
-   "obj_008": [
-    {
-     "attr": "material",
-     "value": "glass"
-    }
-   ]
+  {
+    "id": "own_003",
+    "name": "Pip Wetherby",
+    "look": {
+      "skin": "#e8b88f",
+      "hair": "#c8793a",
+      "coat": "#F2B84B",
+      "hat": "none",
+      "accessory": "none",
+      "build": "small",
+      "height": 0.74,
+      "hair_style": "curly",
+      "pants": "#3b5a7a",
+      "shoes": "#6b3a22"
+    },
+    "lost_item_ids": [
+      "obj_007",
+      "obj_008"
+    ],
+    "claim_lines": [
+      "It was a jar. With a thing in it. Maybe a bug?",
+      "Round-ish. Glass-ish."
+    ],
+    "hints": {
+      "obj_007": [
+        {
+          "attr": "wear",
+          "value": "glowing"
+        }
+      ],
+      "obj_008": [
+        {
+          "attr": "material",
+          "value": "glass"
+        }
+      ]
+    },
+    "thanks_line": "You found it! Hooray!",
+    "wrong_line": "That's not mine! Mine was SHINIER.",
+    "arc": [
+      {
+        "after_matches": 2,
+        "line": "I've been practicing my detective voice. Ahem. Case closed."
+      },
+      {
+        "after_matches": 5,
+        "line": "The firefly's name is Gerald. I forgot to mention."
+      }
+    ]
   },
-  "thanks_line": "You found it! Hooray!",
-  "wrong_line": "That's not mine! Mine was SHINIER.",
-  "arc": [
-   {
-    "after_matches": 2,
-    "line": "I've been practicing my detective voice. Ahem. Case closed."
-   },
-   {
-    "after_matches": 5,
-    "line": "The firefly's name is Gerald. I forgot to mention."
-   }
-  ]
- },
- {
-  "id": "own_004",
-  "name": "Inspector Marlowe Quill",
-  "look": {
-   "skin": "#c98f66",
-   "hair": "#1f1a17",
-   "coat": "#12303B",
-   "hat": "top",
-   "accessory": "pipe"
+  {
+    "id": "own_004",
+    "name": "Inspector Marlowe Quill",
+    "look": {
+      "skin": "#c98f66",
+      "hair": "#1f1a17",
+      "coat": "#12303B",
+      "hat": "top",
+      "accessory": "pipe",
+      "build": "avg",
+      "height": 1.06,
+      "hair_style": "short",
+      "pants": "#1a2a33",
+      "shoes": "#14100d"
+    },
+    "lost_item_ids": [
+      "obj_009",
+      "obj_010",
+      "obj_011"
+    ],
+    "claim_lines": [
+      "Missing: one umbrella. Black. Or navy. It rained, that much I know.",
+      "A leather something. Possibly a case."
+    ],
+    "hints": {
+      "obj_009": [
+        {
+          "attr": "color",
+          "value": "black"
+        }
+      ],
+      "obj_010": [
+        {
+          "attr": "material",
+          "value": "leather"
+        }
+      ],
+      "obj_011": [
+        {
+          "attr": "smell",
+          "value": "tobacco"
+        }
+      ]
+    },
+    "thanks_line": "Elementary. Thank you.",
+    "wrong_line": "A fine object, but not the one.",
+    "arc": [
+      {
+        "after_matches": 4,
+        "line": "You have an eye for detail. Don't let it go to waste."
+      },
+      {
+        "after_matches": 8,
+        "line": "Between us, I lose things on purpose. Keeps me humble."
+      }
+    ]
   },
-  "lost_item_ids": [
-   "obj_009",
-   "obj_010",
-   "obj_011"
-  ],
-  "claim_lines": [
-   "Missing: one umbrella. Black. Or navy. It rained, that much I know.",
-   "A leather something. Possibly a case."
-  ],
-  "hints": {
-   "obj_009": [
-    {
-     "attr": "color",
-     "value": "black"
-    }
-   ],
-   "obj_010": [
-    {
-     "attr": "material",
-     "value": "leather"
-    }
-   ],
-   "obj_011": [
-    {
-     "attr": "smell",
-     "value": "tobacco"
-    }
-   ]
+  {
+    "id": "own_005",
+    "name": "Wren the Porter",
+    "look": {
+      "skin": "#8d5a3b",
+      "hair": "#1a1210",
+      "coat": "#B8893E",
+      "hat": "cap",
+      "accessory": "none",
+      "build": "broad",
+      "height": 1.04,
+      "hair_style": "short",
+      "pants": "#3a3a2a",
+      "shoes": "#241a12"
+    },
+    "lost_item_ids": [
+      "obj_012",
+      "obj_013",
+      "obj_014"
+    ],
+    "claim_lines": [
+      "Key. Heavy one. Opens... somewhere important.",
+      "I carry so many bags, can't say which."
+    ],
+    "hints": {
+      "obj_012": [
+        {
+          "attr": "material",
+          "value": "iron"
+        }
+      ],
+      "obj_013": [
+        {
+          "attr": "material",
+          "value": "canvas"
+        }
+      ],
+      "obj_014": [
+        {
+          "attr": "station_stamp",
+          "value": "left-luggage"
+        }
+      ]
+    },
+    "thanks_line": "Right on time. Thanks, friend.",
+    "wrong_line": "Nope, not mine. Mine's heavier.",
+    "arc": [
+      {
+        "after_matches": 3,
+        "line": "I know every trunk on this platform. Ask me anything."
+      },
+      {
+        "after_matches": 6,
+        "line": "There's a door below Platform 9 that only my key opens."
+      }
+    ]
   },
-  "thanks_line": "Elementary. Thank you.",
-  "wrong_line": "A fine object, but not the one.",
-  "arc": [
-   {
-    "after_matches": 4,
-    "line": "You have an eye for detail. Don't let it go to waste."
-   },
-   {
-    "after_matches": 8,
-    "line": "Between us, I lose things on purpose. Keeps me humble."
-   }
-  ]
- },
- {
-  "id": "own_005",
-  "name": "Wren the Porter",
-  "look": {
-   "skin": "#8d5a3b",
-   "hair": "#1a1210",
-   "coat": "#B8893E",
-   "hat": "cap",
-   "accessory": "none"
+  {
+    "id": "own_006",
+    "name": "Granny Fennimore",
+    "look": {
+      "skin": "#f2d0b0",
+      "hair": "#e6e6e6",
+      "coat": "#7a5a7a",
+      "hat": "scarf",
+      "accessory": "glasses",
+      "build": "round",
+      "height": 0.86,
+      "hair_style": "bun",
+      "pants": "#4a3a4a",
+      "shoes": "#3a2a2a"
+    },
+    "lost_item_ids": [
+      "obj_015",
+      "obj_016",
+      "obj_017"
+    ],
+    "claim_lines": [
+      "Knitted it myself. Blue? Greenish? Dear, it was a while ago.",
+      "Something with a smell of lavender."
+    ],
+    "hints": {
+      "obj_015": [
+        {
+          "attr": "color",
+          "value": "teal"
+        }
+      ],
+      "obj_016": [
+        {
+          "attr": "smell",
+          "value": "lavender"
+        }
+      ],
+      "obj_017": [
+        {
+          "attr": "color",
+          "value": "blue"
+        }
+      ]
+    },
+    "thanks_line": "Oh, you sweet thing. Have a biscuit.",
+    "wrong_line": "No, dear. Mine had more love in it.",
+    "arc": [
+      {
+        "after_matches": 3,
+        "line": "You remind me of my grandson. He never calls either."
+      },
+      {
+        "after_matches": 6,
+        "line": "I've started knitting you something. Don't tell."
+      }
+    ]
   },
-  "lost_item_ids": [
-   "obj_012",
-   "obj_013",
-   "obj_014"
-  ],
-  "claim_lines": [
-   "Key. Heavy one. Opens... somewhere important.",
-   "I carry so many bags, can't say which."
-  ],
-  "hints": {
-   "obj_012": [
-    {
-     "attr": "material",
-     "value": "iron"
-    }
-   ],
-   "obj_013": [
-    {
-     "attr": "material",
-     "value": "canvas"
-    }
-   ],
-   "obj_014": [
-    {
-     "attr": "station_stamp",
-     "value": "left-luggage"
-    }
-   ]
+  {
+    "id": "own_007",
+    "name": "Sorrel Vance",
+    "look": {
+      "skin": "#e0aa80",
+      "hair": "#7a2e2e",
+      "coat": "#C8503C",
+      "hat": "none",
+      "accessory": "glasses",
+      "build": "slim",
+      "height": 0.96,
+      "hair_style": "long",
+      "pants": "#2a2a3a",
+      "shoes": "#3a1a1a"
+    },
+    "lost_item_ids": [
+      "obj_018",
+      "obj_019",
+      "obj_020"
+    ],
+    "claim_lines": [
+      "A book. Poetry. Dog-eared, I think. Or just loved.",
+      "Spectacles! Tortoiseshell... tortoise-ish."
+    ],
+    "hints": {
+      "obj_018": [
+        {
+          "attr": "wear",
+          "value": "dog-eared"
+        }
+      ],
+      "obj_019": [
+        {
+          "attr": "smell",
+          "value": "paper"
+        }
+      ],
+      "obj_020": [
+        {
+          "attr": "material",
+          "value": "tortoiseshell"
+        }
+      ]
+    },
+    "thanks_line": "I could write a sonnet about this.",
+    "wrong_line": "Close, but my heart knows better.",
+    "arc": [
+      {
+        "after_matches": 4,
+        "line": "I wrote a line about you. It rhymes with nothing."
+      },
+      {
+        "after_matches": 8,
+        "line": "You're in my next chapter. Don't worry, you're charming."
+      }
+    ]
   },
-  "thanks_line": "Right on time. Thanks, friend.",
-  "wrong_line": "Nope, not mine. Mine's heavier.",
-  "arc": [
-   {
-    "after_matches": 3,
-    "line": "I know every trunk on this platform. Ask me anything."
-   },
-   {
-    "after_matches": 6,
-    "line": "There's a door below Platform 9 that only my key opens."
-   }
-  ]
- },
- {
-  "id": "own_006",
-  "name": "Granny Fennimore",
-  "look": {
-   "skin": "#f2d0b0",
-   "hair": "#e6e6e6",
-   "coat": "#7a5a7a",
-   "hat": "scarf",
-   "accessory": "glasses"
+  {
+    "id": "own_008",
+    "name": "Tobias Crumb",
+    "look": {
+      "skin": "#d9a47a",
+      "hair": "#5a3a22",
+      "coat": "#B8893E",
+      "hat": "top",
+      "accessory": "beard",
+      "build": "round",
+      "height": 0.94,
+      "hair_style": "short",
+      "pants": "#4a3a22",
+      "shoes": "#2a1d14"
+    },
+    "lost_item_ids": [
+      "obj_021",
+      "obj_022"
+    ],
+    "claim_lines": [
+      "A hat. Top hat. Maybe it's more of a stovepipe?",
+      "Something for a magic trick. I forget which."
+    ],
+    "hints": {
+      "obj_021": [
+        {
+          "attr": "wear",
+          "value": "stovepipe"
+        }
+      ],
+      "obj_022": [
+        {
+          "attr": "sound",
+          "value": "shuffles"
+        }
+      ]
+    },
+    "thanks_line": "Abracadabra, and there it is!",
+    "wrong_line": "Wrong rabbit. Er, wrong item.",
+    "arc": [
+      {
+        "after_matches": 2,
+        "line": "The trick is I never actually do the trick."
+      },
+      {
+        "after_matches": 5,
+        "line": "I pulled a hat out of a rabbit once. Reverse. Long story."
+      }
+    ]
   },
-  "lost_item_ids": [
-   "obj_015",
-   "obj_016",
-   "obj_017"
-  ],
-  "claim_lines": [
-   "Knitted it myself. Blue? Greenish? Dear, it was a while ago.",
-   "Something with a smell of lavender."
-  ],
-  "hints": {
-   "obj_015": [
-    {
-     "attr": "color",
-     "value": "teal"
-    }
-   ],
-   "obj_016": [
-    {
-     "attr": "smell",
-     "value": "lavender"
-    }
-   ],
-   "obj_017": [
-    {
-     "attr": "color",
-     "value": "blue"
-    }
-   ]
+  {
+    "id": "own_009",
+    "name": "Lady Isolde Ravenscroft",
+    "look": {
+      "skin": "#f5dcc0",
+      "hair": "#2a1f1f",
+      "coat": "#0B1E26",
+      "hat": "top",
+      "accessory": "none",
+      "build": "slim",
+      "height": 1.08,
+      "hair_style": "long",
+      "pants": "#10181d",
+      "shoes": "#10181d"
+    },
+    "lost_item_ids": [
+      "obj_023",
+      "obj_024",
+      "obj_025"
+    ],
+    "claim_lines": [
+      "A ring. Old. Terribly sentimental. Possibly cursed.",
+      "Gold with a stone. Green. Or was it red?"
+    ],
+    "hints": {
+      "obj_023": [
+        {
+          "attr": "material",
+          "value": "gold"
+        }
+      ],
+      "obj_024": [
+        {
+          "attr": "color",
+          "value": "green"
+        }
+      ],
+      "obj_025": [
+        {
+          "attr": "wear",
+          "value": "crest"
+        }
+      ]
+    },
+    "thanks_line": "How terribly kind. I shall remember this.",
+    "wrong_line": "Not mine. Mine has a past.",
+    "arc": [
+      {
+        "after_matches": 3,
+        "line": "I rarely trust anyone. You may be the exception."
+      },
+      {
+        "after_matches": 6,
+        "line": "The ring was a gift from someone I'd rather forget. Thank you for returning it."
+      }
+    ]
   },
-  "thanks_line": "Oh, you sweet thing. Have a biscuit.",
-  "wrong_line": "No, dear. Mine had more love in it.",
-  "arc": [
-   {
-    "after_matches": 3,
-    "line": "You remind me of my grandson. He never calls either."
-   },
-   {
-    "after_matches": 6,
-    "line": "I've started knitting you something. Don't tell."
-   }
-  ]
- },
- {
-  "id": "own_007",
-  "name": "Sorrel Vance",
-  "look": {
-   "skin": "#e0aa80",
-   "hair": "#7a2e2e",
-   "coat": "#C8503C",
-   "hat": "none",
-   "accessory": "glasses"
+  {
+    "id": "own_010",
+    "name": "Ferris the Courier",
+    "look": {
+      "skin": "#c98f66",
+      "hair": "#3b2a20",
+      "coat": "#7FA6A3",
+      "hat": "cap",
+      "accessory": "none",
+      "build": "avg",
+      "height": 1.0,
+      "hair_style": "short",
+      "pants": "#3a4a50",
+      "shoes": "#3a2a1a"
+    },
+    "lost_item_ids": [
+      "obj_026",
+      "obj_027",
+      "obj_028"
+    ],
+    "claim_lines": [
+      "A letter! Sealed. Probably urgent. Maybe not.",
+      "A ticket, I think. To somewhere I wasn't going."
+    ],
+    "hints": {
+      "obj_026": [
+        {
+          "attr": "wear",
+          "value": "wax-sealed"
+        }
+      ],
+      "obj_027": [
+        {
+          "attr": "wear",
+          "value": "punched"
+        }
+      ],
+      "obj_028": [
+        {
+          "attr": "smell",
+          "value": "ink"
+        }
+      ]
+    },
+    "thanks_line": "Delivered! Well, returned. Same thing.",
+    "wrong_line": "Hm, that's not mine. Wrong address.",
+    "arc": [
+      {
+        "after_matches": 3,
+        "line": "I've delivered a thousand letters and lost exactly one. Until today."
+      },
+      {
+        "after_matches": 6,
+        "line": "Next time something's lost, send for me. I'm very fast."
+      }
+    ]
   },
-  "lost_item_ids": [
-   "obj_018",
-   "obj_019",
-   "obj_020"
-  ],
-  "claim_lines": [
-   "A book. Poetry. Dog-eared, I think. Or just loved.",
-   "Spectacles! Tortoiseshell... tortoise-ish."
-  ],
-  "hints": {
-   "obj_018": [
-    {
-     "attr": "wear",
-     "value": "dog-eared"
-    }
-   ],
-   "obj_019": [
-    {
-     "attr": "smell",
-     "value": "paper"
-    }
-   ],
-   "obj_020": [
-    {
-     "attr": "material",
-     "value": "tortoiseshell"
-    }
-   ]
+  {
+    "id": "own_011",
+    "name": "Mabel Ashgrove",
+    "look": {
+      "skin": "#f0c9a4",
+      "hair": "#8a8a8a",
+      "coat": "#7FA6A3",
+      "hat": "scarf",
+      "accessory": "none",
+      "build": "round",
+      "height": 0.88,
+      "hair_style": "bob",
+      "pants": "#5a4a3a",
+      "shoes": "#3a2a22"
+    },
+    "lost_item_ids": [
+      "obj_029",
+      "obj_030",
+      "obj_031"
+    ],
+    "claim_lines": [
+      "A lantern. The kind with a little door. Smells of oil.",
+      "A thermos. Tea inside, I'd wager."
+    ],
+    "hints": {
+      "obj_029": [
+        {
+          "attr": "smell",
+          "value": "oil"
+        }
+      ],
+      "obj_030": [
+        {
+          "attr": "smell",
+          "value": "tea"
+        }
+      ],
+      "obj_031": [
+        {
+          "attr": "sound",
+          "value": "clinks"
+        }
+      ]
+    },
+    "thanks_line": "Now I can see my way home. Thank you.",
+    "wrong_line": "The glow's wrong. Not mine.",
+    "arc": [
+      {
+        "after_matches": 3,
+        "line": "I keep the signal lamps lit on Platform 4."
+      },
+      {
+        "after_matches": 6,
+        "line": "One night, the lamps went out and you were the only light."
+      }
+    ]
   },
-  "thanks_line": "I could write a sonnet about this.",
-  "wrong_line": "Close, but my heart knows better.",
-  "arc": [
-   {
-    "after_matches": 4,
-    "line": "I wrote a line about you. It rhymes with nothing."
-   },
-   {
-    "after_matches": 8,
-    "line": "You're in my next chapter. Don't worry, you're charming."
-   }
-  ]
- },
- {
-  "id": "own_008",
-  "name": "Tobias Crumb",
-  "look": {
-   "skin": "#d9a47a",
-   "hair": "#5a3a22",
-   "coat": "#B8893E",
-   "hat": "top",
-   "accessory": "beard"
+  {
+    "id": "own_012",
+    "name": "Dr. Alder Quimby",
+    "look": {
+      "skin": "#e8b88f",
+      "hair": "#4a3a2a",
+      "coat": "#EADFC8",
+      "hat": "none",
+      "accessory": "glasses",
+      "build": "avg",
+      "height": 1.04,
+      "hair_style": "short",
+      "pants": "#4a4a52",
+      "shoes": "#2a2018"
+    },
+    "lost_item_ids": [
+      "obj_032",
+      "obj_033",
+      "obj_034"
+    ],
+    "claim_lines": [
+      "A compass. It points... somewhere. Not north.",
+      "A photo. Of someone, a person. A cat? Possibly."
+    ],
+    "hints": {
+      "obj_032": [
+        {
+          "attr": "wear",
+          "value": "points-wrong"
+        }
+      ],
+      "obj_033": [
+        {
+          "attr": "material",
+          "value": "tintype"
+        }
+      ],
+      "obj_034": [
+        {
+          "attr": "material",
+          "value": "brass"
+        }
+      ]
+    },
+    "thanks_line": "Fascinating! And yet, here it is.",
+    "wrong_line": "Statistically, that's not mine.",
+    "arc": [
+      {
+        "after_matches": 3,
+        "line": "I'm writing a paper on lost things. You're my primary source."
+      },
+      {
+        "after_matches": 6,
+        "line": "Conclusion: you're excellent at this."
+      }
+    ]
   },
-  "lost_item_ids": [
-   "obj_021",
-   "obj_022"
-  ],
-  "claim_lines": [
-   "A hat. Top hat. Maybe it's more of a stovepipe?",
-   "Something for a magic trick. I forget which."
-  ],
-  "hints": {
-   "obj_021": [
-    {
-     "attr": "wear",
-     "value": "stovepipe"
-    }
-   ],
-   "obj_022": [
-    {
-     "attr": "sound",
-     "value": "shuffles"
-    }
-   ]
+  {
+    "id": "own_013",
+    "name": "Little Juniper",
+    "look": {
+      "skin": "#e0aa80",
+      "hair": "#2a1a10",
+      "coat": "#F2B84B",
+      "hat": "none",
+      "accessory": "none",
+      "build": "small",
+      "height": 0.68,
+      "hair_style": "bob",
+      "pants": "#6a3a2a",
+      "shoes": "#c8503c"
+    },
+    "lost_item_ids": [
+      "obj_035",
+      "obj_036"
+    ],
+    "claim_lines": [
+      "My doll! She has one eye. Or is it two? One's loose.",
+      "A music box! It plays the... la la la song."
+    ],
+    "hints": {
+      "obj_035": [
+        {
+          "attr": "wear",
+          "value": "one-eye"
+        }
+      ],
+      "obj_036": [
+        {
+          "attr": "sound",
+          "value": "lullaby"
+        }
+      ]
+    },
+    "thanks_line": "Thank you thank you thank you!",
+    "wrong_line": "That's not Mr. Buttons.",
+    "arc": [
+      {
+        "after_matches": 2,
+        "line": "I told Mr. Buttons you'd find her. He didn't believe me."
+      },
+      {
+        "after_matches": 4,
+        "line": "When I grow up I'm going to work here."
+      }
+    ]
   },
-  "thanks_line": "Abracadabra, and there it is!",
-  "wrong_line": "Wrong rabbit. Er, wrong item.",
-  "arc": [
-   {
-    "after_matches": 2,
-    "line": "The trick is I never actually do the trick."
-   },
-   {
-    "after_matches": 5,
-    "line": "I pulled a hat out of a rabbit once. Reverse. Long story."
-   }
-  ]
- },
- {
-  "id": "own_009",
-  "name": "Lady Isolde Ravenscroft",
-  "look": {
-   "skin": "#f5dcc0",
-   "hair": "#2a1f1f",
-   "coat": "#0B1E26",
-   "hat": "top",
-   "accessory": "none"
+  {
+    "id": "own_014",
+    "name": "Old Tam Hollis",
+    "look": {
+      "skin": "#c98f66",
+      "hair": "#d8d8d8",
+      "coat": "#5a4a3a",
+      "hat": "cap",
+      "accessory": "pipe",
+      "build": "slim",
+      "height": 0.96,
+      "hair_style": "bald",
+      "pants": "#3a3228",
+      "shoes": "#241a12"
+    },
+    "lost_item_ids": [
+      "obj_037",
+      "obj_038"
+    ],
+    "claim_lines": [
+      "A flute. Wooden. I play it when the trains are quiet.",
+      "A shoe. Just the one. Left, probably."
+    ],
+    "hints": {
+      "obj_037": [
+        {
+          "attr": "material",
+          "value": "wood"
+        }
+      ],
+      "obj_038": [
+        {
+          "attr": "smell",
+          "value": "polish"
+        }
+      ]
+    },
+    "thanks_line": "Music to my ears. Ha. Thank you.",
+    "wrong_line": "Not mine. Mine's got more character.",
+    "arc": [
+      {
+        "after_matches": 2,
+        "line": "I've played at this station for forty years. You're the first to listen."
+      },
+      {
+        "after_matches": 4,
+        "line": "Request a tune any time."
+      }
+    ]
   },
-  "lost_item_ids": [
-   "obj_023",
-   "obj_024",
-   "obj_025"
-  ],
-  "claim_lines": [
-   "A ring. Old. Terribly sentimental. Possibly cursed.",
-   "Gold with a stone. Green. Or was it red?"
-  ],
-  "hints": {
-   "obj_023": [
-    {
-     "attr": "material",
-     "value": "gold"
-    }
-   ],
-   "obj_024": [
-    {
-     "attr": "color",
-     "value": "green"
-    }
-   ],
-   "obj_025": [
-    {
-     "attr": "wear",
-     "value": "crest"
-    }
-   ]
-  },
-  "thanks_line": "How terribly kind. I shall remember this.",
-  "wrong_line": "Not mine. Mine has a past.",
-  "arc": [
-   {
-    "after_matches": 3,
-    "line": "I rarely trust anyone. You may be the exception."
-   },
-   {
-    "after_matches": 6,
-    "line": "The ring was a gift from someone I'd rather forget. Thank you for returning it."
-   }
-  ]
- },
- {
-  "id": "own_010",
-  "name": "Ferris the Courier",
-  "look": {
-   "skin": "#c98f66",
-   "hair": "#3b2a20",
-   "coat": "#7FA6A3",
-   "hat": "cap",
-   "accessory": "none"
-  },
-  "lost_item_ids": [
-   "obj_026",
-   "obj_027",
-   "obj_028"
-  ],
-  "claim_lines": [
-   "A letter! Sealed. Probably urgent. Maybe not.",
-   "A ticket, I think. To somewhere I wasn't going."
-  ],
-  "hints": {
-   "obj_026": [
-    {
-     "attr": "wear",
-     "value": "wax-sealed"
-    }
-   ],
-   "obj_027": [
-    {
-     "attr": "wear",
-     "value": "punched"
-    }
-   ],
-   "obj_028": [
-    {
-     "attr": "smell",
-     "value": "ink"
-    }
-   ]
-  },
-  "thanks_line": "Delivered! Well, returned. Same thing.",
-  "wrong_line": "Hm, that's not mine. Wrong address.",
-  "arc": [
-   {
-    "after_matches": 3,
-    "line": "I've delivered a thousand letters and lost exactly one. Until today."
-   },
-   {
-    "after_matches": 6,
-    "line": "Next time something's lost, send for me. I'm very fast."
-   }
-  ]
- },
- {
-  "id": "own_011",
-  "name": "Mabel Ashgrove",
-  "look": {
-   "skin": "#f0c9a4",
-   "hair": "#8a8a8a",
-   "coat": "#7FA6A3",
-   "hat": "scarf",
-   "accessory": "none"
-  },
-  "lost_item_ids": [
-   "obj_029",
-   "obj_030",
-   "obj_031"
-  ],
-  "claim_lines": [
-   "A lantern. The kind with a little door. Smells of oil.",
-   "A thermos. Tea inside, I'd wager."
-  ],
-  "hints": {
-   "obj_029": [
-    {
-     "attr": "smell",
-     "value": "oil"
-    }
-   ],
-   "obj_030": [
-    {
-     "attr": "smell",
-     "value": "tea"
-    }
-   ],
-   "obj_031": [
-    {
-     "attr": "sound",
-     "value": "clinks"
-    }
-   ]
-  },
-  "thanks_line": "Now I can see my way home. Thank you.",
-  "wrong_line": "The glow's wrong. Not mine.",
-  "arc": [
-   {
-    "after_matches": 3,
-    "line": "I keep the signal lamps lit on Platform 4."
-   },
-   {
-    "after_matches": 6,
-    "line": "One night, the lamps went out and you were the only light."
-   }
-  ]
- },
- {
-  "id": "own_012",
-  "name": "Dr. Alder Quimby",
-  "look": {
-   "skin": "#e8b88f",
-   "hair": "#4a3a2a",
-   "coat": "#EADFC8",
-   "hat": "none",
-   "accessory": "glasses"
-  },
-  "lost_item_ids": [
-   "obj_032",
-   "obj_033",
-   "obj_034"
-  ],
-  "claim_lines": [
-   "A compass. It points... somewhere. Not north.",
-   "A photo. Of someone, a person. A cat? Possibly."
-  ],
-  "hints": {
-   "obj_032": [
-    {
-     "attr": "wear",
-     "value": "points-wrong"
-    }
-   ],
-   "obj_033": [
-    {
-     "attr": "material",
-     "value": "tintype"
-    }
-   ],
-   "obj_034": [
-    {
-     "attr": "material",
-     "value": "brass"
-    }
-   ]
-  },
-  "thanks_line": "Fascinating! And yet, here it is.",
-  "wrong_line": "Statistically, that's not mine.",
-  "arc": [
-   {
-    "after_matches": 3,
-    "line": "I'm writing a paper on lost things. You're my primary source."
-   },
-   {
-    "after_matches": 6,
-    "line": "Conclusion: you're excellent at this."
-   }
-  ]
- },
- {
-  "id": "own_013",
-  "name": "Little Juniper",
-  "look": {
-   "skin": "#e0aa80",
-   "hair": "#2a1a10",
-   "coat": "#F2B84B",
-   "hat": "none",
-   "accessory": "none"
-  },
-  "lost_item_ids": [
-   "obj_035",
-   "obj_036"
-  ],
-  "claim_lines": [
-   "My doll! She has one eye. Or is it two? One's loose.",
-   "A music box! It plays the... la la la song."
-  ],
-  "hints": {
-   "obj_035": [
-    {
-     "attr": "wear",
-     "value": "one-eye"
-    }
-   ],
-   "obj_036": [
-    {
-     "attr": "sound",
-     "value": "lullaby"
-    }
-   ]
-  },
-  "thanks_line": "Thank you thank you thank you!",
-  "wrong_line": "That's not Mr. Buttons.",
-  "arc": [
-   {
-    "after_matches": 2,
-    "line": "I told Mr. Buttons you'd find her. He didn't believe me."
-   },
-   {
-    "after_matches": 4,
-    "line": "When I grow up I'm going to work here."
-   }
-  ]
- },
- {
-  "id": "own_014",
-  "name": "Old Tam Hollis",
-  "look": {
-   "skin": "#c98f66",
-   "hair": "#d8d8d8",
-   "coat": "#5a4a3a",
-   "hat": "cap",
-   "accessory": "pipe"
-  },
-  "lost_item_ids": [
-   "obj_037",
-   "obj_038"
-  ],
-  "claim_lines": [
-   "A flute. Wooden. I play it when the trains are quiet.",
-   "A shoe. Just the one. Left, probably."
-  ],
-  "hints": {
-   "obj_037": [
-    {
-     "attr": "material",
-     "value": "wood"
-    }
-   ],
-   "obj_038": [
-    {
-     "attr": "smell",
-     "value": "polish"
-    }
-   ]
-  },
-  "thanks_line": "Music to my ears. Ha. Thank you.",
-  "wrong_line": "Not mine. Mine's got more character.",
-  "arc": [
-   {
-    "after_matches": 2,
-    "line": "I've played at this station for forty years. You're the first to listen."
-   },
-   {
-    "after_matches": 4,
-    "line": "Request a tune any time."
-   }
-  ]
- },
- {
-  "id": "own_015",
-  "name": "Zephyrine Moth",
-  "look": {
-   "skin": "#f5dcc0",
-   "hair": "#4a2a5a",
-   "coat": "#7a5a7a",
-   "hat": "scarf",
-   "accessory": "none"
-  },
-  "lost_item_ids": [
-   "obj_039",
-   "obj_040"
-  ],
-  "claim_lines": [
-   "A coin. Very old. Possibly from nowhere.",
-   "A scarf. It might've been made of moonlight."
-  ],
-  "hints": {
-   "obj_039": [
-    {
-     "attr": "station_stamp",
-     "value": "unknown"
-    }
-   ],
-   "obj_040": [
-    {
-     "attr": "material",
-     "value": "silk"
-    }
-   ]
-  },
-  "thanks_line": "The stars sent you. Thank you.",
-  "wrong_line": "The air is wrong. Not mine.",
-  "arc": [
-   {
-    "after_matches": 2,
-    "line": "I leave things here on purpose, you know. To see who returns them."
-   },
-   {
-    "after_matches": 4,
-    "line": "You've passed the test. I'll tell you someday what it was."
-   }
-  ]
- }
+  {
+    "id": "own_015",
+    "name": "Zephyrine Moth",
+    "look": {
+      "skin": "#f5dcc0",
+      "hair": "#4a2a5a",
+      "coat": "#7a5a7a",
+      "hat": "scarf",
+      "accessory": "none",
+      "build": "slim",
+      "height": 1.0,
+      "hair_style": "long",
+      "pants": "#2a1a3a",
+      "shoes": "#1a1020"
+    },
+    "lost_item_ids": [
+      "obj_039",
+      "obj_040"
+    ],
+    "claim_lines": [
+      "A coin. Very old. Possibly from nowhere.",
+      "A scarf. It might've been made of moonlight."
+    ],
+    "hints": {
+      "obj_039": [
+        {
+          "attr": "station_stamp",
+          "value": "unknown"
+        }
+      ],
+      "obj_040": [
+        {
+          "attr": "material",
+          "value": "silk"
+        }
+      ]
+    },
+    "thanks_line": "The stars sent you. Thank you.",
+    "wrong_line": "The air is wrong. Not mine.",
+    "arc": [
+      {
+        "after_matches": 2,
+        "line": "I leave things here on purpose, you know. To see who returns them."
+      },
+      {
+        "after_matches": 4,
+        "line": "You've passed the test. I'll tell you someday what it was."
+      }
+    ]
+  }
 ]

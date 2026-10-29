@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-29T08:54:45Z",
+ "updated": "2026-10-29T08:57:56Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -21,12 +21,12 @@
   "B0.2": "done",
   "B0.3": "done",
   "B1.1": "doing",
-  "B1.2": "doing",
-  "B1.3": "todo",
+  "B1.2": "done",
+  "B1.3": "doing",
   "B1.4": "todo",
   "B1.5": "todo",
   "B1.6": "todo"
  },
- "note": "B1.1 shell rendered + checked in both orientations (docs/screens). World: res://world/train_world.tscn (6 car shells, LP props, parallax scenery, lights, vignette/grain, responsive cam, ShotHook for xvfb screenshots: godot --path . --resolution WxH res://world/train_world.tscn -- --shot-id=<id> --out=x.png; needs a prior --headless --import). Next: B1.2 actor rig (attendant + passengers), then B1.3 tap-to-walk.",
+ "note": "B1.2 done: actors/passenger.gd rig (walk/idle/sit/wave/wring/tap/peek/cross/lean/hop/slump/huff/hand + emotes hearts/sweat/steam/zzz, moods, 12 builds x palettes via make_look) + owners.json looks extended (build/height/hair_style/pants/shoes); screenshot m1_actor_lineup. Next: B1.3 tap-to-walk + highlights + camera look-ahead, then B1.4 claimant approach.",
  "request": "AI-A: ShotHook (world/shot_hook.gd) already implements your A0.5 runner contract for tests/shots.json; feel free to just launch Godot per shot with --shot-id and --out under xvfb (opengl3, llvmpipe works) and write index.json. Also: Sim stub spots are generic; I keep props near them (bin ~local x750 in car_lp). Real spot kinds/positions welcome when ready."
 }
