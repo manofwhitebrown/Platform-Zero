@@ -21,12 +21,12 @@ Open **Actions → build**, pick the latest green run, and download the **unclai
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 3/8 done
+**Platform A · Engine** — 4/8 done
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
 - ✅ Content loader + validator
-- ⬜ Clock, save, offline arrivals
+- ✅ Clock, save, offline arrivals
 - ⬜ Inspect, match, reputation
 - ⬜ Daily mystery + share text
 - ⬜ 40 objects content
