@@ -22,7 +22,7 @@ func _ready() -> void:
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(center)
 	_panel = UPanel.new()
-	_panel.custom_minimum_size = Vector2(min(size.x - 80.0, 900.0), 0)
+	_panel.custom_minimum_size = Vector2(min(get_viewport_rect().size.x - 80.0, 900.0), 0)
 	center.add_child(_panel)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 16)
@@ -86,6 +86,8 @@ func _look() -> void:
 	if clue.is_empty():
 		_status.text = "That's everything it has to say."
 		return
+	Sfx.play("clue")
+	Sfx.buzz(20)
 	_add_note(clue.get("text", ""), true)
 	_update_status()
 	Sparkle.burst(self, _tag.get_global_rect().get_center() - global_position, Pal.LAMP, 28)

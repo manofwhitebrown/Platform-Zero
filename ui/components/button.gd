@@ -10,6 +10,7 @@ func _ready() -> void:
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 func _squash() -> void:
+	Sfx.play("tap")
 	if Pal.reduced_motion():
 		return
 	var t := create_tween()

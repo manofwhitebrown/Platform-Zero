@@ -182,6 +182,7 @@ func _offer(chip: Control) -> void:
 
 func _on_wrong(res: Dictionary, chip: Control) -> void:
 	_portrait.emote("neutral")
+	Sfx.play("wrong")
 	_say(res.get("line", "Hm, that's not mine."))
 	_chips.erase(chip.get_meta("item")["id"])
 	if Pal.reduced_motion():
@@ -196,6 +197,8 @@ func _on_wrong(res: Dictionary, chip: Control) -> void:
 func _on_correct(res: Dictionary, chip: Control) -> void:
 	_done = true
 	_portrait.emote("happy")
+	Sfx.play("correct")
+	Sfx.buzz(60)
 	_say(res.get("line", "Bless you."))
 	Sparkle.burst(self, _portrait.get_global_rect().get_center() - global_position, Pal.LAMP, 60, "confetti")
 	chip.queue_free()

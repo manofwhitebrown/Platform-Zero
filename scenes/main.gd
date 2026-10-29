@@ -16,6 +16,8 @@ var overlay: Control
 var _busy := false
 
 func _ready() -> void:
+	Settings.apply_all()
+	add_child(Sfx.new())
 	theme = load("res://ui/theme/unclaimed_theme.tres")
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	backdrop = Backdrop.new()
@@ -40,7 +42,10 @@ func _ready() -> void:
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
 	Events.owner_arrived.connect(_on_owner_arrived)
+	_build_settings_button()
 	go_to(0, false)
+	if not Settings.get_bool("intro_done", false):
+		_show_intro()
 
 func _top_inset() -> float:
 	var safe := DisplayServer.get_display_safe_area()
@@ -96,3 +101,70 @@ func _on_owner_arrived(owner: Dictionary, wanted_item_id: String) -> void:
 	if v.has_method("setup"):
 		v.setup(owner, wanted_item_id)
 	v.tree_exited.connect(func(): overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE)
+
+func _show_intro() -> void:
+	var intro = load("res://scenes/intro.tscn").instantiate()
+	add_child(intro)
+
+func _build_settings_button() -> void:
+	var b := Button.new()
+	b.text = "⚙"
+	b.flat = false
+	b.add_theme_font_size_override("font_size", 40)
+	b.custom_minimum_size = Vector2(88, 88)
+	b.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	b.offset_left = -108
+	b.offset_right = -20
+	b.offset_top = _top_inset() + 16.0
+	b.offset_bottom = b.offset_top + 88.0
+	b.pressed.connect(_open_settings)
+	add_child(b)
+
+func _open_settings() -> void:
+	if has_node("SettingsPanel"):
+		return
+	var layer := Control.new()
+	layer.name = "SettingsPanel"
+	layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	var dim := ColorRect.new()
+	dim.color = Color(0.03, 0.08, 0.1, 0.7)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.add_child(dim)
+	var c := CenterContainer.new()
+	c.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.add_child(c)
+	var p := UPanel.new()
+	p.custom_minimum_size = Vector2(min(size.x - 100.0, 780.0), 0)
+	c.add_child(p)
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 22)
+	p.add_child(v)
+	var t := Label.new()
+	t.text = "Station Settings"
+	t.add_theme_font_size_override("font_size", 46)
+	t.add_theme_color_override("font_color", Pal.LAMP)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(t)
+	for opt in [["reduced_motion", "Reduced motion", false], ["sound", "Sound", true], ["haptics", "Vibration", true]]:
+		var cb := CheckButton.new()
+		cb.text = opt[1]
+		cb.button_pressed = Settings.get_bool(opt[0], opt[2])
+		cb.add_theme_font_size_override("font_size", 38)
+		cb.toggled.connect(func(on):
+			Settings.set_bool(opt[0], on)
+			for n in get_children():
+				if n is Sfx:
+					n.apply_settings())
+		v.add_child(cb)
+	var replay := UButton.new()
+	replay.text = "Replay intro"
+	replay.pressed.connect(func():
+		layer.queue_free()
+		_show_intro())
+	v.add_child(replay)
+	var close := UButton.new()
+	close.text = "Close"
+	close.pressed.connect(layer.queue_free)
+	v.add_child(close)
+	add_child(layer)
+	p.pop_in()

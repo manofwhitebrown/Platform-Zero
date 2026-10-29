@@ -89,14 +89,14 @@ func _build() -> void:
 
 func _suspect(o: Dictionary) -> Control:
 	var p := UPanel.new()
-	p.custom_minimum_size = Vector2(250, 0)
+	p.custom_minimum_size = Vector2(190, 0)
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 8)
 	p.add_child(v)
 	var pt := Portrait.new()
 	pt.animate = false
-	pt.custom_minimum_size = Vector2(200, 220)
+	pt.custom_minimum_size = Vector2(160, 190)
 	pt.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pt.set_look(o.get("look", {}))
 	v.add_child(pt)
@@ -146,6 +146,8 @@ func _guess(owner_id: String, panel: Control, pt: Portrait) -> void:
 	if res.get("correct", false):
 		_solved = true
 		pt.emote("happy")
+		Sfx.play("correct")
+		Sfx.buzz(60)
 		Sparkle.burst(self, panel.get_global_rect().get_center() - global_position, Pal.LAMP, 60, "confetti")
 		_status.text = "Solved! Well spotted."
 		_lock_guesses()

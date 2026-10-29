@@ -111,6 +111,7 @@ func _add_tag(item: Dictionary, delay: float) -> void:
 	t.tween_property(tag, "modulate:a", 1.0, 0.08)
 	t.tween_property(tag, "position:y", 0.0, 0.5).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 	t.tween_callback(func():
+		Sfx.play("drop")
 		if is_instance_valid(tag):
 			tag.swing())
 
