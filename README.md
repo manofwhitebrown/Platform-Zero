@@ -47,7 +47,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ⬜ A1.4
 - ⬜ A1.5
 
-**Platform B · Front** — 15/24 done
+**Platform B · Front** — 18/24 done
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -64,10 +64,10 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ B-C2
 - ✅ B-C3
 - ✅ B-C4
-- ⬜ B0.1
-- ⬜ B0.2
-- ⬜ B0.3
-- ⬜ B1.1
+- ✅ B0.1
+- ✅ B0.2
+- ✅ B0.3
+- 🔄 B1.1
 - ⬜ B1.2
 - ⬜ B1.3
 - ⬜ B1.4
