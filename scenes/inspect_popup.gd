@@ -58,13 +58,16 @@ func _ready() -> void:
 
 func open(id: String) -> void:
 	item_id = id
-	_item = Content.get_object(id)
+	_item = {}
+	var revealed: Array = []
+	var views: Array = GameState.get_counter_items() + GameState.get_shelf_items()
+	for it in views:
+		if it["id"] == id:
+			_item = it
+			revealed = it.get("revealed", [])
+			break
 	await get_tree().process_frame
 	_tag.setup(_item.get("icon", "key"), Color(_item.get("tint", "#ffffff")), _item.get("name", ""))
-	var revealed: Array = []
-	for it in GameState.get_counter_items():
-		if it["id"] == id:
-			revealed = it.get("revealed", [])
 	for c in _item.get("clues", []):
 		if revealed.has(c["id"]):
 			_add_note(c["text"], false)

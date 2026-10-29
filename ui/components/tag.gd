@@ -41,7 +41,7 @@ func swing(initial: bool = false) -> void:
 			swing(true))
 
 func _gui_input(e: InputEvent) -> void:
-	var pressed := (e is InputEventMouseButton and e.pressed) or (e is InputEventScreenTouch and e.pressed)
+	var pressed: bool = (e is InputEventMouseButton and e.pressed) or (e is InputEventScreenTouch and e.pressed)
 	if pressed:
 		Sfx.play("tap")
 		swing()
