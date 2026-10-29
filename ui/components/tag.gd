@@ -9,6 +9,7 @@ var tint := Color.WHITE
 var label_text := ""
 var _tex: Texture2D
 var _swing: Tween
+var hang := true  # set false for static grids (catalog) to skip swinging
 
 func setup(key: String, c: Color, text: String = "") -> void:
 	icon_key = key
@@ -22,10 +23,11 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	resized.connect(func(): pivot_offset = Vector2(size.x / 2.0, 0.0))
 	pivot_offset = Vector2(size.x / 2.0, 0.0)
-	swing(true)
+	if hang:
+		swing(true)
 
 func swing(initial: bool = false) -> void:
-	if Pal.reduced_motion():
+	if Pal.reduced_motion() or not hang:
 		return
 	if _swing:
 		_swing.kill()

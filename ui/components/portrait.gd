@@ -4,6 +4,7 @@ extends Control
 var look := {"skin": "#d9a47a", "hair": "#3b2a20", "coat": "#7FA6A3", "hat": "none", "accessory": "none"}
 var mood := "neutral"
 var _bob := 0.0
+var animate := true  # false for static gallery thumbnails
 
 func set_look(l: Dictionary) -> void:
 	look = l
@@ -27,7 +28,7 @@ func emote(m: String) -> void:
 			t.tween_property(self, "position:x", x + dx, 0.06)
 
 func _process(delta: float) -> void:
-	if Pal.reduced_motion():
+	if Pal.reduced_motion() or not animate:
 		return
 	_bob += delta
 	queue_redraw()
