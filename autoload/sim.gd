@@ -1,9 +1,19 @@
 extends Node
-## Sim v2 STUB (A0.1). Canned data in the exact CONTRACT v2 shapes so B can build
-## the world now. Real logic replaces the internals later; the API stays identical.
-## World is 1D: x in px from the rear of the train (0) forward.
+## Sim v2 (A1.1-A1.5): the brain. World is 1D: x in px from the rear of the train.
+## Public API = CONTRACT v2 (queries + commands return Dictionaries with {ok,...}).
+## All randomness goes through `rng` (seed = seed_base + stop_index * 7919) so a run is
+## deterministic. `tick(dt)` is the only thing that advances time; _process just feeds it.
 
+const SAVE_VERSION: int = 2
+const ROUTES_PATH: String = "res://content/routes.json"
 const CAR_W: float = 1800.0
+const CAR_IDS: Array = ["car_obs", "car_sleep", "car_lp", "car_pass", "car_dine", "car_lug"]
+const CAR_KINDS: Array = ["obs", "sleep", "lp", "pass", "dine", "lug"]
+const CAR_UNLOCK_TIER: Dictionary = {"car_lp": 0, "car_pass": 0, "car_dine": 0, "car_sleep": 1, "car_obs": 2, "car_lug": 3}
+const SPOT_KINDS: Array = ["seat", "rack", "floor", "bin", "sill", "curtain", "table", "seat"]
+const TIER_THRESHOLDS: Array = [0, 10, 30, 70, 150]
+const TOKEN_BY_RARITY: Dictionary = {"common": 5, "odd": 8, "rare": 15}
+const REP_BY_RARITY: Dictionary = {"common": 1, "odd": 2, "rare": 3}
 const TOOL_ATTRS: Dictionary = {
 	"magnifier": ["initials", "station_stamp"],
 	"lamp": ["color", "material"],
@@ -11,61 +21,349 @@ const TOOL_ATTRS: Dictionary = {
 	"nose": ["smell"],
 	"brush": ["wear"],
 }
-const WALK_SPEED: float = 300.0
-const STATE_DUR: Dictionary = {"arriving": 15.0, "stopped": 20.0, "departing": 10.0, "moving": 30.0}
-const STOPS: Array = [
-	{"name": "Platform Zero", "biome": "plains", "index": 0},
-	{"name": "Lantern Junction", "biome": "snow", "index": 1},
-	{"name": "Saltmarsh Halt", "biome": "sea", "index": 2},
-]
+const MOOD_SPEED: Dictionary = {"hurried": 1.4, "calm": 1.0, "worried": 1.0, "shy": 0.6, "grumpy": 0.9}
+const MOODS: Array = ["calm", "hurried", "worried", "shy", "grumpy"]
+const BASE_WALK: float = 140.0
+const PLAYER_SPEED: float = 300.0
+const QUEUE_SPACING: float = 90.0
+const MAX_CLAIMANTS: int = 6
+const BENCH_CAP: int = 3
+const SHIMMER_IDLE_S: float = 6.0
+const SUBSTEP: float = 0.5
+const BRAM_ENTERS_AT: float = 5.0
+const ATTR_PHRASE: Dictionary = {
+	"color": "It's sort of %s?", "smell": "It smells of %s, I think.", "initials": "It has initials: %s.",
+	"station_stamp": "There's a station stamp: %s.", "wear": "It's rather %s.", "sound": "It makes a %s sound.",
+	"material": "It's made of %s, I'd say.",
+}
 
+var save_path: String = "user://save_v2.json"
+var v1_save_path: String = "user://save.json"
+var autosave: bool = true
 var time_scale: float = 1.0
+var frozen: bool = false
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+
+var seed_base: int = 1
+var stop_index: int = 0
+var clock_s: float = 0.0
+var cheated: bool = false
+var tokens: int = 0
+var rep: int = 0
+var first_delivery_done: bool = false
+var tutorial_done: bool = false
+var bram_spawned: bool = false
+var skip_lock: bool = false
+
+var _routes: Dictionary = {}
 var _cars: Array = []
 var _spots: Array = []
 var _items: Dictionary = {}
 var _passengers: Dictionary = {}
+var _queue: Array = []
 var _train: Dictionary = {}
 var _player: Dictionary = {}
-var _target_x: float = -1.0
 var _state_t: float = 0.0
+var _state_len: float = 75.0
+var _target_x: float = -1.0
 var _next_iid: int = 100
-var _first_said: bool = false
+var _next_pid: int = 0
+var _idle_t: float = 0.0
+var _autosave_t: float = 0.0
+var _recover: Array = []
+var _delivered_defs: Array = []
+var _owner_deliveries: Dictionary = {}
+var _claims_log: Array = []
+var _pending_stop_spawn: bool = false
 
 
 func _ready() -> void:
-	_build_world()
+	_load_routes()
+	if not load_game():
+		new_game(int(Time.get_unix_time_from_system()) % 1000000)
 
 
-func _build_world() -> void:
-	var kinds: Array = ["obs", "sleep", "lp", "pass", "dine", "lug"]
-	var ids: Array = ["car_obs", "car_sleep", "car_lp", "car_pass", "car_dine", "car_lug"]
-	var open: Array = ["car_lp", "car_pass", "car_dine"]
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_WM_CLOSE_REQUEST:
+		save_game()
+
+
+func _process(delta: float) -> void:
+	if frozen:
+		return
+	tick(minf(delta, 0.25) * time_scale)
+	_autosave_t += delta
+	if autosave and _autosave_t > 30.0:
+		save_game()
+
+
+# ======================= setup =======================
+func _parse(text: String) -> Variant:
+	var j: JSON = JSON.new()
+	if j.parse(text) != OK:
+		return null
+	return j.data
+
+
+func _load_routes() -> void:
+	var data: Variant = _parse(FileAccess.get_file_as_string(ROUTES_PATH)) if FileAccess.file_exists(ROUTES_PATH) else null
+	if typeof(data) == TYPE_DICTIONARY and (data as Dictionary).has("stops"):
+		_routes = data
+	else:
+		_routes = {"timing": {"arriving": 15, "departing": 10, "stopped_min": 60, "stopped_max": 90, "moving_min": 60, "moving_max": 90},
+			"stops": [{"name": "Platform Zero", "biome": "plains", "weather": {}}]}
+
+
+func _build_cars() -> void:
 	_cars.clear()
 	_spots.clear()
-	for i in range(kinds.size()):
-		_cars.append({"id": ids[i], "kind": kinds[i], "index": i, "x": i * CAR_W, "width": CAR_W, "unlocked": open.has(ids[i])})
-		var spot_kinds: Array = ["seat", "rack", "floor", "bin", "sill", "curtain", "table", "seat"]
+	for i in range(CAR_IDS.size()):
+		var cid: String = String(CAR_IDS[i])
+		_cars.append({"id": cid, "kind": CAR_KINDS[i], "index": i, "x": i * CAR_W, "width": CAR_W, "unlocked": int(CAR_UNLOCK_TIER[cid]) <= 0})
 		for s in range(8):
-			_spots.append({"id": "%s_s%d" % [ids[i], s], "car_id": ids[i], "x": i * CAR_W + 150.0 + s * 200.0, "kind": spot_kinds[s], "item_iid": ""})
+			_spots.append({"id": "%s_s%d" % [cid, s], "car_id": cid, "x": i * CAR_W + 150.0 + s * 200.0, "kind": SPOT_KINDS[s], "item_iid": ""})
+
+
+func new_game(seed_value: int) -> void:
+	if _routes.is_empty():
+		_load_routes()
+	seed_base = seed_value
+	stop_index = 0
+	clock_s = 0.0
+	cheated = false
+	tokens = 0
+	rep = 0
+	first_delivery_done = false
+	tutorial_done = false
+	bram_spawned = false
 	_items.clear()
-	_spawn_item("obj_001", "car_lp_s3")
-	_spawn_item("obj_004", "car_pass_s1")
-	_spawn_item("obj_007", "car_dine_s6")
-	_train = {"state": "moving", "stop": STOPS[0].duplicate(), "phase_t": 0.0, "speed": 1.0, "time_of_day": 0.8, "weather": "clear"}
-	_player = {"x": 2 * CAR_W + 900.0, "car_id": "car_lp", "carrying": "", "tokens": 0, "rep": 0, "tier": 0}
 	_passengers.clear()
+	_queue.clear()
+	_recover.clear()
+	_delivered_defs.clear()
+	_owner_deliveries.clear()
+	_claims_log.clear()
+	_next_iid = 100
+	_next_pid = 0
+	_idle_t = 0.0
+	_pending_stop_spawn = false
+	_build_cars()
+	_reseed()
+	_train = {"state": "moving", "stop": _stop_info(0), "phase_t": 0.0, "speed": 1.0, "time_of_day": 0.78, "weather": "clear"}
+	_state_t = 0.0
+	_state_len = 75.0
+	_player = {"x": _lp_x() + 900.0, "car_id": "car_lp", "carrying": "", "tokens": 0, "rep": 0, "tier": 0}
+	_target_x = -1.0
+	_spawn_item("obj_001", "car_lp_s3")
 	for n in range(6):
 		var car: Dictionary = _cars[3 + (n % 2)]
-		var pid: String = "amb_%d" % n
-		_passengers[pid] = _make_passenger(pid, "ambient", "", "Passenger %d" % n, car["x"] + 300.0 + n * 150.0, "calm", String(car["id"]), "seated")
-	var bram: Dictionary = _make_passenger("clm_1", "claimant", "own_001", "Bram the Stoker", 2 * CAR_W + 1200.0, "calm", "car_lp", "at_counter")
-	bram["wants_item_def"] = "obj_001"
-	bram["line"] = "I lost a mitten. Red? Sort of red."
-	_passengers["clm_1"] = bram
+		var pid: String = _new_pid("amb")
+		var p: Dictionary = _make_passenger(pid, "ambient", "", "Passenger %d" % n, float(car["x"]) + 300.0 + n * 150.0, "calm", String(car["id"]), "seated")
+		_passengers[pid] = p
+
+
+func _reseed() -> void:
+	rng.seed = seed_base + stop_index * 7919
+
+
+func _stop_info(idx: int) -> Dictionary:
+	var stops: Array = _routes["stops"]
+	var s: Dictionary = stops[idx % stops.size()]
+	return {"name": s.get("name", "?"), "biome": s.get("biome", "plains"), "index": idx}
+
+
+func _lp_x() -> float:
+	return 2.0 * CAR_W
+
+
+func _door_x() -> float:
+	return _lp_x() + CAR_W - 60.0
+
+
+func _counter_x() -> float:
+	return _lp_x() + 1200.0
+
+
+func _bench_x() -> float:
+	return _lp_x() + 485.0
+
+
+func _new_pid(prefix: String) -> String:
+	_next_pid += 1
+	return "%s_%d" % [prefix, _next_pid]
 
 
 func _make_passenger(pid: String, kind: String, owner_id: String, pname: String, x: float, mood: String, car_id: String, state: String) -> Dictionary:
-	return {"pid": pid, "kind": kind, "owner_id": owner_id, "name": pname, "look": {}, "x": x, "facing": -1, "state": state, "mood": mood, "car_id": car_id, "seat_spot": "", "line": "", "wants_item_def": "", "patience": 1.0}
+	return {"pid": pid, "kind": kind, "owner_id": owner_id, "name": pname, "look": {}, "x": x, "facing": -1, "state": state, "mood": mood,
+		"car_id": car_id, "seat_spot": "", "line": "", "wants_item_def": "", "patience": 1.0, "t": 0.0, "leave_mood": "", "asked": []}
+
+
+# ======================= time =======================
+func tick(dt: float) -> void:
+	var left: float = dt
+	while left > 0.0:
+		var step: float = minf(left, SUBSTEP)
+		left -= step
+		_step(step)
+
+
+func _step(dt: float) -> void:
+	clock_s += dt
+	_idle_t += dt
+	_move_player(dt)
+	_tick_train(dt)
+	_tick_script()
+	for pid in _passengers.keys():
+		_tick_passenger(_passengers[pid], dt)
+	_train["time_of_day"] = 0.78 if not first_delivery_done else _real_time_of_day()
+
+
+func _real_time_of_day() -> float:
+	var t: Dictionary = Time.get_time_dict_from_system()
+	return (float(t["hour"]) + float(t["minute"]) / 60.0) / 24.0
+
+
+func _timing(key: String) -> float:
+	return float((_routes["timing"] as Dictionary).get(key, 60))
+
+
+func _phase_len(state: String) -> float:
+	match state:
+		"arriving": return _timing("arriving")
+		"departing": return _timing("departing")
+		"stopped":
+			var stops: Array = _routes["stops"]
+			var s: Dictionary = stops[stop_index % stops.size()]
+			if s.has("dwell_s"):
+				return float(s["dwell_s"])
+			return rng.randf_range(_timing("stopped_min"), _timing("stopped_max"))
+		_:
+			return rng.randf_range(_timing("moving_min"), _timing("moving_max"))
+
+
+func _tick_train(dt: float) -> void:
+	_state_t += dt
+	_train["phase_t"] = clampf(_state_t / maxf(_state_len, 0.001), 0.0, 1.0)
+	if _state_t >= _state_len:
+		_advance_train()
+
+
+func _advance_train() -> void:
+	var order: Array = ["moving", "arriving", "stopped", "departing"]
+	var nxt: String = String(order[(order.find(_train["state"]) + 1) % order.size()])
+	if nxt == "arriving":
+		stop_index += 1
+		_reseed()
+		_train["stop"] = _stop_info(stop_index)
+		_train["weather"] = _roll_weather()
+	_train["state"] = nxt
+	_state_t = 0.0
+	_state_len = _phase_len(nxt)
+	_train["speed"] = 0.0 if nxt == "stopped" else 1.0
+	Events.train_state_changed.emit(nxt, _train["stop"])
+	if nxt == "stopped":
+		_on_stopped()
+	elif nxt == "departing" and autosave:
+		save_game()
+
+
+func _roll_weather() -> String:
+	var stops: Array = _routes["stops"]
+	var w: Dictionary = (stops[stop_index % stops.size()] as Dictionary).get("weather", {})
+	var r: float = rng.randf()
+	var acc: float = 0.0
+	for k in ["rain", "snow", "fog"]:
+		acc += float(w.get(k, 0.0))
+		if r < acc:
+			return k
+	return "clear"
+
+
+# ======================= stops: items + claimants =======================
+func _on_stopped() -> void:
+	# conductor returns items that were wrongly given to imposters
+	for iid in _recover:
+		if _items.has(iid):
+			var sp: String = _free_spot_id()
+			if sp != "":
+				_place_item_at_spot(iid, sp)
+	_recover.clear()
+	var spawned: Array = []
+	var n_items: int = rng.randi_range(1, 4)
+	for i in range(n_items):
+		var def_id: String = _pick_def()
+		var sp: String = _free_spot_id()
+		if def_id == "" or sp == "":
+			break
+		spawned.append(_spawn_item(def_id, sp))
+	var want: int = rng.randi_range(1, 3)
+	var made: int = 0
+	var used_owners: Dictionary = {}
+	for it in spawned:
+		if made >= want or _active_claimants() >= MAX_CLAIMANTS:
+			break
+		var oid: String = String(Content.object_by_id(String(it["def_id"])).get("owner_id", ""))
+		if oid == "" or used_owners.has(oid) or _owner_has_claimant(oid):
+			continue
+		used_owners[oid] = true
+		_spawn_claimant(oid, String(it["def_id"]), false)
+		made += 1
+	# bring back a claimant for something sitting on the shelf so nothing rots
+	if made < want and _active_claimants() < MAX_CLAIMANTS and rng.randf() < 0.5:
+		for it in _items.values():
+			if it["loc"] == "shelf":
+				var oid2: String = String(Content.object_by_id(String(it["def_id"])).get("owner_id", ""))
+				if oid2 != "" and not _owner_has_claimant(oid2):
+					_spawn_claimant(oid2, String(it["def_id"]), false)
+					break
+
+
+func _pick_def() -> String:
+	var used: Dictionary = {}
+	for it in _items.values():
+		used[String(it["def_id"])] = true
+	for d in _delivered_defs:
+		used[String(d)] = true
+	var pool: Array = []
+	for o in Content.objects:
+		var id: String = String((o as Dictionary).get("id", ""))
+		if id != "" and not used.has(id):
+			pool.append(id)
+	if pool.is_empty():
+		return ""
+	return String(pool[rng.randi_range(0, pool.size() - 1)])
+
+
+func _free_spot_id() -> String:
+	var open: Array = []
+	for sp in _spots:
+		if String(sp["item_iid"]) == "" and _car_unlocked(String(sp["car_id"])) and String(sp["kind"]) != "seat":
+			open.append(String(sp["id"]))
+	if open.is_empty():
+		return ""
+	return String(open[rng.randi_range(0, open.size() - 1)])
+
+
+func _car_unlocked(car_id: String) -> bool:
+	for c in _cars:
+		if c["id"] == car_id:
+			return bool(c["unlocked"])
+	return false
+
+
+func _active_claimants() -> int:
+	var n: int = 0
+	for p in _passengers.values():
+		if p["kind"] != "ambient":
+			n += 1
+	return n
+
+
+func _owner_has_claimant(owner_id: String) -> bool:
+	for p in _passengers.values():
+		if p["kind"] != "ambient" and p["owner_id"] == owner_id:
+			return true
+	return false
 
 
 func _spawn_item(def_id: String, spot_id: String) -> Dictionary:
@@ -75,44 +373,188 @@ func _spawn_item(def_id: String, spot_id: String) -> Dictionary:
 		attrs.append(str(c.get("attr", "")))
 	_next_iid += 1
 	var iid: String = "i%d" % _next_iid
-	var item: Dictionary = {"iid": iid, "def_id": def_id, "name": d.get("name", def_id), "icon": d.get("icon", "key"), "tint": d.get("tint", "#FFFFFF"), "rarity": d.get("rarity", "common"), "loc": "spot", "spot_id": spot_id, "clues_known": [], "unknown_attrs": attrs, "tag_note": ""}
+	var item: Dictionary = {"iid": iid, "def_id": def_id, "name": d.get("name", def_id), "icon": d.get("icon", "key"), "tint": d.get("tint", "#FFFFFF"),
+		"rarity": d.get("rarity", "common"), "loc": "spot", "spot_id": spot_id, "clues_known": [], "unknown_attrs": attrs, "tag_note": ""}
 	_items[iid] = item
-	for sp in _spots:
-		if sp["id"] == spot_id:
-			sp["item_iid"] = iid
+	_set_spot_item(spot_id, iid)
+	Events.item_spawned.emit(item, spot_id)
 	return item
 
 
-func _process(delta: float) -> void:
-	var dt: float = delta * time_scale
-	if _target_x >= 0.0:
-		var dx: float = _target_x - float(_player["x"])
-		var step: float = WALK_SPEED * dt
-		if absf(dx) <= step:
-			_player["x"] = _target_x
-			_target_x = -1.0
-		else:
-			_player["x"] = float(_player["x"]) + signf(dx) * step
-		_player["car_id"] = _car_at(float(_player["x"]))
-	_state_t += dt
-	_train["phase_t"] = clampf(_state_t / float(STATE_DUR[_train["state"]]), 0.0, 1.0)
-	if _state_t >= float(STATE_DUR[_train["state"]]):
-		_advance_train()
-	if not _first_said and Time.get_ticks_msec() > 5000:
-		_first_said = true
-		Events.passenger_said.emit("clm_1", String(_passengers["clm_1"]["line"]))
-		Events.claimant_waiting.emit("clm_1")
+func _set_spot_item(spot_id: String, iid: String) -> void:
+	for sp in _spots:
+		if sp["id"] == spot_id:
+			sp["item_iid"] = iid
+			return
 
 
-func _advance_train() -> void:
-	var order: Array = ["moving", "arriving", "stopped", "departing"]
-	var i: int = (order.find(_train["state"]) + 1) % order.size()
-	_train["state"] = order[i]
-	_state_t = 0.0
-	if _train["state"] == "arriving":
-		_train["stop"] = STOPS[(int(_train["stop"]["index"]) + 1) % STOPS.size()].duplicate()
-	_train["speed"] = 0.0 if _train["state"] == "stopped" else 1.0
-	Events.train_state_changed.emit(_train["state"], _train["stop"])
+func _place_item_at_spot(iid: String, spot_id: String) -> void:
+	var it: Dictionary = _items[iid]
+	it["loc"] = "spot"
+	it["spot_id"] = spot_id
+	_set_spot_item(spot_id, iid)
+	Events.item_moved.emit(iid, "spot")
+
+
+func _spawn_claimant(owner_id: String, def_id: String, at_door: bool) -> Dictionary:
+	var w: Dictionary = Content.owner_by_id(owner_id)
+	var pid: String = _new_pid("clm")
+	var mood: String = "calm" if at_door else String(MOODS[rng.randi_range(0, MOODS.size() - 1)])
+	var x: float = _door_x()
+	var car_id: String = "car_lp"
+	var seat: String = ""
+	var state: String = "walking"
+	if not at_door:
+		seat = _free_seat_id()
+		var car: Dictionary = _cars[3]
+		x = float(car["x"]) + 300.0
+		car_id = "car_pass"
+		for sp in _spots:
+			if sp["id"] == seat:
+				x = float(sp["x"])
+		state = "seated"
+	var p: Dictionary = _make_passenger(pid, "claimant", owner_id, String(w.get("name", "Someone")), x, mood, car_id, state)
+	p["seat_spot"] = seat
+	p["wants_item_def"] = def_id
+	p["line"] = _claim_line(w, def_id)
+	p["t"] = 0.0 if at_door else rng.randf_range(2.0, 7.0) / float(MOOD_SPEED[mood])
+	_passengers[pid] = p
+	if at_door:
+		_queue.append(pid)
+	_claims_log.append({"pid": pid, "name": p["name"], "line": p["line"], "def_id": def_id})
+	if _claims_log.size() > 30:
+		_claims_log.pop_front()
+	Events.passenger_spawned.emit(p)
+	return p
+
+
+func _free_seat_id() -> String:
+	var taken: Dictionary = {}
+	for p in _passengers.values():
+		if String(p["seat_spot"]) != "":
+			taken[String(p["seat_spot"])] = true
+	for sp in _spots:
+		if sp["car_id"] == "car_pass" and sp["kind"] == "seat" and not taken.has(sp["id"]):
+			return String(sp["id"])
+	return ""
+
+
+func _claim_line(owner: Dictionary, def_id: String) -> String:
+	var lines: Array = owner.get("claim_lines", [])
+	if lines.is_empty():
+		return "I think I lost something..."
+	var idx: int = (owner.get("lost_item_ids", []) as Array).find(def_id)
+	if idx < 0 or idx >= lines.size():
+		idx = rng.randi_range(0, lines.size() - 1)
+	return String(lines[idx])
+
+
+# ======================= first-minute script (A1.3) =======================
+func _tick_script() -> void:
+	if not bram_spawned and not first_delivery_done and clock_s >= BRAM_ENTERS_AT:
+		bram_spawned = true
+		var bram_def: String = "obj_001"
+		if Content.owner_by_id("own_001").is_empty():
+			return
+		var p: Dictionary = _spawn_claimant("own_001", bram_def, true)
+		p["mood"] = "calm"
+
+
+# ======================= passengers =======================
+func _set_pstate(p: Dictionary, state: String) -> void:
+	if p["state"] == state:
+		return
+	p["state"] = state
+	p["t"] = 0.0
+	Events.passenger_state_changed.emit(p["pid"], state)
+
+
+func _slot_x(idx: int) -> float:
+	return _counter_x() + QUEUE_SPACING * idx
+
+
+func _tick_passenger(p: Dictionary, dt: float) -> void:
+	if p["kind"] == "ambient":
+		return
+	var mood_speed: float = float(MOOD_SPEED.get(p["mood"], 1.0))
+	var speed: float = BASE_WALK * mood_speed
+	match String(p["state"]):
+		"seated":
+			p["t"] = float(p["t"]) - dt
+			if float(p["t"]) <= 0.0:
+				_set_pstate(p, "standing_up")
+				p["t"] = 0.8
+		"standing_up":
+			p["t"] = float(p["t"]) - dt
+			if float(p["t"]) <= 0.0:
+				_set_pstate(p, "walking")
+		"walking":
+			p["facing"] = -1
+			if not _queue.has(p["pid"]):
+				if float(p["x"]) > _door_x():
+					_walk_toward(p, _door_x(), speed * dt)
+					p["car_id"] = _car_at(float(p["x"]))
+					return
+				if p["mood"] == "shy" and float(p["t"]) < 1.5:
+					p["t"] = float(p["t"]) + dt
+					return
+				_queue.append(p["pid"])
+			_head_to_slot(p, speed * dt)
+		"queued":
+			_head_to_slot(p, BASE_WALK * dt)
+		"at_counter":
+			_set_pstate(p, "asking")
+			Events.passenger_said.emit(p["pid"], p["line"])
+		"asking":
+			p["t"] = float(p["t"]) + dt
+			if float(p["t"]) >= 2.5:
+				_set_pstate(p, "waiting")
+				Events.claimant_waiting.emit(p["pid"])
+		"waiting":
+			p["patience"] = maxf(0.0, float(p["patience"]) - dt / 180.0)
+		"receiving":
+			p["t"] = float(p["t"]) + dt
+			if float(p["t"]) >= 1.2:
+				_set_pstate(p, "leaving")
+		"leaving":
+			p["facing"] = 1
+			p["x"] = float(p["x"]) + BASE_WALK * dt
+			p["car_id"] = _car_at(float(p["x"]))
+			if float(p["x"]) > _door_x() + 150.0:
+				_remove_passenger(p)
+
+
+func _walk_toward(p: Dictionary, tx: float, step: float) -> void:
+	var dx: float = tx - float(p["x"])
+	if absf(dx) <= step:
+		p["x"] = tx
+	else:
+		p["x"] = float(p["x"]) + signf(dx) * step
+
+
+func _head_to_slot(p: Dictionary, step: float) -> void:
+	var idx: int = _queue.find(p["pid"])
+	if idx < 0:
+		return
+	var tx: float = _slot_x(idx)
+	_walk_toward(p, tx, step)
+	p["facing"] = -1
+	p["car_id"] = _car_at(float(p["x"]))
+	if absf(float(p["x"]) - tx) < 1.0:
+		if idx == 0:
+			if p["state"] != "at_counter" and p["state"] != "asking" and p["state"] != "waiting":
+				_set_pstate(p, "at_counter")
+		elif p["state"] != "queued":
+			_set_pstate(p, "queued")
+	elif p["state"] == "queued" or p["state"] == "walking":
+		pass
+
+
+func _remove_passenger(p: Dictionary) -> void:
+	var pid: String = String(p["pid"])
+	_queue.erase(pid)
+	_passengers.erase(pid)
+	Events.passenger_left.emit(pid, String(p["leave_mood"]) == "happy")
 
 
 func _car_at(x: float) -> String:
@@ -120,15 +562,54 @@ func _car_at(x: float) -> String:
 	return String(_cars[i]["id"])
 
 
-# ---------------- queries ----------------
+func _front_claimant() -> Dictionary:
+	for pid in _queue:
+		if _passengers.has(pid):
+			return _passengers[pid]
+	return {}
+
+
+# ======================= player =======================
+func _move_player(dt: float) -> void:
+	if _target_x < 0.0:
+		return
+	var dx: float = _target_x - float(_player["x"])
+	var step: float = PLAYER_SPEED * dt
+	if absf(dx) <= step:
+		_player["x"] = _target_x
+		_target_x = -1.0
+	else:
+		_player["x"] = float(_player["x"]) + signf(dx) * step
+	_player["car_id"] = _car_at(float(_player["x"]))
+
+
+func _walk_bounds() -> Vector2:
+	if not first_delivery_done and not skip_lock:
+		return Vector2(_lp_x() + 60.0, _lp_x() + CAR_W - 60.0)
+	var lo: float = 1.0e9
+	var hi: float = -1.0
+	for c in _cars:
+		if bool(c["unlocked"]):
+			lo = minf(lo, float(c["x"]) + 60.0)
+			hi = maxf(hi, float(c["x"]) + float(c["width"]) - 60.0)
+	return Vector2(lo, hi)
+
+
+func _touch() -> void:
+	_idle_t = 0.0
+
+
+# ======================= queries =======================
 func get_cars() -> Array: return _cars
 func get_spots() -> Array: return _spots
 func get_item(iid: String) -> Dictionary: return _items.get(iid, {})
 func get_passengers() -> Array: return _passengers.values()
 func get_train() -> Dictionary: return _train
 func get_player() -> Dictionary: return _player
-func get_ledger() -> Dictionary: return {"claims": [], "items": [], "catalog": [], "gallery": [], "daily": {}}
-func get_shop() -> Array: return [{"id": "uv_lamp", "name": "UV Lamp", "cost": 50, "owned": false}]
+func get_queue() -> Array: return _queue.duplicate()
+func get_bench_x() -> float: return _bench_x()
+func get_counter_x() -> float: return _counter_x()
+func get_door_x() -> float: return _door_x()
 
 
 func get_items_at(loc: String) -> Array:
@@ -139,13 +620,90 @@ func get_items_at(loc: String) -> Array:
 	return out
 
 
-# ---------------- commands ----------------
+func get_shop() -> Array:
+	return [{"id": "uv_lamp", "name": "UV Lamp", "cost": 50, "owned": false}]
+
+
+func get_ledger() -> Dictionary:
+	var items: Array = []
+	for it in _items.values():
+		if (it["clues_known"] as Array).size() > 0:
+			items.append({"iid": it["iid"], "name": it["name"], "clues_known": it["clues_known"]})
+	var gallery: Array = []
+	for oid in _owner_deliveries.keys():
+		gallery.append({"owner_id": oid, "name": Content.owner_by_id(String(oid)).get("name", oid), "deliveries": _owner_deliveries[oid]})
+	return {"claims": _claims_log.duplicate(), "items": items, "catalog": _delivered_defs.duplicate(), "gallery": gallery, "daily": {}}
+
+
+## Tutorial state derived from facts (never desyncs): stage + where to point the arrow.
+func get_tutorial() -> Dictionary:
+	if tutorial_done:
+		return {"stage": "done", "target_x": -1.0, "target_spot": "", "hint": ""}
+	if first_delivery_done:
+		var sp: String = ""
+		for it in _items.values():
+			if it["loc"] == "spot" and String(it["spot_id"]).begins_with("car_pass"):
+				sp = String(it["spot_id"])
+		return {"stage": "sweep", "target_x": _spot_x(sp), "target_spot": sp, "hint": "Sweep the passenger car for lost things."}
+	var mitten: Dictionary = _tutorial_item()
+	var loc: String = String(mitten.get("loc", ""))
+	if loc == "bench":
+		if (mitten["clues_known"] as Array).is_empty():
+			return {"stage": "examine", "target_x": _bench_x(), "target_spot": "", "hint": "Try a tool on it."}
+		return {"stage": "hand_over", "target_x": _counter_x(), "target_spot": "", "hint": "Hand it over."}
+	if loc == "carried":
+		return {"stage": "to_bench", "target_x": _bench_x(), "target_spot": "", "hint": "Take it to the bench."}
+	return {"stage": "find_item", "target_x": _spot_x("car_lp_s3"), "target_spot": "car_lp_s3", "hint": "Something warm is in the bin."}
+
+
+func _tutorial_item() -> Dictionary:
+	for it in _items.values():
+		if it["def_id"] == "obj_001" and it["loc"] != "delivered":
+			return it
+	return {}
+
+
+func _spot_x(spot_id: String) -> float:
+	for sp in _spots:
+		if sp["id"] == spot_id:
+			return float(sp["x"])
+	return -1.0
+
+
+## What should glow right now. Guarantees something to do (fun check: <= 8 s without).
+func get_highlights() -> Array:
+	var out: Array = []
+	var tut: Dictionary = get_tutorial()
+	if String(tut["stage"]) != "done":
+		if String(tut["target_spot"]) != "":
+			out.append({"kind": "spot", "id": tut["target_spot"]})
+		else:
+			out.append({"kind": "x", "id": "tutorial", "x": tut["target_x"]})
+		return out
+	var front: Dictionary = _front_claimant()
+	if not front.is_empty() and (front["state"] == "waiting" or front["state"] == "asking"):
+		out.append({"kind": "passenger", "id": front["pid"]})
+	if not get_items_at("bench").is_empty() or String(_player["carrying"]) != "":
+		out.append({"kind": "bench", "id": "bench"})
+	if _idle_t >= SHIMMER_IDLE_S or out.is_empty():
+		for sp in _spots:
+			if String(sp["item_iid"]) != "" and _car_unlocked(String(sp["car_id"])):
+				out.append({"kind": "spot", "id": sp["id"]})
+	if out.is_empty() and not get_items_at("shelf").is_empty():
+		out.append({"kind": "shelf", "id": "shelf"})
+	return out
+
+
+# ======================= commands =======================
 func player_move_to(x: float) -> Dictionary:
-	_target_x = clampf(x, 0.0, CAR_W * _cars.size())
+	_touch()
+	var b: Vector2 = _walk_bounds()
+	_target_x = clampf(x, b.x, b.y)
 	return {"ok": true, "target_x": _target_x}
 
 
 func pick_up(spot_id: String) -> Dictionary:
+	_touch()
 	if String(_player["carrying"]) != "":
 		return {"ok": false, "reason": "hands full"}
 	for sp in _spots:
@@ -155,14 +713,20 @@ func pick_up(spot_id: String) -> Dictionary:
 			_items[iid]["loc"] = "carried"
 			_items[iid]["spot_id"] = ""
 			_player["carrying"] = iid
+			if first_delivery_done and not tutorial_done and String(spot_id).begins_with("car_pass"):
+				tutorial_done = true
+				Events.toast.emit("The train is yours to explore.", "info")
 			Events.item_moved.emit(iid, "carried")
 			return {"ok": true, "iid": iid}
 	return {"ok": false, "reason": "nothing there"}
 
 
 func place_on_bench(iid: String) -> Dictionary:
-	if not _items.has(iid):
-		return {"ok": false, "reason": "no such item"}
+	_touch()
+	if not _items.has(iid) or _items[iid]["loc"] == "spot" or _items[iid]["loc"] == "delivered":
+		return {"ok": false, "reason": "can't bench that"}
+	if get_items_at("bench").size() >= BENCH_CAP:
+		return {"ok": false, "reason": "bench is full"}
 	_items[iid]["loc"] = "bench"
 	if String(_player["carrying"]) == iid:
 		_player["carrying"] = ""
@@ -171,18 +735,35 @@ func place_on_bench(iid: String) -> Dictionary:
 
 
 func take_from_bench(iid: String) -> Dictionary:
+	_touch()
 	if not _items.has(iid) or _items[iid]["loc"] != "bench":
 		return {"ok": false, "reason": "not on bench"}
+	if String(_player["carrying"]) != "":
+		return {"ok": false, "reason": "hands full"}
 	_items[iid]["loc"] = "carried"
 	_player["carrying"] = iid
 	Events.item_moved.emit(iid, "carried")
 	return {"ok": true}
 
 
+func put_on_shelf(iid: String) -> Dictionary:
+	_touch()
+	if not _items.has(iid) or _items[iid]["loc"] == "spot" or _items[iid]["loc"] == "delivered":
+		return {"ok": false, "reason": "can't shelve that"}
+	_items[iid]["loc"] = "shelf"
+	if String(_player["carrying"]) == iid:
+		_player["carrying"] = ""
+	Events.item_moved.emit(iid, "shelf")
+	return {"ok": true}
+
+
 func reveal(iid: String, tool: String) -> Dictionary:
+	_touch()
 	if not _items.has(iid) or not TOOL_ATTRS.has(tool):
 		return {"ok": false, "reason": "bad item or tool"}
 	var item: Dictionary = _items[iid]
+	if item["loc"] != "bench":
+		return {"ok": false, "reason": "examine it at the bench"}
 	var found: Array = []
 	for c in Content.object_by_id(String(item["def_id"])).get("clues", []):
 		var attr: String = String(c.get("attr", ""))
@@ -191,41 +772,313 @@ func reveal(iid: String, tool: String) -> Dictionary:
 			(item["unknown_attrs"] as Array).erase(attr)
 			found.append(c)
 			Events.clue_revealed_v2.emit(iid, c)
-	return {"ok": true, "clues": found}
+	return {"ok": true, "clues": found, "nothing": found.is_empty()}
 
 
 func ask(pid: String, q: int) -> Dictionary:
-	var lines: Array = ["Left it by the stove car, I think.", "Red. Sort of red.", "It smelled like work."]
-	return {"ok": true, "line": lines[clampi(q, 0, 2)], "attr": ["", "color", "smell"][clampi(q, 0, 2)], "value": ["", "red", "smoke"][clampi(q, 0, 2)]}
-
-
-func hand_over(iid: String, pid: String) -> Dictionary:
-	if not _items.has(iid) or not _passengers.has(pid):
-		return {"ok": false, "reason": "bad ids"}
-	var correct: bool = String(_items[iid]["def_id"]) == String(_passengers[pid]["wants_item_def"])
-	var res: Dictionary = {"ok": true, "correct": correct, "was_imposter": false, "tokens": 5 if correct else 0, "rep": 1 if correct else 0, "story": "Bram presses it to his chest.", "line": "Bless you." if correct else "Hm, that's not mine."}
-	if correct:
-		_items[iid]["loc"] = "delivered"
-		_player["tokens"] = int(_player["tokens"]) + 5
-		_player["rep"] = int(_player["rep"]) + 1
-		_passengers[pid]["state"] = "leaving"
-		Events.tokens_changed.emit(_player["tokens"])
-		Events.reputation_changed.emit(_player["rep"], _player["tier"])
-		Events.passenger_left.emit(pid, true)
+	_touch()
+	if not _passengers.has(pid) or _passengers[pid]["kind"] == "ambient":
+		return {"ok": false, "reason": "nobody to ask"}
+	var p: Dictionary = _passengers[pid]
+	var hints: Array = _hints_for(p)
+	var qi: int = clampi(q, 0, 2)
+	var res: Dictionary = {"ok": true, "line": "", "attr": "", "value": ""}
+	if qi == 0:
+		res["line"] = "Last had it " + _where_phrase(String(p["wants_item_def"])) + "."
 	else:
-		_items[iid]["loc"] = "shelf"
-	Events.handover_result.emit(iid, pid, res)
+		var asked: Array = p["asked"]
+		var pick: Dictionary = {}
+		for h in hints:
+			if not asked.has(String(h["attr"])):
+				pick = h
+				break
+		if pick.is_empty() and not hints.is_empty():
+			pick = hints[0]
+		if pick.is_empty():
+			res["line"] = "I... can't quite say."
+		else:
+			asked.append(String(pick["attr"]))
+			res["attr"] = pick["attr"]
+			res["value"] = pick["value"]
+			var phrase: String = String(ATTR_PHRASE.get(pick["attr"], "It's %s."))
+			res["line"] = phrase % String(pick["value"])
+	Events.passenger_said.emit(pid, String(res["line"]))
 	return res
 
 
+func _hints_for(p: Dictionary) -> Array:
+	var w: Dictionary = Content.owner_by_id(String(p["owner_id"]))
+	var real: Array = (w.get("hints", {}) as Dictionary).get(String(p["wants_item_def"]), [])
+	if not real.is_empty():
+		return real
+	var out: Array = []
+	for c in Content.object_by_id(String(p["wants_item_def"])).get("clues", []):
+		out.append({"attr": c.get("attr", ""), "value": c.get("value", "")})
+	return out
+
+
+func _where_phrase(def_id: String) -> String:
+	for it in _items.values():
+		if it["def_id"] == def_id:
+			if it["loc"] == "spot":
+				for c in _cars:
+					if c["id"] == _car_of_spot(String(it["spot_id"])):
+						return "somewhere in the %s car" % String(c["kind"]).replace("lp", "lost property").replace("pass", "passenger").replace("dine", "dining").replace("sleep", "sleeper").replace("obs", "observation").replace("lug", "luggage")
+			return "around here, I think"
+	return "somewhere on the train"
+
+
+func _car_of_spot(spot_id: String) -> String:
+	for sp in _spots:
+		if sp["id"] == spot_id:
+			return String(sp["car_id"])
+	return ""
+
+
+func hand_over(iid: String, pid: String) -> Dictionary:
+	_touch()
+	if not _items.has(iid) or not _passengers.has(pid):
+		return {"ok": false, "reason": "bad ids"}
+	var item: Dictionary = _items[iid]
+	var p: Dictionary = _passengers[pid]
+	if item["loc"] == "spot" or item["loc"] == "delivered" or p["kind"] == "ambient":
+		return {"ok": false, "reason": "can't hand that over"}
+	var w: Dictionary = Content.owner_by_id(String(p["owner_id"]))
+	var def: Dictionary = Content.object_by_id(String(item["def_id"]))
+	var is_imposter: bool = p["kind"] == "imposter"
+	var correct: bool = (not is_imposter) and String(item["def_id"]) == String(p["wants_item_def"])
+	var res: Dictionary = {"ok": true, "correct": correct, "was_imposter": is_imposter, "tokens": 0, "rep": 0, "story": "", "line": String(w.get("wrong_line", "Hm, that's not mine."))}
+	if correct:
+		var rarity: String = String(item["rarity"])
+		var tip: int = 2 if float(p["patience"]) > 0.66 else (1 if float(p["patience"]) > 0.33 else 0)
+		res["tokens"] = int(TOKEN_BY_RARITY.get(rarity, 5)) + tip
+		res["rep"] = int(REP_BY_RARITY.get(rarity, 1))
+		res["story"] = String(def.get("story", ""))
+		res["line"] = String(w.get("thanks_line", "Thank you!"))
+		item["loc"] = "delivered"
+		if String(_player["carrying"]) == iid:
+			_player["carrying"] = ""
+		_delivered_defs.append(String(item["def_id"]))
+		_owner_deliveries[String(p["owner_id"])] = int(_owner_deliveries.get(String(p["owner_id"]), 0)) + 1
+		p["leave_mood"] = "happy"
+		_set_pstate(p, "receiving")
+		_queue.erase(pid)
+		_add_tokens(int(res["tokens"]))
+		_add_rep(int(res["rep"]))
+		if not first_delivery_done:
+			first_delivery_done = true
+			Events.toast.emit("Walking to other cars is unlocked.", "info")
+			if _car_has_free_non_seat("car_pass") and _spot_item("car_pass_s1") == "":
+				_spawn_item("obj_004", "car_pass_s1")
+	elif is_imposter:
+		_recover.append(iid)
+		item["loc"] = "shelf"
+		p["leave_mood"] = "happy"
+		_set_pstate(p, "receiving")
+		_queue.erase(pid)
+		res["line"] = "Thanks!"
+	else:
+		item["loc"] = "shelf"
+		if String(_player["carrying"]) == iid:
+			_player["carrying"] = ""
+		p["patience"] = maxf(0.0, float(p["patience"]) - 0.2)
+		Events.passenger_said.emit(pid, String(res["line"]))
+	Events.item_moved.emit(iid, String(item["loc"]))
+	Events.handover_result.emit(iid, pid, res)
+	if autosave and correct:
+		save_game()
+	return res
+
+
+func _spot_item(spot_id: String) -> String:
+	for sp in _spots:
+		if sp["id"] == spot_id:
+			return String(sp["item_iid"])
+	return ""
+
+
+func _car_has_free_non_seat(car_id: String) -> bool:
+	return _car_unlocked(car_id)
+
+
 func refuse(pid: String) -> Dictionary:
-	return {"ok": true, "was_imposter": false, "tokens": 0, "rep": 0, "line": "Oh. Right. Sorry to bother you."}
+	_touch()
+	if not _passengers.has(pid) or _passengers[pid]["kind"] == "ambient":
+		return {"ok": false, "reason": "nobody to refuse"}
+	var p: Dictionary = _passengers[pid]
+	var was_imp: bool = p["kind"] == "imposter"
+	var res: Dictionary = {"ok": true, "was_imposter": was_imp, "tokens": 0, "rep": 0, "line": "Oh. Right. Sorry to bother you."}
+	if was_imp:
+		res["tokens"] = 8
+		res["rep"] = 1
+		res["line"] = "Hmph. Worth a try."
+		_add_tokens(8)
+		_add_rep(1)
+		p["leave_mood"] = "annoyed"
+	else:
+		p["leave_mood"] = "sad"
+	_queue.erase(pid)
+	_set_pstate(p, "leaving")
+	return res
 
 
-func call_next() -> Dictionary: return {"ok": true}
-func buy(upgrade_id: String) -> Dictionary: return {"ok": false, "reason": "stub"}
+func call_next() -> Dictionary:
+	_touch()
+	return {"ok": true, "queue": _queue.size()}
+
+
+func buy(upgrade_id: String) -> Dictionary:
+	return {"ok": false, "reason": "not in the shop yet", "id": upgrade_id}
 
 
 func set_time_scale(x: float) -> Dictionary:
 	time_scale = clampf(x, 0.0, 100.0)
 	return {"ok": true, "time_scale": time_scale}
+
+
+func skip_tutorial() -> Dictionary:
+	first_delivery_done = true
+	tutorial_done = true
+	bram_spawned = true
+	return {"ok": true}
+
+
+# ======================= economy =======================
+func tier_for(r: int) -> int:
+	var t: int = 0
+	for i in range(TIER_THRESHOLDS.size()):
+		if r >= int(TIER_THRESHOLDS[i]):
+			t = i
+	return t
+
+
+func _add_tokens(n: int) -> void:
+	tokens += n
+	_player["tokens"] = tokens
+	Events.tokens_changed.emit(tokens)
+
+
+func _add_rep(n: int) -> void:
+	rep = maxi(0, rep + n)
+	var t: int = tier_for(rep)
+	_player["rep"] = rep
+	_player["tier"] = t
+	for c in _cars:
+		if not bool(c["unlocked"]) and int(CAR_UNLOCK_TIER[c["id"]]) <= t:
+			c["unlocked"] = true
+			Events.car_unlocked.emit(String(c["id"]))
+	Events.reputation_changed.emit(rep, t)
+
+
+# ======================= save / load (A1.5) =======================
+func to_dict() -> Dictionary:
+	return {
+		"version": SAVE_VERSION, "seed_base": seed_base, "stop_index": stop_index, "clock_s": clock_s, "cheated": cheated,
+		"tokens": tokens, "rep": rep, "first_delivery_done": first_delivery_done, "tutorial_done": tutorial_done, "bram_spawned": bram_spawned,
+		"rng_state": str(rng.state), "cars_unlocked": _cars.map(func(c): return bool(c["unlocked"])),
+		"spots": _spots.map(func(s): return String(s["item_iid"])), "items": _items.duplicate(true), "passengers": _passengers.duplicate(true), "queue": _queue.duplicate(true),
+		"train": _train.duplicate(true), "state_t": _state_t, "state_len": _state_len, "player": _player.duplicate(true), "next_iid": _next_iid, "next_pid": _next_pid,
+		"recover": _recover.duplicate(true), "delivered": _delivered_defs.duplicate(true), "owner_deliveries": _owner_deliveries.duplicate(true), "claims": _claims_log.duplicate(true),
+		"last_seen": int(Time.get_unix_time_from_system()),
+	}
+
+
+func from_dict(d: Dictionary) -> bool:
+	if typeof(d) != TYPE_DICTIONARY or int(d.get("version", 0)) != SAVE_VERSION or not d.has("items") or not d.has("train"):
+		return false
+	_build_cars()
+	seed_base = int(d.get("seed_base", 1))
+	stop_index = int(d.get("stop_index", 0))
+	clock_s = float(d.get("clock_s", 0.0))
+	cheated = bool(d.get("cheated", false))
+	tokens = int(d.get("tokens", 0))
+	rep = int(d.get("rep", 0))
+	first_delivery_done = bool(d.get("first_delivery_done", false))
+	tutorial_done = bool(d.get("tutorial_done", false))
+	bram_spawned = bool(d.get("bram_spawned", false))
+	rng.seed = seed_base
+	rng.state = int(String(d.get("rng_state", "0")))
+	var unlocked: Array = d.get("cars_unlocked", [])
+	for i in range(mini(unlocked.size(), _cars.size())):
+		_cars[i]["unlocked"] = bool(unlocked[i])
+	var spot_items: Array = d.get("spots", [])
+	for i in range(mini(spot_items.size(), _spots.size())):
+		_spots[i]["item_iid"] = String(spot_items[i])
+	_items = (d["items"] as Dictionary).duplicate(true)
+	_passengers = (d.get("passengers", {}) as Dictionary).duplicate(true)
+	_queue = (d.get("queue", []) as Array).duplicate(true)
+	_train = (d["train"] as Dictionary).duplicate(true)
+	if _train.has("stop") and typeof(_train["stop"]) == TYPE_DICTIONARY:
+		_train["stop"]["index"] = int(_train["stop"].get("index", 0))
+	_state_t = float(d.get("state_t", 0.0))
+	_state_len = float(d.get("state_len", 75.0))
+	_player = (d.get("player", {"x": _lp_x() + 900.0, "car_id": "car_lp", "carrying": "", "tokens": tokens, "rep": rep, "tier": tier_for(rep)}) as Dictionary).duplicate(true)
+	_player["tokens"] = int(_player.get("tokens", tokens))
+	_player["rep"] = int(_player.get("rep", rep))
+	_player["tier"] = int(_player.get("tier", tier_for(rep)))
+	_next_iid = int(d.get("next_iid", 100))
+	_next_pid = int(d.get("next_pid", 0))
+	_recover = (d.get("recover", []) as Array).duplicate(true)
+	_delivered_defs = (d.get("delivered", []) as Array).duplicate(true)
+	_owner_deliveries = (d.get("owner_deliveries", {}) as Dictionary).duplicate(true)
+	_claims_log = (d.get("claims", []) as Array).duplicate(true)
+	_target_x = -1.0
+	return true
+
+
+func save_game() -> bool:
+	_autosave_t = 0.0
+	var f: FileAccess = FileAccess.open(save_path + ".tmp", FileAccess.WRITE)
+	if f == null:
+		return false
+	f.store_string(JSON.stringify(to_dict()))
+	f.close()
+	var dir: DirAccess = DirAccess.open(save_path.get_base_dir())
+	if dir == null:
+		return false
+	if dir.file_exists(save_path.get_file()):
+		dir.remove(save_path.get_file())
+	return dir.rename(save_path.get_file() + ".tmp", save_path.get_file()) == OK
+
+
+func load_game() -> bool:
+	if _routes.is_empty():
+		_load_routes()
+	if FileAccess.file_exists(save_path):
+		var data: Variant = _parse(FileAccess.get_file_as_string(save_path))
+		if typeof(data) == TYPE_DICTIONARY and from_dict(data):
+			return true
+		push_warning("[Sim] save unreadable or from another version; starting fresh")
+		return false
+	return _migrate_v1()
+
+
+## First launch after updating from v1: carry tokens, reputation and delivered items over.
+func _migrate_v1() -> bool:
+	if not FileAccess.file_exists(v1_save_path):
+		return false
+	var data: Variant = _parse(FileAccess.get_file_as_string(v1_save_path))
+	if typeof(data) != TYPE_DICTIONARY or int((data as Dictionary).get("version", 0)) != 1:
+		return false
+	new_game(int(Time.get_unix_time_from_system()) % 1000000)
+	tokens = int(data.get("coins", 0))
+	rep = int(data.get("reputation", 0))
+	for m in data.get("matched", []):
+		if typeof(m) == TYPE_STRING and Content.has_object(m):
+			_delivered_defs.append(m)
+	var om: Variant = data.get("owner_matches", {})
+	if typeof(om) == TYPE_DICTIONARY:
+		_owner_deliveries = om
+	if rep > 0 or not _delivered_defs.is_empty():
+		first_delivery_done = true
+		tutorial_done = true
+		bram_spawned = true
+		_items.clear()
+		for sp in _spots:
+			sp["item_iid"] = ""
+	_player["tokens"] = tokens
+	_player["rep"] = rep
+	_player["tier"] = tier_for(rep)
+	for c in _cars:
+		c["unlocked"] = int(CAR_UNLOCK_TIER[c["id"]]) <= int(_player["tier"])
+	return true

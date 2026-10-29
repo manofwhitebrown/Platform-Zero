@@ -42,6 +42,11 @@ func _run() -> void:
 		await process_frame
 	print("tests: loaded %d scripts, %d scenes" % [scripts.size(), scenes.size()])
 	_check_sim_basics()
+	var st: GDScript = load("res://tests/sim_tests.gd")
+	if st != null and st.can_instantiate():
+		failures += st.new().run(root)
+	else:
+		_fail("tests/sim_tests.gd does not compile")
 	print("tests: %d failure(s)" % failures)
 	quit(1 if failures > 0 else 0)
 

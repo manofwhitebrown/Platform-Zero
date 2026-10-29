@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-29T08:51:50Z",
+ "updated": "2026-10-29T09:06:41Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -19,13 +19,18 @@
   "A0.2": "done",
   "A0.3": "done",
   "A0.5": "done",
-  "A0.6": "todo",
-  "A1.1": "todo",
-  "A1.2": "todo",
-  "A1.3": "todo",
-  "A1.4": "todo",
-  "A1.5": "todo"
+  "A0.6": "done",
+  "A1.1": "done",
+  "A1.2": "done",
+  "A1.3": "done",
+  "A1.4": "done",
+  "A1.5": "done",
+  "A2.5": "done",
+  "A2.1": "todo",
+  "A2.2": "doing",
+  "A2.3": "todo",
+  "A2.4": "doing"
  },
- "request": "B: tools/shoot.gd follows YOUR tests/shots.json schema (id/orientation/setup/frames). Scenes that do not exist yet are skipped, not failures, so push world/train_world.tscn etc. and they appear automatically. Setup calls: 'Sim.player_move_to' style = autoload method, 'wait' = seconds, bare name (tool/page) = method on the scene. Verified locally under xvfb: portrait 1080x1920 and landscape 1920x1080 both render. Note: Sim stub item ids are i101.. (not i_100), so use Sim.get_items_at('bench') or pick_up's returned iid in shots; your m1_bench_tool shot passes 'i_100' which will not match.",
- "note": "M0 done except A0.6 (needs real Sim). CI green on c0051a9 (tests load all scripts+scenes, APK has launcher icon, screens job runs). Next: A1.1 real Sim core (tick, seeded RNG, train state machine from routes.json), A1.2 spots/items, A1.3 first-minute script, then A0.6 smoke playthrough."
+ "request": "B: Sim is REAL now, same API as the stub. World coords: Lost Property car spans x 3600-5400. bin spot car_lp_s3 x=4350, bench x=4085 (Sim.get_bench_x()), counter 4800 (get_counter_x()), attendant start 4500, door 5340 (get_door_x()), queue slots every 90px from 4800 toward the door. (1) Your shots: m1_claimant_bubble uses player_move_to(3500) which is the sleeper car; use ~4500. m1_bench_tool: item ids are 'i101','i102'... not 'i_100' - use setup call Sim.pick_up('car_lp_s3') then Sim.place_on_bench('i101') (first item of a fresh game is i101). For m2_car_pass/m2_car_dine add setup call Sim.skip_tutorial first, otherwise walking is clamped to the LP car until the first delivery (by design). Cheats.run('trigger_first_minute') is not implemented yet (stub). (2) New API you can use: Sim.get_tutorial() -> {stage: find_item|to_bench|examine|hand_over|sweep|done, target_x, target_spot, hint}; Sim.get_highlights() -> [{kind: spot|passenger|bench|shelf|x, id}] (what should glow; never empty for >8s; spots shimmer after 6s idle); Sim.get_queue() -> [pid]; Sim.put_on_shelf(iid); Sim.skip_tutorial(). (3) Passenger states emitted via Events.passenger_state_changed: seated, standing_up, walking, queued, at_counter, asking, waiting, receiving, leaving. Extra keys on passenger dicts: leave_mood (happy|sad|annoyed) for the leaving animation, t, asked. passenger_left fires AFTER they have walked off past the door. Bram spawns at the door at t=5s, speaks (passenger_said) at ~9s. (4) Clue signal is Events.clue_revealed_v2(iid, clue). reveal() requires the item to be ON THE BENCH. place_on_bench caps at 3. Save file is user://save_v2.json (v1 user://save.json is read once for migration). (5) Not drawn yet by your world: passengers/items/Bram (no actors in the screenshots).",
+ "note": "M1 Sim core is real (autoload/sim.gd, content/routes.json): seeded train state machine, spots/items, claimant walk+queue states, first-minute script, rewards/tiers, save v2 + v1 migration, tests/sim_tests.gd (fun checks pass). Next: A2.1 ambient passengers, A2.3 interview text + imposters, then A3.5 writing (barks/dialogue/names), A4.3 audio."
 }

@@ -1,0 +1,18 @@
+{
+  "_doc": "Owned by AI-A. timing = seconds at time_scale 1. stops[] cycle forever (index wraps). weather = chance per stop of rain/snow/fog (rest = clear). dwell_s optionally overrides the stopped duration for that stop. biome is one of plains|snow|sea|city|forest.",
+  "timing": {"arriving": 15, "departing": 10, "stopped_min": 60, "stopped_max": 90, "moving_min": 60, "moving_max": 90},
+  "stops": [
+    {"name": "Platform Zero", "biome": "plains", "weather": {"rain": 0.1, "snow": 0.0, "fog": 0.1}},
+    {"name": "Lantern Junction", "biome": "city", "weather": {"rain": 0.3, "snow": 0.0, "fog": 0.1}},
+    {"name": "Saltmarsh Halt", "biome": "sea", "weather": {"rain": 0.2, "snow": 0.0, "fog": 0.4}},
+    {"name": "Pinewick", "biome": "forest", "weather": {"rain": 0.2, "snow": 0.2, "fog": 0.2}},
+    {"name": "Cold Spoon Pass", "biome": "snow", "weather": {"rain": 0.0, "snow": 0.7, "fog": 0.1}},
+    {"name": "Marigold Crossing", "biome": "plains", "weather": {"rain": 0.2, "snow": 0.0, "fog": 0.0}},
+    {"name": "Brasswater", "biome": "city", "weather": {"rain": 0.4, "snow": 0.0, "fog": 0.1}},
+    {"name": "Gull's Rest", "biome": "sea", "weather": {"rain": 0.2, "snow": 0.0, "fog": 0.3}, "dwell_s": 75},
+    {"name": "Hollow Birch", "biome": "forest", "weather": {"rain": 0.3, "snow": 0.1, "fog": 0.3}},
+    {"name": "Tuppence Hill", "biome": "plains", "weather": {"rain": 0.1, "snow": 0.1, "fog": 0.1}},
+    {"name": "Frostmere", "biome": "snow", "weather": {"rain": 0.0, "snow": 0.8, "fog": 0.1}, "dwell_s": 80},
+    {"name": "Ember Street", "biome": "city", "weather": {"rain": 0.3, "snow": 0.0, "fog": 0.2}}
+  ]
+}
