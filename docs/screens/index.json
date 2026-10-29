@@ -1,6 +1,6 @@
 [
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_actor_lineup.png",
   "id": "m1_actor_lineup",
   "milestone": "M1",
@@ -9,7 +9,7 @@
   "title": "Actor rig: attendant, 15 regulars, ambient"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_highlight.png",
   "id": "m1_highlight",
   "milestone": "M1",
@@ -18,7 +18,7 @@
   "title": "Guided highlight on the bin item + prompt chip"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_carry.png",
   "id": "m1_carry",
   "milestone": "M1",
@@ -27,7 +27,7 @@
   "title": "Item picked up, carried over head, bench highlighted"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_car_portrait.png",
   "id": "m1_car_portrait",
   "milestone": "M1",
@@ -36,7 +36,7 @@
   "title": "Lost Property car (portrait)"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_car_landscape.png",
   "id": "m1_car_landscape",
   "milestone": "M1",
@@ -45,7 +45,7 @@
   "title": "Lost Property car (landscape)"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_claimant_bubble.png",
   "id": "m1_claimant_bubble",
   "milestone": "M1",
@@ -54,7 +54,7 @@
   "title": "Bram at the counter: speech bubble, interview buttons, item tray"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_tray.png",
   "id": "m1_tray",
   "milestone": "M1",
@@ -63,7 +63,7 @@
   "title": "Carrying the mitten with Bram waiting: item tray + interview"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_handover.png",
   "id": "m1_handover",
   "milestone": "M1",
@@ -72,7 +72,7 @@
   "title": "Correct handover: confetti, hearts, story card"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_story_card.png",
   "id": "m1_story_card",
   "milestone": "M1",
@@ -81,7 +81,7 @@
   "title": "Story card after the first delivery"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_claimant_landscape.png",
   "id": "m1_claimant_landscape",
   "milestone": "M1",
@@ -90,7 +90,7 @@
   "title": "Claimant at the counter (landscape)"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m1_tutorial.png",
   "id": "m1_tutorial",
   "milestone": "M1",
@@ -99,7 +99,7 @@
   "title": "First-minute tutorial arrow at the bin"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m2_car_pass.png",
   "id": "m2_car_pass",
   "milestone": "M2",
@@ -108,7 +108,7 @@
   "title": "Passenger car with ambient passengers"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m2_car_dine.png",
   "id": "m2_car_dine",
   "milestone": "M2",
@@ -117,7 +117,7 @@
   "title": "Dining car"
  },
  {
-  "commit": "3aba83e",
+  "commit": "ce80485",
   "file": "m2_station_arrival.png",
   "id": "m2_station_arrival",
   "milestone": "M2",
