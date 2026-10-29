@@ -26,6 +26,7 @@ var dialogue: Dictionary = {}
 var barks: Dictionary = {}
 var shop: Dictionary = {}
 var economy: Dictionary = {}
+var arcs: Dictionary = {}
 var names: Dictionary = {}
 
 ## Procedural items/owners (A3.1, content/generated.json). Indexed for lookups but kept out of
@@ -55,6 +56,7 @@ func reload() -> void:
 	barks = _load_dict(DEFAULT_BARKS_PATH)
 	shop = _load_dict("res://content/shop.json")
 	economy = _load_dict("res://content/economy.json")
+	arcs = (_load_dict("res://content/arcs.json").get("arcs", {}) as Dictionary)
 	names = _load_dict(DEFAULT_NAMES_PATH)
 	_rebuild()
 
@@ -196,3 +198,11 @@ func _warn(msg: String) -> void:
 
 
 ## Minimal objects used only until content/objects.json exists.
+
+
+## Arc beat for an owner's nth delivery, or {}.
+func arc_beat(owner_id: String, nth: int) -> Dictionary:
+	for b in arcs.get(owner_id, []):
+		if int(b.get("at", 0)) == nth:
+			return b
+	return {}

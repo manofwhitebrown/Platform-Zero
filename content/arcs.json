@@ -1,0 +1,275 @@
+{
+ "_doc": "Owned by AI-A. Per regular: beats[i] fires on that owner's (i+1)th successful handover. line is spoken via passenger_said; every beat also toasts. Beats are hints/flavour about the Zero Line.",
+ "arcs": {
+  "own_001": [
+   {
+    "at": 1,
+    "line": "Hands are black as ever, but I can hold a shovel again. Cheers."
+   },
+   {
+    "at": 2,
+    "line": "Third time you've found my things. Maybe you're the lucky one."
+   },
+   {
+    "at": 3,
+    "line": "The engine room hums when the Zero Line is near a station. Never seen the front of this train, mind."
+   },
+   {
+    "at": 4,
+    "line": "Come by the engine room sometime. The tea's always hot. The coal never runs out, funny that."
+   }
+  ],
+  "own_002": [
+   {
+    "at": 1,
+    "line": "You're a marvel, darling. I shall mention you in my memoirs."
+   },
+   {
+    "at": 2,
+    "line": "I met a conductor once who swore this train has no last stop. I laughed. I no longer laugh."
+   },
+   {
+    "at": 3,
+    "line": "A lady in the dining car sang a song nobody knew, and everyone cried. Strange, no?"
+   },
+   {
+    "at": 4,
+    "line": "For you, darling: the Zero Line forgives those who keep looking."
+   }
+  ],
+  "own_003": [
+   {
+    "at": 1,
+    "line": "Hooray! Mum says I shouldn't talk to strangers but you're not a stranger, you're the Lost Property man!"
+   },
+   {
+    "at": 2,
+    "line": "I counted the carriages. Six! Then I counted again and there were still six, but different."
+   },
+   {
+    "at": 3,
+    "line": "Pip's secret: the lamp in your car gets brighter when you're kind. I tested it."
+   },
+   {
+    "at": 4,
+    "line": "I'm going to be a Lost Property attendant when I grow up. Can I have your hat?"
+   }
+  ],
+  "own_004": [
+   {
+    "at": 1,
+    "line": "Elementary, as I said. Though I confess, I'd never have found it myself."
+   },
+   {
+    "at": 2,
+    "line": "A curious pattern: nothing is ever truly lost on this train. Only misplaced in time."
+   },
+   {
+    "at": 3,
+    "line": "I have been mapping the stops. They repeat, yet no two are alike. Fascinating."
+   },
+   {
+    "at": 4,
+    "line": "Your methods are sound, attendant. Should the Zero Line ever need a detective, I know whom to recommend."
+   }
+  ],
+  "own_005": [
+   {
+    "at": 1,
+    "line": "Right on time. You and I would get along on any route."
+   },
+   {
+    "at": 2,
+    "line": "Schedules on this line are written in pencil. The stops erase and redraw themselves."
+   },
+   {
+    "at": 3,
+    "line": "I carried a parcel once for a man who never got off. It's still in the Luggage car, I think."
+   },
+   {
+    "at": 4,
+    "line": "Next stop, friend: wherever you want. That's what the Zero Line is for."
+   }
+  ],
+  "own_006": [
+   {
+    "at": 1,
+    "line": "Have a biscuit, dear. Go on, I made them myself, in the Sleeper car."
+   },
+   {
+    "at": 2,
+    "line": "I've been on this train longer than I can say. It's a kind place, if you let it be."
+   },
+   {
+    "at": 3,
+    "line": "I've started knitting you a scarf. Don't tell. It's the colour of lamplight."
+   },
+   {
+    "at": 4,
+    "line": "The scarf is finished. Wear it when the night gets long."
+   }
+  ],
+  "own_007": [
+   {
+    "at": 1,
+    "line": "I could write a sonnet about this. In fact, I just did. It rhymes poorly. I'm thrilled."
+   },
+   {
+    "at": 2,
+    "line": "The rhythm of the wheels gives me my best lines. Four beats, then a rest, forever."
+   },
+   {
+    "at": 3,
+    "line": "I wrote a poem for the lost things. It begins with a station, and ends with you."
+   },
+   {
+    "at": 4,
+    "line": "Poets say every train has one last stop. I rather think ours is a very long comma."
+   }
+  ],
+  "own_008": [
+   {
+    "at": 1,
+    "line": "Abracadabra, and there it is! Your cut of the applause, attendant."
+   },
+   {
+    "at": 2,
+    "line": "A good trick is never explained. But I'll tell you: this train does all my best ones for free."
+   },
+   {
+    "at": 3,
+    "line": "I tried to make the Zero Line disappear once. It just kept going. Rude."
+   },
+   {
+    "at": 4,
+    "line": "The only real magic is returning something someone thought was gone for good. You do it every night."
+   }
+  ],
+  "own_009": [
+   {
+    "at": 1,
+    "line": "How terribly kind. I shall remember this, always."
+   },
+   {
+    "at": 2,
+    "line": "I used to ride first class on the grand lines. Here, nobody asks my name, and I find I like it."
+   },
+   {
+    "at": 3,
+    "line": "You've done me the loveliest service. Allow me one confidence: the Zero Line only stops for people who are still looking for something."
+   },
+   {
+    "at": 4,
+    "line": "Should you ever tire of this car, attendant, the Observation car has a seat with your name on it."
+   }
+  ],
+  "own_010": [
+   {
+    "at": 1,
+    "line": "Delivered! Well, returned. Same thing, practically."
+   },
+   {
+    "at": 2,
+    "line": "I carry letters between stops. Some are addressed to people who got off years ago. I deliver them anyway."
+   },
+   {
+    "at": 3,
+    "line": "One letter was addressed to you, you know. I'm not allowed to say what it said. It said 'thank you'."
+   },
+   {
+    "at": 4,
+    "line": "The Zero Line delivers everything eventually. Even you, perhaps, to wherever you're going."
+   }
+  ],
+  "own_011": [
+   {
+    "at": 1,
+    "line": "Now I can see my way home. Thank you."
+   },
+   {
+    "at": 2,
+    "line": "I light lamps along the corridor each night. Someone has to keep the dark honest."
+   },
+   {
+    "at": 3,
+    "line": "I saw a light at the very front of the train, once. Steady and warm. I think it's waiting."
+   },
+   {
+    "at": 4,
+    "line": "Keep your lamp lit, attendant. The brightest ones can be seen from the last stop."
+   }
+  ],
+  "own_012": [
+   {
+    "at": 1,
+    "line": "Fascinating! And yet, here it is. The data supports you."
+   },
+   {
+    "at": 2,
+    "line": "I've been measuring the length of this train. It varies with the passengers' memories. Remarkable."
+   },
+   {
+    "at": 3,
+    "line": "Hypothesis: the Zero Line is the sum of everything people couldn't let go. Your job is the most important job aboard."
+   },
+   {
+    "at": 4,
+    "line": "Peer review complete. Your methods are sound. Keep examining, attendant."
+   }
+  ],
+  "own_013": [
+   {
+    "at": 1,
+    "line": "Thank you thank you thank you! I'll never ever lose it again. Probably."
+   },
+   {
+    "at": 2,
+    "line": "I went all the way to the Dining car by myself! The cook gave me a spoon of jam!"
+   },
+   {
+    "at": 3,
+    "line": "I found a coin under my seat but I put it in the Lost Property box. Was that right?"
+   },
+   {
+    "at": 4,
+    "line": "When I'm big I'm going to find lost things too. You're the best."
+   }
+  ],
+  "own_014": [
+   {
+    "at": 1,
+    "line": "Music to my ears. Ha. Thank you, friend."
+   },
+   {
+    "at": 2,
+    "line": "I used to hear this train in my sleep as a boy. Same song, every night. Never knew why."
+   },
+   {
+    "at": 3,
+    "line": "The wheels play a tune if you listen just so. I've been trying to write it down for forty years."
+   },
+   {
+    "at": 4,
+    "line": "I've finally got it, the Zero Line's song. Here, hum along. Shh. Listen."
+   }
+  ],
+  "own_015": [
+   {
+    "at": 1,
+    "line": "The stars sent you. Thank you."
+   },
+   {
+    "at": 2,
+    "line": "The stars here are different. They're stops, I think. Tiny, far-off stations we haven't reached yet."
+   },
+   {
+    "at": 3,
+    "line": "I charted our course. It's a circle that never closes. And yet we're always getting somewhere."
+   },
+   {
+    "at": 4,
+    "line": "Between us: the last stop is whichever one you're ready to get off at."
+   }
+  ]
+ }
+}

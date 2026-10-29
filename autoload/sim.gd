@@ -1141,6 +1141,11 @@ func hand_over(iid: String, pid: String) -> Dictionary:
 			_player["carrying"] = ""
 		_delivered_defs.append(String(item["def_id"]))
 		_owner_deliveries[String(p["owner_id"])] = int(_owner_deliveries.get(String(p["owner_id"]), 0)) + 1
+		var beat: Dictionary = Content.arc_beat(String(p["owner_id"]), int(_owner_deliveries[String(p["owner_id"])]))
+		if not beat.is_empty():
+			res["arc_line"] = String(beat["line"])
+			Events.passenger_said.emit(pid, String(beat["line"]))
+			Events.toast.emit("%s: %s" % [String(w.get("name", "")), String(beat["line"])], "story")
 		p["leave_mood"] = "happy"
 		_set_pstate(p, "receiving")
 		_queue.erase(pid)

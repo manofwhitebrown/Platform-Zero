@@ -35,6 +35,7 @@ func run(root: Node) -> int:
 	_test_cheat_panel()
 	_test_generated_content()
 	_test_shop()
+	_test_arcs()
 	return fails
 
 
@@ -559,3 +560,15 @@ func _test_shop() -> void:
 	_sim.new_game(22)
 	_check(_sim.get_upgrade_level("bench_slot") == 0, "new game resets upgrades")
 	_check(_sim.from_dict(d) and _sim.get_upgrade_level("bench_slot") == 2, "upgrades survive save/load")
+
+
+# ---- A3.3 regular arcs ----
+func _test_arcs() -> void:
+	var content: Node = _sim.get_node("/root/Content")
+	var owners: int = 0
+	for w in content.owners:
+		var arc: Array = content.arcs.get(w["id"], [])
+		if arc.size() >= 3 and arc.size() <= 5:
+			owners += 1
+	_check(owners == content.owners.size(), "every regular has a 3-5 step arc (%d/%d)" % [owners, content.owners.size()])
+	_check(not content.arc_beat("own_001", 1).is_empty() and content.arc_beat("own_001", 9).is_empty(), "arc_beat lookup")
