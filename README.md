@@ -1,4 +1,4 @@
-# Unclaimed
+# Platform Zero
 
 [![build](https://github.com/manofwhitebrown/Platform-Zero/actions/workflows/build.yml/badge.svg)](https://github.com/manofwhitebrown/Platform-Zero/actions/workflows/build.yml)
 
@@ -11,7 +11,7 @@ An idle, cozy, narrative-deduction game for Android. Built with Godot 4.3 (GDScr
 2. **Inspect.** Each tap on an object reveals another clue.
 3. **An owner walks in** and describes what they lost, usually badly.
 4. **Match object to owner.** A correct match gives a story and reputation. A wrong one has no penalty.
-5. **Come back daily** for the Daily Unclaimed mystery, the same for everyone, with a spoiler-free share card.
+5. **Come back daily** for the Daily Mystery, the same for everyone, with a spoiler-free share card.
 6. **Grow the station.** Reputation unlocks new wings and tiers. The Catalog and Gallery track every object and regular you've found.
 
 ## Get the APK

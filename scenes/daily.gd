@@ -205,7 +205,7 @@ func _render_card() -> Image:
 	col.add_theme_constant_override("separation", 30)
 	root.add_child(col)
 	var t := Label.new()
-	t.text = "UNCLAIMED"
+	t.text = "PLATFORM ZERO"
 	t.add_theme_font_size_override("font_size", 110)
 	t.add_theme_color_override("font_color", Pal.LAMP)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

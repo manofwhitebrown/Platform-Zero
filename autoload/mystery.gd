@@ -95,11 +95,11 @@ func guess_daily(owner_id: String) -> Dictionary:
 	}
 
 
-## Spoiler-free result line, e.g. "Unclaimed #302 🔎🔎🟥🟩".
+## Spoiler-free result line, e.g. "Platform Zero #302 🔎🔎🟥🟩".
 func share_text() -> String:
 	_sync_day(false)
 	var plan: Dictionary = _plan(_date)
-	var out: String = "Unclaimed #%d " % daily_number()
+	var out: String = "Platform Zero #%d " % daily_number()
 	out += "🔎".repeat(_clues_used)
 	out += "🟥".repeat(_wrong_guesses(plan).size())
 	out += "🟩" if _solved else "❔"
