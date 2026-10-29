@@ -1,0 +1,12 @@
+{
+  "_doc": "Owned by AI-A. kind: porter (moves N found items to the shelf each stop) | bench (+N bench slots) | lamp_oil (+10% tokens per level) | uv_lamp (+5 tokens on rare handovers) | cosmetic (no gameplay). costs[i] = price of level i+1.",
+  "upgrades": [
+    {"id": "porter", "name": "Porter", "desc": "A porter carries found items to the shelf for you at every stop.", "kind": "porter", "costs": [40, 90, 160]},
+    {"id": "bench_slot", "name": "Wider Bench", "desc": "One more item fits on the bench.", "kind": "bench", "costs": [30, 80]},
+    {"id": "lamp_oil", "name": "Lamp Oil", "desc": "Brighter lamp, happier owners: +10% tokens per level.", "kind": "lamp_oil", "costs": [25, 60, 120]},
+    {"id": "uv_lamp", "name": "UV Lamp", "desc": "Rare finds pay +5 tokens extra.", "kind": "uv_lamp", "costs": [50]},
+    {"id": "brass_cap", "name": "Brass Cap", "desc": "A proper attendant's cap.", "kind": "cosmetic", "costs": [20]},
+    {"id": "velvet_curtains", "name": "Velvet Curtains", "desc": "Deep red curtains for the Lost Property car.", "kind": "cosmetic", "costs": [45]},
+    {"id": "lantern_charm", "name": "Lantern Charm", "desc": "A little charm that sways with the train.", "kind": "cosmetic", "costs": [35]}
+  ]
+}

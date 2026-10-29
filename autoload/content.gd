@@ -24,6 +24,8 @@ var log_warnings: bool = true
 ## Writing (A3.5): interview templates, one-liners, name pools. See each file's _doc.
 var dialogue: Dictionary = {}
 var barks: Dictionary = {}
+var shop: Dictionary = {}
+var economy: Dictionary = {}
 var names: Dictionary = {}
 
 ## Procedural items/owners (A3.1, content/generated.json). Indexed for lookups but kept out of
@@ -51,6 +53,8 @@ func reload() -> void:
 		_warn("objects.json missing or empty")
 	dialogue = _load_dict(DEFAULT_DIALOGUE_PATH)
 	barks = _load_dict(DEFAULT_BARKS_PATH)
+	shop = _load_dict("res://content/shop.json")
+	economy = _load_dict("res://content/economy.json")
 	names = _load_dict(DEFAULT_NAMES_PATH)
 	_rebuild()
 

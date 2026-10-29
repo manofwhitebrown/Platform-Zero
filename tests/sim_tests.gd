@@ -34,6 +34,7 @@ func run(root: Node) -> int:
 	_test_cheat_stub()
 	_test_cheat_panel()
 	_test_generated_content()
+	_test_shop()
 	return fails
 
 
@@ -537,3 +538,24 @@ func _test_generated_content() -> void:
 		_check(d == "" or not seen.has(d), "pick_def never repeats a def")
 		if d == "":
 			break
+
+
+# ---- A3.2 shop ----
+func _test_shop() -> void:
+	_sim.new_game(21)
+	var shop: Array = _sim.get_shop()
+	_check(shop.size() >= 6, "shop has upgrades")
+	_check(not bool(_sim.buy("porter")["ok"]), "can't buy with no tokens")
+	_check(not bool(_sim.buy("nope")["ok"]), "unknown upgrade refused")
+	_sim.tokens = 500
+	_check(_sim.get_bench_cap() == 3, "bench cap starts at 3")
+	_check(bool(_sim.buy("bench_slot")["ok"]) and _sim.get_bench_cap() == 4, "bench upgrade works")
+	_check(bool(_sim.buy("bench_slot")["ok"]) and not bool(_sim.buy("bench_slot")["ok"]), "bench upgrade maxes out")
+	_check(_sim.tokens == 500 - 30 - 80, "costs deducted")
+	_check(_sim._boosted(10, "common") == 10, "no lamp oil, no boost")
+	_sim.buy("lamp_oil")
+	_check(_sim._boosted(10, "common") == 11, "lamp oil +10%")
+	var d: Dictionary = _sim.to_dict()
+	_sim.new_game(22)
+	_check(_sim.get_upgrade_level("bench_slot") == 0, "new game resets upgrades")
+	_check(_sim.from_dict(d) and _sim.get_upgrade_level("bench_slot") == 2, "upgrades survive save/load")

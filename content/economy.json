@@ -1,0 +1,10 @@
+{
+  "_doc": "Owned by AI-A. Tuning knobs read by Sim. Tier 2 (rep 30) is ~20 deliveries, about 1-2 sessions.",
+  "token_by_rarity": {"common": 5, "odd": 8, "rare": 15},
+  "rep_by_rarity": {"common": 1, "odd": 2, "rare": 3},
+  "refuse_tokens": 8,
+  "tip_high": 2,
+  "tip_mid": 1,
+  "lamp_oil_pct_per_level": 10,
+  "uv_rare_bonus": 5
+}

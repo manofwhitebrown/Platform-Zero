@@ -57,6 +57,7 @@ var seed_base: int = 1
 var stop_index: int = 0
 var clock_s: float = 0.0
 var cheated: bool = false
+var _upgrades: Dictionary = {}  # upgrade id -> level
 var tokens: int = 0
 var rep: int = 0
 var first_delivery_done: bool = false
@@ -142,6 +143,7 @@ func new_game(seed_value: int) -> void:
 	stop_index = 0
 	clock_s = 0.0
 	cheated = false
+	_upgrades = {}
 	tokens = 0
 	rep = 0
 	first_delivery_done = false
@@ -332,6 +334,7 @@ func _on_stopped() -> void:
 					_spawn_claimant(oid2, String(it["def_id"]), false)
 					break
 	_maybe_spawn_imposter()
+	_porter_work()
 	_amb_ref().on_stopped()
 
 
@@ -803,7 +806,61 @@ func get_items_at(loc: String) -> Array:
 
 
 func get_shop() -> Array:
-	return [{"id": "uv_lamp", "name": "UV Lamp", "cost": 50, "owned": false}]
+	var out: Array = []
+	for u in Content.shop.get("upgrades", []):
+		var costs: Array = u.get("costs", [])
+		var lvl: int = int(_upgrades.get(u["id"], 0))
+		var maxed: bool = lvl >= costs.size()
+		out.append({"id": u["id"], "name": u["name"], "desc": u.get("desc", ""), "kind": u.get("kind", ""), "level": lvl, "max_level": costs.size(),
+			"cost": 0 if maxed else int(costs[lvl]), "owned": lvl > 0, "maxed": maxed, "affordable": (not maxed) and tokens >= int(costs[lvl])})
+	return out
+
+
+func get_upgrade_level(id: String) -> int:
+	return int(_upgrades.get(id, 0))
+
+
+func get_bench_cap() -> int:
+	return BENCH_CAP + int(_upgrades.get("bench_slot", 0))
+
+
+func _econ(key: String, fallback: Variant) -> Variant:
+	return Content.economy.get(key, fallback)
+
+
+func _token_for(rarity: String) -> int:
+	var tb: Dictionary = _econ("token_by_rarity", TOKEN_BY_RARITY)
+	return int(tb.get(rarity, 5))
+
+
+func _rep_for(rarity: String) -> int:
+	var rb: Dictionary = _econ("rep_by_rarity", REP_BY_RARITY)
+	return int(rb.get(rarity, 1))
+
+
+## Apply lamp oil / UV lamp bonuses to a base token reward.
+func _boosted(base: int, rarity: String) -> int:
+	var n: float = float(base) * (1.0 + float(_upgrades.get("lamp_oil", 0)) * float(_econ("lamp_oil_pct_per_level", 10)) / 100.0)
+	if rarity == "rare" and int(_upgrades.get("uv_lamp", 0)) > 0:
+		n += float(_econ("uv_rare_bonus", 5))
+	return int(round(n))
+
+
+## Porters shelve freshly found items so the player never has to hunt.
+func _porter_work() -> void:
+	var n: int = int(_upgrades.get("porter", 0))
+	if n <= 0 or not tutorial_done:
+		return
+	for sp in _spots:
+		if n <= 0:
+			break
+		var iid: String = String(sp["item_iid"])
+		if iid != "" and String(sp["kind"]) != "seat" and _items.has(iid) and _items[iid]["loc"] == "spot":
+			sp["item_iid"] = ""
+			_items[iid]["loc"] = "shelf"
+			_items[iid]["spot_id"] = ""
+			Events.item_moved.emit(iid, "shelf")
+			n -= 1
 
 
 func get_ledger() -> Dictionary:
@@ -907,7 +964,7 @@ func place_on_bench(iid: String) -> Dictionary:
 	_touch()
 	if not _items.has(iid) or _items[iid]["loc"] == "spot" or _items[iid]["loc"] == "delivered":
 		return {"ok": false, "reason": "can't bench that"}
-	if get_items_at("bench").size() >= BENCH_CAP:
+	if get_items_at("bench").size() >= get_bench_cap():
 		return {"ok": false, "reason": "bench is full"}
 	_items[iid]["loc"] = "bench"
 	if String(_player["carrying"]) == iid:
@@ -1074,9 +1131,9 @@ func hand_over(iid: String, pid: String) -> Dictionary:
 	var res: Dictionary = {"ok": true, "correct": correct, "was_imposter": is_imposter, "tokens": 0, "rep": 0, "story": "", "line": String(w.get("wrong_line", "Hm, that's not mine."))}
 	if correct:
 		var rarity: String = String(item["rarity"])
-		var tip: int = 2 if float(p["patience"]) > 0.66 else (1 if float(p["patience"]) > 0.33 else 0)
-		res["tokens"] = int(TOKEN_BY_RARITY.get(rarity, 5)) + tip
-		res["rep"] = int(REP_BY_RARITY.get(rarity, 1))
+		var tip: int = int(_econ("tip_high", 2)) if float(p["patience"]) > 0.66 else (int(_econ("tip_mid", 1)) if float(p["patience"]) > 0.33 else 0)
+		res["tokens"] = _boosted(_token_for(rarity) + tip, rarity)
+		res["rep"] = _rep_for(rarity)
 		res["story"] = String(def.get("story", ""))
 		res["line"] = String(w.get("thanks_line", "Thank you!"))
 		item["loc"] = "delivered"
@@ -1160,7 +1217,21 @@ func call_next() -> Dictionary:
 
 
 func buy(upgrade_id: String) -> Dictionary:
-	return {"ok": false, "reason": "not in the shop yet", "id": upgrade_id}
+	for u in Content.shop.get("upgrades", []):
+		if u["id"] != upgrade_id:
+			continue
+		var costs: Array = u.get("costs", [])
+		var lvl: int = int(_upgrades.get(upgrade_id, 0))
+		if lvl >= costs.size():
+			return {"ok": false, "reason": "already maxed", "id": upgrade_id}
+		var cost: int = int(costs[lvl])
+		if tokens < cost:
+			return {"ok": false, "reason": "not enough tokens", "id": upgrade_id, "cost": cost}
+		_add_tokens(-cost)
+		_upgrades[upgrade_id] = lvl + 1
+		Events.toast.emit("%s bought." % String(u["name"]), "info")
+		return {"ok": true, "id": upgrade_id, "level": lvl + 1, "cost": cost}
+	return {"ok": false, "reason": "unknown upgrade", "id": upgrade_id}
 
 
 func set_time_scale(x: float) -> Dictionary:
@@ -1219,7 +1290,7 @@ func _add_rep(n: int) -> void:
 # ======================= save / load (A1.5) =======================
 func to_dict() -> Dictionary:
 	return {
-		"version": SAVE_VERSION, "seed_base": seed_base, "stop_index": stop_index, "clock_s": clock_s, "cheated": cheated,
+		"version": SAVE_VERSION, "seed_base": seed_base, "stop_index": stop_index, "clock_s": clock_s, "cheated": cheated, "upgrades": _upgrades.duplicate(true),
 		"tokens": tokens, "rep": rep, "first_delivery_done": first_delivery_done, "tutorial_done": tutorial_done, "bram_spawned": bram_spawned,
 		"rng_state": str(rng.state), "cars_unlocked": _cars.map(func(c): return bool(c["unlocked"])),
 		"spots": _spots.map(func(s): return String(s["item_iid"])), "items": _items.duplicate(true), "passengers": _passengers.duplicate(true), "queue": _queue.duplicate(true),
@@ -1237,6 +1308,7 @@ func from_dict(d: Dictionary) -> bool:
 	stop_index = int(d.get("stop_index", 0))
 	clock_s = float(d.get("clock_s", 0.0))
 	cheated = bool(d.get("cheated", false))
+	_upgrades = (d.get("upgrades", {}) as Dictionary).duplicate(true)
 	tokens = int(d.get("tokens", 0))
 	rep = int(d.get("rep", 0))
 	first_delivery_done = bool(d.get("first_delivery_done", false))
