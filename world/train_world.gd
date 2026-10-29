@@ -27,6 +27,7 @@ var attendant: Passenger
 var winput: WorldInput
 var crowd: Crowd
 var claim_ui: ClaimUI
+var bench: Bench
 var _dir_look: float = 0.0
 var _last_follow: float = 0.0
 
@@ -84,6 +85,9 @@ func _build() -> void:
 	claim_ui = ClaimUI.new()
 	add_child(claim_ui)
 	claim_ui.setup(self, crowd)
+	bench = (load("res://bench/bench.tscn") as PackedScene).instantiate()
+	add_child(bench)
+	winput.interacted.connect(_on_interacted)
 
 	_fx_layer = CanvasLayer.new()
 	_fx_layer.layer = 50
@@ -212,3 +216,27 @@ func handover_front() -> void:
 func shot_setup(call: String, args: Array) -> void:
 	if has_method(call):
 		callv(call, args)
+
+
+func _on_interacted(kind: String, _id: String) -> void:
+	if kind == "bench":
+		get_tree().create_timer(0.45).timeout.connect(bench.open)
+	elif kind == "bench_open":
+		bench.open()
+
+
+## Shot helper: pick up the first item, put it on the bench, open the close-up in a tool pose.
+func bench_demo(tool: String, prog: float = 0.5) -> void:
+	if Sim.get_items_at("bench").is_empty():
+		for sp in Sim.get_spots():
+			if String(sp["item_iid"]) != "":
+				var r: Dictionary = Sim.pick_up(String(sp["id"]))
+				if bool(r.get("ok", false)):
+					Sim.place_on_bench(String(r["iid"]))
+				break
+	bench.open(tool)
+	bench.demo(tool, prog)
+	if prog >= 1.0:
+		var iid: String = bench.view.sel
+		if iid != "":
+			Sim.reveal(iid, tool)

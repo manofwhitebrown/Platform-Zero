@@ -504,6 +504,209 @@
       "orientation": "portrait",
       "setup": [],
       "frames": 60
+    },
+    {
+      "id": "m1_bench_magnifier",
+      "milestone": "M1",
+      "title": "Bench close-up: magnifier in use",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "bench_demo",
+          "args": [
+            "magnifier",
+            0.6
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.4
+          ]
+        }
+      ],
+      "frames": 12
+    },
+    {
+      "id": "m1_bench_lamp",
+      "milestone": "M1",
+      "title": "Bench close-up: lamp in use",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "bench_demo",
+          "args": [
+            "lamp",
+            0.6
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.4
+          ]
+        }
+      ],
+      "frames": 12
+    },
+    {
+      "id": "m1_bench_ear",
+      "milestone": "M1",
+      "title": "Bench close-up: ear in use",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "bench_demo",
+          "args": [
+            "ear",
+            0.6
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.4
+          ]
+        }
+      ],
+      "frames": 12
+    },
+    {
+      "id": "m1_bench_nose",
+      "milestone": "M1",
+      "title": "Bench close-up: nose in use",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "bench_demo",
+          "args": [
+            "nose",
+            0.5
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.4
+          ]
+        }
+      ],
+      "frames": 12
+    },
+    {
+      "id": "m1_bench_brush",
+      "milestone": "M1",
+      "title": "Bench close-up: brush in use",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "bench_demo",
+          "args": [
+            "brush",
+            0.6
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.4
+          ]
+        }
+      ],
+      "frames": 12
+    },
+    {
+      "id": "m1_bench_clue",
+      "milestone": "M1",
+      "title": "Bench close-up: clue landed on strip",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "bench_demo",
+          "args": [
+            "magnifier",
+            1.0
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.4
+          ]
+        }
+      ],
+      "frames": 12
+    },
+    {
+      "id": "m1_bench_landscape",
+      "milestone": "M1",
+      "title": "Bench close-up (landscape)",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "landscape",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "bench_demo",
+          "args": [
+            "lamp",
+            0.6
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.4
+          ]
+        }
+      ],
+      "frames": 12
     }
   ]
 }
