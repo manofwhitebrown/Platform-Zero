@@ -56,12 +56,12 @@ jobs:
       - name: Export APK
         run: |
           mkdir -p build
-          godot --headless --export-debug "Android" build/unclaimed.apk 2>&1 | tee -a /tmp/ci.log
+          godot --headless --verbose --export-debug "Android" build/unclaimed.apk 2>&1 | tee -a /tmp/ci.log
           ls -la build | tee -a /tmp/ci.log
       - name: Report failure tail
         if: failure()
         run: |
-          echo "::error title=CI log tail::$(grep -vE '^(SCRIPT ERROR|ERROR: Failed|[[:space:]]+at:)' /tmp/ci.log | tail -c 3600 2>/dev/null | sed -e ':a' -e 'N' -e '$!ba' -e 's/%/%25/g' -e 's/\r//g' -e 's/\n/%0A/g')"
+          echo "::error title=CI log tail::$(grep -vE '^(SCRIPT ERROR|ERROR: Failed|[[:space:]]+at:|[[:space:]]*$)' /tmp/ci.log | grep -v -E '^(Parse Error|Compile Error)' | tail -c 3800 2>/dev/null | sed -e ':a' -e 'N' -e '$!ba' -e 's/%/%25/g' -e 's/\r//g' -e 's/\n/%0A/g')"
       - uses: actions/upload-artifact@v4
         with:
           name: unclaimed-apk
