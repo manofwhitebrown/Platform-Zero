@@ -58,7 +58,10 @@ func _draw() -> void:
 	var pts := PackedVector2Array([
 		Vector2(c, tag_top), Vector2(w - c, tag_top), Vector2(w - 6, tag_top + c),
 		Vector2(w - 6, h - 12), Vector2(6, h - 12), Vector2(6, tag_top + c)])
-	draw_colored_polygon(PackedVector2Array([for p in pts: p + Vector2(0, 6)]), Color(0, 0, 0, 0.3))
+	var shadow := PackedVector2Array()
+	for p in pts:
+		shadow.append(p + Vector2(0, 6))
+	draw_colored_polygon(shadow, Color(0, 0, 0, 0.3))
 	draw_colored_polygon(pts, Pal.PARCHMENT)
 	draw_polyline(PackedVector2Array(Array(pts) + [pts[0]]), Pal.BRASS, 3.0, true)
 	# eyelet

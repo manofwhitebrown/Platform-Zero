@@ -68,10 +68,10 @@ func _ready() -> void:
 	_leave.pressed.connect(close)
 	col.add_child(_leave)
 
-func setup(owner: Dictionary, wanted_item_id: String) -> void:
-	owner_data = owner
+func setup(who: Dictionary, wanted_item_id: String) -> void:
+	owner_data = who
 	wanted_id = wanted_item_id
-	_portrait.set_look(owner.get("look", {}))
+	_portrait.set_look(who.get("look", {}))
 	_lines = _build_lines()
 	_fill_chips()
 	_walk_in()

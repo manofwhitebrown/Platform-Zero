@@ -23,7 +23,7 @@ func _ready() -> void:
 		if s is AudioStreamWAV:
 			s.loop_mode = AudioStreamWAV.LOOP_FORWARD
 			s.loop_begin = 0
-			s.loop_end = s.data.size() / 2
+			s.loop_end = s.data.size() >> 1
 		_hum = AudioStreamPlayer.new()
 		_hum.stream = s
 		_hum.volume_db = -20.0

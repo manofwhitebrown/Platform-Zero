@@ -92,14 +92,14 @@ func go_to(i: int, animate: bool = true) -> void:
 		old.queue_free()
 	_busy = false
 
-func _on_owner_arrived(owner: Dictionary, wanted_item_id: String) -> void:
+func _on_owner_arrived(who: Dictionary, wanted_item_id: String) -> void:
 	if overlay.get_child_count() > 0 or not ResourceLoader.exists(OWNER_VISIT):
 		return
 	var v = load(OWNER_VISIT).instantiate()
 	overlay.add_child(v)
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	if v.has_method("setup"):
-		v.setup(owner, wanted_item_id)
+		v.setup(who, wanted_item_id)
 	v.tree_exited.connect(func(): overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE)
 
 func _show_intro() -> void:
