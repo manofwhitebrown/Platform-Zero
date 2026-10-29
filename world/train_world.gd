@@ -28,6 +28,7 @@ var winput: WorldInput
 var crowd: Crowd
 var claim_ui: ClaimUI
 var bench: Bench
+var hud: Hud
 var _dir_look: float = 0.0
 var _last_follow: float = 0.0
 
@@ -88,6 +89,9 @@ func _build() -> void:
 	bench = (load("res://bench/bench.tscn") as PackedScene).instantiate()
 	add_child(bench)
 	winput.interacted.connect(_on_interacted)
+	hud = Hud.new()
+	hud.world = self
+	add_child(hud)
 
 	_fx_layer = CanvasLayer.new()
 	_fx_layer.layer = 50
@@ -240,3 +244,7 @@ func bench_demo(tool: String, prog: float = 0.5) -> void:
 		var iid: String = bench.view.sel
 		if iid != "":
 			Sim.reveal(iid, tool)
+
+
+func hud_toast(text: String) -> void:
+	Events.toast.emit(text, "good")

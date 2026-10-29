@@ -707,6 +707,56 @@
         }
       ],
       "frames": 12
+    },
+    {
+      "id": "m1_hud",
+      "milestone": "M1",
+      "title": "HUD: tokens, tier, stop timer, tutorial chip",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "hud_toast",
+          "args": [
+            "Welcome aboard, attendant."
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.6
+          ]
+        }
+      ],
+      "frames": 15
+    },
+    {
+      "id": "m1_hud_landscape",
+      "milestone": "M1",
+      "title": "HUD (landscape)",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "landscape",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.6
+          ]
+        }
+      ],
+      "frames": 15
     }
   ]
 }
