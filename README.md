@@ -1,7 +1,68 @@
 # Unclaimed
-Idle narrative-deduction game: run a magical train station's lost-and-found. Godot 4.3, GDScript, Android via GitHub Actions.
 
-- `autoload/` engine singletons (Events, Content, GameState, Mystery, Clock)
-- `content/` objects.json (engine) and owners.json (front)
-- `tests/run_tests.gd` headless tests: `godot --headless --script tests/run_tests.gd`
-- `tools/validate_content.py` content validation
+[![build](https://github.com/manofwhitebrown/Platform-Zero/actions/workflows/build.yml/badge.svg)](https://github.com/manofwhitebrown/Platform-Zero/actions/workflows/build.yml)
+
+*You run the lost-and-found office of a magical train station.* Strange objects arrive while you're away. Each one carries hidden clues. Quirky regulars come looking for what they lost, describing it vaguely ("it was *sort of* blue?"), and you work out who owns what. Nothing expires, nobody gets angry, and a wrong guess just sends the item to the Dusty Shelf until the owner returns.
+
+An idle, cozy, narrative-deduction game for Android. Built with Godot 4.3 (GDScript) and packaged by GitHub Actions.
+
+## How it plays
+1. **Things arrive while you're away.** About one object per 20 minutes, up to 12 waiting.
+2. **Inspect.** Each tap on an object reveals another clue.
+3. **An owner walks in** and describes what they lost, usually badly.
+4. **Match object to owner.** A correct match gives a story and reputation. A wrong one has no penalty.
+5. **Come back daily** for the Daily Unclaimed mystery, the same for everyone, with a spoiler-free share card.
+6. **Grow the station.** Reputation unlocks new wings and tiers. The Catalog and Gallery track every object and regular you've found.
+
+## Get the APK
+Open **Actions → build**, pick the latest green run, and download the **unclaimed-apk** artifact. Unzip it and install the `.apk` on an Android phone (allow installs from unknown sources).
+
+## Build progress
+Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
+
+<!-- STATUS:START -->
+**Platform A · Engine** — 3/8 done
+
+- ✅ Scaffold + autoload stubs
+- ✅ Android export + CI build
+- ✅ Content loader + validator
+- ⬜ Clock, save, offline arrivals
+- ⬜ Inspect, match, reputation
+- ⬜ Daily mystery + share text
+- ⬜ 40 objects content
+- ⬜ Tests + integration fixes
+
+**Platform B · Front** — 9/9 done
+
+- ✅ Theme + UI kit
+- ✅ Icons, backdrop, shaders
+- ✅ Main scene + navigation
+- ✅ Counter + inspect popup
+- ✅ Owner visit + matching
+- ✅ 15 owners content
+- ✅ Shelf, catalog, gallery
+- ✅ Daily + share card
+- ✅ Audio, haptics, polish
+<!-- STATUS:END -->
+
+Live view: **https://manofwhitebrown.github.io/Platform-Zero/**
+
+## Project layout
+| Path | What it holds |
+|---|---|
+| `autoload/` | Engine singletons: Events, Content, GameState, Mystery, Clock |
+| `content/` | `objects.json` (the lost objects and their clues) and `owners.json` (the 15 regulars) |
+| `scenes/` | Counter, inspect popup, owner visit, shelf, catalog, daily, intro |
+| `ui/` | Theme, reusable components, tier names |
+| `assets/`, `shaders/`, `audio/` | Icons, backdrop art, shaders and sounds, all generated in the project |
+| `tests/`, `tools/` | Headless tests and the content validator |
+| `status/` | Progress files read by the dashboard and this README |
+| `dashboard/` | The build board served on GitHub Pages |
+| `.github/workflows/` | `build` (APK), `pages` (dashboard), `readme-status` (this README's progress block) |
+
+## Run it
+- Open the folder in **Godot 4.3** and press play, or
+- Validate content: `python3 tools/validate_content.py`
+- Headless tests: `godot --headless --script tests/run_tests.gd`
+
+Design: portrait 1080×1920, gl_compatibility renderer, dusk-teal palette with brass lamps and parchment claim tags.

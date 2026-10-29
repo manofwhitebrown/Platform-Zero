@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Platform Zero · Station Board</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--deep:#0B1E26;--night:#12303B;--line:#2B4F5A;--lamp:#F2B84B;--paper:#EADFC8;--mist:#7FA6A3;--ok:#7FC8A0;--bad:#E0674F}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(900px 500px at 50% -10%,#1d4654 0%,var(--deep) 70%);color:var(--paper);font:400 16px/1.5 'Familjen Grotesk',system-ui,sans-serif;min-height:100vh}
+header{display:flex;flex-wrap:wrap;gap:16px;align-items:end;justify-content:space-between;padding:28px 32px 8px}
+h1{margin:0;font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.02em}
+h1 small{display:block;font-size:15px;font-weight:400;color:var(--mist);letter-spacing:0}
+.cfg{display:flex;gap:8px;flex-wrap:wrap}
+input{background:var(--night);border:1px solid var(--line);color:var(--paper);padding:8px 12px;border-radius:10px;font:inherit;min-width:220px}
+button{background:var(--lamp);color:#2a1d05;border:0;padding:8px 16px;border-radius:10px;font:600 15px inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--lamp);outline-offset:2px}
+main{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;padding:16px 32px 40px}
+.plat{background:var(--night);border:1px solid var(--line);border-radius:20px;padding:22px}
+.sign{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.letter{width:64px;height:64px;border-radius:14px;background:var(--paper);color:var(--deep);display:grid;place-items:center;font-size:40px;font-weight:700;box-shadow:0 0 0 4px var(--night),0 0 0 6px var(--paper)}
+.sign h2{margin:0;font-size:22px}.sign p{margin:0;color:var(--mist);font-size:14px}
+.pulse{margin-left:auto;text-align:right;font-size:14px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;background:var(--mist)}
+.ok .dot{background:var(--ok);box-shadow:0 0 10px var(--ok)}.bad .dot{background:var(--bad);box-shadow:0 0 10px var(--bad)}.warn .dot{background:var(--lamp);box-shadow:0 0 10px var(--lamp)}
+.bar{height:10px;background:var(--deep);border-radius:6px;overflow:hidden;margin:6px 0 14px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--lamp),#f7d58a);transition:width .6s}
+ul{list-style:none;margin:0;padding:0}
+.tasks li{display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #1c3b46}
+.g{width:18px;text-align:center}.done .g{color:var(--ok)}.doing .g{color:var(--lamp)}.todo{color:var(--mist)}
+h3{margin:18px 0 6px;font-size:15px;color:var(--mist);font-weight:600}
+.commits li{padding:6px 0;border-bottom:1px solid #1c3b46;font-size:14px}
+.commits time{color:var(--mist);margin-right:8px}
+.note{background:var(--deep);border-left:3px solid var(--lamp);padding:8px 12px;border-radius:6px;font-size:14px;margin-top:10px}
+.ci{grid-column:1/-1}
+.runs li{display:flex;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid #1c3b46}
+.runs a{color:var(--paper)}
+#err{padding:0 32px;color:var(--bad)}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style></head><body>
+<header>
+  <h1>Platform Zero<small>Unclaimed — build board · refreshes every minute with a token, every 5 min without</small></h1>
+  <div class="cfg">
+    <input id="repo" aria-label="Repository" placeholder="owner/repo">
+    <input id="tok" type="password" aria-label="GitHub token" placeholder="Token (private repo / higher limits)">
+    <button id="save">Save and refresh</button>
+  </div>
+</header>
+<div id="err" role="alert"></div>
+<main>
+  <section class="plat" id="A"></section>
+  <section class="plat" id="B"></section>
+  <section class="plat ci"><div class="sign"><div class="letter" style="font-size:26px">CI</div><div><h2>APK builds</h2><p>Latest workflow runs. Open a green run and download the <b>unclaimed-apk</b> artifact.</p></div></div><ul class="runs" id="runs"></ul></section>
+</main>
+<script>
+const NAMES={A:['Engine','Logic, save, content, CI'],B:['Front','Screens, art, sound, owners']};
+const TITLES={A1:'Scaffold + autoload stubs',A2:'Android export + CI build',A3:'Content loader + validator',A4:'Clock, save, offline arrivals',A5:'Inspect, match, reputation',A6:'Daily mystery + share text',A7:'40 objects content',A8:'Tests + integration fixes',B1:'Theme + UI kit',B7:'Icons, backdrop, shaders',B2:'Main scene + navigation',B3:'Counter + inspect popup',B4:'Owner visit + matching',B9:'15 owners content',B5:'Shelf, catalog, gallery',B6:'Daily + share card',B8:'Audio, haptics, polish'};
+const normTasks=t=>Array.isArray(t)?t:Object.entries(t||{}).map(([id,state])=>({id,title:TITLES[id]||id,state}));
+const cfg={repo:localStorage.pzRepo||'manofwhitebrown/Platform-Zero',tok:localStorage.pzTok||''};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function gh(path,raw){
+  const h={Accept:raw?'application/vnd.github.raw+json':'application/vnd.github+json'};
+  if(cfg.tok)h.Authorization='Bearer '+cfg.tok;
+  const r=await fetch('https://api.github.com/repos/'+cfg.repo+path+(path.includes('?')?'&':'?')+'t='+Date.now(),{headers:h});
+  if(!r.ok)throw new Error(r.status+' on '+path);
+  return raw?r.text():r.json();
+}
+const ago=t=>{if(!t)return null;const m=Math.round((Date.now()-new Date(t))/6e4);return m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago'};
+const mins=t=>t?(Date.now()-new Date(t))/6e4:1e9;
+function plat(id,st,commits){
+  const mine=commits.filter(c=>c.commit.message.startsWith('['+id+']'));
+  const last=mine[0]?.commit.author.date;
+  const m=mins(last),cls=m<30?'ok':m<90?'warn':'bad';
+  const tasks=normTasks(st?.tasks),done=tasks.filter(t=>t.state==='done').length;
+  const pct=tasks.length?Math.round(done/tasks.length*100):0;
+  const g={done:'✓',doing:'◐',todo:'○'};
+  $('#'+id).innerHTML=`<div class="sign"><div class="letter">${id}</div><div><h2>${NAMES[id][0]}</h2><p>${NAMES[id][1]}</p></div>
+  <div class="pulse ${cls}"><span class="dot"></span>${last?'Last push '+ago(last):'No pushes yet'}${cls==='bad'&&last?'<br>Looks stalled':''}</div></div>
+  <div><b>${pct}%</b> · ${done} of ${tasks.length} tasks</div><div class="bar"><i style="width:${pct}%"></i></div>
+  <ul class="tasks">${tasks.map(t=>`<li class="${esc(t.state)}"><span class="g">${g[t.state]||'○'}</span><span>${esc(t.title)}</span></li>`).join('')}</ul>
+  ${st?.note?`<div class="note"><b>Next step:</b> ${esc(st.note)}</div>`:''}
+  ${st?.request?`<div class="note"><b>Needs from other side:</b> ${esc(st.request)}</div>`:''}
+  <h3>Recent commits (${mine.length})</h3><ul class="commits">${mine.slice(0,6).map(c=>`<li><time>${ago(c.commit.author.date)}</time>${esc(c.commit.message.split('\n')[0])}</li>`).join('')||'<li>Nothing yet</li>'}</ul>`;
+}
+async function refresh(){
+  $('#err').textContent='';
+  try{
+    const commits=await gh('/commits?per_page=60');
+    for(const id of ['A','B']){
+      let st=null;try{st=JSON.parse(await gh('/contents/status/'+id+'.json',true))}catch(e){}
+      plat(id,st,commits);
+    }
+    const runs=(await gh('/actions/runs?per_page=6')).workflow_runs||[];
+    $('#runs').innerHTML=runs.map(r=>{const c=r.status!=='completed'?'warn':r.conclusion==='success'?'ok':'bad';
+      return `<li class="${c}"><span class="dot"></span><a href="${esc(r.html_url)}" target="_blank" rel="noopener">${esc(r.name)}: ${esc(r.status==='completed'?r.conclusion:r.status)}</a><span style="color:var(--mist)">${esc(r.head_commit?.message?.split('\n')[0]||'')} · ${ago(r.created_at)}</span></li>`}).join('')||'<li>No runs yet</li>';
+  }catch(e){$('#err').textContent='Cannot read the repo ('+e.message+'). Check the repo name and token.'}
+}
+$('#repo').value=cfg.repo;$('#tok').value=cfg.tok;
+$('#save').onclick=()=>{cfg.repo=$('#repo').value.trim();cfg.tok=$('#tok').value.trim();localStorage.pzRepo=cfg.repo;localStorage.pzTok=cfg.tok;refresh()};
+refresh();setInterval(refresh,cfg.tok?60000:300000);
+</script></body></html>

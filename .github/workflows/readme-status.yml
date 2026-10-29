@@ -1,0 +1,24 @@
+name: readme-status
+on:
+  push:
+    branches: [main]
+    paths: ['status/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: readme-status
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/update_readme.py
+      - name: Commit if changed
+        run: |
+          git config user.name "readme-bot"
+          git config user.email "readme-bot@users.noreply.github.com"
+          git diff --quiet README.md && exit 0
+          git add README.md
+          git commit -m "[bot] update README status [skip ci]"
+          git pull --rebase origin main
+          git push origin main
