@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="432" height="432" viewBox="0 0 432 432">
+  <defs>
+    <radialGradient id="glow" cx="256" cy="300" r="170" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F2B84B" stop-opacity="0.75"/>
+      <stop offset="0.55" stop-color="#F2B84B" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#F2B84B" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bulb" cx="256" cy="288" r="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF1C4"/>
+      <stop offset="0.55" stop-color="#F2B84B"/>
+      <stop offset="1" stop-color="#E0A030"/>
+    </radialGradient>
+  </defs>
+  <g transform="translate(216 216) scale(0.7) translate(-256 -262)">
+  <g transform="rotate(-8 256 256)">
+    <path d="M196 106H316L371 161V418Q371 436 353 436H159Q141 436 141 418V161Z" fill="#000" opacity="0.28" transform="translate(0 12)"/>
+    <path d="M196 98H316L371 153V410Q371 428 353 428H159Q141 428 141 410V153Z" fill="#EADFC8" stroke="#B8893E" stroke-width="14" stroke-linejoin="round"/>
+    <circle cx="256" cy="300" r="170" fill="url(#glow)"/>
+    <circle cx="256" cy="150" r="36" fill="#B8893E"/>
+    <circle cx="256" cy="150" r="17" fill="#0B1E26"/>
+    <path d="M222 236H290L282 258H230Z" fill="#B8893E"/>
+    <circle cx="256" cy="304" r="56" fill="url(#bulb)"/>
+    <rect x="226" y="356" width="60" height="22" rx="8" fill="#B8893E"/>
+  </g>
+  </g>
+</svg>

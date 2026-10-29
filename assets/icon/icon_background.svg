@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="432" height="432" viewBox="0 0 432 432">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12303B"/>
+      <stop offset="1" stop-color="#0B1E26"/>
+    </linearGradient>
+    <radialGradient id="pool" cx="216" cy="262" r="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F2B84B" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#F2B84B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="432" height="432" fill="url(#sky)"/>
+  <rect width="432" height="432" fill="url(#pool)"/>
+</svg>
