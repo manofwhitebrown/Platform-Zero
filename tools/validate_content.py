@@ -191,6 +191,72 @@ def check_icon_files(root: str) -> None:
             warn(f"assets/icons/{key}.svg missing")
 
 
+def check_writing(content: str) -> None:
+    """barks.json (>=200 lines), dialogue.json, names.json (>=150 names): _doc + non-empty strings."""
+    def leaves(d, path=""):
+        for k, v in d.items():
+            if k == "_doc":
+                continue
+            if isinstance(v, dict):
+                yield from leaves(v, f"{path}{k}.")
+            elif isinstance(v, list):
+                for s in v:
+                    yield f"{path}{k}", s
+            else:
+                err(f"{path}{k}: expected object or array")
+
+    for fname, minimum in (("barks.json", 200), ("dialogue.json", 100), ("names.json", 150)):
+        path = os.path.join(content, fname)
+        if not os.path.exists(path):
+            warn(f"{fname} not present yet")
+            continue
+        data = load(path)
+        if not isinstance(data, dict):
+            err(f"{fname}: top level must be an object")
+            continue
+        if not is_str(data.get("_doc")):
+            err(f"{fname}: missing _doc")
+        count = 0
+        for key, s in leaves(data):
+            count += 1
+            if not is_str(s):
+                err(f"{fname}: empty/non-string line under {key}")
+            elif "TODO" in s or "lorem" in s.lower():
+                err(f"{fname}: placeholder text under {key}")
+        if fname == "names.json":
+            count = len(data.get("full", []))
+            if len(set(data.get("full", []))) != count:
+                err("names.json: duplicate full names")
+        if count < minimum:
+            err(f"{fname}: only {count} entries, need >= {minimum}")
+    dpath = os.path.join(content, "dialogue.json")
+    if os.path.exists(dpath):
+        d = load(dpath) or {}
+        moods = ("calm", "hurried", "worried", "shy", "grumpy")
+        for group in ("where_last", "generic", "empty"):
+            for m in moods:
+                if not d.get(group, {}).get(m):
+                    err(f"dialogue.json: {group}.{m} missing")
+        for attr in sorted(ATTRS):
+            for m in moods:
+                if not d.get("attr_lines", {}).get(attr, {}).get(m):
+                    err(f"dialogue.json: attr_lines.{attr}.{m} missing")
+        for m in moods:
+            if not d.get("imposter", {}).get("slip", {}).get(m):
+                err(f"dialogue.json: imposter.slip.{m} missing")
+    bpath = os.path.join(content, "barks.json")
+    if os.path.exists(bpath):
+        b = load(bpath) or {}
+        moods = ("calm", "hurried", "worried", "shy", "grumpy")
+        for group in ("claimant_intro", "waiting", "thanks", "wrong"):
+            for m in moods:
+                lines = b.get(group, {}).get(m) or []
+                if not lines:
+                    err(f"barks.json: {group}.{m} missing")
+                if group == "claimant_intro" and any("{item}" not in s for s in lines):
+                    err(f"barks.json: claimant_intro.{m} lines must contain {{item}}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--strict", action="store_true")
@@ -213,6 +279,8 @@ def main() -> int:
             cross_check(object_index, owner_index)
     else:
         (err if args.strict else warn)("objects.json not present yet")
+
+    check_writing(content)
 
     if args.content is None:
         check_icon_files(root)

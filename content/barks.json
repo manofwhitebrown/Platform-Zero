@@ -1,0 +1,292 @@
+{
+ "_doc": "barks.json (AI-A). One-liners spoken in bubbles. Top-level keys are groups; every leaf is a non-empty array of strings. Pick a line with the seeded RNG. Placeholders (optional, replace before display): {item} = lowercase item name ('red mitten'), {car} = car name ('the Dining car'), {name} = speaker's first name. Groups: ambient.<routine> (reading|napping|eating|staring|chatting|kids|vendor|conductor|boarding|leaving) = scenery chatter; claimant_intro.<mood> = first line when a claimant arrives (calm|hurried|worried|shy|grumpy), all use {item}; waiting.<mood> = said while the claimant waits for the attendant; thanks.<mood> = correct handover; wrong.<mood> = 'not mine' reaction; refused.imposter = said by an imposter when refused; refused.honest = said by an honest claimant wrongly refused; attendant.idle = Bram-free mutters for the attendant avatar; station.announce = tannoy lines at arrival (use {stop}). Keys are stable: add lines freely, never rename keys.",
+ "ambient": {
+  "reading": [
+   "Chapter eleven. Everyone is lying in chapter eleven.",
+   "I have read this sentence four times. It is still about a goose.",
+   "Do not tell me how it ends. I'm cheating and reading the middle.",
+   "This book is damp. I don't want to talk about it.",
+   "Shh. The detective is about to say something obvious.",
+   "Page two hundred. Page two hundred and one. Page two hundred.",
+   "Lovely story. Far too many sheep.",
+   "Mm. The butler again."
+  ],
+  "napping": [
+   "Zzz... no, the other soup...",
+   "Wake me at the sea. Not before.",
+   "Mmf. Five more stations.",
+   "Zzz... I did return the library book... zzz...",
+   "Snrk. Pardon. Dreaming of trains.",
+   "Don't mind me. I'm resting my eyes. Both of them.",
+   "Zzz... it was a very large biscuit...",
+   "Mhm... tell the moon I'll be right there..."
+  ],
+  "eating": [
+   "Best pie east of anywhere.",
+   "I ordered soup. This is a sandwich. I'm not complaining.",
+   "Crumbs. Everywhere. It's a travelling feast.",
+   "Is it rude to dunk toast in the tea? Asking for me.",
+   "One more sausage roll and then I'm a sensible person.",
+   "The jam is on the wrong side of the plate. I like it.",
+   "Mm. Pickled something. Delightful.",
+   "Do not look at my pudding. It's shy."
+  ],
+  "staring": [
+   "Look. A horse. Standing about.",
+   "The moon's keeping up with us again.",
+   "I always count the lamp posts. I lose count at nine.",
+   "Somebody's light is on in that farmhouse. Somebody's waiting up.",
+   "Fog's coming in. Cosy, isn't it?",
+   "That hill looks like a sleeping cat.",
+   "Every window is a tiny film.",
+   "I wonder who lives in the lighthouse. Gulls, mostly."
+  ],
+  "chatting": [
+   "And then she said, 'It's not a hat, it's a nest.'",
+   "No, no, you said Tuesday. It was definitely Tuesday.",
+   "Did you pack the umbrella? The other umbrella?",
+   "He told me the conductor is three conductors in a trench coat.",
+   "I'm only saying the tea was better last year.",
+   "Wait, wait, say it again, slower.",
+   "You never told me you could whistle!",
+   "We should have brought a map. Or a goat. Something useful."
+  ],
+  "kids": [
+   "Mum! The train is breathing on the window!",
+   "I drew a face in the fog. It's you.",
+   "Bet I can see the sea first.",
+   "Are we there? Are we there yet? What about now?",
+   "I'm not looking at anything. I'm looking at everything.",
+   "The moon is following us. I checked.",
+   "Can the train go faster? Just a bit? Politely?",
+   "I found a button! It's mine now. It's a lucky button."
+  ],
+  "vendor": [
+   "Tea! Hot tea! Mostly hot!",
+   "Biscuits, buns, bits and bobs!",
+   "Pasties! Warm pasties! Don't ask what's in them!",
+   "Sweets for the sweet and sweets for the sour!",
+   "Tea, madam? Tea, sir? Tea, small gentleman?",
+   "Peppermints! Dangerously cool!",
+   "Sandwiches, cut on the diagonal, as nature intended!",
+   "Mind your toes, I'm a trolley with ambitions."
+  ],
+  "conductor": [
+   "Tickets, please. Tickets, kindly. Tickets, if you've a moment.",
+   "Mind the gap. It's gotten bigger overnight.",
+   "All aboard that's coming aboard.",
+   "Nothing to see in the next car. Plenty to see in this one.",
+   "Punctual to the minute. Give or take eleven.",
+   "Everything is in hand. Mostly mine.",
+   "Evening, attendant. Anything interesting under the seats?",
+   "The line is long and the night is longer."
+  ],
+  "boarding": [
+   "Is this the right train? It feels right.",
+   "Pardon me. Excuse me. Coming through with a suitcase.",
+   "Window seat, please, window seat, window seat.",
+   "Platform Zero? Never heard of it. I love it.",
+   "Just made it! My coat wasn't so lucky.",
+   "Is anyone sitting here? Is anything sitting here?"
+  ],
+  "leaving": [
+   "That's me. Safe travels, everyone.",
+   "Goodbye, train. You were warm.",
+   "Mind the step. It minds me.",
+   "Home at last. Or a version of home.",
+   "Off I pop. Don't wait up.",
+   "Whoever took my seat, enjoy it. It's lumpy."
+  ]
+ },
+ "claimant_intro": {
+  "calm": [
+   "Evening. I've lost my {item}. No rush at all.",
+   "Hello there. I believe my {item} wandered off.",
+   "Excuse me, attendant. A {item}, if one's turned up?",
+   "Good evening. Missing: one {item}. Not urgently.",
+   "I seem to have mislaid my {item}. Happens.",
+   "Might you have my {item}? It's a pleasant sort of thing.",
+   "Hallo. I'm after a {item}. I'll wait if I must.",
+   "Nice night for it. Anyone hand in a {item}?"
+  ],
+  "hurried": [
+   "My {item}! Have you got my {item}? I've a connection!",
+   "Quick, quick, {item}, lost it, need it, please!",
+   "Don't mean to rush you, but, {item}, now, thank you!",
+   "{item}, {item}, {item}. You'd know it if you saw it. Hurry!",
+   "I'm due at the next stop. Lost a {item}. Go, go, go!",
+   "Sorry, sorry, short on time, one {item}, anyone?",
+   "I've got ninety seconds and one missing {item}.",
+   "Lost property? Good. Lost {item}. Go!"
+  ],
+  "worried": [
+   "Oh dear, oh dear, my {item}. Please say you have it.",
+   "I can't find my {item} anywhere. I looked. I looked twice.",
+   "It meant so much. My {item}. Please, has anyone...?",
+   "I think I left my {item} somewhere. I'm sure I did. Maybe.",
+   "Oh, thank goodness you're here. I've lost my {item}.",
+   "If it's gone, it's gone, but, my {item}, is it...?",
+   "I had it just a moment ago, my {item}. Truly.",
+   "Please tell me my {item} has turned up. I'll be ever so quiet."
+  ],
+  "shy": [
+   "Um. Sorry. I, um, lost a {item}?",
+   "Hi. It's small. The {item}. I don't want to be a bother.",
+   "I wasn't sure if I should... but my {item}...",
+   "Sorry to ask. Has a {item} been handed in? ...Sorry.",
+   "Er. Hello. A {item}. It's, um. Mine. Was.",
+   "I'll just stand here. If you happen to have a {item}...",
+   "Don't mind me. Only a {item}. Probably nothing.",
+   "I lost my {item}. I practised saying that. It went better."
+  ],
+  "grumpy": [
+   "Somebody's nicked my {item}. Where is it?",
+   "My {item}. Missing. This is a disgrace.",
+   "Lost property, is it? Then find my {item}.",
+   "I want my {item}. I'm not asking twice. I'm asking once, loudly.",
+   "Hmph. A {item}. I had one. Now I don't. Explain.",
+   "Don't smile. Where's my {item}?",
+   "If I find out who touched my {item}, there'll be words.",
+   "I've been looking for my {item} since the last tunnel."
+  ]
+ },
+ "waiting": {
+  "calm": [
+   "Take your time. I'm only a person.",
+   "Mm. Lovely lamp you've got.",
+   "No hurry. The train isn't going anywhere. It is, but still.",
+   "I'll just admire the shelves."
+  ],
+  "hurried": [
+   "Tick tock, attendant, tick tock.",
+   "Is it that one? That one? That one?",
+   "I can hear the next station coming.",
+   "Hurry! Respectfully!"
+  ],
+  "worried": [
+   "Oh, what if it isn't there?",
+   "I'm sure it's fine. It's fine. Is it fine?",
+   "Please, please, please.",
+   "I've got a feeling about this. Mostly nerves."
+  ],
+  "shy": [
+   "...",
+   "Sorry. Still here.",
+   "I'll just be over here. Being small.",
+   "Don't look at me. Look at the shelves."
+  ],
+  "grumpy": [
+   "I'm still here, you know.",
+   "Hmph. Slow service on a fast train.",
+   "My feet are developing opinions.",
+   "Are we doing this or are we sightseeing?"
+  ]
+ },
+ "thanks": {
+  "calm": [
+   "That's the one. Thank you kindly.",
+   "Lovely. You're a credit to the car.",
+   "Perfect. Evening restored.",
+   "Wonderful. I'll sleep well tonight."
+  ],
+  "hurried": [
+   "Yes! Thanks! Bye! Wonderful! Bye!",
+   "You're a marvel! I'm running!",
+   "Got it! Thank you! Gone!",
+   "Brilliant! Don't tell my watch!"
+  ],
+  "worried": [
+   "Oh, thank goodness. I could hug you. May I? No. Thank you.",
+   "You found it. You actually found it. Oh.",
+   "My heart can start again. Thank you.",
+   "I knew it. I didn't know it. Thank you!"
+  ],
+  "shy": [
+   "Oh! Thank you. Really. Thank you.",
+   "That's... yes. Thank you. Sorry. Thank you.",
+   "You're very kind. I'll go now. Thank you.",
+   "Mine! I mean. Yes. Thank you."
+  ],
+  "grumpy": [
+   "Hmph. About time. Thank you, I suppose.",
+   "That'll do. That'll do nicely, actually.",
+   "Well. Fine. You're not entirely hopeless.",
+   "Good. Don't let it happen again. To me. Or anyone."
+  ]
+ },
+ "wrong": {
+  "calm": [
+   "Ah, no, that isn't mine, I'm afraid.",
+   "Close, though. A different sort of close.",
+   "Hmm. That belongs to someone with better taste. Mine's lovelier.",
+   "No, that's not it, but thank you for trying."
+  ],
+  "hurried": [
+   "No! Not that! Another! Quick!",
+   "That's the wrong one! I'm sure! Try again!",
+   "Not mine! Not even slightly! Faster!",
+   "Argh, no, other one, other one!"
+  ],
+  "worried": [
+   "Oh. No. That's not mine. Oh dear.",
+   "I don't think so. I'm so sorry. Is there another?",
+   "It looks like it, but... no. No. Sorry.",
+   "Oh no. It isn't. Is it? It isn't."
+  ],
+  "shy": [
+   "Um, sorry, I don't think that's mine...",
+   "Ah. No. Sorry. Thank you anyway.",
+   "That's... not quite. Sorry.",
+   "Mm-mm. Not mine. Sorry."
+  ],
+  "grumpy": [
+   "That's not mine. Are you blind or merely fast?",
+   "Wrong. Next.",
+   "Not mine. I'd know. I always know.",
+   "Is that supposed to be funny?"
+  ]
+ },
+ "refused": {
+  "imposter": [
+   "Well! I never! Fine. Keep your old thing.",
+   "Hmph. It was worth a try. I mean. It was mine!",
+   "I... really thought that was it. I was mistaken. Entirely mistaken.",
+   "You can't prove anything. Goodnight!",
+   "Hm. Perhaps I mixed it up with another. A completely hypothetical other.",
+   "Fine, fine. No need for the eyebrow."
+  ],
+  "honest": [
+   "Oh. I was sure that was mine. I'm sorry to have bothered you.",
+   "Hmm. Perhaps I misremember. I'll look again.",
+   "You're probably right. Forgive me.",
+   "Right. Sorry. I'll be on my way."
+  ]
+ },
+ "attendant": {
+  "idle": [
+   "Tea's still warm. Almost.",
+   "Another night on the line.",
+   "One more tag. One more story.",
+   "Everything has an owner. Eventually.",
+   "The lamp hums. The wheels hum back.",
+   "Mind the shelves. They're listening.",
+   "Somewhere a glove is missing a friend.",
+   "Right. Where did I put the magnifier?",
+   "If in doubt, sniff it.",
+   "Brass polishes itself if you ignore it long enough. Not true.",
+   "Three tags, two mysteries, one kettle.",
+   "The night shift never ends. It just changes stations."
+  ]
+ },
+ "station": {
+  "announce": [
+   "Now arriving at {stop}. Please mind your belongings.",
+   "{stop}. Doors on both sides. Hats on heads.",
+   "This is {stop}. Check under your seat. Then check again.",
+   "{stop}, ladies and gentlemen. Lost something? You know where I am.",
+   "Next stop, {stop}. Items left behind are in safe hands.",
+   "{stop}. Change here for nothing in particular.",
+   "{stop} now. Take everything you came with. Or at least most of it."
+  ]
+ }
+}

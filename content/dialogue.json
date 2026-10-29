@@ -1,0 +1,271 @@
+{
+ "_doc": "dialogue.json (AI-A). Interview templates for Sim.ask(pid,q). q=0 'Where did you last have it?' uses where_last (flavour + car hint); q=1 'What does it look like?' and q=2 'Anything special?' both reveal one hint attribute using attr_lines. Structure: ask_labels = [label for q0,q1,q2]; where_last.<mood> = lines with {car} (name of the car where the item lay, e.g. 'the Dining car') and optional {item}; attr_lines.<attr>.<mood> = lines with {value}; attrs: color|material|smell|sound|wear|initials|station_stamp; generic.<mood> = fallback for any other attr, uses {attr} and {value}; imposter.slip.<mood> = lines used instead of attr_lines when the imposter states the one WRONG detail (use {value} = the wrong value); imposter.too_perfect = over-rehearsed lines an imposter may add to the *right* details ({value}); imposter.deflect = what an imposter says when pressed with no answer; empty.<mood> = when there is nothing left to ask. Moods: calm|hurried|worried|shy|grumpy. Keys are stable: add lines freely, never rename keys.",
+ "ask_labels": [
+  "Where did you last have it?",
+  "What does it look like?",
+  "Anything special about it?"
+ ],
+ "where_last": {
+  "calm": [
+   "I think I had it near {car}. I was reading, or napping. One of those.",
+   "Somewhere around {car}, I'd say. It was a pleasant afternoon.",
+   "Last I saw it, I was passing {car}. It waved. Figuratively."
+  ],
+  "hurried": [
+   "{car}! I was in {car}! Or leaving it! Look there!",
+   "Near {car}, I think, I was in a rush, I'm always in a rush!",
+   "{car}, definitely, no, maybe, just look!"
+  ],
+  "worried": [
+   "Oh, I had it in {car}. I think. I do hope it's still there.",
+   "Somewhere near {car}. I put it down for just a second. Just one!",
+   "{car}, I believe. Please say it's safe."
+  ],
+  "shy": [
+   "Um. {car}? I think. Maybe. Sorry.",
+   "I was in {car}, mostly. Near the window. Sorry.",
+   "{car}, I think. It's a quiet spot. Sorry."
+  ],
+  "grumpy": [
+   "{car}. Where someone clearly pinched it.",
+   "I had it in {car} and then I didn't. Draw your own conclusions.",
+   "Somewhere in {car}. Check the seats. Check the culprits."
+  ]
+ },
+ "attr_lines": {
+  "color": {
+   "calm": [
+    "It's {value}, if I recall. A lovely shade.",
+    "Mostly {value}. Dependably so."
+   ],
+   "hurried": [
+    "{value}! It was {value}! Is it {value}?",
+    "Colour? {value}. Go."
+   ],
+   "worried": [
+    "It's {value}. I think. It was, wasn't it?",
+    "{value}, I believe. Please let it still be {value}."
+   ],
+   "shy": [
+    "It's, um, {value}. Sorry.",
+    "Sort of {value}? I'm sorry."
+   ],
+   "grumpy": [
+    "{value}. Obviously. What else would it be?",
+    "It's {value}. Look for {value}, genius."
+   ]
+  },
+  "material": {
+   "calm": [
+    "Made of {value}, I'm fairly sure.",
+    "It's {value}. Good and honest."
+   ],
+   "hurried": [
+    "{value}! It's all {value}! Go!",
+    "Material? {value}. Quickly!"
+   ],
+   "worried": [
+    "I think it's {value}. Is it {value}? Please be {value}.",
+    "It felt like {value}. It always felt like {value}."
+   ],
+   "shy": [
+    "It's, er, {value}. I think.",
+    "{value}. Sorry. It's {value}."
+   ],
+   "grumpy": [
+    "{value}. Anyone can see that.",
+    "It's {value}. Don't make me say it twice."
+   ]
+  },
+  "smell": {
+   "calm": [
+    "It smells faintly of {value}. Rather pleasantly.",
+    "A whiff of {value}, if you lean in."
+   ],
+   "hurried": [
+    "{value}! Smells of {value}! Sniff it!",
+    "Smell? {value}! Go go!"
+   ],
+   "worried": [
+    "It smells of {value}. Doesn't it? Please say it does.",
+    "I remember {value}. It was so comforting."
+   ],
+   "shy": [
+    "It smells a bit of {value}. Sorry. That's odd to say.",
+    "Um, {value}? I notice smells. Sorry."
+   ],
+   "grumpy": [
+    "Smells of {value}. Which is more than most things here.",
+    "{value}. Sniff it yourself if you doubt me."
+   ]
+  },
+  "sound": {
+   "calm": [
+    "It makes a {value} when you move it. Charming.",
+    "Give it a shake. A {value}, you'll find."
+   ],
+   "hurried": [
+    "{value}! It goes {value}! Shake it!",
+    "Sound? A {value}! Quick!"
+   ],
+   "worried": [
+    "It makes a {value}. Oh, I do hope it still does.",
+    "There's a {value} inside. I'd know it anywhere."
+   ],
+   "shy": [
+    "It, um, makes a {value}. Quietly.",
+    "A tiny {value}. Sorry."
+   ],
+   "grumpy": [
+    "A {value}. Annoying, but mine.",
+    "It goes {value}. Drove my neighbour mad."
+   ]
+  },
+  "wear": {
+   "calm": [
+    "It's {value}, as is only proper after all these years.",
+    "Rather {value}, I'm afraid. Well loved."
+   ],
+   "hurried": [
+    "{value}! Very {value}! You'll see!",
+    "Wear? {value}! Go!"
+   ],
+   "worried": [
+    "It's a bit {value}. I hope that doesn't matter.",
+    "{value}, I think. I never could take care of things."
+   ],
+   "shy": [
+    "It's, um, {value}. Sorry. I use it a lot.",
+    "Quite {value}. Sorry."
+   ],
+   "grumpy": [
+    "{value}. Because I use it. Unlike some.",
+    "It's {value} and it's mine."
+   ]
+  },
+  "initials": {
+   "calm": [
+    "There are initials on it. {value}, I believe.",
+    "Look for {value} stitched or scratched somewhere."
+   ],
+   "hurried": [
+    "{value}! Initials! {value}!",
+    "Marked with {value}! Hurry!"
+   ],
+   "worried": [
+    "It has {value} on it. Please check. I'd be lost without it. Lost-er.",
+    "I scratched {value} on it myself. Please."
+   ],
+   "shy": [
+    "It says {value} on it. That's me. Sorry.",
+    "My initials. {value}. Sorry."
+   ],
+   "grumpy": [
+    "{value}. My initials. Obviously.",
+    "Read the letters. {value}. Is that so hard?"
+   ]
+  },
+  "station_stamp": {
+   "calm": [
+    "There's a stamp on it from {value}. Souvenir of a nice trip.",
+    "It bears a {value} stamp, I believe."
+   ],
+   "hurried": [
+    "Stamped {value}! {value}! Go!",
+    "{value} stamp! Quick!"
+   ],
+   "worried": [
+    "I think it has a {value} stamp. Oh, please be right.",
+    "A stamp from {value}. I'm nearly sure."
+   ],
+   "shy": [
+    "It, um, has a stamp from {value}. Sorry.",
+    "{value}. On the stamp. Sorry."
+   ],
+   "grumpy": [
+    "It's stamped {value}. Look for yourself.",
+    "{value}. Stamp. Next question."
+   ]
+  }
+ },
+ "generic": {
+  "calm": [
+   "Its {attr}? Why, {value}. Quite definitely.",
+   "{value}, regarding its {attr}."
+  ],
+  "hurried": [
+   "{attr}: {value}! Go!",
+   "{value}! That's the {attr}! Quick!"
+  ],
+  "worried": [
+   "The {attr} is {value}, I think. I hope.",
+   "I remember the {attr}: {value}. Please."
+  ],
+  "shy": [
+   "The {attr}? It's, um, {value}. Sorry.",
+   "{value}, for the {attr}. Sorry."
+  ],
+  "grumpy": [
+   "{attr}: {value}. Next.",
+   "The {attr}. {value}. Honestly."
+  ]
+ },
+ "imposter": {
+  "slip": {
+   "calm": [
+    "Oh, it's {value}. Quite certain. Quite.",
+    "It's definitely {value}. I know my things."
+   ],
+   "hurried": [
+    "{value}! Obviously {value}! Don't question me!",
+    "{value}! Yes! Go!"
+   ],
+   "worried": [
+    "It's {value}. It's {value}, isn't it? It's {value}.",
+    "{value}, I'm positive. Mostly positive."
+   ],
+   "shy": [
+    "It's {value}. Sorry. I mean it is {value}.",
+    "{value}. I... think that's right."
+   ],
+   "grumpy": [
+    "{value}. Why would I lie about {value}?",
+    "{value}, and don't give me that look."
+   ]
+  },
+  "too_perfect": [
+   "Exactly {value}, precisely, down to the last detail.",
+   "I'd describe it as {value}, ahem, in every particular.",
+   "Oh yes, {value}, as I told the other attendant. And the one before.",
+   "{value}. I've said it so many times it's practically a hymn."
+  ],
+  "deflect": [
+   "Does it matter? It's mine, that's what matters.",
+   "I'd rather not say. Sentimental reasons.",
+   "Why all the questions? Just hand it over.",
+   "Hm. I can't think. It's been a long day."
+  ]
+ },
+ "empty": {
+  "calm": [
+   "I think I've told you everything.",
+   "That's all I remember, I'm afraid."
+  ],
+  "hurried": [
+   "That's all! Go!",
+   "Nothing else! Hurry!"
+  ],
+  "worried": [
+   "I can't think of anything else. I'm so sorry.",
+   "That's everything, truly. Oh dear."
+  ],
+  "shy": [
+   "That's all. Sorry.",
+   "I've said it all. Sorry."
+  ],
+  "grumpy": [
+   "I've told you. Twice.",
+   "That's all. Don't make me repeat it."
+  ]
+ }
+}
