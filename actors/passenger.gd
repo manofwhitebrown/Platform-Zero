@@ -23,6 +23,7 @@ var mood: String = "calm"
 var anim: String = "idle"
 var face: int = 1
 var emote: String = ""
+var gait: String = ""   # "", "happy", "sad", "annoyed": colours the walk cycle while leaving
 var pid: String = ""
 var scale_f: float = 0.92
 
@@ -158,6 +159,25 @@ func _compute(_dt: float) -> void:
 			p["lean"] = 0.04
 			if mood == "grumpy":
 				p["hip"] = -absf(cos(ph)) * 10.0
+			match gait:
+				"happy":
+					p["hip"] = -absf(cos(ph)) * 15.0
+					p["sf"] = -sin(ph) * 0.7 + 0.5
+					p["sb"] = sin(ph) * 0.7 + 0.5
+					p["head"] = -0.05
+				"sad":
+					p["lean"] = 0.2
+					p["head"] = 0.25
+					p["sf"] = -sin(ph) * 0.15
+					p["sb"] = sin(ph) * 0.15
+					p["hip"] = -absf(cos(ph)) * 3.0
+				"annoyed":
+					p["hip"] = -absf(cos(ph)) * 12.0
+					p["sf"] = 0.5
+					p["ef"] = 2.2
+					p["sb"] = 0.4
+					p["eb"] = 2.3
+					p["lean"] = -0.04
 		"sit":
 			p["hip"] = 70.0
 			p["tf"] = 1.5
@@ -472,4 +492,5 @@ func _draw_emote(head_c: Vector2) -> void:
 func _heart(p: Vector2, r: float, col: Color) -> void:
 	draw_circle(p + Vector2(-r * 0.5, 0), r * 0.6, col)
 	draw_circle(p + Vector2(r * 0.5, 0), r * 0.6, col)
-	draw_colored_polygon(PackedVector2Array([p + Vector2(-r * 1.05, r * 0.2), p + Vector2(r * 1.05, r * 0.2), p + Vector2(0, r * 1.5)]), col)
+	draw_line(p + Vector2(-r * 0.55, r * 0.25), p + Vector2(0, r * 1.25), col, r * 0.95)
+	draw_line(p + Vector2(r * 0.55, r * 0.25), p + Vector2(0, r * 1.25), col, r * 0.95)

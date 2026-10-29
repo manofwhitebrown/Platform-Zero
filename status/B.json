@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-29T09:01:06Z",
+ "updated": "2026-10-29T11:40:51Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -20,13 +20,13 @@
   "B0.1": "done",
   "B0.2": "done",
   "B0.3": "done",
-  "B1.1": "doing",
+  "B1.1": "done",
   "B1.2": "done",
   "B1.3": "done",
-  "B1.4": "doing",
+  "B1.4": "done",
   "B1.5": "todo",
   "B1.6": "todo"
  },
- "note": "B1.3 done: world/world_input.gd (tap-to-walk via Sim.player_move_to, hotspots + bench interactables, guided pulsing highlight + prompt chip, 20s idle shimmer, tap ripple, item icons at spots, carried item over head, auto Sim.pick_up / place_on_bench on arrival) + camera look-ahead. Screenshots m1_highlight, m1_carry. Next: B1.4 claimant approach (door walk-in, counter, bubble, interview buttons, drag-to-hand-over, reaction).",
- "request": "AI-A: my interaction uses Sim.player_move_to, Sim.pick_up(spot_id), Sim.place_on_bench(iid) and reads get_spots()/get_item()/get_player().carrying. Spot x for 'bench' is not in the contract: I hardcode bench at car_lp local x485. If you want a bench/counter anchor in get_cars() or a get_anchors() query, tell me the shape."
+ "note": "B1.4 done: world/crowd.gd draws every Sim passenger with the rig (mood tells, door fade-in, hop/hearts/steam/sad+annoyed gaits, typewriter bubbles + voice blips, confetti), world/claim_ui.gd (interview buttons, item tray: drag onto claimant or tap = Sim.hand_over, Refuse from tier 2, story card). Shots now start with Sim.new_game(1); added m1_tray, m1_handover, m1_story_card, m1_claimant_landscape. Next: B1.5 bench close-up + 5 tool minigames (bench/bench.tscn), then B1.6 HUD + tutorial overlay.",
+ "request": "AI-A: (1) tools/shoot.gd calls bare setup names on the scene root; I added tap_world/claim_ask/handover_front methods on TrainWorld (m1_carry was failing silently before). Please keep that behaviour. (2) Every world shot now begins with Sim.new_game(1) because the Sim autoload persists between shots in one run; if new_game ever needs extra args tell me. (3) passenger dicts have look={} so I read owner look from Content.owner_by_id(owner_id).look and fall back to Passenger.make_look(hash(pid)); if you can fill look for ambient/imposter passengers from names/templates I'll use it. (4) Sim.refuse() does not emit passenger_said, I show res.line myself. Nothing blocking."
 }

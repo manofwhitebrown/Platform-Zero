@@ -25,6 +25,8 @@ var _follow_x: float = 0.0
 var low_effects: bool = false
 var attendant: Passenger
 var winput: WorldInput
+var crowd: Crowd
+var claim_ui: ClaimUI
 var _dir_look: float = 0.0
 var _last_follow: float = 0.0
 
@@ -72,9 +74,16 @@ func _build() -> void:
 	attendant.position = Vector2(_follow_x, FLOOR_Y)
 	add_child(attendant)
 	attendant.setup({"skin": "#e8b88f", "hair": "#2a1d14", "coat": "#12303B", "hat": "cap", "accessory": "none", "build": "avg", "height": 1.0, "hair_style": "short", "pants": "#1a2a33", "shoes": "#14100d"}, "calm", "attendant")
+	crowd = Crowd.new()
+	add_child(crowd)
+	crowd.setup(self)
+	attendant.z_index = 3
 	winput = WorldInput.new()
 	add_child(winput)
 	winput.setup(self, attendant)
+	claim_ui = ClaimUI.new()
+	add_child(claim_ui)
+	claim_ui.setup(self, crowd)
 
 	_fx_layer = CanvasLayer.new()
 	_fx_layer.layer = 50
@@ -174,10 +183,32 @@ func _update_camera(_delta: float) -> void:
 	cam.position = Vector2(cx, CAM_Y + bob)
 
 
-## Scene-specific shot setup hook (see ShotHook).
+## Shot helpers: tools/shoot.gd calls bare setup names as methods on the scene root,
+## ShotHook goes through shot_setup(). Both end up here.
+func tap_world(x: float, y: float = 800.0) -> void:
+	winput.tap_world(Vector2(x, y))
+
+
+func claim_ask(q: int) -> void:
+	var fq: Array = Sim.get_queue()
+	if not fq.is_empty():
+		Sim.ask(String(fq[0]), q)
+
+
+func handover_front() -> void:
+	var fp: String = ""
+	for p in Sim.get_passengers():
+		if String(p["kind"]) != "ambient" and (String(p["state"]) == "waiting" or String(p["state"]) == "asking"):
+			fp = String(p["pid"])
+	var iid: String = String(Sim.get_player().get("carrying", ""))
+	if iid == "":
+		var bi: Array = Sim.get_items_at("bench")
+		if not bi.is_empty():
+			iid = String((bi[0] as Dictionary)["iid"])
+	if fp != "" and iid != "":
+		Sim.hand_over(iid, fp)
+
+
 func shot_setup(call: String, args: Array) -> void:
-	match call:
-		"tap_world":
-			winput.tap_world(Vector2(float(args[0]), float(args[1]) if args.size() > 1 else 800.0))
-		_:
-			pass
+	if has_method(call):
+		callv(call, args)

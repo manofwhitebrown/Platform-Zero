@@ -29,6 +29,12 @@
       "orientation": "portrait",
       "setup": [
         {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
           "call": "Sim.player_move_to",
           "args": [
             4300
@@ -51,6 +57,12 @@
       "orientation": "portrait",
       "setup": [
         {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
           "call": "tap_world",
           "args": [
             4350,
@@ -72,7 +84,14 @@
       "title": "Lost Property car (portrait)",
       "scene": "res://world/train_world.tscn",
       "orientation": "portrait",
-      "setup": [],
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        }
+      ],
       "frames": 90
     },
     {
@@ -81,30 +100,211 @@
       "title": "Lost Property car (landscape)",
       "scene": "res://world/train_world.tscn",
       "orientation": "landscape",
-      "setup": [],
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        }
+      ],
       "frames": 90
     },
     {
       "id": "m1_claimant_bubble",
       "milestone": "M1",
-      "title": "Bram at the counter with a speech bubble",
+      "title": "Bram at the counter: speech bubble, interview buttons, item tray",
       "scene": "res://world/train_world.tscn",
       "orientation": "portrait",
       "setup": [
         {
-          "call": "Sim.player_move_to",
+          "call": "Sim.new_game",
           "args": [
-            4500
+            1
           ]
         },
         {
-          "call": "wait",
+          "call": "Sim.tick",
           "args": [
-            2.0
+            11.0
           ]
         }
       ],
       "frames": 150
+    },
+    {
+      "id": "m1_tray",
+      "milestone": "M1",
+      "title": "Carrying the mitten with Bram waiting: item tray + interview",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "Sim.tick",
+          "args": [
+            11.0
+          ]
+        },
+        {
+          "call": "Sim.player_move_to",
+          "args": [
+            4350
+          ]
+        },
+        {
+          "call": "Sim.tick",
+          "args": [
+            1.0
+          ]
+        },
+        {
+          "call": "Sim.pick_up",
+          "args": [
+            "car_lp_s3"
+          ]
+        },
+        {
+          "call": "claim_ask",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "frames": 170
+    },
+    {
+      "id": "m1_handover",
+      "milestone": "M1",
+      "title": "Correct handover: confetti, hearts, story card",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "Sim.tick",
+          "args": [
+            11.0
+          ]
+        },
+        {
+          "call": "Sim.player_move_to",
+          "args": [
+            4350
+          ]
+        },
+        {
+          "call": "Sim.tick",
+          "args": [
+            1.0
+          ]
+        },
+        {
+          "call": "Sim.pick_up",
+          "args": [
+            "car_lp_s3"
+          ]
+        },
+        {
+          "call": "handover_front",
+          "args": []
+        },
+        {
+          "call": "wait",
+          "args": [
+            0.3
+          ]
+        }
+      ],
+      "frames": 3
+    },
+    {
+      "id": "m1_story_card",
+      "milestone": "M1",
+      "title": "Story card after the first delivery",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "Sim.tick",
+          "args": [
+            11.0
+          ]
+        },
+        {
+          "call": "Sim.player_move_to",
+          "args": [
+            4350
+          ]
+        },
+        {
+          "call": "Sim.tick",
+          "args": [
+            1.0
+          ]
+        },
+        {
+          "call": "Sim.pick_up",
+          "args": [
+            "car_lp_s3"
+          ]
+        },
+        {
+          "call": "handover_front",
+          "args": []
+        },
+        {
+          "call": "wait",
+          "args": [
+            2.6
+          ]
+        }
+      ],
+      "frames": 40
+    },
+    {
+      "id": "m1_claimant_landscape",
+      "milestone": "M1",
+      "title": "Claimant at the counter (landscape)",
+      "scene": "res://world/train_world.tscn",
+      "orientation": "landscape",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "Sim.tick",
+          "args": [
+            11.0
+          ]
+        },
+        {
+          "call": "claim_ask",
+          "args": [
+            0
+          ]
+        }
+      ],
+      "frames": 170
     },
     {
       "id": "m1_bench_tool",
@@ -113,6 +313,12 @@
       "scene": "res://bench/bench.tscn",
       "orientation": "portrait",
       "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
         {
           "call": "Sim.pick_up",
           "args": [
@@ -142,6 +348,12 @@
       "orientation": "portrait",
       "setup": [
         {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
           "call": "Cheats.run",
           "args": [
             "trigger_first_minute",
@@ -164,6 +376,12 @@
       "scene": "res://world/train_world.tscn",
       "orientation": "portrait",
       "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
         {
           "call": "Sim.skip_tutorial",
           "args": []
@@ -191,6 +409,12 @@
       "orientation": "landscape",
       "setup": [
         {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
           "call": "Sim.skip_tutorial",
           "args": []
         },
@@ -216,6 +440,12 @@
       "scene": "res://world/train_world.tscn",
       "orientation": "landscape",
       "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
         {
           "call": "Cheats.run",
           "args": [
