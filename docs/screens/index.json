@@ -1,1 +1,4 @@
-[]
+[
+  {"id": "m1_car_portrait", "file": "m1_car_portrait.png", "title": "Lost Property car (portrait)", "orientation": "portrait", "milestone": "M1"},
+  {"id": "m1_car_landscape", "file": "m1_car_landscape.png", "title": "Lost Property car (landscape)", "orientation": "landscape", "milestone": "M1"}
+]

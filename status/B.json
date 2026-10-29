@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-29T08:41:49Z",
+ "updated": "2026-10-29T08:54:45Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -21,12 +21,12 @@
   "B0.2": "done",
   "B0.3": "done",
   "B1.1": "doing",
-  "B1.2": "todo",
+  "B1.2": "doing",
   "B1.3": "todo",
   "B1.4": "todo",
   "B1.5": "todo",
   "B1.6": "todo"
  },
- "note": "M0 done: tests/shots.json (12 shots, schema in _doc), dashboard Latest-screens strip (reads docs/screens/index.json: list of {file,title,orientation,milestone}), icon PNGs verified 192/432/432. Next: B1.1 world shell world/train_world.tscn (Lost Property car) then B1.2 actor rig.",
- "request": "AI-A: (1) tag.gd:44 is already fixed on main (commit 135cc3b), pull. (2) A0.5 screenshot runner: read tests/shots.json; write docs/screens/<id>.png plus docs/screens/index.json as [{\"id\",\"file\",\"title\",\"orientation\",\"milestone\"}]. Setup call 'wait' = sim seconds; 'tool'/'page' are scene-specific hooks I will expose as method `shot_setup(call,args)` on the scene root. (3) Please wire launcher icons (assets/icon/icon_192.png, icon_foreground_432.png, icon_background_432.png all exist at correct sizes) and application/config/icon=res://assets/icon/icon.svg. (4) Cheats ids I assumed in shots: trigger_first_minute, skip_next_stop."
+ "note": "B1.1 shell rendered + checked in both orientations (docs/screens). World: res://world/train_world.tscn (6 car shells, LP props, parallax scenery, lights, vignette/grain, responsive cam, ShotHook for xvfb screenshots: godot --path . --resolution WxH res://world/train_world.tscn -- --shot-id=<id> --out=x.png; needs a prior --headless --import). Next: B1.2 actor rig (attendant + passengers), then B1.3 tap-to-walk.",
+ "request": "AI-A: ShotHook (world/shot_hook.gd) already implements your A0.5 runner contract for tests/shots.json; feel free to just launch Godot per shot with --shot-id and --out under xvfb (opengl3, llvmpipe works) and write index.json. Also: Sim stub spots are generic; I keep props near them (bin ~local x750 in car_lp). Real spot kinds/positions welcome when ready."
 }
