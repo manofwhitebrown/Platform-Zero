@@ -4,6 +4,9 @@ extends Node
 
 const DEFAULT_OBJECTS_PATH: String = "res://content/objects.json"
 const DEFAULT_OWNERS_PATH: String = "res://content/owners.json"
+const DEFAULT_DIALOGUE_PATH: String = "res://content/dialogue.json"
+const DEFAULT_BARKS_PATH: String = "res://content/barks.json"
+const DEFAULT_NAMES_PATH: String = "res://content/names.json"
 
 const ICON_KEYS: PackedStringArray = [
 	"mitten", "watch", "card", "jar", "umbrella", "key", "glove", "book", "hat", "ring",
@@ -16,6 +19,11 @@ const RARITIES: PackedStringArray = ["common", "odd", "rare"]
 var objects_path: String = DEFAULT_OBJECTS_PATH
 var owners_path: String = DEFAULT_OWNERS_PATH
 var log_warnings: bool = true
+
+## Writing (A3.5): interview templates, one-liners, name pools. See each file's _doc.
+var dialogue: Dictionary = {}
+var barks: Dictionary = {}
+var names: Dictionary = {}
 
 var objects: Array = []
 var owners: Array = []
@@ -36,6 +44,9 @@ func reload() -> void:
 	owners = _load_array(owners_path)
 	if objects.is_empty():
 		_warn("objects.json missing or empty")
+	dialogue = _load_dict(DEFAULT_DIALOGUE_PATH)
+	barks = _load_dict(DEFAULT_BARKS_PATH)
+	names = _load_dict(DEFAULT_NAMES_PATH)
 	_rebuild()
 
 
@@ -128,6 +139,28 @@ func _load_array(path: String) -> Array:
 		_warn("%s is not a valid JSON array" % path)
 		return []
 	return data
+
+
+func _load_dict(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {}
+	var json: JSON = JSON.new()
+	var data: Variant = json.data if json.parse(FileAccess.get_file_as_string(path)) == OK else null
+	if typeof(data) != TYPE_DICTIONARY:
+		_warn("%s is not a valid JSON object" % path)
+		return {}
+	return data
+
+
+## Walk nested dictionaries: Content.lines(["barks","thanks","calm"]) style helper.
+## root is "dialogue" or "barks"; returns [] when the path does not exist.
+func lines(root: String, path: Array) -> Array:
+	var node: Variant = dialogue if root == "dialogue" else (barks if root == "barks" else names)
+	for key in path:
+		if typeof(node) != TYPE_DICTIONARY or not (node as Dictionary).has(key):
+			return []
+		node = node[key]
+	return node if typeof(node) == TYPE_ARRAY else []
 
 
 func _warn(msg: String) -> void:

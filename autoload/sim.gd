@@ -316,6 +316,7 @@ func _on_stopped() -> void:
 				if oid2 != "" and not _owner_has_claimant(oid2):
 					_spawn_claimant(oid2, String(it["def_id"]), false)
 					break
+	_maybe_spawn_imposter()
 
 
 func _pick_def() -> String:
@@ -396,7 +397,7 @@ func _place_item_at_spot(iid: String, spot_id: String) -> void:
 	Events.item_moved.emit(iid, "spot")
 
 
-func _spawn_claimant(owner_id: String, def_id: String, at_door: bool) -> Dictionary:
+func _spawn_claimant(owner_id: String, def_id: String, at_door: bool, kind: String = "claimant", pname: String = "") -> Dictionary:
 	var w: Dictionary = Content.owner_by_id(owner_id)
 	var pid: String = _new_pid("clm")
 	var mood: String = "calm" if at_door else String(MOODS[rng.randi_range(0, MOODS.size() - 1)])
@@ -413,10 +414,16 @@ func _spawn_claimant(owner_id: String, def_id: String, at_door: bool) -> Diction
 			if sp["id"] == seat:
 				x = float(sp["x"])
 		state = "seated"
-	var p: Dictionary = _make_passenger(pid, "claimant", owner_id, String(w.get("name", "Someone")), x, mood, car_id, state)
+	var shown_name: String = pname if pname != "" else String(w.get("name", "Someone"))
+	var p: Dictionary = _make_passenger(pid, kind, owner_id, shown_name, x, mood, car_id, state)
 	p["seat_spot"] = seat
 	p["wants_item_def"] = def_id
-	p["line"] = _claim_line(w, def_id)
+	if kind == "imposter":
+		p["look"] = _random_look(pid)
+		p["imposter_hints"] = _imposter_hints(pid, def_id)
+		p["line"] = _intro_bark(pid, mood, def_id)
+	else:
+		p["line"] = _claim_line(w, def_id)
 	p["t"] = 0.0 if at_door else rng.randf_range(2.0, 7.0) / float(MOOD_SPEED[mood])
 	_passengers[pid] = p
 	if at_door:
@@ -426,6 +433,141 @@ func _spawn_claimant(owner_id: String, def_id: String, at_door: bool) -> Diction
 		_claims_log.pop_front()
 	Events.passenger_spawned.emit(p)
 	return p
+
+
+# ======================= imposters + interview (A2.3) =======================
+## Local RNG derived from stable ids, so text/choices never disturb the main sim RNG stream.
+func _local_rng(key: String) -> RandomNumberGenerator:
+	var r: RandomNumberGenerator = RandomNumberGenerator.new()
+	r.seed = hash(key) + seed_base
+	return r
+
+
+func _pick_line(lines: Array, r: RandomNumberGenerator, fallback: String) -> String:
+	if lines.is_empty():
+		return fallback
+	return String(lines[r.randi_range(0, lines.size() - 1)])
+
+
+func _item_label(def_id: String) -> String:
+	return String(Content.object_by_id(def_id).get("name", "thing")).to_lower()
+
+
+func _intro_bark(pid: String, mood: String, def_id: String) -> String:
+	var r: RandomNumberGenerator = _local_rng("intro|" + pid)
+	var line: String = _pick_line(Content.lines("barks", ["claimant_intro", mood]), r, "I think I lost my {item}.")
+	return line.replace("{item}", _item_label(def_id))
+
+
+func _random_look(pid: String) -> Dictionary:
+	var r: RandomNumberGenerator = _local_rng("look|" + pid)
+	var look: Dictionary = {}
+	if not Content.owners.is_empty():
+		look = ((Content.owners[r.randi_range(0, Content.owners.size() - 1)] as Dictionary).get("look", {}) as Dictionary).duplicate(true)
+	var skins: Array = ["#f1c9a5", "#d9a47a", "#b9805a", "#8d5a3c", "#6b4430"]
+	var hairs: Array = ["#2a1d14", "#3b2a20", "#6b4a2b", "#a86b2e", "#c9c3b5", "#1d1d24"]
+	var coats: Array = ["#7FA6A3", "#B8893E", "#C8503C", "#5b6f8c", "#6d5a7a", "#4f7a58", "#8a8f99"]
+	look["skin"] = skins[r.randi_range(0, skins.size() - 1)]
+	look["hair"] = hairs[r.randi_range(0, hairs.size() - 1)]
+	look["coat"] = coats[r.randi_range(0, coats.size() - 1)]
+	look["hat"] = ["cap", "none", "top", "scarf"][r.randi_range(0, 3)]
+	look["accessory"] = ["none", "glasses", "beard", "pipe"][r.randi_range(0, 3)]
+	return look
+
+
+const WRONG_FALLBACK: Dictionary = {
+	"color": ["green", "grey", "purple", "orange", "white"], "material": ["tin", "silk", "glass", "bone"],
+	"smell": ["lavender", "rain", "peppermint", "tar"], "sound": ["thud", "jingle", "squeak", "tick"],
+	"wear": ["pristine", "cracked", "sticky", "faded"], "initials": ["Q.Z.", "X.Y.", "J.J.", "M.W."],
+	"station_stamp": ["Nowhere Halt", "Lantern Cross", "Gull Point", "Marrow Gate"],
+}
+
+
+## Two hints, exactly ONE of them wrong (the wrong one can always be caught with a tool).
+func _imposter_hints(pid: String, def_id: String) -> Array:
+	var r: RandomNumberGenerator = _local_rng("imp|" + pid + "|" + def_id)
+	var clues: Array = (Content.object_by_id(def_id).get("clues", []) as Array).duplicate()
+	var usable: Array = []
+	for c in clues:
+		if String((c as Dictionary).get("attr", "")) != "" and String((c as Dictionary).get("value", "")) != "":
+			usable.append(c)
+	var out: Array = []
+	if usable.is_empty():
+		return out
+	# shuffle (Fisher-Yates with the local rng)
+	for i in range(usable.size() - 1, 0, -1):
+		var j: int = r.randi_range(0, i)
+		var tmp: Variant = usable[i]
+		usable[i] = usable[j]
+		usable[j] = tmp
+	var wrong_idx: int = r.randi_range(0, mini(1, usable.size() - 1))
+	for i in range(mini(2, usable.size())):
+		var c: Dictionary = usable[i]
+		var attr: String = String(c["attr"])
+		var val: String = String(c["value"])
+		var is_wrong: bool = i == wrong_idx
+		out.append({"attr": attr, "value": _wrong_value(attr, val, r) if is_wrong else val, "wrong": is_wrong})
+	return out
+
+
+func _wrong_value(attr: String, real: String, r: RandomNumberGenerator) -> String:
+	var pool: Array = []
+	for o in Content.objects:
+		for c in (o as Dictionary).get("clues", []):
+			if String(c.get("attr", "")) == attr:
+				var v: String = String(c.get("value", ""))
+				if v != "" and v.to_lower() != real.to_lower() and not pool.has(v):
+					pool.append(v)
+	for v in (WRONG_FALLBACK.get(attr, []) as Array):
+		if String(v).to_lower() != real.to_lower() and not pool.has(v):
+			pool.append(v)
+	if pool.is_empty():
+		return real + "?"
+	return String(pool[r.randi_range(0, pool.size() - 1)])
+
+
+## Public so Cheats (spawn imposter) and tests can use it. Claims a real item that exists on the train.
+func spawn_imposter(def_id: String = "", at_door: bool = true) -> Dictionary:
+	if def_id == "":
+		var cands: Array = []
+		for it in _items.values():
+			if it["loc"] != "delivered" and (Content.object_by_id(String(it["def_id"])).get("clues", []) as Array).size() >= 2:
+				cands.append(String(it["def_id"]))
+		if cands.is_empty():
+			return {}
+		def_id = String(cands[_local_rng("imp_def|%d|%d" % [stop_index, _next_pid]).randi_range(0, cands.size() - 1)])
+	var full: Array = Content.names.get("full", []) as Array
+	var r: RandomNumberGenerator = _local_rng("imp_name|%d|%d" % [stop_index, _next_pid])
+	var taken: Dictionary = {}
+	for q in _passengers.values():
+		taken[String(q["name"])] = true
+	var nm: String = "Mr. Nobody"
+	for k in range(full.size()):
+		var cand: String = String(full[r.randi_range(0, full.size() - 1)])
+		if not taken.has(cand):
+			nm = cand
+			break
+	return _spawn_claimant("", def_id, at_door, "imposter", nm)
+
+
+func _maybe_spawn_imposter() -> void:
+	if int(_player["tier"]) < 2 or _active_claimants() >= MAX_CLAIMANTS:
+		return
+	if rng.randf() >= 0.35:
+		return
+	var wanted: Dictionary = {}
+	for q in _passengers.values():
+		if q["kind"] != "ambient":
+			wanted[String(q["wants_item_def"])] = true
+	var cands: Array = []
+	for it in _items.values():
+		var d: String = String(it["def_id"])
+		if it["loc"] != "delivered" and not wanted.has(d) and (Content.object_by_id(d).get("clues", []) as Array).size() >= 2:
+			cands.append(d)
+	if cands.is_empty():
+		return
+	cands.sort()
+	spawn_imposter(String(cands[rng.randi_range(0, cands.size() - 1)]), false)
 
 
 func _free_seat_id() -> String:
@@ -780,52 +922,94 @@ func ask(pid: String, q: int) -> Dictionary:
 	if not _passengers.has(pid) or _passengers[pid]["kind"] == "ambient":
 		return {"ok": false, "reason": "nobody to ask"}
 	var p: Dictionary = _passengers[pid]
-	var hints: Array = _hints_for(p)
 	var qi: int = clampi(q, 0, 2)
-	var res: Dictionary = {"ok": true, "line": "", "attr": "", "value": ""}
+	var mood: String = String(p["mood"])
+	var asked: Array = p["asked"]
+	var r: RandomNumberGenerator = _local_rng("ask|%s|%d|%d" % [pid, qi, asked.size()])
+	var res: Dictionary = {"ok": true, "line": "", "attr": "", "value": "", "car_id": ""}
+	var def_id: String = String(p["wants_item_def"])
 	if qi == 0:
-		res["line"] = "Last had it " + _where_phrase(String(p["wants_item_def"])) + "."
+		var where: Dictionary = _where_info(def_id)
+		res["car_id"] = String(where["car_id"])
+		res["line"] = _pick_line(Content.lines("dialogue", ["where_last", mood]), r, "Somewhere near {car}.").replace("{car}", String(where["label"])).replace("{item}", _item_label(def_id))
 	else:
-		var asked: Array = p["asked"]
 		var pick: Dictionary = {}
-		for h in hints:
+		for h in _hints_for(p):
 			if not asked.has(String(h["attr"])):
 				pick = h
 				break
-		if pick.is_empty() and not hints.is_empty():
-			pick = hints[0]
 		if pick.is_empty():
-			res["line"] = "I... can't quite say."
+			res["line"] = _pick_line(Content.lines("dialogue", ["empty", mood]), r, "That's all I remember.")
 		else:
 			asked.append(String(pick["attr"]))
 			res["attr"] = pick["attr"]
 			res["value"] = pick["value"]
-			var phrase: String = String(ATTR_PHRASE.get(pick["attr"], "It's %s."))
-			res["line"] = phrase % String(pick["value"])
+			res["line"] = _hint_line(p, pick, r)
+			_log_answer(pid, res)
 	Events.passenger_said.emit(pid, String(res["line"]))
 	return res
 
 
+func _hint_line(p: Dictionary, h: Dictionary, r: RandomNumberGenerator) -> String:
+	var mood: String = String(p["mood"])
+	var attr: String = String(h["attr"])
+	var lines: Array = []
+	if p["kind"] == "imposter" and bool(h.get("wrong", false)):
+		lines = Content.lines("dialogue", ["imposter", "slip", mood])
+	elif p["kind"] == "imposter" and r.randf() < 0.3:
+		lines = Content.lines("dialogue", ["imposter", "too_perfect"])
+	if lines.is_empty():
+		lines = Content.lines("dialogue", ["attr_lines", attr, mood])
+	if lines.is_empty():
+		lines = Content.lines("dialogue", ["generic", mood])
+	var line: String = _pick_line(lines, r, "It's %s." % String(h["value"]))
+	return line.replace("{value}", String(h["value"])).replace("{attr}", attr.replace("_", " "))
+
+
+func _log_answer(pid: String, res: Dictionary) -> void:
+	for e in _claims_log:
+		if e["pid"] == pid:
+			if not e.has("answers"):
+				e["answers"] = []
+			(e["answers"] as Array).append({"attr": res["attr"], "value": res["value"], "line": res["line"]})
+			return
+
+
+## Hints a person can give. Regulars: owners.json hints (true), topped up from the object's own clues
+## so there are always two questions' worth. Imposters: two hints, exactly one wrong.
 func _hints_for(p: Dictionary) -> Array:
+	if p["kind"] == "imposter":
+		return p.get("imposter_hints", []) as Array
 	var w: Dictionary = Content.owner_by_id(String(p["owner_id"]))
-	var real: Array = (w.get("hints", {}) as Dictionary).get(String(p["wants_item_def"]), [])
-	if not real.is_empty():
-		return real
 	var out: Array = []
+	var seen: Dictionary = {}
+	for h in (w.get("hints", {}) as Dictionary).get(String(p["wants_item_def"]), []):
+		out.append({"attr": h.get("attr", ""), "value": h.get("value", ""), "wrong": false})
+		seen[String(h.get("attr", ""))] = true
 	for c in Content.object_by_id(String(p["wants_item_def"])).get("clues", []):
-		out.append({"attr": c.get("attr", ""), "value": c.get("value", "")})
+		if not seen.has(String(c.get("attr", ""))):
+			out.append({"attr": c.get("attr", ""), "value": c.get("value", ""), "wrong": false})
+			seen[String(c.get("attr", ""))] = true
 	return out
 
 
-func _where_phrase(def_id: String) -> String:
+const CAR_LABEL: Dictionary = {
+	"lp": "the Lost Property car", "pass": "the Passenger car", "dine": "the Dining car",
+	"sleep": "the Sleeper car", "obs": "the Observation car", "lug": "the Luggage car",
+}
+
+
+func _where_info(def_id: String) -> Dictionary:
 	for it in _items.values():
 		if it["def_id"] == def_id:
+			var car_id: String = "car_lp"
 			if it["loc"] == "spot":
-				for c in _cars:
-					if c["id"] == _car_of_spot(String(it["spot_id"])):
-						return "somewhere in the %s car" % String(c["kind"]).replace("lp", "lost property").replace("pass", "passenger").replace("dine", "dining").replace("sleep", "sleeper").replace("obs", "observation").replace("lug", "luggage")
-			return "around here, I think"
-	return "somewhere on the train"
+				car_id = _car_of_spot(String(it["spot_id"]))
+			for c in _cars:
+				if c["id"] == car_id:
+					return {"car_id": car_id, "label": String(CAR_LABEL.get(String(c["kind"]), "the train"))}
+	return {"car_id": "", "label": "the middle of the train"}
+
 
 
 func _car_of_spot(spot_id: String) -> String:
@@ -908,10 +1092,11 @@ func refuse(pid: String) -> Dictionary:
 	var p: Dictionary = _passengers[pid]
 	var was_imp: bool = p["kind"] == "imposter"
 	var res: Dictionary = {"ok": true, "was_imposter": was_imp, "tokens": 0, "rep": 0, "line": "Oh. Right. Sorry to bother you."}
+	var rl: RandomNumberGenerator = _local_rng("refuse|" + pid)
+	res["line"] = _pick_line(Content.lines("barks", ["refused", "imposter" if was_imp else "honest"]), rl, String(res["line"]))
 	if was_imp:
 		res["tokens"] = 8
 		res["rep"] = 1
-		res["line"] = "Hmph. Worth a try."
 		_add_tokens(8)
 		_add_rep(1)
 		p["leave_mood"] = "annoyed"

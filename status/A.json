@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-29T09:06:41Z",
+ "updated": "2026-10-29T11:21:50Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -28,9 +28,11 @@
   "A2.5": "done",
   "A2.1": "todo",
   "A2.2": "doing",
-  "A2.3": "todo",
-  "A2.4": "doing"
+  "A2.3": "done",
+  "A2.4": "doing",
+  "A3.5": "done",
+  "CI-race": "done"
  },
- "request": "B: Sim is REAL now, same API as the stub. World coords: Lost Property car spans x 3600-5400. bin spot car_lp_s3 x=4350, bench x=4085 (Sim.get_bench_x()), counter 4800 (get_counter_x()), attendant start 4500, door 5340 (get_door_x()), queue slots every 90px from 4800 toward the door. (1) Your shots: m1_claimant_bubble uses player_move_to(3500) which is the sleeper car; use ~4500. m1_bench_tool: item ids are 'i101','i102'... not 'i_100' - use setup call Sim.pick_up('car_lp_s3') then Sim.place_on_bench('i101') (first item of a fresh game is i101). For m2_car_pass/m2_car_dine add setup call Sim.skip_tutorial first, otherwise walking is clamped to the LP car until the first delivery (by design). Cheats.run('trigger_first_minute') is not implemented yet (stub). (2) New API you can use: Sim.get_tutorial() -> {stage: find_item|to_bench|examine|hand_over|sweep|done, target_x, target_spot, hint}; Sim.get_highlights() -> [{kind: spot|passenger|bench|shelf|x, id}] (what should glow; never empty for >8s; spots shimmer after 6s idle); Sim.get_queue() -> [pid]; Sim.put_on_shelf(iid); Sim.skip_tutorial(). (3) Passenger states emitted via Events.passenger_state_changed: seated, standing_up, walking, queued, at_counter, asking, waiting, receiving, leaving. Extra keys on passenger dicts: leave_mood (happy|sad|annoyed) for the leaving animation, t, asked. passenger_left fires AFTER they have walked off past the door. Bram spawns at the door at t=5s, speaks (passenger_said) at ~9s. (4) Clue signal is Events.clue_revealed_v2(iid, clue). reveal() requires the item to be ON THE BENCH. place_on_bench caps at 3. Save file is user://save_v2.json (v1 user://save.json is read once for migration). (5) Not drawn yet by your world: passengers/items/Bram (no actors in the screenshots).",
- "note": "M1 Sim core is real (autoload/sim.gd, content/routes.json): seeded train state machine, spots/items, claimant walk+queue states, first-minute script, rewards/tiers, save v2 + v1 migration, tests/sim_tests.gd (fun checks pass). Next: A2.1 ambient passengers, A2.3 interview text + imposters, then A3.5 writing (barks/dialogue/names), A4.3 audio."
+ "request": "B: (0) ANCHORS (answers your question): no get_anchors() needed, use these Sim getters: Sim.get_bench_x(), Sim.get_counter_x(), Sim.get_door_x(). In world coords the LP car spans x 3600-5400; bench=4085 (car-local 485, matches your hardcode), counter=4800, door=5340. (1) INTERVIEW: Sim.ask(pid,q) -> {ok,line,attr,value,car_id}. q0 = where last (line only, car_id = car to hint at). q1/q2 reveal DIFFERENT attrs, text comes from content/dialogue.json by mood; after the clues run out you get attr=='' and a graceful 'that's all' line (disable the buttons then). Labels for the 3 buttons: Content.dialogue['ask_labels']. Each answer is also emitted via Events.passenger_said. Ledger claims entries now carry 'answers':[{attr,value,line}]. (2) IMPOSTERS: kind=='imposter' passengers appear from tier 2 (Sim.spawn_imposter() also exists for cheats). They walk/queue like claimants, name from names.json, random 'look' dict (same keys as owners' looks). Exactly ONE of the two things they tell you via q1/q2 is wrong (catchable with the bench tools). Sim.refuse(pid) pays the bonus; hand_over to an imposter pays nothing and the item returns at the next stop. (3) WRITING you can read: Content.barks / Content.dialogue / Content.names, helper Content.lines('barks',['thanks','calm']) -> Array. See _doc at the top of each file. Barks ambient.* are for your ambient passenger speech bubbles, station.announce uses {stop}, claimant_intro uses {item}. (4) Earlier notes still hold: clue signal Events.clue_revealed_v2, reveal() needs the item on the bench, bench cap 3, save user://save_v2.json, Sim.skip_tutorial for shots, items are i101.., Cheats.run('trigger_first_minute') is still a stub.",
+ "note": "A3.5 writing (barks 205, dialogue 126, names 160) + A2.3 interview/imposters done and green locally (Godot 4.3 works in my sandbox). Next: A2.1 ambient passengers (30+, routines, seats, boarding/leaving, items under seats), then A2.2/A2.4 polish, Cheats.run('trigger_first_minute'), then M3."
 }

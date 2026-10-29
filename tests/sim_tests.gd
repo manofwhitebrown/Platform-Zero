@@ -26,6 +26,8 @@ func run(root: Node) -> int:
 	_test_corrupt_save()
 	_test_tutorial_lock()
 	_test_v1_migration()
+	_test_interview()
+	_test_imposters()
 	return fails
 
 
@@ -202,3 +204,99 @@ func _test_v1_migration() -> void:
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(_sim.v1_save_path))
 	_sim.v1_save_path = old_v1
 	_sim.save_path = old_v2
+
+
+# ---- A2.3: interview text + imposters ----
+func _no_braces(line: String) -> bool:
+	return line.strip_edges() != "" and not line.contains("{") and not line.contains("}")
+
+
+func _test_interview() -> void:
+	_sim.new_game(7)
+	_sim.tick(12.0)  # Bram arrives at the door and speaks
+	var bram: Dictionary = {}
+	for p in _sim.get_passengers():
+		if p["kind"] == "claimant":
+			bram = p
+	_check(not bram.is_empty(), "interview test needs a claimant")
+	if bram.is_empty():
+		return
+	var pid: String = String(bram["pid"])
+	var q0: Dictionary = _sim.ask(pid, 0)
+	_check(bool(q0["ok"]) and _no_braces(String(q0["line"])), "q0 gives a finished line (no placeholders): %s" % q0.get("line", ""))
+	var q1: Dictionary = _sim.ask(pid, 1)
+	var q2: Dictionary = _sim.ask(pid, 2)
+	var def: Dictionary = Content.object_by_id(String(bram["wants_item_def"]))
+	var truth: Dictionary = {}
+	for c in def["clues"]:
+		truth[String(c["attr"])] = String(c["value"])
+	for q in [q1, q2]:
+		_check(String(q["attr"]) != "" and _no_braces(String(q["line"])), "q1/q2 reveal an attribute: %s" % q.get("line", ""))
+		_check(truth.get(String(q["attr"]), "") == String(q["value"]), "an honest claimant never lies about %s" % q.get("attr", ""))
+		_check(String(q["line"]).contains(String(q["value"])), "the line states the value: %s" % q.get("line", ""))
+	_check(String(q1["attr"]) != String(q2["attr"]), "q1 and q2 reveal different attributes")
+	var q3: Dictionary = {}
+	for i in range(6):  # a claimant has at most 4 clues to give; after that: a graceful line
+		q3 = _sim.ask(pid, 2)
+		if String(q3["attr"]) == "":
+			break
+	_check(String(q3["attr"]) == "" and _no_braces(String(q3["line"])), "nothing left to ask gives a graceful line")
+	_check(not bool(_sim.ask("nobody", 0)["ok"]), "asking nobody fails cleanly")
+
+
+func _test_imposters() -> void:
+	var wrong_total: int = 0
+	var spawned: int = 0
+	for seed_value in range(1, 41):
+		_sim.new_game(seed_value)
+		_sim.skip_tutorial()
+		_sim.tick(400.0)
+		var imp: Dictionary = _sim.spawn_imposter("", true)
+		if imp.is_empty():
+			continue
+		spawned += 1
+		_check(imp["kind"] == "imposter" and String(imp["name"]) != "", "imposter has a kind and a name")
+		_check(_no_braces(String(imp["line"])), "imposter intro is finished text: %s" % imp["line"])
+		var hints: Array = imp["imposter_hints"]
+		var wrong: int = 0
+		for h in hints:
+			if bool(h["wrong"]):
+				wrong += 1
+		_check(hints.size() == 2 and wrong == 1, "imposter has exactly one wrong detail (seed %d: %d of %d)" % [seed_value, wrong, hints.size()])
+		wrong_total += wrong
+		var def: Dictionary = Content.object_by_id(String(imp["wants_item_def"]))
+		var truth: Dictionary = {}
+		for c in def["clues"]:
+			truth[String(c["attr"])] = String(c["value"])
+		var mismatches: int = 0
+		for qi in [1, 2]:
+			var a: Dictionary = _sim.ask(String(imp["pid"]), qi)
+			_check(_no_braces(String(a["line"])), "imposter answer is finished text: %s" % a["line"])
+			if truth.get(String(a["attr"]), "") != String(a["value"]):
+				mismatches += 1
+		_check(mismatches == 1, "asking both questions exposes exactly one lie (seed %d)" % seed_value)
+	_check(spawned >= 30, "imposters can be spawned on nearly every seed (%d/40)" % spawned)
+	# refuse pays a bonus, a wrong hand-over never pays and the item comes back
+	_sim.new_game(11)
+	_sim.skip_tutorial()
+	_sim.tick(60.0)
+	var imp2: Dictionary = _sim.spawn_imposter("", true)
+	if not imp2.is_empty():
+		var t0: int = _sim.tokens
+		var r: Dictionary = _sim.refuse(String(imp2["pid"]))
+		_check(bool(r["was_imposter"]) and int(r["tokens"]) > 0 and _sim.tokens > t0, "refusing an imposter earns a bonus")
+		_check(_no_braces(String(r["line"])), "refuse line is finished text")
+	# tier 2+ games actually produce imposters over time and the queue stays sane
+	_sim.new_game(21)
+	_sim.skip_tutorial()
+	_sim._add_rep(40)
+	var saw_imposter: bool = false
+	for i in range(3000):
+		_sim.tick(1.0)
+		for p in _sim.get_passengers():
+			if p["kind"] == "imposter":
+				saw_imposter = true
+			if i % 20 == 0 and p["kind"] != "ambient" and String(p["state"]) != "leaving":
+				_sim.refuse(String(p["pid"]))  # keep the claimant cap from filling up
+	_check(saw_imposter, "imposters appear in a tier 2+ game within ~50 minutes")
+	_check(_sim.get_queue().size() <= 6, "queue stays within 6 with imposters")
