@@ -75,18 +75,22 @@
     {
      "attr": "sound",
      "value": "ticks"
+    },
+    {
+     "attr": "color",
+     "value": "gold"
     }
    ],
    "obj_005": [
     {
-     "attr": "metal",
-     "value": "brass"
+     "attr": "material",
+     "value": "gilt"
     }
    ],
    "obj_006": [
     {
-     "attr": "engraving",
-     "value": "initials"
+     "attr": "initials",
+     "value": "M.O."
     }
    ]
   },
@@ -124,8 +128,8 @@
   "hints": {
    "obj_007": [
     {
-     "attr": "contents",
-     "value": "firefly"
+     "attr": "wear",
+     "value": "glowing"
     }
    ],
    "obj_008": [
@@ -222,7 +226,7 @@
   "hints": {
    "obj_012": [
     {
-     "attr": "metal",
+     "attr": "material",
      "value": "iron"
     }
    ],
@@ -234,8 +238,8 @@
    ],
    "obj_014": [
     {
-     "attr": "mark",
-     "value": "tag"
+     "attr": "station_stamp",
+     "value": "left-luggage"
     }
    ]
   },
@@ -274,8 +278,8 @@
   "hints": {
    "obj_015": [
     {
-     "attr": "material",
-     "value": "wool"
+     "attr": "color",
+     "value": "teal"
     }
    ],
    "obj_016": [
@@ -326,7 +330,7 @@
   "hints": {
    "obj_018": [
     {
-     "attr": "mark",
+     "attr": "wear",
      "value": "dog-eared"
     }
    ],
@@ -377,14 +381,14 @@
   "hints": {
    "obj_021": [
     {
-     "attr": "shape",
-     "value": "tall"
+     "attr": "wear",
+     "value": "stovepipe"
     }
    ],
    "obj_022": [
     {
      "attr": "sound",
-     "value": "rattles"
+     "value": "shuffles"
     }
    ]
   },
@@ -423,19 +427,19 @@
   "hints": {
    "obj_023": [
     {
-     "attr": "metal",
+     "attr": "material",
      "value": "gold"
     }
    ],
    "obj_024": [
     {
-     "attr": "gem",
+     "attr": "color",
      "value": "green"
     }
    ],
    "obj_025": [
     {
-     "attr": "mark",
+     "attr": "wear",
      "value": "crest"
     }
    ]
@@ -475,13 +479,13 @@
   "hints": {
    "obj_026": [
     {
-     "attr": "seal",
-     "value": "wax"
+     "attr": "wear",
+     "value": "wax-sealed"
     }
    ],
    "obj_027": [
     {
-     "attr": "mark",
+     "attr": "wear",
      "value": "punched"
     }
    ],
@@ -533,7 +537,7 @@
    ],
    "obj_030": [
     {
-     "attr": "contents",
+     "attr": "smell",
      "value": "tea"
     }
    ],
@@ -579,14 +583,14 @@
   "hints": {
    "obj_032": [
     {
-     "attr": "behavior",
+     "attr": "wear",
      "value": "points-wrong"
     }
    ],
    "obj_033": [
     {
-     "attr": "image",
-     "value": "cat"
+     "attr": "material",
+     "value": "tintype"
     }
    ],
    "obj_034": [
@@ -630,7 +634,7 @@
   "hints": {
    "obj_035": [
     {
-     "attr": "feature",
+     "attr": "wear",
      "value": "one-eye"
     }
    ],
@@ -720,7 +724,7 @@
   "hints": {
    "obj_039": [
     {
-     "attr": "origin",
+     "attr": "station_stamp",
      "value": "unknown"
     }
    ],

@@ -1,0 +1,1000 @@
+[
+ {
+  "id": "obj_001",
+  "name": "Singed Red Mitten",
+  "icon": "mitten",
+  "tint": "#C8503C",
+  "rarity": "common",
+  "owner_id": "own_001",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Smells of woodsmoke and engine soot.",
+    "attr": "smell",
+    "value": "smoke"
+   },
+   {
+    "id": "c2",
+    "text": "Faded red wool, scorched at the thumb.",
+    "attr": "color",
+    "value": "red"
+   },
+   {
+    "id": "c3",
+    "text": "Stitched inside the cuff: B.S.",
+    "attr": "initials",
+    "value": "B.S."
+   }
+  ],
+  "story": "Bram presses it to his chest. \"Forty winters of shoveling coal, and this one never let me down.\""
+ },
+ {
+  "id": "obj_002",
+  "name": "Coal-Dusted Scarf",
+  "icon": "scarf",
+  "tint": "#6B6B78",
+  "rarity": "common",
+  "owner_id": "own_001",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Thick grey wool that itches just by looking at it.",
+    "attr": "material",
+    "value": "wool"
+   },
+   {
+    "id": "c2",
+    "text": "Frayed at one end where a pipe once burned it.",
+    "attr": "wear",
+    "value": "frayed"
+   }
+  ],
+  "story": "\"Warm as a boiler room,\" Bram says, wrapping it twice around his neck."
+ },
+ {
+  "id": "obj_003",
+  "name": "Boiler-Room Glove",
+  "icon": "glove",
+  "tint": "#4A4A52",
+  "rarity": "common",
+  "owner_id": "own_001",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Dusted with fine black coal.",
+    "attr": "smell",
+    "value": "coal"
+   },
+   {
+    "id": "c2",
+    "text": "Stiff leather, soft only in the fingers.",
+    "attr": "material",
+    "value": "leather"
+   },
+   {
+    "id": "c3",
+    "text": "A burn mark runs across the palm.",
+    "attr": "wear",
+    "value": "burn-mark"
+   }
+  ],
+  "story": "Bram flexes his fingers. \"Left this on the footplate. Never found it. Till now.\""
+ },
+ {
+  "id": "obj_004",
+  "name": "Stuttering Pocket Watch",
+  "icon": "watch",
+  "tint": "#D4A83C",
+  "rarity": "common",
+  "owner_id": "own_002",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Ticks, ticks, then skips a beat.",
+    "attr": "sound",
+    "value": "ticks"
+   },
+   {
+    "id": "c2",
+    "text": "Gold-coloured, or very good gilt.",
+    "attr": "color",
+    "value": "gold"
+   },
+   {
+    "id": "c3",
+    "text": "A neat star-shaped crack in the glass.",
+    "attr": "wear",
+    "value": "star-crack"
+   }
+  ],
+  "story": "Odile smiles. \"It keeps the time it likes. Like me, darling.\""
+ },
+ {
+  "id": "obj_005",
+  "name": "Gilt Opera Ticket",
+  "icon": "ticket",
+  "tint": "#E0B866",
+  "rarity": "odd",
+  "owner_id": "own_002",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Gold foil edges that flake onto your fingers.",
+    "attr": "material",
+    "value": "gilt"
+   },
+   {
+    "id": "c2",
+    "text": "Stamped: Grand Opera Halt, Box 4.",
+    "attr": "station_stamp",
+    "value": "grand-opera"
+   }
+  ],
+  "story": "\"My very last night on stage,\" Odile whispers. \"I kept the ticket, not the applause.\""
+ },
+ {
+  "id": "obj_006",
+  "name": "Locket With Tiny Portrait",
+  "icon": "photo",
+  "tint": "#B8893E",
+  "rarity": "common",
+  "owner_id": "own_002",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Initials engraved inside: M.O.",
+    "attr": "initials",
+    "value": "M.O."
+   },
+   {
+    "id": "c2",
+    "text": "Brass, worn bright by thumbs.",
+    "attr": "material",
+    "value": "brass"
+   },
+   {
+    "id": "c3",
+    "text": "Closes with a soft, expensive click.",
+    "attr": "sound",
+    "value": "click"
+   }
+  ],
+  "story": "Odile opens it and goes quiet. \"He had such a terrible moustache. I adored it.\""
+ },
+ {
+  "id": "obj_007",
+  "name": "Jar of Borrowed Fireflies",
+  "icon": "jar",
+  "tint": "#9BE37A",
+  "rarity": "rare",
+  "owner_id": "own_003",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "A faint green glow flickers inside.",
+    "attr": "wear",
+    "value": "glowing"
+   },
+   {
+    "id": "c2",
+    "text": "Thick glass with a bubble in the lid.",
+    "attr": "material",
+    "value": "glass"
+   },
+   {
+    "id": "c3",
+    "text": "Everything inside is green-gold.",
+    "attr": "color",
+    "value": "green"
+   }
+  ],
+  "story": "Pip beams. \"They only want to be borrowed, not kept. I said thank you to each one.\""
+ },
+ {
+  "id": "obj_008",
+  "name": "Marble Jar",
+  "icon": "jar",
+  "tint": "#8FB8C8",
+  "rarity": "common",
+  "owner_id": "own_003",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Round and heavy, thick blue-tinted glass.",
+    "attr": "material",
+    "value": "glass"
+   },
+   {
+    "id": "c2",
+    "text": "Rattles with three very serious marbles.",
+    "attr": "sound",
+    "value": "rattles"
+   }
+  ],
+  "story": "\"My best three!\" Pip counts them twice. \"Nobody's allowed to win these.\""
+ },
+ {
+  "id": "obj_009",
+  "name": "Rain-Beaten Black Umbrella",
+  "icon": "umbrella",
+  "tint": "#2A2F3A",
+  "rarity": "common",
+  "owner_id": "own_004",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Black, or maybe navy in poor light.",
+    "attr": "color",
+    "value": "black"
+   },
+   {
+    "id": "c2",
+    "text": "Still faintly damp, even in the dry.",
+    "attr": "wear",
+    "value": "damp"
+   },
+   {
+    "id": "c3",
+    "text": "M.Q. burned into the handle.",
+    "attr": "initials",
+    "value": "M.Q."
+   }
+  ],
+  "story": "The Inspector taps it twice. \"Case of the missing umbrella: closed.\""
+ },
+ {
+  "id": "obj_010",
+  "name": "Leather Document Case",
+  "icon": "bag",
+  "tint": "#7A4B2B",
+  "rarity": "odd",
+  "owner_id": "own_004",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Cracked leather with a brass clasp.",
+    "attr": "material",
+    "value": "leather"
+   },
+   {
+    "id": "c2",
+    "text": "Stamped: Lost Property, Case 17.",
+    "attr": "station_stamp",
+    "value": "lost-property"
+   }
+  ],
+  "story": "\"Inside,\" says Quill, \"were my notes on this very station. Funny, that.\""
+ },
+ {
+  "id": "obj_011",
+  "name": "Pipe-Smoked Bowler Hat",
+  "icon": "hat",
+  "tint": "#3A2E2B",
+  "rarity": "common",
+  "owner_id": "own_004",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Smells of sweet pipe tobacco.",
+    "attr": "smell",
+    "value": "tobacco"
+   },
+   {
+    "id": "c2",
+    "text": "A thoughtful dent in the crown.",
+    "attr": "wear",
+    "value": "dent"
+   }
+  ],
+  "story": "Quill settles it on his head. \"Now I can think properly.\""
+ },
+ {
+  "id": "obj_012",
+  "name": "Heavy Iron Key",
+  "icon": "key",
+  "tint": "#5B5F66",
+  "rarity": "common",
+  "owner_id": "own_005",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Heavy, cold iron.",
+    "attr": "material",
+    "value": "iron"
+   },
+   {
+    "id": "c2",
+    "text": "Tag reads: Vault 9, East Cellar.",
+    "attr": "station_stamp",
+    "value": "vault-9"
+   }
+  ],
+  "story": "Wren grins. \"Opens the one door in this station nobody talks about.\""
+ },
+ {
+  "id": "obj_013",
+  "name": "Porter's Canvas Satchel",
+  "icon": "bag",
+  "tint": "#A58E63",
+  "rarity": "common",
+  "owner_id": "own_005",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Patched canvas, many times over.",
+    "attr": "material",
+    "value": "canvas"
+   },
+   {
+    "id": "c2",
+    "text": "Jingles with small brass fittings.",
+    "attr": "sound",
+    "value": "jingles"
+   }
+  ],
+  "story": "\"Carried a thousand bags,\" Wren says. \"This is the only one that's mine.\""
+ },
+ {
+  "id": "obj_014",
+  "name": "Left-Luggage Stub",
+  "icon": "ticket",
+  "tint": "#C9B98C",
+  "rarity": "odd",
+  "owner_id": "own_005",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Stamped: Left Luggage, Shelf 3.",
+    "attr": "station_stamp",
+    "value": "left-luggage"
+   },
+   {
+    "id": "c2",
+    "text": "One corner torn clean off.",
+    "attr": "wear",
+    "value": "torn-corner"
+   }
+  ],
+  "story": "Wren laughs. \"Forgot my own claim ticket. Don't tell the others.\""
+ },
+ {
+  "id": "obj_015",
+  "name": "Sea-Glass Knitted Scarf",
+  "icon": "scarf",
+  "tint": "#4FA3A0",
+  "rarity": "common",
+  "owner_id": "own_006",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Blue? Green? Somewhere in between.",
+    "attr": "color",
+    "value": "teal"
+   },
+   {
+    "id": "c2",
+    "text": "Hand-knit wool, a little lopsided.",
+    "attr": "material",
+    "value": "wool"
+   },
+   {
+    "id": "c3",
+    "text": "One dropped stitch, left in on purpose.",
+    "attr": "wear",
+    "value": "dropped-stitch"
+   }
+  ],
+  "story": "Granny pats it. \"First thing I ever knitted without crying.\""
+ },
+ {
+  "id": "obj_016",
+  "name": "Lavender Sachet",
+  "icon": "bag",
+  "tint": "#B79AD6",
+  "rarity": "common",
+  "owner_id": "own_006",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Smells strongly of lavender.",
+    "attr": "smell",
+    "value": "lavender"
+   },
+   {
+    "id": "c2",
+    "text": "Soft linen, hand-stitched.",
+    "attr": "material",
+    "value": "linen"
+   }
+  ],
+  "story": "\"For the drawer, dear,\" Granny says. \"And for bad dreams.\""
+ },
+ {
+  "id": "obj_017",
+  "name": "Tiny Blue Bootie",
+  "icon": "shoe",
+  "tint": "#7FA6E0",
+  "rarity": "odd",
+  "owner_id": "own_006",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Baby blue, knitted tight.",
+    "attr": "color",
+    "value": "blue"
+   },
+   {
+    "id": "c2",
+    "text": "Just the one. A tiny pom-pom on top.",
+    "attr": "wear",
+    "value": "one-only"
+   }
+  ],
+  "story": "Granny's eyes glisten. \"The other one is in my pocket. Always.\""
+ },
+ {
+  "id": "obj_018",
+  "name": "Dog-Eared Poetry Book",
+  "icon": "book",
+  "tint": "#9A5B3C",
+  "rarity": "common",
+  "owner_id": "own_007",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Every other page folded down.",
+    "attr": "wear",
+    "value": "dog-eared"
+   },
+   {
+    "id": "c2",
+    "text": "Smells of rain and library dust.",
+    "attr": "smell",
+    "value": "rain"
+   },
+   {
+    "id": "c3",
+    "text": "S.V. in faded ink on the flyleaf.",
+    "attr": "initials",
+    "value": "S.V."
+   }
+  ],
+  "story": "\"Not damaged,\" Sorrel says. \"Loved. There's a difference.\""
+ },
+ {
+  "id": "obj_019",
+  "name": "Bundle of Poem Drafts",
+  "icon": "letter",
+  "tint": "#E8DFC8",
+  "rarity": "common",
+  "owner_id": "own_007",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Old paper and a trace of rain.",
+    "attr": "smell",
+    "value": "paper"
+   },
+   {
+    "id": "c2",
+    "text": "Lines crossed out, then restored.",
+    "attr": "wear",
+    "value": "crossed-out"
+   }
+  ],
+  "story": "Sorrel clutches it. \"Eleven drafts to get one line right. I think I got it.\""
+ },
+ {
+  "id": "obj_020",
+  "name": "Tortoiseshell Spectacles",
+  "icon": "spectacles",
+  "tint": "#B07A3A",
+  "rarity": "common",
+  "owner_id": "own_007",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Amber-and-brown tortoiseshell frames.",
+    "attr": "material",
+    "value": "tortoiseshell"
+   },
+   {
+    "id": "c2",
+    "text": "One arm bent from being sat on.",
+    "attr": "wear",
+    "value": "bent-arm"
+   }
+  ],
+  "story": "\"I can see again,\" Sorrel says. \"And the world is still unfinished.\""
+ },
+ {
+  "id": "obj_021",
+  "name": "Stovepipe Hat",
+  "icon": "hat",
+  "tint": "#1F1F26",
+  "rarity": "common",
+  "owner_id": "own_008",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Tall as a chimney, flat on top.",
+    "attr": "wear",
+    "value": "stovepipe"
+   },
+   {
+    "id": "c2",
+    "text": "Hollow when you tap it, as if something sleeps inside.",
+    "attr": "sound",
+    "value": "thump"
+   }
+  ],
+  "story": "Tobias lifts it. \"Nothing up my sleeve. Everything in my hat.\""
+ },
+ {
+  "id": "obj_022",
+  "name": "Marked Deck of Cards",
+  "icon": "card",
+  "tint": "#D9D2BE",
+  "rarity": "odd",
+  "owner_id": "own_008",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Shuffles with a suspiciously smooth snap.",
+    "attr": "sound",
+    "value": "shuffles"
+   },
+   {
+    "id": "c2",
+    "text": "One ace has a tiny crescent on the back.",
+    "attr": "wear",
+    "value": "one-ace"
+   }
+  ],
+  "story": "\"Practice props,\" Tobias says, far too quickly."
+ },
+ {
+  "id": "obj_023",
+  "name": "Plain Gold Band",
+  "icon": "ring",
+  "tint": "#E0B866",
+  "rarity": "common",
+  "owner_id": "own_009",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Plain heavy gold, worn thin.",
+    "attr": "material",
+    "value": "gold"
+   },
+   {
+    "id": "c2",
+    "text": "I.R. inside, in tiny script.",
+    "attr": "initials",
+    "value": "I.R."
+   }
+  ],
+  "story": "Lady Isolde exhales. \"Three husbands. Only this one stayed.\""
+ },
+ {
+  "id": "obj_024",
+  "name": "The Green-Eyed Ring",
+  "icon": "ring",
+  "tint": "#5FB88A",
+  "rarity": "rare",
+  "owner_id": "own_009",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "A green stone that catches light oddly.",
+    "attr": "color",
+    "value": "green"
+   },
+   {
+    "id": "c2",
+    "text": "Always a little cold to the touch.",
+    "attr": "wear",
+    "value": "cold"
+   },
+   {
+    "id": "c3",
+    "text": "Set in old, dark gold.",
+    "attr": "material",
+    "value": "gold"
+   }
+  ],
+  "story": "\"Cursed?\" Lady Isolde smiles. \"Only if you're careless with it.\""
+ },
+ {
+  "id": "obj_025",
+  "name": "Crested Signet Ring",
+  "icon": "ring",
+  "tint": "#B8893E",
+  "rarity": "odd",
+  "owner_id": "own_009",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "A tiny raven crest, worn smooth.",
+    "attr": "wear",
+    "value": "crest"
+   },
+   {
+    "id": "c2",
+    "text": "Stamped inside: Ravenscroft Line.",
+    "attr": "station_stamp",
+    "value": "ravenscroft"
+   }
+  ],
+  "story": "\"Family heirloom,\" she says. \"Family trouble, mostly.\""
+ },
+ {
+  "id": "obj_026",
+  "name": "Wax-Sealed Letter",
+  "icon": "letter",
+  "tint": "#EADFC8",
+  "rarity": "common",
+  "owner_id": "own_010",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Sealed with a thumbprint of red wax.",
+    "attr": "wear",
+    "value": "wax-sealed"
+   },
+   {
+    "id": "c2",
+    "text": "Smells of fresh ink.",
+    "attr": "smell",
+    "value": "ink"
+   },
+   {
+    "id": "c3",
+    "text": "Stamped: Express, Do Not Delay.",
+    "attr": "station_stamp",
+    "value": "express"
+   }
+  ],
+  "story": "Ferris groans. \"Three weeks late. I'll be delivering it on foot.\""
+ },
+ {
+  "id": "obj_027",
+  "name": "Punched Ticket",
+  "icon": "ticket",
+  "tint": "#C9B98C",
+  "rarity": "common",
+  "owner_id": "own_010",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Punched with a star-shaped hole.",
+    "attr": "wear",
+    "value": "punched"
+   },
+   {
+    "id": "c2",
+    "text": "Destination: Far Halt, Platform 12.",
+    "attr": "station_stamp",
+    "value": "far-halt"
+   }
+  ],
+  "story": "\"A trip I wasn't going to take,\" Ferris says, and takes it anyway."
+ },
+ {
+  "id": "obj_028",
+  "name": "Ink-Smudged Envelope",
+  "icon": "letter",
+  "tint": "#D8CFB0",
+  "rarity": "common",
+  "owner_id": "own_010",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Blue ink bled right through.",
+    "attr": "smell",
+    "value": "ink"
+   },
+   {
+    "id": "c2",
+    "text": "F.C. scrawled on the back.",
+    "attr": "initials",
+    "value": "F.C."
+   }
+  ],
+  "story": "\"My handwriting,\" Ferris sighs. \"Even I can't read it.\""
+ },
+ {
+  "id": "obj_029",
+  "name": "Oil-Smelling Station Lantern",
+  "icon": "lantern",
+  "tint": "#E69A3C",
+  "rarity": "common",
+  "owner_id": "own_011",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Smells of lamp oil and warm brass.",
+    "attr": "smell",
+    "value": "oil"
+   },
+   {
+    "id": "c2",
+    "text": "A little hinged door, one hinge squeaking.",
+    "attr": "wear",
+    "value": "little-door"
+   }
+  ],
+  "story": "Mabel lights it. \"The glow's right again. Welcome home.\""
+ },
+ {
+  "id": "obj_030",
+  "name": "Dented Tea Thermos",
+  "icon": "thermos",
+  "tint": "#6C8E9A",
+  "rarity": "common",
+  "owner_id": "own_011",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Smells of strong, sweet tea.",
+    "attr": "smell",
+    "value": "tea"
+   },
+   {
+    "id": "c2",
+    "text": "Dented from one long, rolling fall.",
+    "attr": "wear",
+    "value": "dented"
+   }
+  ],
+  "story": "\"Still warm,\" Mabel says, wonderingly. \"I don't ask how.\""
+ },
+ {
+  "id": "obj_031",
+  "name": "Jar of Spare Lens Glass",
+  "icon": "jar",
+  "tint": "#B5D3DD",
+  "rarity": "odd",
+  "owner_id": "own_011",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Clinks like tiny bells.",
+    "attr": "sound",
+    "value": "clinks"
+   },
+   {
+    "id": "c2",
+    "text": "Glass shards, all neatly sorted.",
+    "attr": "material",
+    "value": "glass"
+   }
+  ],
+  "story": "\"For the day I mend the big lamp,\" Mabel says. \"One day.\""
+ },
+ {
+  "id": "obj_032",
+  "name": "The Wandering Compass",
+  "icon": "compass",
+  "tint": "#C9A24B",
+  "rarity": "rare",
+  "owner_id": "own_012",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Needle points at something that isn't north.",
+    "attr": "wear",
+    "value": "points-wrong"
+   },
+   {
+    "id": "c2",
+    "text": "Brass, polished by pockets.",
+    "attr": "material",
+    "value": "brass"
+   },
+   {
+    "id": "c3",
+    "text": "A.Q. etched on the back.",
+    "attr": "initials",
+    "value": "A.Q."
+   }
+  ],
+  "story": "\"It's never wrong,\" Dr. Quimby says. \"Just pointing at what I need.\""
+ },
+ {
+  "id": "obj_033",
+  "name": "Tintype of a Man and a Cat",
+  "icon": "photo",
+  "tint": "#8A8A8A",
+  "rarity": "odd",
+  "owner_id": "own_012",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "A tintype, silver and soft.",
+    "attr": "material",
+    "value": "tintype"
+   },
+   {
+    "id": "c2",
+    "text": "A very smug cat sits on his shoulder.",
+    "attr": "wear",
+    "value": "cat"
+   }
+  ],
+  "story": "Dr. Quimby chuckles. \"Statistically, the cat was the star.\""
+ },
+ {
+  "id": "obj_034",
+  "name": "Brass Pocket Barometer",
+  "icon": "compass",
+  "tint": "#B8893E",
+  "rarity": "common",
+  "owner_id": "own_012",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Brass dial, glass slightly fogged.",
+    "attr": "material",
+    "value": "brass"
+   },
+   {
+    "id": "c2",
+    "text": "Tap it and the needle shivers.",
+    "attr": "sound",
+    "value": "tap"
+   }
+  ],
+  "story": "\"It says fair weather,\" says Dr. Quimby. \"I don't trust it. I love it.\""
+ },
+ {
+  "id": "obj_035",
+  "name": "One-Eyed Rag Doll",
+  "icon": "doll",
+  "tint": "#E0A8B8",
+  "rarity": "odd",
+  "owner_id": "own_013",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "One button eye loose, one sewn tight.",
+    "attr": "wear",
+    "value": "one-eye"
+   },
+   {
+    "id": "c2",
+    "text": "Faded pink dress, patched twice.",
+    "attr": "color",
+    "value": "pink"
+   },
+   {
+    "id": "c3",
+    "text": "Smells faintly of cocoa.",
+    "attr": "smell",
+    "value": "cocoa"
+   }
+  ],
+  "story": "Juniper squeezes her. \"Mr. Buttons says she's been very brave.\""
+ },
+ {
+  "id": "obj_036",
+  "name": "Tin Music Box",
+  "icon": "music_box",
+  "tint": "#C8B26A",
+  "rarity": "rare",
+  "owner_id": "own_013",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Plays a slow lullaby, a note short.",
+    "attr": "sound",
+    "value": "lullaby"
+   },
+   {
+    "id": "c2",
+    "text": "The winding key is shaped like a star.",
+    "attr": "wear",
+    "value": "wind-key"
+   }
+  ],
+  "story": "The tune starts. Juniper hums the missing note herself. \"There. All better.\""
+ },
+ {
+  "id": "obj_037",
+  "name": "Wooden Platform Flute",
+  "icon": "flute",
+  "tint": "#A8733F",
+  "rarity": "common",
+  "owner_id": "own_014",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Warm pearwood, notched by a thumbnail.",
+    "attr": "material",
+    "value": "wood"
+   },
+   {
+    "id": "c2",
+    "text": "A breathy, patient note.",
+    "attr": "sound",
+    "value": "breathy"
+   }
+  ],
+  "story": "Tam plays one phrase. A train somewhere slows to listen."
+ },
+ {
+  "id": "obj_038",
+  "name": "Single Left Shoe",
+  "icon": "shoe",
+  "tint": "#5B3A29",
+  "rarity": "odd",
+  "owner_id": "own_014",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Smells of beeswax polish.",
+    "attr": "smell",
+    "value": "polish"
+   },
+   {
+    "id": "c2",
+    "text": "Resoled so many times it's mostly sole.",
+    "attr": "wear",
+    "value": "resoled"
+   }
+  ],
+  "story": "\"A good shoe is a patient shoe,\" Tam says. \"Where's the right? Walked off.\""
+ },
+ {
+  "id": "obj_039",
+  "name": "Coin From Nowhere",
+  "icon": "coin",
+  "tint": "#C9B6D8",
+  "rarity": "rare",
+  "owner_id": "own_015",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "No station on this coin's map, or any map.",
+    "attr": "station_stamp",
+    "value": "unknown"
+   },
+   {
+    "id": "c2",
+    "text": "One face shows a crescent, worn smooth.",
+    "attr": "wear",
+    "value": "moon-side"
+   },
+   {
+    "id": "c3",
+    "text": "Silver, cool as moonlight.",
+    "attr": "material",
+    "value": "silver"
+   }
+  ],
+  "story": "Zephyrine tilts it to the window. \"Home, for a moment. Thank you.\""
+ },
+ {
+  "id": "obj_040",
+  "name": "Moonlight Silk Scarf",
+  "icon": "scarf",
+  "tint": "#CFD8E8",
+  "rarity": "odd",
+  "owner_id": "own_015",
+  "clues": [
+   {
+    "id": "c1",
+    "text": "Silk so light it barely weighs anything.",
+    "attr": "material",
+    "value": "silk"
+   },
+   {
+    "id": "c2",
+    "text": "Silver-white, shifting like water.",
+    "attr": "color",
+    "value": "silver"
+   }
+  ],
+  "story": "\"Woven from a good night's sleep,\" Zephyrine says. \"Don't tell the moon.\""
+ }
+]
