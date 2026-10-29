@@ -537,4 +537,3 @@ func _test_generated_content() -> void:
 		_check(d == "" or not seen.has(d), "pick_def never repeats a def")
 		if d == "":
 			break
-		seen[d] = true
