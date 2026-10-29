@@ -55,6 +55,8 @@ var tutorial_done: bool = false
 var bram_spawned: bool = false
 var skip_lock: bool = false
 
+const SimAmbient = preload("res://autoload/sim_ambient.gd")
+var _amb: RefCounted = null
 var _routes: Dictionary = {}
 var _cars: Array = []
 var _spots: Array = []
@@ -155,11 +157,8 @@ func new_game(seed_value: int) -> void:
 	_player = {"x": _lp_x() + 900.0, "car_id": "car_lp", "carrying": "", "tokens": 0, "rep": 0, "tier": 0}
 	_target_x = -1.0
 	_spawn_item("obj_001", "car_lp_s3")
-	for n in range(6):
-		var car: Dictionary = _cars[3 + (n % 2)]
-		var pid: String = _new_pid("amb")
-		var p: Dictionary = _make_passenger(pid, "ambient", "", "Passenger %d" % n, float(car["x"]) + 300.0 + n * 150.0, "calm", String(car["id"]), "seated")
-		_passengers[pid] = p
+	_amb_ref().reset()
+	_amb_ref().populate_initial()
 
 
 func _reseed() -> void:
@@ -193,6 +192,12 @@ func _new_pid(prefix: String) -> String:
 	return "%s_%d" % [prefix, _next_pid]
 
 
+func _amb_ref() -> RefCounted:
+	if _amb == null:
+		_amb = SimAmbient.new(self)
+	return _amb
+
+
 func _make_passenger(pid: String, kind: String, owner_id: String, pname: String, x: float, mood: String, car_id: String, state: String) -> Dictionary:
 	return {"pid": pid, "kind": kind, "owner_id": owner_id, "name": pname, "look": {}, "x": x, "facing": -1, "state": state, "mood": mood,
 		"car_id": car_id, "seat_spot": "", "line": "", "wants_item_def": "", "patience": 1.0, "t": 0.0, "leave_mood": "", "asked": []}
@@ -213,6 +218,7 @@ func _step(dt: float) -> void:
 	_move_player(dt)
 	_tick_train(dt)
 	_tick_script()
+	_amb_ref().tick_global(dt)
 	for pid in _passengers.keys():
 		_tick_passenger(_passengers[pid], dt)
 	_train["time_of_day"] = 0.78 if not first_delivery_done else _real_time_of_day()
@@ -288,7 +294,7 @@ func _on_stopped() -> void:
 			if sp != "":
 				_place_item_at_spot(iid, sp)
 	_recover.clear()
-	var spawned: Array = []
+	var spawned: Array = _amb_ref().take_dropped()
 	var n_items: int = rng.randi_range(1, 4)
 	for i in range(n_items):
 		var def_id: String = _pick_def()
@@ -317,6 +323,7 @@ func _on_stopped() -> void:
 					_spawn_claimant(oid2, String(it["def_id"]), false)
 					break
 	_maybe_spawn_imposter()
+	_amb_ref().on_stopped()
 
 
 func _pick_def() -> String:
@@ -617,6 +624,7 @@ func _slot_x(idx: int) -> float:
 
 func _tick_passenger(p: Dictionary, dt: float) -> void:
 	if p["kind"] == "ambient":
+		_amb_ref().tick(p, dt)
 		return
 	var mood_speed: float = float(MOOD_SPEED.get(p["mood"], 1.0))
 	var speed: float = BASE_WALK * mood_speed
@@ -1164,7 +1172,7 @@ func to_dict() -> Dictionary:
 		"spots": _spots.map(func(s): return String(s["item_iid"])), "items": _items.duplicate(true), "passengers": _passengers.duplicate(true), "queue": _queue.duplicate(true),
 		"train": _train.duplicate(true), "state_t": _state_t, "state_len": _state_len, "player": _player.duplicate(true), "next_iid": _next_iid, "next_pid": _next_pid,
 		"recover": _recover.duplicate(true), "delivered": _delivered_defs.duplicate(true), "owner_deliveries": _owner_deliveries.duplicate(true), "claims": _claims_log.duplicate(true),
-		"last_seen": int(Time.get_unix_time_from_system()),
+		"ambient": _amb_ref().to_dict(), "last_seen": int(Time.get_unix_time_from_system()),
 	}
 
 
@@ -1204,6 +1212,7 @@ func from_dict(d: Dictionary) -> bool:
 	_next_iid = int(d.get("next_iid", 100))
 	_next_pid = int(d.get("next_pid", 0))
 	_recover = (d.get("recover", []) as Array).duplicate(true)
+	_amb_ref().from_dict(d.get("ambient", {}) as Dictionary)
 	_delivered_defs = (d.get("delivered", []) as Array).duplicate(true)
 	_owner_deliveries = (d.get("owner_deliveries", {}) as Dictionary).duplicate(true)
 	_claims_log = (d.get("claims", []) as Array).duplicate(true)

@@ -28,6 +28,7 @@ func run(root: Node) -> int:
 	_test_v1_migration()
 	_test_interview()
 	_test_imposters()
+	_test_ambient()
 	return fails
 
 
@@ -300,3 +301,91 @@ func _test_imposters() -> void:
 				_sim.refuse(String(p["pid"]))  # keep the claimant cap from filling up
 	_check(saw_imposter, "imposters appear in a tier 2+ game within ~50 minutes")
 	_check(_sim.get_queue().size() <= 6, "queue stays within 6 with imposters")
+
+
+# ---- A2.1: ambient passengers ----
+func _ambient_list() -> Array:
+	var out: Array = []
+	for p in _sim.get_passengers():
+		if p["kind"] == "ambient":
+			out.append(p)
+	return out
+
+
+func _test_ambient() -> void:
+	_sim.new_game(31)
+	var start: Array = _ambient_list()
+	var walkers: int = 0
+	for p in start:
+		if String(p["role"]) != "":
+			walkers += 1
+	_check(start.size() - walkers >= 8 and walkers == 2, "fresh train has seated passengers plus conductor and vendor (%d seated, %d walkers)" % [start.size() - walkers, walkers])
+	var counters: Dictionary = {"spawned": start.size(), "bad": 0}  # lambdas capture ints by value
+	var routines: Dictionary = {}
+	var train_ref: Node = _sim
+	var on_spawn: Callable = func(p: Dictionary) -> void:
+		if p["kind"] == "ambient":
+			counters["spawned"] = int(counters["spawned"]) + 1
+			if String(train_ref.get_train()["state"]) not in ["stopped", "departing"]:
+				counters["bad"] = int(counters["bad"]) + 1
+	_sim.get_node("/root/Events").passenger_spawned.connect(on_spawn)
+	_sim.get_player()["x"] = float(_sim.get_cars()[3]["x"]) + 800.0
+	var dup_slots: int = 0
+	var broken_pairs: int = 0
+	var cap_breach: int = 0
+	var said_before: int = _said.size()
+	for i in range(2400):  # 40 minutes
+		_sim.tick(1.0)
+		if i % 15 == 0:
+			var seen_slots: Dictionary = {}
+			for p in _ambient_list():
+				routines[String(p["routine"])] = true
+				if String(p["role"]) == "" and String(p["state"]) == "seated":
+					var key: String = String(p["seat_slot"])
+					if seen_slots.has(key):
+						dup_slots += 1
+					seen_slots[key] = true
+				var pp: String = String(p.get("partner", ""))
+				if pp != "":
+					var other: Dictionary = {}
+					for q in _ambient_list():
+						if q["pid"] == pp:
+							other = q
+					if other.is_empty() or String(other.get("partner", "")) != String(p["pid"]):
+						broken_pairs += 1
+			if _ambient_list().size() > 30:
+				cap_breach += 1
+	_sim.get_node("/root/Events").passenger_spawned.disconnect(on_spawn)
+	_check(int(counters["spawned"]) >= 30, "30+ distinct ambient passengers over a run (%d)" % int(counters["spawned"]))
+	_check(int(counters["bad"]) == 0, "ambient board only while the doors are open (%d bad)" % int(counters["bad"]))
+	_check(dup_slots == 0, "no two seated passengers share a seat (%d)" % dup_slots)
+	_check(broken_pairs == 0, "chatting pairs are always mutual (%d)" % broken_pairs)
+	_check(cap_breach == 0, "ambient population stays bounded")
+	_check(routines.size() >= 4, "at least 4 different routines seen (%s)" % str(routines.keys()))
+	var heard: int = 0
+	for e in _said.slice(said_before):
+		if not String(e["pid"]).begins_with("clm") and not String(e["pid"]).begins_with("imp"):
+			heard += 1
+			_check(_no_braces(String(e["line"])), "ambient chatter is finished text: %s" % e["line"])
+	_check(heard >= 5, "ambient passengers chatter near the player (%d lines)" % heard)
+	_check(_sim._amb_ref().drops_total >= 1, "leavers drop items under their seats (%d)" % _sim._amb_ref().drops_total)
+	# every seated ambient has distinct look data B can draw
+	for p in _ambient_list():
+		_check(not (p["look"] as Dictionary).is_empty() and String(p["name"]) != "", "ambient has a name and a look")
+	# save round-trip keeps the ambient state
+	_sim.save_game()
+	var before: String = JSON.stringify(_sim.to_dict()["ambient"])
+	_sim.load_game()
+	_check(JSON.stringify(_sim.to_dict()["ambient"]) == before, "ambient state survives save/load")
+	# perf: 40 passengers
+	_sim.new_game(32)
+	for c in ["car_pass", "car_dine", "car_sleep", "car_obs"]:
+		for i in range(10):
+			_sim._amb_ref().spawn_ambient(c)
+	var n_amb: int = _ambient_list().size()
+	var t0: int = Time.get_ticks_usec()
+	for i in range(200):
+		_sim.tick(0.5)
+	var per_step_us: float = float(Time.get_ticks_usec() - t0) / 200.0
+	print("sim perf: %d ambient, %.0f us per 0.5 s step" % [n_amb, per_step_us])
+	_check(per_step_us < 1000.0, "sim step under 1 ms at ~40 passengers (%.0f us, %d ambient)" % [per_step_us, n_amb])
