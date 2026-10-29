@@ -43,6 +43,14 @@ jobs:
             'export/android/debug_keystore_user = "androiddebugkey"' \
             'export/android/debug_keystore_pass = "android"' \
             'export/android/shutdown_adb_on_exit = true' > "$HOME/.config/godot/editor_settings-4.3.tres"
+      - name: Install Android SDK 34
+        run: |
+          set +e +o pipefail
+          SDK=/usr/lib/android-sdk
+          yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$SDK" --licenses > /dev/null 2>&1
+          "$SDK/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$SDK" "platforms;android-34" "build-tools;34.0.0" 2>&1 | tail -8 | tee -a /tmp/ci.log
+          ls "$SDK/build-tools" "$SDK/platforms" | tee -a /tmp/ci.log
+          exit 0
       - name: SDK diagnostics
         run: |
           SDK=$(grep android_sdk_path "$HOME/.config/godot/editor_settings-4.3.tres" | cut -d'"' -f2)
