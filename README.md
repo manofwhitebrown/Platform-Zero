@@ -15,7 +15,7 @@ An idle, cozy, narrative-deduction game for Android. Built with Godot 4.3 (GDScr
 6. **Grow the station.** Reputation unlocks new wings and tiers. The Catalog and Gallery track every object and regular you've found.
 
 ## Get the APK
-Open **Actions → build**, pick the latest green run, and download the **unclaimed-apk** artifact. Unzip it and install the `.apk` on an Android phone (allow installs from unknown sources).
+Open **Actions → build**, pick the latest green run, and download the **platform-zero-apk** artifact. Unzip it and install the `.apk` on an Android phone (allow installs from unknown sources).
 
 ## Build progress
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
