@@ -36,7 +36,7 @@ func inspect(item_id: String) -> Dictionary:
 
 func try_match(item_id: String, owner_id: String) -> Dictionary:
 	var item: Dictionary = Content.object_by_id(item_id)
-	var owner: Dictionary = Content.owner_by_id(owner_id)
+	var own: Dictionary = Content.owner_by_id(owner_id)
 	var ok: bool = not item.is_empty() and item["owner_id"] == owner_id
 	var reward: int = 10 if ok else 0
 	if ok:
@@ -45,7 +45,7 @@ func try_match(item_id: String, owner_id: String) -> Dictionary:
 	Events.reputation_changed.emit(_reputation, get_tier())
 	return {"correct": ok, "reward": reward,
 		"story": item.get("story", "") if ok else "",
-		"line": owner.get("thanks_line", "") if ok else owner.get("wrong_line", "")}
+		"line": own.get("thanks_line", "") if ok else own.get("wrong_line", "")}
 
 func get_current_owner() -> Dictionary:
 	return Content.owners[0] if not Content.owners.is_empty() else {}

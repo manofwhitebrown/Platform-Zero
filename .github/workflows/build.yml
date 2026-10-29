@@ -59,6 +59,12 @@ jobs:
           ls "$HOME/.local/share/godot/export_templates/4.3.stable" 2>&1 | head -30 | tee -a /tmp/ci.log
       - name: Import project
         run: godot --headless --import 2>&1 | tee -a /tmp/ci.log || true
+      - name: Fail on engine script errors
+        run: |
+          if grep -E "GDScript::reload \(res://(autoload|tests)/" /tmp/ci.log > /tmp/script_errors.txt; then
+            echo "::error title=Engine script errors::$(sed -e ':a' -e 'N' -e '$!ba' -e 's/%/%25/g' -e 's/\n/%0A/g' /tmp/script_errors.txt | head -c 3000)"
+            exit 1
+          fi
       - name: Run tests
         run: godot --headless --script tests/run_tests.gd 2>&1 | tee -a /tmp/ci.log
       - name: Export APK

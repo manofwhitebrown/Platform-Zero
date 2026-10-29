@@ -1,47 +1,134 @@
 extends Node
-## Content loader (STUB: mock data in contract shapes).
+## Content loader: reads objects.json + owners.json, indexes by id,
+## and collects a list of warnings for bad references.
 
-var objects: Array = [
-	{"id": "obj_001", "name": "Smoky Mitten", "icon": "mitten", "tint": "#C8503C", "rarity": "common", "owner_id": "own_001",
-	"clues": [{"id": "c1", "text": "Smells faintly of woodsmoke.", "attr": "smell", "value": "smoke"},
-		{"id": "c2", "text": "One thumb is darned in blue wool.", "attr": "wear", "value": "darned"}],
-	"story": "Bram warms his hands on it every winter."},
-	{"id": "obj_002", "name": "Stopped Pocket Watch", "icon": "watch", "tint": "#B8893E", "rarity": "odd", "owner_id": "own_002",
-	"clues": [{"id": "c1", "text": "Engraved with the initials M.T.", "attr": "initials", "value": "MT"},
-		{"id": "c2", "text": "It ticks only on Tuesdays.", "attr": "sound", "value": "tick"}],
-	"story": "Marta's grandfather wound it every dawn."},
-	{"id": "obj_003", "name": "Brass Compass", "icon": "compass", "tint": "#7FA6A3", "rarity": "rare", "owner_id": "own_001",
-	"clues": [{"id": "c1", "text": "The needle points at home, not north.", "attr": "wear", "value": "odd needle"},
-		{"id": "c2", "text": "Station stamp: Lantern Row.", "attr": "station_stamp", "value": "lantern_row"}],
-	"story": "It has never once been wrong."},
+const OBJECTS_PATH: String = "res://content/objects.json"
+const OWNERS_PATH: String = "res://content/owners.json"
+
+const ICON_KEYS: PackedStringArray = [
+	"mitten", "watch", "card", "jar", "umbrella", "key", "glove", "book", "hat", "ring",
+	"bag", "scarf", "spectacles", "ticket", "lantern", "doll", "flute", "compass",
+	"thermos", "letter", "shoe", "coin", "photo", "music_box",
 ]
-var owners: Array = [
-	{"id": "own_001", "name": "Bram the Stoker", "look": {"skin": "#d9a47a", "hair": "#3b2a20", "coat": "#7FA6A3", "hat": "cap", "accessory": "beard"},
-	"lost_item_ids": ["obj_001", "obj_003"], "claim_lines": ["I lost a mitten. Red? Sort of red."],
-	"hints": {"obj_001": [{"attr": "smell", "value": "smoke"}], "obj_003": [{"attr": "station_stamp", "value": "lantern_row"}]},
-	"thanks_line": "Bless you.", "wrong_line": "Hm, that's not mine.", "arc": []},
-	{"id": "own_002", "name": "Marta Tull", "look": {"skin": "#f0c9a0", "hair": "#8a8a8a", "coat": "#B8893E", "hat": "top", "accessory": "glasses"},
-	"lost_item_ids": ["obj_002"], "claim_lines": ["Something small. Round. It was my grandfather's."],
-	"hints": {"obj_002": [{"attr": "initials", "value": "MT"}]},
-	"thanks_line": "Oh, there you are.", "wrong_line": "Not mine, dear.", "arc": []},
-	{"id": "own_003", "name": "Pip Ardent", "look": {"skin": "#a9744f", "hair": "#12303B", "coat": "#C8503C", "hat": "none", "accessory": "none"},
-	"lost_item_ids": [], "claim_lines": ["I lose things professionally."], "hints": {},
-	"thanks_line": "Splendid!", "wrong_line": "Nope.", "arc": []},
-]
+const RARITIES: PackedStringArray = ["common", "odd", "rare"]
+
+var objects: Array = []
+var owners: Array = []
+## Human-readable problems found while loading (also sent to push_warning).
 var warnings: Array = []
 
-func object_by_id(id: String) -> Dictionary:
+var _object_index: Dictionary = {}
+var _owner_index: Dictionary = {}
+
+
+func _ready() -> void:
+	reload()
+
+
+func reload() -> void:
+	warnings.clear()
+	objects = _load_array(OBJECTS_PATH)
+	owners = _load_array(OWNERS_PATH)
+	if objects.is_empty():
+		_warn("objects.json missing or empty; using built-in fallback objects")
+		objects = _fallback_objects()
+	_object_index.clear()
+	_owner_index.clear()
 	for o in objects:
-		if o["id"] == id:
-			return o
-	return {}
+		if typeof(o) != TYPE_DICTIONARY or not o.has("id"):
+			_warn("object without id ignored")
+			continue
+		if _object_index.has(o["id"]):
+			_warn("duplicate object id %s" % o["id"])
+		_object_index[o["id"]] = o
+	for w in owners:
+		if typeof(w) != TYPE_DICTIONARY or not w.has("id"):
+			_warn("owner without id ignored")
+			continue
+		if _owner_index.has(w["id"]):
+			_warn("duplicate owner id %s" % w["id"])
+		_owner_index[w["id"]] = w
+	_check_refs()
+
+
+func object_by_id(id: String) -> Dictionary:
+	return _object_index.get(id, {})
+
 
 func owner_by_id(id: String) -> Dictionary:
-	for o in owners:
-		if o["id"] == id:
-			return o
-	return {}
+	return _owner_index.get(id, {})
 
-## Compatibility alias (front-end currently calls this; prefer GameState APIs).
+
+## Compatibility alias (front-end currently calls this).
 func get_object(id: String) -> Dictionary:
 	return object_by_id(id)
+
+
+func has_object(id: String) -> bool:
+	return _object_index.has(id)
+
+
+func has_owner(id: String) -> bool:
+	return _owner_index.has(id)
+
+
+## Item ids an owner can lose, filtered to ones that really exist.
+func lost_items_of(owner_id: String) -> Array:
+	var out: Array = []
+	var w: Dictionary = owner_by_id(owner_id)
+	for iid in w.get("lost_item_ids", []):
+		if _object_index.has(iid):
+			out.append(iid)
+	return out
+
+
+func _check_refs() -> void:
+	for o in objects:
+		if typeof(o) != TYPE_DICTIONARY:
+			continue
+		var oid: String = str(o.get("id", "?"))
+		if not _owner_index.has(o.get("owner_id", "")):
+			_warn("%s has unknown owner_id %s" % [oid, str(o.get("owner_id", ""))])
+		if not ICON_KEYS.has(str(o.get("icon", ""))):
+			_warn("%s has invalid icon key %s" % [oid, str(o.get("icon", ""))])
+		if not RARITIES.has(str(o.get("rarity", ""))):
+			_warn("%s has invalid rarity %s" % [oid, str(o.get("rarity", ""))])
+		var n: int = (o.get("clues", []) as Array).size()
+		if n < 2 or n > 4:
+			_warn("%s has %d clues (expected 2-4)" % [oid, n])
+	for w in owners:
+		if typeof(w) != TYPE_DICTIONARY:
+			continue
+		for iid in w.get("lost_item_ids", []):
+			if not _object_index.has(iid):
+				_warn("owner %s lists missing item %s" % [str(w.get("id", "?")), str(iid)])
+
+
+func _load_array(path: String) -> Array:
+	if not FileAccess.file_exists(path):
+		return []
+	var text: String = FileAccess.get_file_as_string(path)
+	var data: Variant = JSON.parse_string(text)
+	if typeof(data) != TYPE_ARRAY:
+		_warn("%s is not a valid JSON array" % path)
+		return []
+	return data
+
+
+func _warn(msg: String) -> void:
+	warnings.append(msg)
+	push_warning("[Content] " + msg)
+
+
+## Minimal objects used only until content/objects.json exists.
+func _fallback_objects() -> Array:
+	return [
+		{"id": "obj_001", "name": "Smoky Mitten", "icon": "mitten", "tint": "#C8503C", "rarity": "common", "owner_id": "own_001",
+		"clues": [{"id": "c1", "text": "Smells faintly of woodsmoke.", "attr": "smell", "value": "smoke"},
+			{"id": "c2", "text": "One thumb is darned in blue wool.", "attr": "wear", "value": "darned"}],
+		"story": "Bram warms his hands on it every winter."},
+		{"id": "obj_004", "name": "Stopped Pocket Watch", "icon": "watch", "tint": "#B8893E", "rarity": "odd", "owner_id": "own_002",
+		"clues": [{"id": "c1", "text": "Engraved with the initials M.T.", "attr": "initials", "value": "MT"},
+			{"id": "c2", "text": "It ticks only on Tuesdays.", "attr": "sound", "value": "tick"}],
+		"story": "Madame Odile's grandfather wound it every dawn."},
+	]
