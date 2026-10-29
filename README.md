@@ -21,7 +21,7 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 22/27 done
+**Platform A · Engine** — 25/29 done
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
@@ -49,8 +49,10 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ A2.5
 - ⬜ A2.1
 - 🔄 A2.2
-- ⬜ A2.3
+- ✅ A2.3
 - 🔄 A2.4
+- ✅ A3.5
+- ✅ CI-race
 
 **Platform B · Front** — 20/24 done
 
