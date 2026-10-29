@@ -21,7 +21,7 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 15/23 done
+**Platform A · Engine** — 15/22 done
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
@@ -30,7 +30,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Inspect, match, reputation
 - ✅ Daily mystery + share text
 - ✅ Tests + integration fixes
-- ⬜ 40 objects content
+- ➖ 40 objects content
 - ✅ A0.1
 - ✅ A-C1
 - ✅ A-C2
@@ -58,8 +58,8 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Shelf, catalog, gallery
 - ✅ Daily + share card
 - ✅ Audio, haptics, polish
-- ✅ I1
-- ✅ B10
+- ✅ App icon set
+- ✅ 40 objects + clue/hint alignment
 - ✅ B-C1
 - ✅ B-C2
 - ✅ B-C3

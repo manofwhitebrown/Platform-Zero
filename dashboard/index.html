@@ -63,8 +63,8 @@ h3{margin:18px 0 6px;font-size:15px;color:var(--mist);font-weight:600}
 </main>
 <script>
 const NAMES={A:['Engine','Logic, save, content, CI'],B:['Front','Screens, art, sound, owners']};
-const TITLES={A1:'Scaffold + autoload stubs',A2:'Android export + CI build',A3:'Content loader + validator',A4:'Clock, save, offline arrivals',A5:'Inspect, match, reputation',A6:'Daily mystery + share text',A7:'40 objects content',A8:'Tests + integration fixes',B1:'Theme + UI kit',B7:'Icons, backdrop, shaders',B2:'Main scene + navigation',B3:'Counter + inspect popup',B4:'Owner visit + matching',B9:'15 owners content',B5:'Shelf, catalog, gallery',B6:'Daily + share card',B8:'Audio, haptics, polish'};
-const normTasks=t=>Array.isArray(t)?t:Object.entries(t||{}).map(([id,state])=>({id,title:TITLES[id]||id,state}));
+const TITLES={A1:'Scaffold + autoload stubs',A2:'Android export + CI build',A3:'Content loader + validator',A4:'Clock, save, offline arrivals',A5:'Inspect, match, reputation',A6:'Daily mystery + share text',A7:'40 objects content',A8:'Tests + integration fixes',B1:'Theme + UI kit',B7:'Icons, backdrop, shaders',B2:'Main scene + navigation',B3:'Counter + inspect popup',B4:'Owner visit + matching',B9:'15 owners content',B10:'40 objects + clue/hint alignment',I1:'App icon set',B5:'Shelf, catalog, gallery',B6:'Daily + share card',B8:'Audio, haptics, polish'};
+const normTasks=t=>(Array.isArray(t)?t:Object.entries(t||{}).map(([id,state])=>({id,title:TITLES[id]||id,state}))).filter(x=>!String(x.state).startsWith('cancel'));
 const cfg={repo:localStorage.pzRepo||'manofwhitebrown/Platform-Zero',tok:localStorage.pzTok||''};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
