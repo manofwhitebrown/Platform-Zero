@@ -108,7 +108,8 @@ func _load_array(path: String) -> Array:
 	if not FileAccess.file_exists(path):
 		return []
 	var text: String = FileAccess.get_file_as_string(path)
-	var data: Variant = JSON.parse_string(text)
+	var json: JSON = JSON.new()
+	var data: Variant = json.data if json.parse(text) == OK else null
 	if typeof(data) != TYPE_ARRAY:
 		_warn("%s is not a valid JSON array" % path)
 		return []

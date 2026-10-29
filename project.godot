@@ -10,10 +10,10 @@ config/features=PackedStringArray("4.3", "GL Compatibility")
 [autoload]
 
 Events="*res://autoload/events.gd"
+Clock="*res://autoload/clock.gd"
 Content="*res://autoload/content.gd"
 GameState="*res://autoload/game_state.gd"
 Mystery="*res://autoload/mystery.gd"
-Clock="*res://autoload/clock.gd"
 
 [display]
 
