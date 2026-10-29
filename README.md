@@ -55,7 +55,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ CI-race
 - ✅ A-cheat-stub
 
-**Platform B · Front** — 20/24 done
+**Platform B · Front** — 22/24 done
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -75,10 +75,10 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ B0.1
 - ✅ B0.2
 - ✅ B0.3
-- 🔄 B1.1
+- ✅ B1.1
 - ✅ B1.2
 - ✅ B1.3
-- 🔄 B1.4
+- ✅ B1.4
 - ⬜ B1.5
 - ⬜ B1.6
 <!-- STATUS:END -->
