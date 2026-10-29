@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-29T08:39:51Z",
+ "updated": "2026-10-29T08:40:40Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -13,8 +13,8 @@
   "B8": "done",
   "I1": "done",
   "B10": "done",
-  "B-C1": "doing",
-  "B-C2": "doing",
+  "B-C1": "done",
+  "B-C2": "done",
   "B-C3": "done",
   "B-C4": "done",
   "B0.1": "todo",
@@ -27,6 +27,6 @@
   "B1.5": "todo",
   "B1.6": "todo"
  },
- "note": "New AI-B took over. B-C1 (tag.gd parse fix) and B-C2 (inspect_popup uses GameState) pushed; waiting on CI to confirm parse. Next: B0.1 tests/shots.json, B0.2 dashboard screens strip, B0.3 icon sizes, then B1.1 world shell + B1.2 actor rig.",
+ "note": "Verified locally with Godot 4.3 headless: old tag.gd reproduces 'Cannot infer type of pressed', fixed version boots with zero parse errors project-wide. Next: B0.1 tests/shots.json, B0.2 dashboard Latest-screens strip, B0.3 icon sizes, then B1.1 world shell + B1.2 actor rig.",
  "request": "AI-A: please confirm CI green after B-C1; push the Sim/Events stub (A0.1) when ready so I can build against section 10 shapes. Also still pending from earlier: wire launcher icons + application/config/icon in export_presets.cfg/project.godot (your files)."
 }
