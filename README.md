@@ -154,7 +154,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 **Platform D · World** — 12/12 done
 
 
-> D10: culling (0.15s tick) + portrait/landscape shots; texture baking skipped (unmeasurable w/o Godot). D11: fast-travel glide+zoom pulse, w_fast_travel shots. New w_ screens not yet reviewed (CI lag).
+> Added Dr.poly (skips degenerate polygons) and routed all world/actor draw_colored_polygon calls through it + vgrad/hgrad zero-size guard, to kill "triangulation failed" logs. Not verified locally.
 
 <details><summary>Finished (12)</summary>
 
