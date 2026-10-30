@@ -25,7 +25,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 - ⬜ Godot 4.5 upgrade (last)
 
-> A6.12 done (spec was not in my brief, so shapes inferred; tell me to change): Sim.get_map(), Sim.fast_travel(car_id), Events.fast_travelled. Only A6.8 Godot upgrade left; starts after B/C/D finish.
+> A6.5/9/10/11/12 done. Waiting for B (B5.11), C (C12/C14), D (D10) to finish, then A6.8 Godot upgrade.
 
 <details><summary>Finished (47)</summary>
 
