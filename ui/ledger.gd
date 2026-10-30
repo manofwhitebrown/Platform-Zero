@@ -50,6 +50,7 @@ func _ready() -> void:
 	var head := HBoxContainer.new()
 	col.add_child(head)
 	var t := _lbl("The Ledger", 52, Pal.LAMP)
+	Secrets.on_taps(t, 5, ["The ledger remembers what you forget.", "Page 1 is stained with cocoa.", "Someone drew a tiny train in the margin."], "page_flip")
 	t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(t)
 	var x := UButton.new()
