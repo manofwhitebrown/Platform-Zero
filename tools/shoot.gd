@@ -43,27 +43,26 @@ func _run() -> void:
 			printerr("SHOT FAIL %s: scene does not load" % id)
 			failed += 1
 			continue
-		var orient: String = str(shot.get("orientation", "portrait"))
-		var wh: Array = sizes.get(orient, [1080, 1920])
-		root.size = Vector2i(int(wh[0]), int(wh[1]))
-		var inst: Node = (ps as PackedScene).instantiate()
-		root.add_child(inst)
-		await process_frame
-		for call in shot.get("setup", []):
-			await _do_call(inst, call, id)
-		for i in range(int(shot.get("frames", 30))):
+		print("shoot: START %s" % id)
+		_res = {"done": false, "ok": false, "inst": null}
+		var res: Dictionary = _res
+		_shoot(shot, ps as PackedScene, id, sizes, commit, res)
+		var t0: int = Time.get_ticks_msec()
+		while not bool(res["done"]) and Time.get_ticks_msec() - t0 < SHOT_TIMEOUT_MS:
 			await process_frame
-		await RenderingServer.frame_post_draw
-		var img: Image = root.get_texture().get_image()
-		var fname: String = id + ".png"
-		if img.save_png(ProjectSettings.globalize_path(OUT_DIR + "/" + fname)) == OK:
-			ok += 1
-			index.append({"id": id, "file": fname, "title": shot.get("title", id), "milestone": shot.get("milestone", ""), "orientation": orient, "size": "%dx%d" % [wh[0], wh[1]], "commit": commit})
-		else:
-			printerr("SHOT FAIL %s: could not save png" % id)
+		if not bool(res["done"]):
+			printerr("SHOT HANG %s: abandoned after %d s (owner: ids w_=D, ui_=B, m_/map_=C; check its setup calls)" % [id, SHOT_TIMEOUT_MS / 1000])
+			res["abandoned"] = true
 			failed += 1
-		inst.queue_free()
-		await process_frame
+			if is_instance_valid(res["inst"]):
+				(res["inst"] as Node).queue_free()
+			await process_frame
+			continue
+		if bool(res["ok"]):
+			ok += 1
+			index.append(res["entry"])
+		else:
+			failed += 1
 	var f: FileAccess = FileAccess.open(OUT_DIR + "/index.json", FileAccess.WRITE)
 	if f != null:
 		f.store_string(JSON.stringify(index, " "))
@@ -118,3 +117,36 @@ func _load_cfg() -> Dictionary:
 			shots.append(shot)
 	merged["shots"] = shots
 	return merged
+
+const SHOT_TIMEOUT_MS: int = 90000
+var _res: Dictionary = {}
+
+
+## One shot, run as a detached coroutine so a hung setup call cannot block the whole run.
+func _shoot(shot: Dictionary, ps: PackedScene, id: String, sizes: Dictionary, commit: String, res: Dictionary) -> void:
+	var orient: String = str(shot.get("orientation", "portrait"))
+	var wh: Array = sizes.get(orient, [1080, 1920])
+	root.size = Vector2i(int(wh[0]), int(wh[1]))
+	var inst: Node = ps.instantiate()
+	res["inst"] = inst
+	root.add_child(inst)
+	await process_frame
+	for call in shot.get("setup", []):
+		if res.has("abandoned"):
+			return
+		await _do_call(inst, call, id)
+	for i in range(int(shot.get("frames", 30))):
+		await process_frame
+	if res.has("abandoned"):
+		return
+	await RenderingServer.frame_post_draw
+	var img: Image = root.get_texture().get_image()
+	var fname: String = id + ".png"
+	if img.save_png(ProjectSettings.globalize_path(OUT_DIR + "/" + fname)) == OK:
+		res["ok"] = true
+		res["entry"] = {"id": id, "file": fname, "title": shot.get("title", id), "milestone": shot.get("milestone", ""), "orientation": orient, "size": "%dx%d" % [wh[0], wh[1]], "commit": commit}
+	else:
+		printerr("SHOT FAIL %s: could not save png" % id)
+	inst.queue_free()
+	await process_frame
+	res["done"] = true
