@@ -1,0 +1,173 @@
+{
+ "version": 1,
+ "shots": [
+  {
+   "id": "ui_ledger_history",
+   "milestone": "M5",
+   "title": "Ledger: History",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "ledger_demo",
+     "args": [
+      "history"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_ledger_regulars",
+   "milestone": "M5",
+   "title": "Ledger: Regulars",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "ledger_demo",
+     "args": [
+      "regulars"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_ledger_found",
+   "milestone": "M5",
+   "title": "Ledger: Found",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "ledger_demo",
+     "args": [
+      "collection"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_ledger_lore",
+   "milestone": "M5",
+   "title": "Ledger: Lore",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "ledger_demo",
+     "args": [
+      "lore"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_ledger_empty",
+   "milestone": "M5",
+   "title": "Ledger: empty state",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "ledger_demo",
+     "args": [
+      "empty"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_ledger_landscape",
+   "milestone": "M5",
+   "title": "Ledger landscape",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "ledger_demo",
+     "args": [
+      "regulars"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
+  }
+ ]
+}

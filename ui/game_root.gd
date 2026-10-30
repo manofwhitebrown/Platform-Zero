@@ -36,7 +36,11 @@ func _ready() -> void:
 	add_child(world)
 	screens = ScreenManager.new()
 	add_child(screens)
+	screens.register("ledger", func(_a: Dictionary) -> Control: return Ledger.new(screens))
 	get_tree().set_auto_accept_quit(false)
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--ledger="):
+			ledger_demo.call_deferred(a.substr(9))
 
 
 func open_screen(screen_name: String, args: Dictionary = {}) -> Control:
@@ -53,3 +57,23 @@ func _notification(what: int) -> void:
 	elif what == NOTIFICATION_WM_CLOSE_REQUEST:
 		Sim.save_game()
 		get_tree().quit()
+
+
+## Shot helper: play the first handover so the Ledger has content, then open it on a tab.
+func ledger_demo(tab: String = "history") -> void:
+	if tab != "empty":
+		var r: Dictionary = Sim.pick_up("car_lp_s3")
+		var iid: String = String(r.get("iid", ""))
+		if iid != "":
+			Sim.place_on_bench(iid)
+			Sim.reveal(iid, "magnifier")
+			for i in 40:
+				Sim.tick(1.0)
+				if not Sim.get_queue().is_empty():
+					break
+			var q: Array = Sim.get_queue()
+			if not q.is_empty():
+				Sim.hand_over(iid, String(q[0]))
+	var l: Control = open_screen("ledger")
+	if l != null and tab != "empty":
+		(l as Ledger)._show(tab)

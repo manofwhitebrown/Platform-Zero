@@ -17,6 +17,7 @@ class HudView extends Control:
 	var coin: Texture2D
 	var inset: float = 0.0
 	var skip_rect: Rect2 = Rect2()
+	var book: Rect2 = Rect2()
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -69,7 +70,7 @@ class HudView extends Control:
 		var stop: Dictionary = tr.get("stop", {})
 		var label: String = {"moving": "Next stop", "arriving": "Arriving at", "stopped": "Now at", "departing": "Leaving"}.get(st, "Next stop")
 		var cx: float = vs.x * 0.5
-		var wcol: float = minf(vs.x * 0.36, 380.0)
+		var wcol: float = minf(vs.x * 0.3, 340.0)
 		txt(Vector2(cx - wcol / 2.0, bar.position.y + 40), "%s" % label, 24, Color(Pal.MIST, 0.9), wcol, HORIZONTAL_ALIGNMENT_CENTER)
 		txt(Vector2(cx - wcol / 2.0, bar.position.y + 72), String(stop.get("name", "")), 32, Pal.PARCHMENT, wcol, HORIZONTAL_ALIGNMENT_CENTER)
 		var ph: float = float(tr.get("phase_t", 0.0))
@@ -82,8 +83,8 @@ class HudView extends Control:
 		var lo: float = float(th[tier])
 		var hi: float = float(th[tier + 1]) if tier + 1 < th.size() else lo
 		var frac: float = 1.0 if hi <= lo else clampf((float(Sim.rep) - lo) / (hi - lo), 0.0, 1.0)
-		var rx: float = bar.end.x - 130 - minf(vs.x * 0.2, 210.0)
-		var rw: float = minf(vs.x * 0.2, 210.0)
+		var rw: float = minf(vs.x * 0.13, 140.0)
+		var rx: float = bar.end.x - 224 - rw
 		txt(Vector2(rx, bar.position.y + 40), "Tier %d" % (tier + 1), 26, Pal.LAMP, rw)
 		var rb := Rect2(rx, bar.position.y + 54, rw, 14)
 		Dr.rrect(self, rb, 7, Color(0, 0, 0, 0.5))
@@ -97,6 +98,14 @@ class HudView extends Control:
 		for i in range(8):
 			var a: float = float(i) * TAU / 8.0
 			draw_line(gc + Vector2.from_angle(a) * 24, gc + Vector2.from_angle(a) * 36, Pal.BRASS, 9.0)
+		# ledger book button
+		book = Rect2(gear.position.x - 100, bar.position.y + 6, 96, 84)
+		var bk: Rect2 = book.grow(-14)
+		Dr.rrect(self, bk, 8, Pal.PARCHMENT)
+		draw_rect(bk, Pal.BRASS, false, 3.0)
+		draw_line(bk.get_center() + Vector2(0, -bk.size.y / 2.0), bk.get_center() + Vector2(0, bk.size.y / 2.0), Pal.BRASS, 3.0)
+		for i in range(3):
+			draw_line(bk.position + Vector2(8, 14 + i * 12), bk.position + Vector2(bk.size.x / 2.0 - 8, 14 + i * 12), Color(Pal.INK, 0.5), 2.0)
 		# context chip
 		var chip: String = _context()
 		if chip != "":
@@ -138,6 +147,13 @@ class HudView extends Control:
 
 	func _input(e: InputEvent) -> void:
 		if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+			if book.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
+				var gr: Node = hud.world.get_parent()
+				if gr is GameRoot:
+					(gr as GameRoot).open_screen("ledger")
+					Sfx.play("tap")
+					get_viewport().set_input_as_handled()
+					return
 			if skip_rect.has_point((e as InputEventMouseButton).position):
 				Sim.skip_tutorial()
 				get_viewport().set_input_as_handled()
