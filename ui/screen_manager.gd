@@ -39,6 +39,13 @@ func is_open() -> bool:
 	return not _stack.is_empty()
 
 
+func has_open(screen_name: String) -> bool:
+	for c in _stack:
+		if is_instance_valid(c) and (c as Control).name == screen_name:
+			return true
+	return false
+
+
 func apply_insets() -> void:
 	var ins: Dictionary = GameRoot.safe_insets(get_viewport())
 	_holder.add_theme_constant_override("margin_left", int(ins["left"]))

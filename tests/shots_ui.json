@@ -316,6 +316,32 @@
     }
    ],
    "frames": 20
+  },
+  {
+   "id": "ui_welcome_back",
+   "milestone": "M5",
+   "title": "Welcome back: while you were away",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "welcome_demo",
+     "args": []
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 20
   }
  ]
 }

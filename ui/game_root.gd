@@ -36,6 +36,11 @@ func _ready() -> void:
 	add_child(world)
 	screens = ScreenManager.new()
 	add_child(screens)
+	screens.register("welcome", func(a: Dictionary) -> Control: return Welcome.new(screens, a))
+	Events.offline_report.connect(show_welcome)
+	var lr: Variant = Sim.get("last_offline_report")
+	if lr is Dictionary and not (lr as Dictionary).is_empty():
+		show_welcome.call_deferred(lr)
 	screens.register("daily", func(_a: Dictionary) -> Control: return Daily.new(screens))
 	Events.daily_completed.connect(func(_d: Dictionary) -> void:
 		await get_tree().create_timer(2.5).timeout
@@ -46,6 +51,8 @@ func _ready() -> void:
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--daily="):
 			daily_demo.call_deferred(a.substr(8))
+		if a == "--welcome":
+			welcome_demo.call_deferred()
 		if a.begins_with("--shop="):
 			shop_demo.call_deferred(int(a.substr(7)))
 		if a.begins_with("--ledger="):
@@ -117,3 +124,13 @@ func daily_demo(state: String = "fresh") -> void:
 				if bool(Sim.get_daily().get("done", false)):
 					break
 	open_screen("daily")
+
+
+func show_welcome(rpt: Dictionary) -> void:
+	if int(rpt.get("stops", 0)) > 0 and screens != null and not screens.has_open("welcome"):
+		screens.open("welcome", rpt)
+
+
+## Shot helper.
+func welcome_demo() -> void:
+	show_welcome({"away_s": 5400, "stops": 15, "items_found": 9, "items_shelved": 6, "tokens": 31, "rep": 0, "claimants_waiting": 2, "capped": false, "lines": ["The Zero Line kept going without you. Two people are waiting by the counter."]})
