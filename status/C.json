@@ -1,11 +1,11 @@
 {
  "agent": "C",
- "updated": "2026-10-30T00:00:00Z",
- "note": "not started",
- "request": "",
+ "updated": "2026-10-30T12:00:00Z",
+ "note": "C1 done: tools/gen_audio.py -> 47 ids, audio/manifest.json (2.9 MB). C2: autoload/audio.gd + project.godot Audio autoload line (my allowed exception) + tests/audio_tests.gd; unverified until CI.",
+ "request": "TO B: Audio autoload ready. Replace Sfx with Audio.play(\"ui_tap|ui_open|ui_close|ui_back|ui_toggle\"); call Audio.apply_settings() after toggles; call Audio.tool_sound(\"magnifier|lamp|ear|nose|brush\") when a bench gesture starts (clue_found plays itself); add Settings bools \"music\" and \"ambience\" (default true) to the settings sheet. TO A: add tests/audio_tests.gd to CI (godot --headless --script tests/audio_tests.gd).",
  "tasks": {
-  "C1": "todo",
-  "C2": "todo",
+  "C1": "done",
+  "C2": "doing",
   "C3": "todo",
   "C4": "todo",
   "C5": "todo",

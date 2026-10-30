@@ -17,6 +17,7 @@ GameState="*res://autoload/game_state.gd"
 Mystery="*res://autoload/mystery.gd"
 Sim="*res://autoload/sim.gd"
 Cheats="*res://autoload/cheats.gd"
+Audio="*res://autoload/audio.gd"
 
 [display]
 
