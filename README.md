@@ -148,15 +148,14 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform D · World** — 8/11 done
+**Platform D · World** — 9/11 done
 
-- ⬜ Character generator
 - ⬜ Intro / title scene
 - ⬜ World performance + QA shots
 
-> D5b: doors moved to the boarding end (x=W-112..W-16, matches Sim door x), open/close eased with arriving/stopped/departing phase, warm light spill. Untested locally (no Godot). Next: D8.
+> D8: Passenger.make_look richer (age, outfit, eyes, facial hair, freckles, extras, dyed hair), complete_look fills new keys for any pid (regulars keep identity), mouth sync via talk() on passenger_said, brass_cap rendered
 
-<details><summary>Finished (8)</summary>
+<details><summary>Finished (9)</summary>
 
 - ✅ Seats + seated poses
 - ✅ Dress the 5 other cars
@@ -165,6 +164,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Station arrival
 - ✅ Hotspots + item placement
 - ✅ Camera + transitions
+- ✅ Character generator
 - ✅ Door-open animation
 
 </details>
