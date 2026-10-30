@@ -151,14 +151,12 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform D · World** — 10/12 done
+**Platform D · World** — 12/12 done
 
-- 🔄 World performance + QA shots
-- 🔄 Fast-travel camera
 
-> D11: fast_travelled -> camera starts at from_x and glides (accelerated follow + zoom pulse). Colorblind mood glyphs + text_speed in bubbles. D10 partial (culling). No Godot locally.
+> D10: culling (0.15s tick) + portrait/landscape shots; texture baking skipped (unmeasurable w/o Godot). D11: fast-travel glide+zoom pulse, w_fast_travel shots. New w_ screens not yet reviewed (CI lag).
 
-<details><summary>Finished (10)</summary>
+<details><summary>Finished (12)</summary>
 
 - ✅ Seats + seated poses
 - ✅ Dress the 5 other cars
@@ -169,7 +167,9 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Camera + transitions
 - ✅ Character generator
 - ✅ Intro + title scene
+- ✅ World performance + QA shots
 - ✅ Door-open animation
+- ✅ Fast-travel camera
 
 </details>
 <!-- STATUS:END -->
