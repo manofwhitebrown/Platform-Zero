@@ -130,7 +130,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 **Platform C · Sound + Story** — 14/14 done
 
 
-> C14: map overlay (ui/map_overlay.gd, map_data.gd, HUD button left of ledger, Go there uses Sim.fast_travel) compiled in CI; shots ui_map/_locked/_land NOT yet seen (CI starved), recheck. HUD/game_root edits ~15 lines. C1
+> C14: map overlay (ui/map_overlay.gd, map_data.gd, HUD button left of ledger, Go there uses Sim.fast_travel) compiled in CI; shots ui_map/_locked/_land NOT yet seen (CI starved), recheck. HUD/game_root | Map polish: portr
 
 <details><summary>Finished (14)</summary>
 
