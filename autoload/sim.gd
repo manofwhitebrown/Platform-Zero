@@ -4,7 +4,8 @@ extends Node
 ## All randomness goes through `rng` (seed = seed_base + stop_index * 7919) so a run is
 ## deterministic. `tick(dt)` is the only thing that advances time; _process just feeds it.
 
-const SAVE_VERSION: int = 2
+const SAVE_VERSION: int = 3
+const AUTOSAVE_S: float = 20.0
 const ROUTES_PATH: String = "res://content/routes.json"
 const CAR_W: float = 1800.0
 const CAR_IDS: Array = ["car_obs", "car_sleep", "car_lp", "car_pass", "car_dine", "car_lug"]
@@ -91,6 +92,8 @@ var _claims_log: Array = []
 var _pending_stop_spawn: bool = false
 var _last_seen: int = 0  # unix seconds of the last save/pause (A6.1)
 var _paused_at: int = 0
+var _saves_n: int = 0
+var _load_notice: String = ""
 
 
 func _ready() -> void:
@@ -102,6 +105,9 @@ func _ready() -> void:
 
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		if autosave:
+			save_game()
 	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_WM_CLOSE_REQUEST:
 		_paused_at = int(Time.get_unix_time_from_system())
 		save_game()
@@ -116,7 +122,7 @@ func _process(delta: float) -> void:
 		return
 	tick(minf(delta, 0.25) * time_scale)
 	_autosave_t += delta
-	if autosave and _autosave_t > 30.0:
+	if autosave and _autosave_t > AUTOSAVE_S:
 		save_game()
 
 
@@ -1406,13 +1412,29 @@ func to_dict() -> Dictionary:
 		"spots": _spots.map(func(s): return String(s["item_iid"])), "items": _items.duplicate(true), "passengers": _passengers.duplicate(true), "queue": _queue.duplicate(true),
 		"train": _train.duplicate(true), "state_t": _state_t, "state_len": _state_len, "player": _player.duplicate(true), "next_iid": _next_iid, "next_pid": _next_pid,
 		"recover": _recover.duplicate(true), "delivered": _delivered_defs.duplicate(true), "owner_deliveries": _owner_deliveries.duplicate(true), "claims": _claims_log.duplicate(true),
-		"ambient": _amb_ref().to_dict(), "last_seen": int(Time.get_unix_time_from_system()),
+		"ambient": _amb_ref().to_dict(), "last_seen": int(Time.get_unix_time_from_system()), "saves_n": _saves_n,
 	}
 
 
+## Bring an older save dict up to SAVE_VERSION (v2 -> v3 adds saves_n). Returns {} if unusable.
+func migrate_save(d: Dictionary) -> Dictionary:
+	var v: int = int(d.get("version", 0))
+	if v < 2 or v > SAVE_VERSION or not d.has("items") or not d.has("train"):
+		return {}
+	var m: Dictionary = d.duplicate(true)
+	if v < 3:
+		m["saves_n"] = int(m.get("saves_n", 0))
+	m["version"] = SAVE_VERSION
+	return m
+
+
 func from_dict(d: Dictionary) -> bool:
-	if typeof(d) != TYPE_DICTIONARY or int(d.get("version", 0)) != SAVE_VERSION or not d.has("items") or not d.has("train"):
+	if typeof(d) != TYPE_DICTIONARY:
 		return false
+	d = migrate_save(d)
+	if d.is_empty():
+		return false
+	_saves_n = int(d.get("saves_n", 0))
 	_build_cars()
 	seed_base = int(d.get("seed_base", 1))
 	stop_index = int(d.get("stop_index", 0))
@@ -1458,30 +1480,71 @@ func from_dict(d: Dictionary) -> bool:
 	return true
 
 
+func _bak_path() -> String:
+	return save_path.get_basename() + ".bak"
+
+
+## Atomic save: write + verify a temp file, copy the current save to .bak, then rename over it.
 func save_game() -> bool:
 	_autosave_t = 0.0
-	var f: FileAccess = FileAccess.open(save_path + ".tmp", FileAccess.WRITE)
+	_saves_n += 1
+	var text: String = JSON.stringify(to_dict())
+	var tmp: String = save_path + ".tmp"
+	var f: FileAccess = FileAccess.open(tmp, FileAccess.WRITE)
 	if f == null:
 		return false
-	f.store_string(JSON.stringify(to_dict()))
+	f.store_string(text)
 	f.close()
+	if _parse(FileAccess.get_file_as_string(tmp)) == null:
+		DirAccess.remove_absolute(tmp)
+		push_warning("[Sim] save verification failed; kept the old save")
+		return false
 	var dir: DirAccess = DirAccess.open(save_path.get_base_dir())
 	if dir == null:
 		return false
+	if dir.file_exists(save_path.get_file()):
+		dir.copy(save_path, _bak_path())
+	if dir.rename(save_path.get_file() + ".tmp", save_path.get_file()) == OK:
+		return true
 	if dir.file_exists(save_path.get_file()):
 		dir.remove(save_path.get_file())
 	return dir.rename(save_path.get_file() + ".tmp", save_path.get_file()) == OK
 
 
+func _try_load_file(path: String) -> bool:
+	if not FileAccess.file_exists(path):
+		return false
+	var data: Variant = _parse(FileAccess.get_file_as_string(path))
+	return typeof(data) == TYPE_DICTIONARY and from_dict(data)
+
+
+func get_load_notice() -> String:
+	return _load_notice
+
+
+## Main save, else the backup, else false (caller starts fresh). A bad file is kept as .corrupt.
 func load_game() -> bool:
 	if _routes.is_empty():
 		_load_routes()
+	_load_notice = ""
 	if FileAccess.file_exists(save_path):
-		var data: Variant = _parse(FileAccess.get_file_as_string(save_path))
-		if typeof(data) == TYPE_DICTIONARY and from_dict(data):
+		if _try_load_file(save_path):
 			return true
+		var dir: DirAccess = DirAccess.open(save_path.get_base_dir())
+		if dir != null:
+			dir.copy(save_path, save_path + ".corrupt")
+		if _try_load_file(_bak_path()):
+			_load_notice = "Your last save was damaged, so we restored the one before it."
+			Events.toast.emit(_load_notice, "info")
+			return true
+		_load_notice = "Your save could not be read, so a fresh night begins. (A copy was kept.)"
 		push_warning("[Sim] save unreadable or from another version; starting fresh")
+		Events.toast.emit(_load_notice, "info")
 		return false
+	if _try_load_file(_bak_path()):
+		_load_notice = "Your save was missing, so we restored the backup."
+		Events.toast.emit(_load_notice, "info")
+		return true
 	return _migrate_v1()
 
 

@@ -38,6 +38,7 @@ func run(root: Node) -> int:
 	_test_arcs()
 	_test_daily()
 	_test_offline()
+	_test_save_safety()
 	return fails
 
 
@@ -181,6 +182,7 @@ func _test_corrupt_save() -> void:
 	_sim.new_game(5)
 	_sim.tick(10.0)
 	DirAccess.remove_absolute(ProjectSettings.globalize_path("user://test_save_v2.json"))
+	DirAccess.remove_absolute(ProjectSettings.globalize_path("user://test_save_v2.bak"))
 
 
 func _test_tutorial_lock() -> void:
@@ -667,3 +669,50 @@ func _test_offline() -> void:
 	var d: Dictionary = _sim.to_dict()
 	_sim.new_game(1)
 	_check(_sim.from_dict(d) and JSON.stringify(_sim.to_dict()["items"]) == JSON.stringify(d["items"]), "state after offline survives save/load")
+
+
+# ---- A6.2 save robustness ----
+func _write_raw(path: String, text: String) -> void:
+	var f: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+	f.store_string(text)
+	f.close()
+
+
+func _rm(path: String) -> void:
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+func _test_save_safety() -> void:
+	var main: String = "user://test_save_v2.json"
+	for ext in [".json", ".bak", ".json.tmp", ".json.corrupt"]:
+		_rm("user://test_save_v2" + ext)
+	_sim.new_game(61)
+	_sim.skip_tutorial()
+	_sim.tokens = 111
+	_sim.cheated = true
+	_check(_sim.save_game() and not FileAccess.file_exists(main + ".tmp"), "save succeeds and leaves no temp file")
+	_sim.tokens = 222
+	_check(_sim.save_game() and FileAccess.file_exists("user://test_save_v2.bak"), "second save keeps a .bak of the first")
+	_write_raw(main, "{ truncated")
+	_sim.new_game(1)
+	_check(_sim.load_game() and _sim.tokens == 111, "corrupt main falls back to the backup")
+	_check(_sim.cheated and _sim.get_load_notice() != "", "cheated flag survives and the player is told")
+	_check(FileAccess.file_exists(main + ".corrupt"), "damaged file is kept as .corrupt")
+	_write_raw("user://test_save_v2.bak", "garbage")
+	_write_raw(main, "garbage")
+	_check(not _sim.load_game() and _sim.get_load_notice() != "", "both corrupt: fresh start with a notice")
+	# v2 -> v3 migration
+	_sim.new_game(62)
+	_sim.tokens = 77
+	var d: Dictionary = _sim.to_dict()
+	d["version"] = 2
+	d.erase("saves_n")
+	_write_raw(main, JSON.stringify(d))
+	_rm("user://test_save_v2.bak")
+	_sim.new_game(1)
+	_check(_sim.load_game() and _sim.tokens == 77, "v2 save migrates and loads")
+	_check(int(_sim.to_dict()["version"]) == 3, "saves are written as v3")
+	d["version"] = 99
+	_check(_sim.migrate_save(d).is_empty(), "future/unknown versions are refused")
+	for ext in [".json", ".bak", ".json.tmp", ".json.corrupt"]:
+		_rm("user://test_save_v2" + ext)
