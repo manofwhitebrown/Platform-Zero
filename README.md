@@ -101,7 +101,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 - ✅ C1
 - 🔄 C2
-- ⬜ C3
+- 🔄 C3
 - ⬜ C4
 - ⬜ C5
 - ⬜ C6
