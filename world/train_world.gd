@@ -38,6 +38,12 @@ var bench: Bench
 var hud: Hud
 var _dir_look: float = 0.0
 var _last_follow: float = 0.0
+var _push: float = 0.0          # 0..1 target push-in (interviews)
+var _push_k: float = 0.0        # eased
+var _push_dx: float = 0.0       # world-x shift toward the focus point
+var _focus_x: float = -1.0
+var _door_k: float = 0.0        # car-to-car transition pulse
+var _last_car: int = -1
 
 
 func _ready() -> void:
@@ -246,6 +252,14 @@ func _process(delta: float) -> void:
 	_dir_look = lerpf(_dir_look, want_look, clampf(delta * 2.5, 0.0, 1.0))
 	_look = _dir_look
 	_follow_x = lerpf(_follow_x, tx, clampf(delta * 5.0, 0.0, 1.0))
+	_push_k = lerpf(_push_k, _push, clampf(delta * 2.2, 0.0, 1.0))
+	var mid: float = (tx + _focus_x) * 0.5 if _focus_x >= 0.0 else tx
+	_push_dx = (mid - _follow_x) * _push_k
+	var car_i: int = int(floorf(tx / CAR_W))
+	if _last_car >= 0 and car_i != _last_car:
+		_door_k = 1.0
+	_last_car = car_i
+	_door_k = maxf(0.0, _door_k - delta * 1.6)
 	_update_camera(delta)
 	var wheel: float = _scroll * 0.05
 	for k in shells:
@@ -268,11 +282,12 @@ func _update_camera(_delta: float) -> void:
 	var portrait: bool = vis.y > vis.x
 	var want_w: float = 1080.0 if portrait else 1920.0
 	var z: float = vis.x / want_w
+	z *= 1.0 + 0.12 * _push_k - 0.03 * sin(_door_k * PI)
 	cam.zoom = Vector2(z, z)
 	var half_w: float = want_w * 0.5
 	var min_x: float = half_w - 60.0
 	var max_x: float = CAR_W * 6.0 - half_w + 60.0
-	var cx: float = clampf(_follow_x + _look, min_x, max_x)
+	var cx: float = clampf(_follow_x + _look + _push_dx, min_x, max_x)
 	var bob: float = sin(_t * 2.1) * 2.5 + sin(_t * 5.3) * 1.2
 	cam.position = Vector2(cx, CAM_Y + bob)
 
@@ -280,6 +295,16 @@ func _update_camera(_delta: float) -> void:
 ## Shot helpers: tools/shoot.gd calls bare setup names as methods on the scene root,
 ## ShotHook goes through shot_setup(). Both end up here.
 ## Screenshot/debug: force the view outside the windows (biome, weather, time of day 0..1).
+## Public camera API (B/claim UI): gentle push-in toward a world x during an interview.
+func camera_push_in(focus_x: float, amount: float = 1.0) -> void:
+	_focus_x = focus_x
+	_push = clampf(amount, 0.0, 1.0)
+
+
+func camera_release() -> void:
+	_push = 0.0
+
+
 func shot_scene(biome_s: String, weather_s: String, tod: float) -> void:
 	_force = {"biome": biome_s, "weather": weather_s, "tod": tod}
 
