@@ -144,6 +144,16 @@ func _build() -> void:
 	_credits = Ledger._lbl("Platform Zero\nA night train that never reaches its last stop.\n\nMade by Mohammed Abdul Nayeem.\nArt, sound and story are handmade and procedural.\nThanks for looking after Lost Property.", 28, Pal.MIST)
 	_credits.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_credits.visible = false
+	_credits.mouse_filter = Control.MOUSE_FILTER_STOP
+	# Tiny secret: tap the credits 7 times for a note from the night shift.
+	var taps := [0]
+	_credits.gui_input.connect(func(e: InputEvent) -> void:
+		if (e is InputEventMouseButton and (e as InputEventMouseButton).pressed) or (e is InputEventScreenTouch and (e as InputEventScreenTouch).pressed):
+			taps[0] += 1
+			if taps[0] == 7:
+				_credits.text += "\n\nThe Zero Line has no last stop.\nKeep the lamp lit, attendant."
+				Audio.play("counter_bell")
+				Haptics.buzz(60))
 	_col.add_child(_credits)
 
 
