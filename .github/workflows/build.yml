@@ -145,7 +145,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Xvfb + software GL
-        run: apt-get update -qq && apt-get install -y -qq xvfb libgl1-mesa-dri libglx-mesa0 libegl1 git
+        run: apt-get update -qq && apt-get install -y -qq xvfb xauth libgl1-mesa-dri libglx-mesa0 libegl1 git
       - name: Import project
         run: godot --headless --import 2>&1 | tail -5 || true
       - name: Take screenshots (merged tests/shots*.json)
@@ -154,9 +154,10 @@ jobs:
           LIBGL_ALWAYS_SOFTWARE: "1"
         run: |
           mkdir -p docs/screens
-          timeout 2700 xvfb-run -a -s "-screen 0 1920x1920x24" godot --rendering-driver opengl3 --script tools/shoot.gd > /tmp/shoot.log 2>&1 || true
-          grep -vi "alsa\|audio" /tmp/shoot.log > docs/screens/shoot.log || true
-          tail -30 docs/screens/shoot.log
+          { echo "== diag"; which godot timeout xvfb-run xauth; godot --version; echo "== run"; } > docs/screens/shoot.txt 2>&1 || true
+          timeout 2700 xvfb-run -a -s "-screen 0 1920x1920x24" godot --rendering-driver opengl3 --script tools/shoot.gd > /tmp/shoot.log 2>&1 || echo "godot exit code: $?" >> /tmp/shoot.log
+          grep -vi "alsa\|audio" /tmp/shoot.log >> docs/screens/shoot.txt || true
+          tail -30 docs/screens/shoot.txt
           ls -la docs/screens
       - uses: actions/upload-artifact@v4
         with:
