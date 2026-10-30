@@ -21,14 +21,13 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 46/48 done
+**Platform A · Engine** — 47/48 done
 
 - ⬜ Godot 4.5 upgrade (last)
-- ⬜ Map data + fast travel (Sim)
 
-> A6.10 e2e (tests/e2e.gd, CI step) and A6.11 (concurrency cancel-in-progress; templates ship in the godot-ci image) done. Only A6.8 Godot upgrade left; waits for B/C/D to finish.
+> A6.12 done (spec was not in my brief, so shapes inferred; tell me to change): Sim.get_map(), Sim.fast_travel(car_id), Events.fast_travelled. Only A6.8 Godot upgrade left; starts after B/C/D finish.
 
-<details><summary>Finished (46)</summary>
+<details><summary>Finished (47)</summary>
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
@@ -76,6 +75,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Balance retune
 - ✅ End-to-end test
 - ✅ CI hygiene
+- ✅ Map data + fast travel (Sim)
 
 </details>
 
