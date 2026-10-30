@@ -69,7 +69,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ A6.7
 - ⬜ A6.8
 
-**Platform B · Screens** — 24/25 done
+**Platform B · Screens** — 26/26 done
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -95,7 +95,8 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ B1.4
 - ✅ B1.5
 - ✅ B1.6
-- 🔄 B5.0
+- ✅ B5.0
+- ✅ B5.1
 
 **Platform C · Sound + Story** — 4/6 done
 
