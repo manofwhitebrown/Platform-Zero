@@ -21,10 +21,13 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 42/44 done
+**Platform A · Engine** — 42/47 done
 
 - 🔄 Requests from other AIs
 - ⬜ Godot 4.5 upgrade (last)
+- ⬜ Balance retune (slower tiers)
+- ⬜ End-to-end game test
+- ⬜ CI: cancel stale builds
 
 > A6.6 done: GameState + Mystery autoloads and files removed (scenes/ was already gone); v1 save migration + test kept. All local tests, parse_all, fuzz green. Left: A6.8 Godot upgrade (last), A6.5 ongoing.
 
@@ -75,12 +78,14 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform B · Screens** — 32/36 done
+**Platform B · Screens** — 32/38 done
 
 - ⬜ Settings
 - ⬜ Back Office (cheat panel) UI
 - ⬜ Audio wiring
 - ⬜ UI QA pass
+- ⬜ Help + tips screens
+- ⬜ Lore + achievements screens
 
 > B5.7 done: story card shows a "A NEW CHAPTER" block when hand_over result has arc_line, and uses ItemArt. Beat toasts still arrive via Events.toast. Next B5.8 Settings.
 
@@ -121,8 +126,14 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform C · Sound + Story** — 6/6 done
+**Platform C · Sound + Story** — 6/12 done
 
+- ⬜ Audio QA
+- ⬜ How-to-play cards
+- ⬜ Loading tips
+- ⬜ Store listing + privacy policy
+- ⬜ Achievements data
+- ⬜ Re-check balance with playbot
 
 > All C tasks done. Final read-through of 914 strings: no typos/double spaces/odd placeholders; names consistent. Balance numbers sent to A (fuzz.gd).
 
@@ -137,23 +148,24 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform D · World** — 4/10 done
+**Platform D · World** — 5/11 done
 
-- ⬜ Station arrival
 - ⬜ Hotspots + item placement
 - ⬜ Camera + transitions
 - ⬜ Character generator
 - ⬜ Intro / title scene
 - ⬜ World performance + QA shots
+- ⬜ Station door-open animation
 
-> D4: scenery adds desert + tunnel biomes, snow peaks, lightning flashes in rain, GlassFx (rain drops/fog on window glass). TrainWorld.shot_scene(biome,weather,tod) forces the view for shots. Biomes plains/snow/sea/city/fo
+> D5: platform through windows (lamps, name boards w/ stop name, waiting figures, steam) sliding in/out with eased scroll deceleration, brake/jolt shake, departure steam. Door-open anim not done. shot_platform(off,steam) f
 
-<details><summary>Finished (4)</summary>
+<details><summary>Finished (5)</summary>
 
 - ✅ Seats + seated poses
 - ✅ Dress the 5 other cars
 - ✅ Ambient routine visuals
 - ✅ Scenery + weather
+- ✅ Station arrival
 
 </details>
 <!-- STATUS:END -->
