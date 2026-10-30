@@ -5,6 +5,11 @@ const SKIP_DIRS: Array = [".godot", ".git", "docs", "build", "dashboard"]
 
 
 func _init() -> void:
+	_run.call_deferred()
+
+
+func _run() -> void:
+	await process_frame  # autoloads must exist before scripts that name them can compile
 	var bad: Array = []
 	var n: int = _walk("res://", bad)
 	for b in bad:
@@ -27,7 +32,7 @@ func _walk(dir: String, bad: Array) -> int:
 			continue
 		var path: String = dir.path_join(fn)
 		n += 1
-		var sc: Resource = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+		var sc: Resource = load(path)
 		if sc == null or not (sc is GDScript) or not (sc as GDScript).can_instantiate():
 			bad.append(path)
 	return n
