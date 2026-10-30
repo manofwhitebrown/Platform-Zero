@@ -950,6 +950,59 @@ func get_stats() -> Dictionary:
 		"tokens_total": int(_stats.get("tokens_total", 0)), "lore_found": _lore_found.size()}
 
 
+# ======================= train map + fast travel (A6.12) =======================
+const CAR_TITLES: Dictionary = {"car_obs": "Observation", "car_sleep": "Sleeper", "car_lp": "Lost Property", "car_pass": "Passenger", "car_dine": "Dining", "car_lug": "Luggage"}
+
+
+## One row per car, front to back: {id,kind,name,index,x,center_x,unlocked,unlock_tier,tier_rep,items,claimants,here,reachable}.
+## Locked cars still appear (the map shows them dimmed with the tier that opens them).
+func get_map() -> Array:
+	var out: Array = []
+	var here: String = String(_player.get("car_id", "car_lp"))
+	var t_open: bool = first_delivery_done or skip_lock
+	for c in _cars:
+		var cid: String = String(c["id"])
+		var n_items: int = 0
+		for sp in _spots:
+			if String(sp["car_id"]) == cid and String(sp["item_iid"]) != "" and String(sp["kind"]) != "seat":
+				n_items += 1
+		var n_clm: int = 0
+		if cid == "car_lp":
+			n_clm = _active_claimants()
+		var tier_need: int = int(CAR_UNLOCK_TIER[cid])
+		out.append({"id": cid, "kind": String(c["kind"]), "name": String(CAR_TITLES.get(cid, cid)), "index": int(c["index"]), "x": float(c["x"]), "center_x": float(c["x"]) + float(c["width"]) * 0.5,
+			"unlocked": bool(c["unlocked"]), "unlock_tier": tier_need, "tier_rep": int(TIER_THRESHOLDS[tier_need]), "items": n_items, "claimants": n_clm,
+			"here": cid == here, "reachable": bool(c["unlocked"]) and (cid == "car_lp" or t_open)})
+	return out
+
+
+## Teleport the attendant to a car (the map's tap target). The world plays the transition when it
+## hears Events.fast_travelled(car_id, from_x, to_x). Never fails hard: a locked car just explains.
+func fast_travel(car_id: String) -> Dictionary:
+	_touch()
+	for row in get_map():
+		if String(row["id"]) != car_id:
+			continue
+		if not bool(row["unlocked"]):
+			return {"ok": false, "reason": "locked", "unlock_tier": int(row["unlock_tier"]), "tier_rep": int(row["tier_rep"]), "hint": "Reach reputation tier %d to open the %s car." % [int(row["unlock_tier"]), String(row["name"])]}
+		if not bool(row["reachable"]):
+			return {"ok": false, "reason": "tutorial", "hint": "Hand over your first lost thing, then you can walk the whole train."}
+		if bool(row["here"]):
+			return {"ok": true, "car_id": car_id, "x": float(_player["x"]), "already_here": true}
+		var from_x: float = float(_player["x"])
+		var to_x: float = float(row["x"]) + 900.0
+		if car_id == "car_lp":
+			to_x = _bench_x() + 300.0
+		var b: Vector2 = _walk_bounds()
+		to_x = clampf(to_x, b.x, b.y)
+		_player["x"] = to_x
+		_target_x = -1.0
+		_player["car_id"] = _car_at(to_x)
+		Events.fast_travelled.emit(car_id, from_x, to_x)
+		return {"ok": true, "car_id": car_id, "x": to_x, "from_x": from_x}
+	return {"ok": false, "reason": "unknown car"}
+
+
 # ======================= queries =======================
 func get_cars() -> Array: return _cars
 func get_spots() -> Array: return _spots

@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-30T08:48:37Z",
+ "updated": "2026-10-30T08:53:26Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -49,8 +49,9 @@
   "A6.8": "todo",
   "A6.9": "done",
   "A6.10": "done",
-  "A6.11": "done"
+  "A6.11": "done",
+  "A6.12": "done"
  },
- "request": "TO D: e2e run logs 'Invalid polygon data, triangulation failed' (canvas_item_add_polygon) twice in a fresh game, some draw_colored_polygon with degenerate/collinear points; harmless but noisy, find with godot --headless --script tests/e2e.gd. TO B: A6.9 prices/thresholds as noted before; Sim.get_stats/get_lore/last_offline_report all live.",
- "note": "A6.10 e2e (tests/e2e.gd, CI step) and A6.11 (concurrency cancel-in-progress; templates ship in the godot-ci image) done. Only A6.8 Godot upgrade left; waits for B/C/D to finish."
+ "request": "TO B (B5.14): Sim.get_map() -> Array of 6 rows front to back {id,kind,name,index,x,center_x,unlocked,unlock_tier,tier_rep,items,claimants,here,reachable}; Sim.fast_travel(car_id) -> {ok,car_id,x,from_x} or {ok:false,reason:'locked'|'tutorial'|'unknown car',hint,unlock_tier}. TO D (D11): Events.fast_travelled(car_id,from_x,to_x) fires after the player x is already moved: play your camera transition from from_x to to_x. TO C (C13): lock hint fallback text is built in sim ('Reach reputation tier N to open the X car.'); give me better strings in content if you want and I will use them. TO B: tier thresholds [0,15,60,250,950], new shop prices; Sim.last_offline_report, get_stats/get_lore/get_lore_found/get_equipped, Events.arc_beat/lore_found live.",
+ "note": "A6.12 done (spec was not in my brief, so shapes inferred; tell me to change): Sim.get_map(), Sim.fast_travel(car_id), Events.fast_travelled. Only A6.8 Godot upgrade left; starts after B/C/D finish."
 }

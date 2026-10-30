@@ -31,6 +31,7 @@ func run(root: Node) -> int:
 	_test_ambient()
 	_test_state_machine()
 	_test_car_unlocks()
+	_test_fast_travel_locked()
 	_test_cheat_stub()
 	_test_cheat_panel()
 	_test_generated_content()
@@ -452,6 +453,13 @@ func _test_state_machine() -> void:
 
 
 # ---- A2.4: cars unlock by tier ----
+func _test_fast_travel_locked() -> void:
+	_sim.new_game(9)
+	_sim.skip_tutorial()
+	var r: Dictionary = _sim.fast_travel("car_lug")
+	_check(not bool(r["ok"]) and String(r["reason"]) == "locked" and String(r["hint"]) != "", "locked car explains the tier instead of failing hard")
+
+
 func _test_car_unlocks() -> void:
 	_sim.new_game(8)
 	_sim.skip_tutorial()
@@ -467,6 +475,10 @@ func _test_car_unlocks() -> void:
 	_check(got == ["car_sleep", "car_obs"], "tier 2 unlocks the observation car (%s)" % str(got))
 	_sim._add_rep(190)
 	_check(got == ["car_sleep", "car_obs", "car_lug"], "tier 3 unlocks the luggage car (%s)" % str(got))
+	_check(_sim.get_map().size() == 6 and bool(_sim.get_map()[2]["here"]), "map lists 6 cars, player in the lost property car")
+	_check(bool(_sim.fast_travel("car_lug")["ok"]) and String(_sim.get_player()["car_id"]) == "car_lug", "fast travel to the luggage car")
+	_check(bool(_sim.fast_travel("car_lp")["ok"]) and String(_sim.get_player()["car_id"]) == "car_lp", "fast travel back to lost property")
+	_check(not bool(_sim.fast_travel("nope")["ok"]), "fast travel to an unknown car is refused")
 	ev.car_unlocked.disconnect(rec)
 	# items only land in unlocked cars; spot kinds differ per car kind
 	_sim.new_game(9)
