@@ -1,6 +1,6 @@
 [
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_actor_lineup.png",
   "id": "m1_actor_lineup",
   "milestone": "M1",
@@ -9,7 +9,7 @@
   "title": "Actor rig: attendant, 15 regulars, ambient"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_highlight.png",
   "id": "m1_highlight",
   "milestone": "M1",
@@ -18,7 +18,7 @@
   "title": "Guided highlight on the bin item + prompt chip"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_carry.png",
   "id": "m1_carry",
   "milestone": "M1",
@@ -27,7 +27,7 @@
   "title": "Item picked up, carried over head, bench highlighted"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_car_portrait.png",
   "id": "m1_car_portrait",
   "milestone": "M1",
@@ -36,7 +36,7 @@
   "title": "Lost Property car (portrait)"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_car_landscape.png",
   "id": "m1_car_landscape",
   "milestone": "M1",
@@ -45,7 +45,7 @@
   "title": "Lost Property car (landscape)"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_claimant_bubble.png",
   "id": "m1_claimant_bubble",
   "milestone": "M1",
@@ -54,7 +54,7 @@
   "title": "Bram at the counter: speech bubble, interview buttons, item tray"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_tray.png",
   "id": "m1_tray",
   "milestone": "M1",
@@ -63,7 +63,7 @@
   "title": "Carrying the mitten with Bram waiting: item tray + interview"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_handover.png",
   "id": "m1_handover",
   "milestone": "M1",
@@ -72,7 +72,7 @@
   "title": "Correct handover: confetti, hearts, story card"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_story_card.png",
   "id": "m1_story_card",
   "milestone": "M1",
@@ -81,7 +81,7 @@
   "title": "Story card after the first delivery"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_claimant_landscape.png",
   "id": "m1_claimant_landscape",
   "milestone": "M1",
@@ -90,7 +90,7 @@
   "title": "Claimant at the counter (landscape)"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_bench_tool.png",
   "id": "m1_bench_tool",
   "milestone": "M1",
@@ -99,7 +99,7 @@
   "title": "Bench close-up with the magnifier active"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_tutorial.png",
   "id": "m1_tutorial",
   "milestone": "M1",
@@ -108,7 +108,7 @@
   "title": "First-minute tutorial arrow at the bin"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m2_car_pass.png",
   "id": "m2_car_pass",
   "milestone": "M2",
@@ -117,7 +117,7 @@
   "title": "Passenger car with ambient passengers"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m2_car_dine.png",
   "id": "m2_car_dine",
   "milestone": "M2",
@@ -126,7 +126,7 @@
   "title": "Dining car"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m2_station_arrival.png",
   "id": "m2_station_arrival",
   "milestone": "M2",
@@ -135,7 +135,7 @@
   "title": "Station arrival with platform and board"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_bench_magnifier.png",
   "id": "m1_bench_magnifier",
   "milestone": "M1",
@@ -144,7 +144,7 @@
   "title": "Bench close-up: magnifier in use"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_bench_lamp.png",
   "id": "m1_bench_lamp",
   "milestone": "M1",
@@ -153,7 +153,7 @@
   "title": "Bench close-up: lamp in use"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_bench_ear.png",
   "id": "m1_bench_ear",
   "milestone": "M1",
@@ -162,7 +162,7 @@
   "title": "Bench close-up: ear in use"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_bench_nose.png",
   "id": "m1_bench_nose",
   "milestone": "M1",
@@ -171,7 +171,7 @@
   "title": "Bench close-up: nose in use"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_bench_brush.png",
   "id": "m1_bench_brush",
   "milestone": "M1",
@@ -180,7 +180,7 @@
   "title": "Bench close-up: brush in use"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_bench_clue.png",
   "id": "m1_bench_clue",
   "milestone": "M1",
@@ -189,7 +189,7 @@
   "title": "Bench close-up: clue landed on strip"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_bench_landscape.png",
   "id": "m1_bench_landscape",
   "milestone": "M1",
@@ -198,7 +198,7 @@
   "title": "Bench close-up (landscape)"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_hud.png",
   "id": "m1_hud",
   "milestone": "M1",
@@ -207,21 +207,12 @@
   "title": "HUD: tokens, tier, stop timer, tutorial chip"
  },
  {
-  "commit": "a8b5ec2",
+  "commit": "a13791b",
   "file": "m1_hud_landscape.png",
   "id": "m1_hud_landscape",
   "milestone": "M1",
   "orientation": "landscape",
   "size": "1920x1080",
   "title": "HUD (landscape)"
- },
- {
-  "commit": "a8b5ec2",
-  "file": "ui_fresh_launch.png",
-  "id": "ui_fresh_launch",
-  "milestone": "M5",
-  "orientation": "portrait",
-  "size": "1080x1920",
-  "title": "Fresh launch via game_root: Lost Property car, HUD, Bram tutorial"
  }
 ]
