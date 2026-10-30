@@ -136,7 +136,7 @@ func _build() -> void:
 	cr.pressed.connect(func() -> void:
 		_credits.visible = not _credits.visible)
 	_col.add_child(cr)
-	_credits = Ledger._lbl("Platform Zero\nA night train that never reaches its last stop.\n\nMade with Godot 4. Art, sound and story are handmade and procedural.\nThanks for looking after Lost Property.", 28, Pal.MIST)
+	_credits = Ledger._lbl("Platform Zero\nA night train that never reaches its last stop.\n\nMade by Mohammed Abdul Nayeem.\nArt, sound and story are handmade and procedural.\nThanks for looking after Lost Property.", 28, Pal.MIST)
 	_credits.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_credits.visible = false
 	_col.add_child(_credits)
