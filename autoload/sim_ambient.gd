@@ -246,6 +246,50 @@ func on_stopped() -> void:
 			boarding.append({"in": sim.rng.randf_range(3.0, 55.0), "car_id": car_id, "slot": slot})
 
 
+## Aggregate churn for ONE skipped stop (A6.1): no walking, people simply end up seated or gone.
+func offline_stop() -> void:
+	for b in boarding:
+		_new_ambient(String(b["car_id"]), int(b["slot"]), true)
+	boarding.clear()
+	for p in sim._passengers.values():
+		if p["kind"] != "ambient" or String(p.get("role", "")) != "":
+			continue
+		var st: String = String(p["state"])
+		if st == "leaving" or st == "standing_up":
+			_unpair(p)
+			_drop_quiet(p)
+		elif st == "walking":
+			p["x"] = float(p.get("dest_x", p["x"]))
+			p["state"] = "seated"
+		if not sim._passengers.has(p["pid"]):
+			continue
+		p["stops"] = int(p.get("stops", 0)) + 1
+		p["leave_in"] = -1.0
+		if int(p["stops"]) >= 2 and sim.rng.randf() < LEAVE_CHANCE:
+			_unpair(p)
+			_maybe_drop(p)
+			_drop_quiet(p)
+	for car in sim._cars:
+		var car_id: String = String(car["id"])
+		if not bool(car["unlocked"]) or not TARGET.has(car_id):
+			continue
+		var deficit: int = int(TARGET[car_id]) - _count_in(car_id)
+		var n: int = mini(deficit, sim.rng.randi_range(1, 3)) if deficit > 0 else 0
+		for _i in range(n):
+			var slot: int = _free_slot(car_id)
+			if slot < 0:
+				break
+			var q: Dictionary = _new_ambient(car_id, slot, true)
+			Events.passenger_spawned.emit(q)
+
+
+func _drop_quiet(p: Dictionary) -> void:
+	var pid: String = String(p["pid"])
+	sim._queue.erase(pid)
+	sim._passengers.erase(pid)
+	Events.passenger_left.emit(pid, true)
+
+
 ## Items dropped by leavers since the last stop that are still lying around (their owners come asking).
 func take_dropped() -> Array:
 	var out: Array = []

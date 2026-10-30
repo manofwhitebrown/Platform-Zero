@@ -89,17 +89,26 @@ var _delivered_defs: Array = []
 var _owner_deliveries: Dictionary = {}
 var _claims_log: Array = []
 var _pending_stop_spawn: bool = false
+var _last_seen: int = 0  # unix seconds of the last save/pause (A6.1)
+var _paused_at: int = 0
 
 
 func _ready() -> void:
 	_load_routes()
-	if not load_game():
+	if load_game():
+		apply_offline(float(int(Time.get_unix_time_from_system()) - _last_seen))
+	else:
 		new_game(int(Time.get_unix_time_from_system()) % 1000000)
 
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_paused_at = int(Time.get_unix_time_from_system())
 		save_game()
+	elif what == NOTIFICATION_APPLICATION_RESUMED and _paused_at > 0:
+		var gone: float = float(int(Time.get_unix_time_from_system()) - _paused_at)
+		_paused_at = 0
+		apply_offline(gone)
 
 
 func _process(delta: float) -> void:
@@ -300,7 +309,7 @@ func _roll_weather() -> String:
 
 
 # ======================= stops: items + claimants =======================
-func _on_stopped() -> void:
+func _on_stopped(offline: bool = false) -> void:
 	# conductor returns items that were wrongly given to imposters
 	for iid in _recover:
 		if _items.has(iid):
@@ -337,8 +346,11 @@ func _on_stopped() -> void:
 					_spawn_claimant(oid2, String(it["def_id"]), false)
 					break
 	_maybe_spawn_imposter()
-	_porter_work()
-	_amb_ref().on_stopped()
+	_off_shelved += _porter_work()
+	if offline:
+		_amb_ref().offline_stop()
+	else:
+		_amb_ref().on_stopped()
 
 
 func _pick_def() -> String:
@@ -850,10 +862,11 @@ func _boosted(base: int, rarity: String) -> int:
 
 
 ## Porters shelve freshly found items so the player never has to hunt.
-func _porter_work() -> void:
+func _porter_work() -> int:
 	var n: int = int(_upgrades.get("porter", 0))
 	if n <= 0 or not tutorial_done:
-		return
+		return 0
+	var moved: int = 0
 	for sp in _spots:
 		if n <= 0:
 			break
@@ -864,6 +877,8 @@ func _porter_work() -> void:
 			_items[iid]["spot_id"] = ""
 			Events.item_moved.emit(iid, "shelf")
 			n -= 1
+			moved += 1
+	return moved
 
 
 func get_ledger() -> Dictionary:
@@ -1298,6 +1313,90 @@ func _add_rep(n: int) -> void:
 	Events.reputation_changed.emit(rep, t)
 
 
+# ======================= offline progress (A6.1) =======================
+const OFFLINE_MAX_AWAY_S: float = 30.0 * 86400.0
+var _off_shelved: int = 0
+
+
+## Fast-forward `elapsed_s` of real time while the app was closed: 1 stop per offline_stop_s
+## (default 360 s), at most offline_stop_cap stops (default 20, ~2 h). Claimants queue but are
+## never resolved or lost; ambient churn is aggregated. Unix time only, so time-zone changes do
+## not matter; negative, NaN and absurd gaps are handled. Emits Events.offline_report once.
+## `force` skips the tutorial gate (cheats). Returns the report ({} fields all >= 0).
+func apply_offline(elapsed_s: float, force: bool = false) -> Dictionary:
+	var rpt: Dictionary = {"away_s": 0, "stops": 0, "items_found": 0, "items_shelved": 0, "tokens": 0, "rep": 0, "claimants_waiting": _active_claimants(), "lines": [], "capped": false}
+	_last_seen = int(Time.get_unix_time_from_system())
+	if is_nan(elapsed_s) or is_inf(elapsed_s) or elapsed_s <= 0.0 or _routes.is_empty() or _train.is_empty():
+		return rpt
+	var away: float = minf(elapsed_s, OFFLINE_MAX_AWAY_S)
+	rpt["away_s"] = int(away)
+	if not tutorial_done and not force:
+		return rpt
+	var stop_s: float = maxf(30.0, float(_econ("offline_stop_s", 360.0)))
+	var cap: int = maxi(1, int(_econ("offline_stop_cap", 20)))
+	var raw_stops: int = int(away / stop_s)
+	var stops: int = mini(raw_stops, cap)
+	rpt["capped"] = raw_stops > cap
+	if stops <= 0:
+		return rpt
+	var t0: int = tokens
+	var r0: int = rep
+	var iid0: int = _next_iid
+	_off_shelved = 0
+	var per_stop: int = int(_econ("offline_tokens_per_stop", 1)) + int(_econ("offline_tokens_per_porter", 2)) * int(_upgrades.get("porter", 0))
+	var rep_per: int = int(_econ("offline_rep_per_stop", 0))
+	for _i in range(stops):
+		stop_index += 1
+		_reseed()
+		_train["stop"] = _stop_info(stop_index)
+		_train["weather"] = _roll_weather()
+		_train["state"] = "stopped"
+		_on_stopped(true)
+		if per_stop > 0:
+			_add_tokens(per_stop)
+		if rep_per > 0:
+			_add_rep(rep_per)
+	clock_s += float(stops) * stop_s
+	# leave the train rolling towards the next stop; waiting claimants walk in shortly
+	_train["state"] = "moving"
+	_train["speed"] = 1.0
+	_state_len = _phase_len("moving")
+	_state_t = rng.randf() * _state_len * 0.5
+	_train["phase_t"] = clampf(_state_t / maxf(_state_len, 0.001), 0.0, 1.0)
+	_target_x = -1.0
+	for p in _passengers.values():
+		if p["kind"] != "ambient" and p["state"] == "seated":
+			p["t"] = minf(float(p["t"]), rng.randf_range(0.5, 3.0))
+	rpt["stops"] = stops
+	rpt["items_found"] = maxi(0, _next_iid - iid0)
+	rpt["items_shelved"] = maxi(0, _off_shelved)
+	rpt["tokens"] = maxi(0, tokens - t0)
+	rpt["rep"] = maxi(0, rep - r0)
+	rpt["claimants_waiting"] = _active_claimants()
+	rpt["lines"] = _offline_lines(rpt)
+	Events.train_state_changed.emit("moving", _train["stop"])
+	Events.offline_report.emit(rpt)
+	if autosave:
+		save_game()
+	return rpt
+
+
+func _offline_lines(r: Dictionary) -> Array:
+	var out: Array = []
+	var m: int = int(r["away_s"]) / 60
+	var away_txt: String = "%d min" % m if m < 120 else "%d h %d min" % [m / 60, m % 60]
+	out.append("You were away %s. The train made %d stop%s%s." % [away_txt, int(r["stops"]), "" if int(r["stops"]) == 1 else "s", " (that is as far as it goes without you)" if bool(r["capped"]) else ""])
+	if int(r["items_found"]) > 0:
+		out.append("%d new thing%s turned up." % [int(r["items_found"]), "" if int(r["items_found"]) == 1 else "s"])
+	if int(r["items_shelved"]) > 0:
+		out.append("The porters shelved %d." % int(r["items_shelved"]))
+	if int(r["tokens"]) > 0:
+		out.append("Tips in the jar: %d tokens." % int(r["tokens"]))
+	if int(r["claimants_waiting"]) > 0:
+		out.append("%d %s waiting for you." % [int(r["claimants_waiting"]), "person is" if int(r["claimants_waiting"]) == 1 else "people are"])
+	return out
+
+
 # ======================= save / load (A1.5) =======================
 func to_dict() -> Dictionary:
 	return {
@@ -1355,6 +1454,7 @@ func from_dict(d: Dictionary) -> bool:
 	_owner_deliveries = (d.get("owner_deliveries", {}) as Dictionary).duplicate(true)
 	_claims_log = (d.get("claims", []) as Array).duplicate(true)
 	_target_x = -1.0
+	_last_seen = int(d.get("last_seen", int(Time.get_unix_time_from_system())))
 	return true
 
 

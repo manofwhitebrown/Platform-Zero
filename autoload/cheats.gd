@@ -131,11 +131,8 @@ func _exec(id: String, value: Variant) -> Dictionary:
 			return Sim.set_time_scale(float(value if value != null else 1))
 		"advance_hours":
 			var secs: float = clampf(float(value if value != null else 1), 1.0, 24.0) * 3600.0
-			var left: float = secs
-			while left > 0.0:
-				Sim.tick(minf(left, 5.0))
-				left -= 5.0
-			return {"ok": true, "stop": Sim.stop_index}
+			var rep_d: Dictionary = Sim.apply_offline(secs, true)
+			return {"ok": true, "stop": Sim.stop_index, "report": rep_d}
 		"spawn_item":
 			var did: String = String(value if value != null else "obj_001")
 			if not Content.has_object(did):

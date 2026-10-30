@@ -37,6 +37,7 @@ func run(root: Node) -> int:
 	_test_shop()
 	_test_arcs()
 	_test_daily()
+	_test_offline()
 	return fails
 
 
@@ -599,3 +600,70 @@ func _test_daily() -> void:
 	_sim.cheated = true
 	_check(_sim.daily_share_text("2026-03-01") == "" and not bool(_sim.start_daily("2026-03-02")["ok"]), "cheated runs excluded from daily")
 	_sim.cheated = false
+
+
+# ---- A6.1 offline progress ----
+var _off_reports: Array = []
+
+
+func _off_sig(seed_value: int, secs: float) -> String:
+	_sim.new_game(seed_value)
+	_sim.skip_tutorial()
+	_sim.tick(20.0)
+	_sim.apply_offline(secs)
+	var d: Dictionary = _sim.to_dict()
+	return JSON.stringify([d["stop_index"], d["tokens"], d["rep"], d["next_iid"], d["items"], d["queue"], d["train"]["state"]])
+
+
+func _test_offline() -> void:
+	var ev: Node = _sim.get_node("/root/Events")
+	ev.offline_report.connect(func(r: Dictionary) -> void: _off_reports.append(r))
+	_sim.new_game(77)
+	_sim.tick(20.0)
+	var gated: Dictionary = _sim.apply_offline(7200.0)
+	_check(int(gated["stops"]) == 0 and _off_reports.is_empty(), "offline does nothing during the tutorial")
+	_sim.skip_tutorial()
+	var s0: int = _sim.stop_index
+	for bad in [-50.0, 0.0, NAN, INF, 100.0, 359.0]:
+		var r0: Dictionary = _sim.apply_offline(bad)
+		_check(int(r0["stops"]) == 0 and int(r0["away_s"]) >= 0 and _sim.stop_index == s0, "no stops for bad/short gap %s" % str(bad))
+	_check(_off_reports.is_empty(), "no report for empty gaps")
+	var waiting_before: Array = []
+	for p in _sim.get_passengers():
+		if p["kind"] != "ambient":
+			waiting_before.append(String(p["pid"]))
+	var tok0: int = _sim.tokens
+	var rep: Dictionary = _sim.apply_offline(3600.0)
+	_check(int(rep["stops"]) == 10 and _sim.stop_index == s0 + 10, "1 stop per 6 minutes")
+	_check(not bool(rep["capped"]), "10 stops is not capped")
+	_check(_off_reports.size() == 1, "exactly one offline_report emitted")
+	for k in ["away_s", "stops", "items_found", "items_shelved", "tokens", "rep", "claimants_waiting"]:
+		_check(int(rep[k]) >= 0, "report %s never negative" % k)
+	_check(_sim.tokens >= tok0 and int(rep["tokens"]) == _sim.tokens - tok0, "tokens only go up while away")
+	_check((rep["lines"] as Array).size() >= 1, "report has text lines")
+	for pid in waiting_before:
+		_check(_sim.get_passengers().any(func(p): return p["pid"] == pid), "claimant %s is not lost while away" % pid)
+	_check(_sim._active_claimants() <= _sim.MAX_CLAIMANTS, "claimants stay within the cap")
+	_check(String(_sim.get_train()["state"]) == "moving", "train resumes moving after offline")
+	var big: Dictionary = _sim.apply_offline(86400.0 * 400.0)
+	_check(int(big["stops"]) == 20 and bool(big["capped"]) and float(big["away_s"]) <= 30.0 * 86400.0, "huge gap is capped at 20 stops / 30 days")
+	_check(_sim.tokens >= 0 and _sim.rep >= 0 and _sim.get_bench_cap() >= 3, "no negative or broken state after a huge gap")
+	var seen: Dictionary = {}
+	for it in _sim.to_dict()["items"].values():
+		_check(not seen.has(it["iid"]), "no duplicate iid")
+		seen[it["iid"]] = true
+	var a: String = _off_sig(5150, 7200.0)
+	var b: String = _off_sig(5150, 7200.0)
+	_check(a == b, "offline result is deterministic for a fixed seed")
+	_check(_off_sig(5150, 7200.0) != _off_sig(5151, 7200.0), "different seeds differ")
+	# porters shelve things while away
+	_sim.new_game(88)
+	_sim.skip_tutorial()
+	_sim.tokens = 500
+	_sim.buy("porter")
+	var rp: Dictionary = _sim.apply_offline(3600.0)
+	_check(int(rp["items_shelved"]) > 0 and int(rp["tokens"]) >= 10 * 3, "porter shelves items and adds tips offline")
+	# save/load still round-trips after an offline run
+	var d: Dictionary = _sim.to_dict()
+	_sim.new_game(1)
+	_check(_sim.from_dict(d) and JSON.stringify(_sim.to_dict()["items"]) == JSON.stringify(d["items"]), "state after offline survives save/load")
