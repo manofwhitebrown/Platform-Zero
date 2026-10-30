@@ -65,6 +65,8 @@ func _ready() -> void:
 		b.text = String(k[1])
 		b.toggle_mode = true
 		b.custom_minimum_size = Vector2(0, 96)
+		b.add_theme_font_size_override("font_size", 28)
+		b.clip_text = true
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var id: String = String(k[0])
 		b.pressed.connect(func() -> void: _show(id))
