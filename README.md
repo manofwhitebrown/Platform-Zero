@@ -137,9 +137,8 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform D · World** — 3/10 done
+**Platform D · World** — 4/10 done
 
-- ⬜ Scenery + weather
 - ⬜ Station arrival
 - ⬜ Hotspots + item placement
 - ⬜ Camera + transitions
@@ -147,13 +146,14 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ⬜ Intro / title scene
 - ⬜ World performance + QA shots
 
-> D3: seated routine poses (read w/ page turn, nap+zzz, eat+steam cup, stare, chat gestures, kids swinging legs), vendor trolley, conductor punch; driven from Sim routine in crowd.gd. Boarding/leaving via door x + train-st
+> D4: scenery adds desert + tunnel biomes, snow peaks, lightning flashes in rain, GlassFx (rain drops/fog on window glass). TrainWorld.shot_scene(biome,weather,tod) forces the view for shots. Biomes plains/snow/sea/city/fo
 
-<details><summary>Finished (3)</summary>
+<details><summary>Finished (4)</summary>
 
 - ✅ Seats + seated poses
 - ✅ Dress the 5 other cars
 - ✅ Ambient routine visuals
+- ✅ Scenery + weather
 
 </details>
 <!-- STATUS:END -->
