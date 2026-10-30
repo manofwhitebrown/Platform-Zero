@@ -1,12 +1,14 @@
 extends SceneTree
 ## Screenshot runner (A0.5). Schema is owned by B: tests/shots.json
+## Reads every tests/shots*.json (shots.json = D, shots_ui.json = B); `shots` arrays are
+## merged in filename order, ids must be unique (first wins, duplicates warned + skipped).
 ##   xvfb-run -a godot --rendering-driver opengl3 --script tools/shoot.gd
 ## Each shot {id, milestone, title, scene, orientation, setup:[{call,args}], frames}.
 ## setup call forms: "Autoload.method" (args), "wait" (seconds), or a bare method name
 ## called on the loaded scene (e.g. "tool", "page"). Output: docs/screens/<id>.png + index.json.
 ## Scenes that do not exist yet are skipped (not failures): B's world arrives later.
 
-const SHOTS_PATH: String = "res://tests/shots.json"
+const SHOTS_DIR: String = "res://tests"
 const OUT_DIR: String = "res://docs/screens"
 const MAX_WAIT_SEC: float = 12.0
 
@@ -90,7 +92,29 @@ func _do_call(inst: Node, call: Dictionary, id: String) -> void:
 
 
 func _load_cfg() -> Dictionary:
-	if not FileAccess.file_exists(SHOTS_PATH):
-		return {}
-	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(SHOTS_PATH))
-	return data if typeof(data) == TYPE_DICTIONARY else {}
+	var files: Array = []
+	var d: DirAccess = DirAccess.open(SHOTS_DIR)
+	if d != null:
+		for fn in d.get_files():
+			if fn.begins_with("shots") and fn.ends_with(".json"):
+				files.append(fn)
+	files.sort()
+	var merged: Dictionary = {}
+	var shots: Array = []
+	var seen: Dictionary = {}
+	for fn in files:
+		var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(SHOTS_DIR + "/" + fn))
+		if typeof(data) != TYPE_DICTIONARY:
+			printerr("SHOT WARN: %s is not valid JSON, ignored" % fn)
+			continue
+		if not merged.has("sizes") and data.has("sizes"):
+			merged["sizes"] = data["sizes"]
+		for shot in data.get("shots", []):
+			var id: String = str(shot.get("id", ""))
+			if id == "" or seen.has(id):
+				printerr("SHOT WARN: duplicate/empty id '%s' in %s skipped" % [id, fn])
+				continue
+			seen[id] = true
+			shots.append(shot)
+	merged["shots"] = shots
+	return merged

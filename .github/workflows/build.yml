@@ -69,10 +69,12 @@ jobs:
         run: godot --headless --import 2>&1 | tee -a /tmp/ci.log || true
       - name: Fail on engine script errors
         run: |
-          if grep -E "GDScript::reload \(res://(autoload|tests)/" /tmp/ci.log > /tmp/script_errors.txt; then
+          if grep -E "GDScript::reload \(res://" /tmp/ci.log > /tmp/script_errors.txt; then
             echo "::error title=Engine script errors::$(sed -e ':a' -e 'N' -e '$!ba' -e 's/%/%25/g' -e 's/\n/%0A/g' /tmp/script_errors.txt | head -c 3000)"
             exit 1
           fi
+      - name: Parse-check every script
+        run: godot --headless --script tests/parse_all.gd 2>&1 | tee -a /tmp/ci.log; test ${PIPESTATUS[0]} -eq 0
       - name: Run tests
         run: godot --headless --script tests/run_tests.gd 2>&1 | tee -a /tmp/ci.log
       - name: Export APK
@@ -121,7 +123,7 @@ jobs:
         run: apt-get update -qq && apt-get install -y -qq xvfb libgl1-mesa-dri libglx-mesa0 libegl1 git
       - name: Import project
         run: godot --headless --import 2>&1 | tail -5 || true
-      - name: Take screenshots (sizes per shot from tests/shots.json)
+      - name: Take screenshots (merged tests/shots*.json)
         continue-on-error: true
         env:
           LIBGL_ALWAYS_SOFTWARE: "1"
