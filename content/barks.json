@@ -1,5 +1,5 @@
 {
- "_doc": "barks.json (AI-A). One-liners spoken in bubbles. Top-level keys are groups; every leaf is a non-empty array of strings. Pick a line with the seeded RNG. Placeholders (optional, replace before display): {item} = lowercase item name ('red mitten'), {car} = car name ('the Dining car'), {name} = speaker's first name. Groups: ambient.<routine> (reading|napping|eating|staring|chatting|kids|vendor|conductor|boarding|leaving) = scenery chatter; claimant_intro.<mood> = first line when a claimant arrives (calm|hurried|worried|shy|grumpy), all use {item}; waiting.<mood> = said while the claimant waits for the attendant; thanks.<mood> = correct handover; wrong.<mood> = 'not mine' reaction; refused.imposter = said by an imposter when refused; refused.honest = said by an honest claimant wrongly refused; attendant.idle = Bram-free mutters for the attendant avatar; station.announce = tannoy lines at arrival (use {stop}). Keys are stable: add lines freely, never rename keys.",
+ "_doc": "barks.json (AI-A). One-liners spoken in bubbles. Top-level keys are groups; every leaf is a non-empty array of strings. Pick a line with the seeded RNG. Placeholders (optional, replace before display): {item} = lowercase item name ('red mitten'), {car} = car name ('the Dining car'), {name} = speaker's first name. Groups: ambient.<routine> (reading|napping|eating|staring|chatting|kids|vendor|conductor|boarding|leaving) = scenery chatter; claimant_intro.<mood> = first line when a claimant arrives (calm|hurried|worried|shy|grumpy), all use {item}; waiting.<mood> = said while the claimant waits for the attendant; thanks.<mood> = correct handover; wrong.<mood> = 'not mine' reaction; refused.imposter = said by an imposter when refused; refused.honest = said by an honest claimant wrongly refused; attendant.idle = Bram-free mutters for the attendant avatar; station.announce = tannoy lines at arrival (use {stop}). Keys are stable: add lines freely, never rename keys. AI-C additions: station.stops.<stop name> = 2 arrival lines per stop in routes.json (use after station.announce, e.g. Content.lines('barks',['station','stops',name])); tutorial.<stage> = hint text per Sim.get_tutorial stage (find_item,to_bench,examine,hand_over,sweep) + bram_after toast.",
  "ambient": {
   "reading": [
    "Chapter eleven. Everyone is lying in chapter eleven.",
@@ -287,6 +287,82 @@
    "Next stop, {stop}. Items left behind are in safe hands.",
    "{stop}. Change here for nothing in particular.",
    "{stop} now. Take everything you came with. Or at least most of it."
+  ],
+  "stops": {
+   "Platform Zero": [
+    "Platform Zero. Where it begins, if it begins. Mind the gap and the nostalgia.",
+    "Platform Zero, the first stop and possibly the last. Do check you have all your things."
+   ],
+   "Lantern Junction": [
+    "Lantern Junction. Every lamp here was lit by hand. Please admire them quietly.",
+    "Now arriving at Lantern Junction. The porters are kind and the kettle is on."
+   ],
+   "Saltmarsh Halt": [
+    "Saltmarsh Halt. Smells of rain and old rope. Wellingtons are not provided.",
+    "Saltmarsh Halt, where the gulls collect the tickets. Do not feed them yours."
+   ],
+   "Pinewick": [
+    "Pinewick. The pines have been waiting a long while and are patient about it.",
+    "Pinewick station. Please stamp the snow from your boots, and any worries with it."
+   ],
+   "Cold Spoon Pass": [
+    "Cold Spoon Pass. Mind the frost. Mind the spoon-shaped moon.",
+    "Cold Spoon Pass. The tea here freezes in the pot. The company does not."
+   ],
+   "Marigold Crossing": [
+    "Marigold Crossing. A field of orange in the dark, if you squint, which you may.",
+    "Marigold Crossing. Passengers for nowhere in particular, this is your stop."
+   ],
+   "Brasswater": [
+    "Brasswater. Mind the puddles, they reflect better than you'd think.",
+    "Brasswater, the town that polished its own rain. Welcome, or welcome back."
+   ],
+   "Gull's Rest": [
+    "Gull's Rest. A long, quiet halt by the sea. Take your time. The train will.",
+    "Gull's Rest. Please do not tell the gulls where you keep your sandwiches."
+   ],
+   "Hollow Birch": [
+    "Hollow Birch. Mind the owls. They have opinions about luggage.",
+    "Hollow Birch. The trees here keep secrets. Please keep yours too."
+   ],
+   "Tuppence Hill": [
+    "Tuppence Hill. Cheap views, priceless sky. Please check under your seats.",
+    "Tuppence Hill. If you find a coin, it's lost property. If you find two, it's a mystery."
+   ],
+   "Frostmere": [
+    "Frostmere. A frozen lake, a long dwell, and a very strong tea.",
+    "Frostmere. Mind the ice. Mind the silence. It's the good sort."
+   ],
+   "Ember Street": [
+    "Ember Street. Warm windows all the way down. Someone's baking, and it's not you.",
+    "Ember Street, last of the loop and first of the next. Please collect your belongings."
+   ]
+  }
+ },
+ "tutorial": {
+  "find_item": [
+   "Something warm is in the bin. Go and have a look.",
+   "There's a rustle in the bin by the window. Tap to walk there."
+  ],
+  "to_bench": [
+   "Carry it to the bench. Tools live there.",
+   "Lamp-light's best at the bench. Take it over."
+  ],
+  "examine": [
+   "Pick a tool. Every little thing is a clue.",
+   "Try the magnifier, or the lamp. Smells and sounds count too."
+  ],
+  "hand_over": [
+   "Bram's waiting. Take it to the counter and hand it over.",
+   "That fits what he said. Take it to the counter."
+  ],
+  "sweep": [
+   "Well done. Now sweep the passenger car. People leave things everywhere.",
+   "The passenger car has things nobody's claimed yet. Go look."
+  ],
+  "bram_after": [
+   "Bram grins, black-handed and delighted. 'Tea in the engine room, any time.'",
+   "Bram tips an imaginary hat. 'You've the knack, attendant.'"
   ]
  }
 }

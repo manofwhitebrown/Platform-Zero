@@ -17,6 +17,10 @@
    {
     "at": 4,
     "line": "Come by the engine room sometime. The tea's always hot. The coal never runs out, funny that."
+   },
+   {
+    "at": 5,
+    "line": "I shovel less each winter. The engine feels lighter, and I swear it's your doing. Don't stop."
    }
   ],
   "own_002": [
@@ -35,6 +39,10 @@
    {
     "at": 4,
     "line": "For you, darling: the Zero Line forgives those who keep looking."
+   },
+   {
+    "at": 5,
+    "line": "Darling, I've worked it out. We are all lost property, and the Zero Line is merely the shelf. Do mind who collects us."
    }
   ],
   "own_003": [
@@ -53,6 +61,10 @@
    {
     "at": 4,
     "line": "I'm going to be a Lost Property attendant when I grow up. Can I have your hat?"
+   },
+   {
+    "at": 5,
+    "line": "I walked to the very front. There's a little door with a tag on it. The tag says 'unclaimed'. I didn't open it. Mum says that's other people's."
    }
   ],
   "own_004": [
@@ -71,6 +83,10 @@
    {
     "at": 4,
     "line": "Your methods are sound, attendant. Should the Zero Line ever need a detective, I know whom to recommend."
+   },
+   {
+    "at": 5,
+    "line": "Every lost thing has an owner somewhere, attendant. Find the owner of the Zero Line and I suspect you've found its last stop."
    }
   ],
   "own_005": [
@@ -89,6 +105,10 @@
    {
     "at": 4,
     "line": "Next stop, friend: wherever you want. That's what the Zero Line is for."
+   },
+   {
+    "at": 5,
+    "line": "The parcel in the Luggage car has a new label overnight, in my handwriting. Some things aren't delivered until you're ready to take them."
    }
   ],
   "own_006": [
@@ -107,6 +127,10 @@
    {
     "at": 4,
     "line": "The scarf is finished. Wear it when the night gets long."
+   },
+   {
+    "at": 5,
+    "line": "I boarded to visit someone. I forget who. I stayed to keep the kettle on. That's a sort of arriving, I think."
    }
   ],
   "own_007": [
@@ -125,6 +149,10 @@
    {
     "at": 4,
     "line": "Poets say every train has one last stop. I rather think ours is a very long comma."
+   },
+   {
+    "at": 5,
+    "line": "Every ending I write, the train politely declines. It wants a better one. One where somebody says 'that's mine.'"
    }
   ],
   "own_008": [
@@ -143,6 +171,10 @@
    {
     "at": 4,
     "line": "The only real magic is returning something someone thought was gone for good. You do it every night."
+   },
+   {
+    "at": 5,
+    "line": "Final trick: I tried to put the whole train in a hat. Wouldn't fit. Too heavy with everyone's maybes."
    }
   ],
   "own_009": [
@@ -161,6 +193,10 @@
    {
     "at": 4,
     "line": "Should you ever tire of this car, attendant, the Observation car has a seat with your name on it."
+   },
+   {
+    "at": 5,
+    "line": "I confess, dear, I'm still looking. I rather hope I never find it. The train, being polite, keeps stopping for me."
    }
   ],
   "own_010": [
@@ -179,6 +215,10 @@
    {
     "at": 4,
     "line": "The Zero Line delivers everything eventually. Even you, perhaps, to wherever you're going."
+   },
+   {
+    "at": 5,
+    "line": "I found the one letter I could never deliver. The address is just 'The Zero Line'. No sender, either."
    }
   ],
   "own_011": [
@@ -197,6 +237,10 @@
    {
     "at": 4,
     "line": "Keep your lamp lit, attendant. The brightest ones can be seen from the last stop."
+   },
+   {
+    "at": 5,
+    "line": "I opened the little door at the front. A lantern on a hook, with a blank ticket tied to it. That's the light I saw. It's still waiting."
    }
   ],
   "own_012": [
@@ -215,6 +259,10 @@
    {
     "at": 4,
     "line": "Peer review complete. Your methods are sound. Keep examining, attendant."
+   },
+   {
+    "at": 5,
+    "line": "New data: the train's interior gains a carriage-length for each unclaimed item, and loses one for each returned. You are, statistically, shortening the line."
    }
   ],
   "own_013": [
@@ -233,6 +281,10 @@
    {
     "at": 4,
     "line": "When I'm big I'm going to find lost things too. You're the best."
+   },
+   {
+    "at": 5,
+    "line": "I looked for my name in the Lost Property book and it wasn't there. So I'm not lost! I'm just on a long ride."
    }
   ],
   "own_014": [
@@ -251,6 +303,10 @@
    {
     "at": 4,
     "line": "I've finally got it, the Zero Line's song. Here, hum along. Shh. Listen."
+   },
+   {
+    "at": 5,
+    "line": "The Zero Line's song has a last note. The wheels always stop just short of it. I think it's waiting for someone to hum it."
    }
   ],
   "own_015": [
@@ -269,6 +325,10 @@
    {
     "at": 4,
     "line": "Between us: the last stop is whichever one you're ready to get off at."
+   },
+   {
+    "at": 5,
+    "line": "I redrew the chart. Every stop points at the Lost Property car. The last stop may not be on the map at all, only in a handing-over."
    }
   ]
  }
