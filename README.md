@@ -78,18 +78,16 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform B · Screens** — 32/38 done
+**Platform B · Screens** — 34/38 done
 
-- ⬜ Settings
-- ⬜ Back Office (cheat panel) UI
-- ⬜ Audio wiring
+- ⬜ Back Office cheat panel
 - ⬜ UI QA pass
-- ⬜ Help + tips screens
-- ⬜ Lore + achievements screens
+- ⬜ Help + tips
+- ⬜ Lore + achievements
 
-> B5.7 done: story card shows a "A NEW CHAPTER" block when hand_over result has arc_line, and uses ItemArt. Beat toasts still arrive via Events.toast. Next B5.8 Settings.
+> B5.8 settings overlay (ui/settings_screen.gd, sliders vol_* -> buses via Settings.apply_volumes), B5.10 Sfx removed (Haptics.buzz, Audio.play). colorblind key stored; bubbles icon needs D. Untested locally (no godot): ch
 
-<details><summary>Finished (32)</summary>
+<details><summary>Finished (34)</summary>
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -123,6 +121,8 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Night Case screen
 - ✅ Welcome-back screen
 - ✅ Arc story cards
+- ✅ Settings
+- ✅ Audio wiring
 
 </details>
 
