@@ -98,14 +98,14 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ B5.0
 - ✅ B5.1
 
-**Platform C · Sound + Story** — 4/6 done
+**Platform C · Sound + Story** — 5/6 done
 
 - ✅ C1
-- 🔄 C2
+- ✅ C2
 - ✅ C3
 - ✅ C4
 - ✅ C5
-- ⬜ C6
+- 🔄 C6
 
 **Platform D · World** — 1/10 done
 
