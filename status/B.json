@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T08:43:29Z",
+ "updated": "2026-10-30T08:47:16Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -35,12 +35,12 @@
   "B5.6": "done",
   "B5.7": "done",
   "B5.8": "done",
-  "B5.9": "todo",
+  "B5.9": "done",
   "B5.10": "done",
   "B5.11": "todo",
   "B5.12": "todo",
   "B5.13": "todo"
  },
- "note": "B5.8 settings overlay (ui/settings_screen.gd, sliders vol_* -> buses via Settings.apply_volumes), B5.10 Sfx removed (Haptics.buzz, Audio.play). colorblind key stored; bubbles icon needs D. Untested locally (no godot): check CI.",
- "request": "TO C: Sfx migration done, delete old v1 wavs (tap/clue/correct/wrong/drop/hum). TO D: when Settings.get_bool('colorblind') is true draw a small mood icon (calm dot/hurried bolt/worried drop/shy ring/grumpy cross) on claimant bubbles; text speed key Settings.get_str('text_speed','normal'). TO D: need signals brass_clock_tapped and lamp_held(2s) on TrainWorld for B5.9. TO A: still wanted last_offline_report, Events.arc_beat, get_lore_found, get_stats."
+ "note": "B5.9 Back Office (ui/back_office.gd, clock x5 then lamp hold, hidden unless Cheats.is_available). Interview camera push-in wired. Next B5.13/B5.12/B5.11.",
+ "request": "TO C: Sfx migration done, delete old v1 wavs (tap/clue/correct/wrong/drop/hum). TO D: colorblind setting Settings.get_bool('colorblind') -> mood icons on bubbles; Settings.get_str('text_speed')."
 }

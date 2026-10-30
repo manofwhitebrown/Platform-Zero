@@ -47,6 +47,9 @@ func _ready() -> void:
 		await get_tree().create_timer(2.5).timeout
 		open_screen("daily"))
 	screens.register("settings", func(_a: Dictionary) -> Control: return SettingsScreen.new(screens))
+	if Cheats.is_available():
+		screens.register("backoffice", func(_a: Dictionary) -> Control: return BackOffice.new(screens))
+		_arm_secret()
 	screens.register("shop", func(_a: Dictionary) -> Control: return Shop.new(screens))
 	screens.register("ledger", func(_a: Dictionary) -> Control: return Ledger.new(screens))
 	get_tree().set_auto_accept_quit(false)
@@ -61,6 +64,31 @@ func _ready() -> void:
 			shop_demo.call_deferred(int(a.substr(7)))
 		if a.begins_with("--ledger="):
 			ledger_demo.call_deferred(a.substr(9))
+
+
+## Secret entry: brass clock x5 within 4 s arms the lamp; then hold the lamp to open the Back Office.
+var _clock_taps: Array = []
+var _armed_until: int = 0
+
+
+func _arm_secret() -> void:
+	world.brass_clock_tapped.connect(func() -> void:
+		var now: int = Time.get_ticks_msec()
+		_clock_taps.append(now)
+		while not _clock_taps.is_empty() and now - int(_clock_taps[0]) > 4000:
+			_clock_taps.pop_front()
+		if _clock_taps.size() >= 5:
+			_clock_taps.clear()
+			_armed_until = now + 10000)
+	world.lamp_held.connect(func() -> void:
+		if Time.get_ticks_msec() < _armed_until and not screens.is_open():
+			_armed_until = 0
+			open_screen("backoffice"))
+	# Lab flask badge while this save is marked as cheated.
+	var bl := CanvasLayer.new()
+	bl.layer = 16
+	add_child(bl)
+	bl.add_child(CheatBadge.new())
 
 
 func open_screen(screen_name: String, args: Dictionary = {}) -> Control:

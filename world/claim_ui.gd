@@ -9,6 +9,7 @@ const QUESTIONS: PackedStringArray = ["Where did you last have it?", "What does 
 const CHIP: float = 128.0
 
 var world: Node2D
+var _cam_in: bool = false
 var crowd: Crowd
 var root: Control
 var ask_box: BoxContainer
@@ -161,6 +162,12 @@ func _process(delta: float) -> void:
 		for i in range(3):
 			(ask_buttons[i] as Button).modulate.a = 0.55 if (_asked.get(_front, []) as Array).has(i) else 1.0
 	tray_wrap.visible = show_ui
+	if show_ui != _cam_in and world != null and world.has_method("camera_push_in"):
+		_cam_in = show_ui
+		if show_ui:
+			world.call("camera_push_in", Sim.get_counter_x())
+		else:
+			world.call("camera_release")
 	if not show_ui and _drag_iid == "":
 		crowd.set_drop_target("")
 	if card.visible:
