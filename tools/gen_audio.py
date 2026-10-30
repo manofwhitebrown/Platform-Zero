@@ -146,7 +146,12 @@ def _write_wav(path, y):
         w.writeframes((np.clip(y, -1, 1) * 32767).astype("<i2").tobytes())
 
 
-def save(name, y, bus="sfx", vol=0.0, loop=False, ogg=False, peak=0.85, files=None):
+PEAKS = {"sfx": 0.708, "ui": 0.708, "ambience": 0.708, "music": 0.5}  # -3 dB, music about -6 dB
+
+
+def save(name, y, bus="sfx", vol=0.0, loop=False, ogg=False, peak=None, files=None):
+    if peak is None:
+        peak = PEAKS.get(bus, 0.708)
     y = np.nan_to_num(y)
     if not loop:
         y = fade(trim(y))
