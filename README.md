@@ -21,7 +21,7 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 40/44 done
+**Platform A · Engine** — 42/44 done
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
@@ -35,7 +35,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ A-C1
 - ✅ A-C2
 - ✅ A-C3
-- ⬜ A-C4
+- ✅ A-C4
 - ✅ A-C5
 - ✅ A0.2
 - ✅ A0.3
@@ -65,11 +65,11 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ A6.3
 - ✅ A6.4
 - 🔄 A6.5
-- ⬜ A6.6
+- ✅ A6.6
 - ✅ A6.7
 - ⬜ A6.8
 
-**Platform B · Screens** — 27/27 done
+**Platform B · Screens** — 32/32 done
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -98,6 +98,11 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ B5.0
 - ✅ B5.1
 - ✅ B5.2
+- ✅ B5.3
+- ✅ B5.4
+- ✅ B5.5
+- ✅ B5.6
+- ✅ B5.7
 
 **Platform C · Sound + Story** — 6/6 done
 
@@ -108,11 +113,11 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ C5
 - ✅ C6
 
-**Platform D · World** — 2/10 done
+**Platform D · World** — 3/10 done
 
 - ✅ D1
 - ✅ D2
-- ⬜ D3
+- ✅ D3
 - ⬜ D4
 - ⬜ D5
 - ⬜ D6
