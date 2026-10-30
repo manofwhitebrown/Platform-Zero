@@ -1,0 +1,221 @@
+{
+ "_doc": "Owned by AI-C. 24 collectible scraps hinting at why the Zero Line never reaches its last stop. Fields: id (lore_NN, stable), title (<=40 chars), kind (note|timetable|ticket|graffiti|memo), text (<=280 chars, shown on a parchment card), found_in (car kind: obs|sleep|lp|pass|dine|lug; the car where the scrap can turn up), rarity (common|odd|rare, same words as objects.json), tier (reputation tier 0-4 that unlocks it; must be >= the car's unlock tier: sleep 1, obs 2, lug 3). Canon (do not contradict): the train is made of things people could not let go of; it stops only for those still looking; the little front door is tagged 'unclaimed'; a lantern with a blank ticket waits behind it; handing things back makes the train lighter; the last stop is a handing-over, not a place. Ledger 'Lore' tab shape: list of {id,title,kind,text,found_in,rarity}. Sim hook requested from A: Sim.get_lore_found() -> Array of ids, Events.lore_found(id).",
+ "lore": [
+  {
+   "id": "lore_01",
+   "title": "Timetable, torn corner",
+   "kind": "timetable",
+   "text": "Zero Line, night service. Dep. Platform Zero 00:00. Arr. Last Stop: -- (someone has pencilled beneath) 'when claimed'.",
+   "found_in": "pass",
+   "rarity": "common",
+   "tier": 0
+  },
+  {
+   "id": "lore_02",
+   "title": "Stub: One Way, Mostly",
+   "kind": "ticket",
+   "text": "ADMIT ONE. Valid: any carriage, any stop. Return: see Lost Property. The rest is a thumbprint, still faintly warm.",
+   "found_in": "lp",
+   "rarity": "common",
+   "tier": 0
+  },
+  {
+   "id": "lore_03",
+   "title": "Note on the bench",
+   "kind": "note",
+   "text": "Whoever sits here: please leave the lamp on. It likes company. It was here before the bench, and the bench was here before me.",
+   "found_in": "lp",
+   "rarity": "common",
+   "tier": 0
+  },
+  {
+   "id": "lore_04",
+   "title": "Station-master memo",
+   "kind": "memo",
+   "text": "MEMO to all staff: do NOT call the Zero Line late. It is not late. It is unfinished. Late is a thing trains do when they have somewhere to be.",
+   "found_in": "pass",
+   "rarity": "odd",
+   "tier": 0
+  },
+  {
+   "id": "lore_05",
+   "title": "Chalk on a seat back",
+   "kind": "graffiti",
+   "text": "'I was here at stop 7. I was here at stop 70. I'm still looking for my glove.' Signed with a smiley and a small arrow pointing up.",
+   "found_in": "pass",
+   "rarity": "common",
+   "tier": 0
+  },
+  {
+   "id": "lore_06",
+   "title": "Menu card, Dining car",
+   "kind": "note",
+   "text": "Tonight: soup of the day (it is always today). Pudding of the night. Tea, as ever. Please return cups. Please do not ask where the cups go.",
+   "found_in": "dine",
+   "rarity": "common",
+   "tier": 0
+  },
+  {
+   "id": "lore_07",
+   "title": "Napkin map",
+   "kind": "note",
+   "text": "Drawn in gravy: six boxes in a row, an arrow looping back to the first. Beside the last box: 'ask them what they lost'.",
+   "found_in": "dine",
+   "rarity": "odd",
+   "tier": 0
+  },
+  {
+   "id": "lore_08",
+   "title": "Receipt for one umbrella",
+   "kind": "ticket",
+   "text": "Received: one umbrella, black. Owner: unknown. Reclaimed: not yet. Stored: forever, if need be. Signed, the Attendant (the last one, or the first).",
+   "found_in": "lp",
+   "rarity": "odd",
+   "tier": 0
+  },
+  {
+   "id": "lore_09",
+   "title": "Postcard from Brasswater",
+   "kind": "note",
+   "text": "Wish you were here. Wish I was where I was. The rain is polished and the tea is hot. P.S. The train never leaves. It only lets us go.",
+   "found_in": "dine",
+   "rarity": "common",
+   "tier": 0
+  },
+  {
+   "id": "lore_10",
+   "title": "Sleeper car pencil note",
+   "kind": "note",
+   "text": "Dear whoever has bunk four: you snore. It is a lovely sound. It sounds like a train, and I find I miss the real one when it stops.",
+   "found_in": "sleep",
+   "rarity": "common",
+   "tier": 1
+  },
+  {
+   "id": "lore_11",
+   "title": "Lullaby, third verse",
+   "kind": "note",
+   "text": "'Wheels, wheels, count them slow. Every stop's a place to go. Every light's a someone's name. Every name, a lost-and-claimed.' (A child has added a star.)",
+   "found_in": "sleep",
+   "rarity": "odd",
+   "tier": 1
+  },
+  {
+   "id": "lore_12",
+   "title": "Blanket tag",
+   "kind": "ticket",
+   "text": "This blanket was knitted for a person who never boarded. It has kept three passengers warm and one conductor honest.",
+   "found_in": "sleep",
+   "rarity": "common",
+   "tier": 1
+  },
+  {
+   "id": "lore_13",
+   "title": "Timetable, a different year",
+   "kind": "timetable",
+   "text": "Zero Line, winter service. 14 stops. No terminus listed. Footnote: 'The terminus is arranged by the passengers.'",
+   "found_in": "sleep",
+   "rarity": "rare",
+   "tier": 1
+  },
+  {
+   "id": "lore_14",
+   "title": "Graffiti in the Luggage car",
+   "kind": "graffiti",
+   "text": "DON'T WORRY, IT'S ONLY LUGGAGE. (Underneath, in a different hand: 'it was me.')",
+   "found_in": "lug",
+   "rarity": "odd",
+   "tier": 3
+  },
+  {
+   "id": "lore_15",
+   "title": "Parcel label, blank",
+   "kind": "ticket",
+   "text": "To: ______ From: ______ Contents: something somebody couldn't carry. Handle with care. Handle with a lot of care.",
+   "found_in": "lug",
+   "rarity": "common",
+   "tier": 3
+  },
+  {
+   "id": "lore_16",
+   "title": "Porter's ledger page",
+   "kind": "memo",
+   "text": "Total parcels aboard: 4,112. Total delivered: 4,111. One parcel is the train. We don't discuss it. We do wave at it.",
+   "found_in": "lug",
+   "rarity": "rare",
+   "tier": 3
+  },
+  {
+   "id": "lore_17",
+   "title": "Stub: Standing Room",
+   "kind": "ticket",
+   "text": "ADMIT ONE to the Observation car. View: everything. Please do not look for the front. It will find you, in its own time.",
+   "found_in": "obs",
+   "rarity": "common",
+   "tier": 2
+  },
+  {
+   "id": "lore_18",
+   "title": "Star chart, annotated",
+   "kind": "note",
+   "text": "A circle of stops, pencilled over and over. In the centre, in tiny letters: 'Lost Property.' Beneath: 'oh. Of course.'",
+   "found_in": "obs",
+   "rarity": "odd",
+   "tier": 2
+  },
+  {
+   "id": "lore_19",
+   "title": "Note under the lamp",
+   "kind": "note",
+   "text": "I saw a light at the front. It was steady and warm. It was not a signal. It was a lantern. I think it's been waiting since before the line.",
+   "found_in": "obs",
+   "rarity": "rare",
+   "tier": 2
+  },
+  {
+   "id": "lore_20",
+   "title": "Railwayman's diary",
+   "kind": "memo",
+   "text": "Day 1: the train does not arrive. Day 40: the train does not arrive. Day 200: the train does not need to. I stay for the company.",
+   "found_in": "obs",
+   "rarity": "odd",
+   "tier": 2
+  },
+  {
+   "id": "lore_21",
+   "title": "The small tag",
+   "kind": "ticket",
+   "text": "A little paper tag on a string: UNCLAIMED. The string is new. The tag is older than the carriage. Someone keeps replacing the string.",
+   "found_in": "lp",
+   "rarity": "rare",
+   "tier": 3
+  },
+  {
+   "id": "lore_22",
+   "title": "Scrap: station-master speech",
+   "kind": "memo",
+   "text": "'We shall reach the last stop,' he said, 'the day somebody takes it.' Nobody asked what it was. Everybody understood.",
+   "found_in": "pass",
+   "rarity": "rare",
+   "tier": 3
+  },
+  {
+   "id": "lore_23",
+   "title": "Folded ticket, blank",
+   "kind": "ticket",
+   "text": "Valid for: the last stop. Issued to: you, whenever you're ready. Instruction: keep handing things back, and it will print itself.",
+   "found_in": "lp",
+   "rarity": "rare",
+   "tier": 4
+  },
+  {
+   "id": "lore_24",
+   "title": "Final memo, in your handwriting",
+   "kind": "memo",
+   "text": "If you're reading this, the train is lighter. Keep the lamp lit. The last stop is a handing-over. You're nearly there. Thank you, attendant.",
+   "found_in": "lp",
+   "rarity": "rare",
+   "tier": 4
+  }
+ ]
+}

@@ -1,13 +1,13 @@
 {
  "agent": "C",
- "updated": "2026-10-30T14:00:00Z",
- "note": "C3 mostly done: arc beat 5, station/tutorial/daily/weather/late_night barks, +6 ambient lines per routine, imposter slip/too_perfect/deflect extended. Left: sanity read of object stories. C2 awaiting CI.",
- "request": "TO B: Audio autoload ready. Replace Sfx with Audio.play(\"ui_tap|ui_open|ui_close|ui_back|ui_toggle\"); call Audio.apply_settings() after toggles; call Audio.tool_sound(\"magnifier|lamp|ear|nose|brush\") when a bench gesture starts (clue_found plays itself); add Settings bools \"music\" and \"ambience\" (default true) to the settings sheet. TO A: add tests/audio_tests.gd to CI (godot --headless --script tests/audio_tests.gd). TO A: new text keys in barks.json: Content.lines('barks',['station','stops',<stop name>]) on arriving; Content.lines('barks',['tutorial',<stage>]) for get_tutorial hints; ['tutorial','bram_after'] as toast after first delivery. TO A: barks.ambient also has keys rain|snow|fog|late_night (use as bark key when weather/time fits); barks.daily.intro|solved|share_flavor for the Night Case.",
+ "updated": "2026-10-30T15:00:00Z",
+ "note": "C3+C4 done: arcs/barks/dialogue extended; content/lore.json (24 scraps, schema in _doc). C2 still awaiting CI (queue is long). Next: C5 audit.",
+ "request": "TO B: Audio autoload ready. Replace Sfx with Audio.play(\"ui_tap|ui_open|ui_close|ui_back|ui_toggle\"); call Audio.apply_settings() after toggles; call Audio.tool_sound(\"magnifier|lamp|ear|nose|brush\") when a bench gesture starts (clue_found plays itself); add Settings bools \"music\" and \"ambience\" (default true) to the settings sheet. TO A: add tests/audio_tests.gd to CI (godot --headless --script tests/audio_tests.gd). TO A: new text keys in barks.json: Content.lines('barks',['station','stops',<stop name>]) on arriving; Content.lines('barks',['tutorial',<stage>]) for get_tutorial hints; ['tutorial','bram_after'] as toast after first delivery. TO A: barks.ambient also has keys rain|snow|fog|late_night (use as bark key when weather/time fits); barks.daily.intro|solved|share_flavor for the Night Case. TO A: Sim hook for lore: get_lore_found() -> Array of ids, Events.lore_found(id); drop scraps by found_in car kind and tier (content/lore.json). TO B: Ledger 'Lore' tab data = list of {id,title,kind,text,found_in,rarity} (tier is unlock gate).",
  "tasks": {
   "C1": "done",
   "C2": "doing",
-  "C3": "doing",
-  "C4": "todo",
+  "C3": "done",
+  "C4": "done",
   "C5": "todo",
   "C6": "todo"
  }
