@@ -134,6 +134,13 @@ func _on_input(e: InputEvent) -> void:
 
 
 func _draw_map() -> void:
+	if canvas.size.y > canvas.size.x * 0.75:
+		_draw_vertical()
+	else:
+		_draw_horizontal()
+
+
+func _draw_horizontal() -> void:
 	var sz: Vector2 = canvas.size
 	var font: Font = get_theme_default_font()
 	# night sky strip with a soft lamp wash behind the player's car
@@ -142,8 +149,8 @@ func _draw_map() -> void:
 	var n: int = maxi(rows.size(), 1)
 	var margin: float = 22.0
 	var gap: float = 14.0
-	var cw: float = minf((sz.x - margin * 2.0 - gap * float(n - 1)) / float(n), 240.0)
-	var ch: float = minf(cw * 0.95, sz.y * 0.5)
+	var cw: float = minf((sz.x - margin * 2.0 - gap * float(n - 1)) / float(n), 340.0)
+	var ch: float = minf(cw * 0.95, sz.y * 0.6)
 	var total: float = cw * float(n) + gap * float(n - 1)
 	var x0: float = (sz.x - total) / 2.0
 	var y0: float = sz.y * 0.5 - ch * 0.5 - 6.0
@@ -210,3 +217,71 @@ func _padlock(c: Vector2, s: float) -> void:
 	canvas.draw_arc(c + Vector2(0, -s * 0.35), s * 0.4, PI, TAU, 16, Pal.BRASS, 5.0)
 	Dr.rrect(canvas, Rect2(c - Vector2(s * 0.55, s * 0.35), Vector2(s * 1.1, s * 0.9)), 6, Pal.BRASS)
 	canvas.draw_circle(c + Vector2(0, s * 0.05), s * 0.12, Pal.DEEP)
+
+
+## Portrait: the train runs down the panel (front car on top), top-down view, big names on the right.
+func _draw_vertical() -> void:
+	var sz: Vector2 = canvas.size
+	var font: Font = get_theme_default_font()
+	Dr.vgrad(canvas, Rect2(Vector2.ZERO, sz), Color(Pal.DEEP, 0.9), Color(Pal.NIGHT, 0.9))
+	canvas.draw_rect(Rect2(Vector2.ZERO, sz), Color(Pal.BRASS, 0.5), false, 2.0)
+	var n: int = maxi(rows.size(), 1)
+	var m: float = 18.0
+	var gap: float = 18.0
+	var ch: float = minf((sz.y - m * 2.0 - gap * float(n - 1)) / float(n), 180.0)
+	var cw: float = minf(sz.x * 0.38, 360.0)
+	var total: float = ch * float(n) + gap * float(n - 1)
+	var y0: float = (sz.y - total) / 2.0
+	var x0: float = m + 24.0
+	var tx: float = x0 + cw + 34.0
+	_rects.clear()
+	for i in rows.size():
+		var r: Dictionary = rows[i]
+		var rc := Rect2(x0, y0 + float(i) * (ch + gap), cw, ch)
+		_rects.append(Rect2(m, rc.position.y - gap * 0.5, sz.x - m * 2.0, ch + gap))
+		var open_: bool = bool(r["unlocked"])
+		var here: bool = bool(r["is_player_car"])
+		if i == sel:
+			Dr.rrect(canvas, Rect2(m, rc.position.y - 6, sz.x - m * 2.0, ch + 12), 18, Color(Pal.PARCHMENT, 0.10))
+			canvas.draw_rect(Rect2(m, rc.position.y - 6, sz.x - m * 2.0, ch + 12), Pal.SIGNAL, false, 4.0)
+		if i < rows.size() - 1:
+			canvas.draw_rect(Rect2(rc.get_center().x - 7, rc.end.y - 1, 14, gap + 2), Pal.BRASS if open_ else Color(Pal.BRASS, 0.35))
+		var body: Color = Color(Pal.PARCHMENT, 0.95) if open_ else Color(Pal.MIST, 0.18)
+		if here:
+			for k in 4:
+				Dr.rrect(canvas, rc.grow(8.0 + k * 8.0), 22 + k * 6, Color(Pal.LAMP, 0.10 - k * 0.02 + (0.0 if Pal.reduced_motion() else sin(t * 2.0) * 0.015)))
+			body = Pal.LAMP
+		# wheels poke out at the sides
+		for wy in [0.2, 0.8]:
+			for sx in [-1.0, 1.0]:
+				var wr := Rect2(rc.get_center().x + sx * (cw * 0.5 + 2.0) - (0.0 if sx > 0.0 else 12.0), rc.position.y + ch * wy - 16, 12, 32)
+				canvas.draw_rect(wr, Pal.BRASS if open_ else Color(Pal.BRASS, 0.3))
+		Dr.rrect(canvas, rc, 22, body)
+		canvas.draw_rect(rc.grow(-2), Pal.BRASS if open_ else Color(Pal.MIST, 0.5), false, 3.0)
+		canvas.draw_line(Vector2(rc.get_center().x, rc.position.y + 12), Vector2(rc.get_center().x, rc.end.y - 12), Color(Pal.INK, 0.25 if open_ else 0.12), 3.0)
+		for sx2 in [0.0, 1.0]:
+			for k in 3:
+				var wh: float = (ch - 36.0) / 3.0 - 8.0
+				var wr2 := Rect2(rc.position.x + 14 + sx2 * (cw - 28 - 38), rc.position.y + 18 + k * (wh + 8), 38, wh)
+				var wc: Color = Color(Pal.LAMP, 0.85) if open_ else Color(Pal.DEEP, 0.7)
+				if here:
+					wc = Color(1.0, 0.95, 0.75, 0.95) if open_ else wc
+				Dr.rrect(canvas, wr2, 6, wc)
+				canvas.draw_rect(wr2, Color(Pal.BRASS, 0.8 if open_ else 0.3), false, 2.0)
+		if not open_:
+			_padlock(rc.get_center(), minf(ch * 0.4, 44.0))
+		var cy: float = rc.position.y + ch * 0.5
+		var tw: float = sz.x - tx - m - 10.0
+		canvas.draw_string(font, Vector2(tx, cy - 6), String(r["name"]), HORIZONTAL_ALIGNMENT_LEFT, tw, 38, Pal.PARCHMENT if open_ else Color(Pal.PARCHMENT, 0.4))
+		var sub: String = ""
+		var sc: Color = Pal.MIST
+		if here:
+			sub = "you are here"
+			sc = Pal.LAMP
+		elif not open_:
+			sub = "Reputation %d needed" % int(r["tier_rep"])
+		else:
+			sub = "%d waiting · %d items" % [int(r["claimants_waiting"]), int(r["items_here"])]
+		canvas.draw_string(font, Vector2(tx, cy + 34), sub, HORIZONTAL_ALIGNMENT_LEFT, tw, 26, sc)
+		if open_ and int(r["claimants_waiting"]) > 0:
+			canvas.draw_circle(Vector2(sz.x - m - 30, cy), 12, Pal.SIGNAL)

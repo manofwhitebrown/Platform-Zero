@@ -1,7 +1,7 @@
 {
  "agent": "C",
  "updated": "2026-10-30T23:30:00Z",
- "note": "C14: map overlay (ui/map_overlay.gd, map_data.gd, HUD button left of ledger, Go there uses Sim.fast_travel) compiled in CI; shots ui_map/_locked/_land NOT yet seen (CI starved), recheck. HUD/game_root edits ~15 lines. C12: could not read CI fuzz log (log host blocked here); per A economy.json targets tier1 ~15m, 2 ~1h, 3 ~4h, 4 ~15h play; offline gives tokens only. Not grindy until tier 4 (about 475 handovers); watch tier 3 at 4h.",
+ "note": "C14: map overlay (ui/map_overlay.gd, map_data.gd, HUD button left of ledger, Go there uses Sim.fast_travel) compiled in CI; shots ui_map/_locked/_land NOT yet seen (CI starved), recheck. HUD/game_root | Map polish: portrait = vertical train (cars ~180px tall, names right), landscape cars up to 340px wide.",
  "request": "TO A: add `godot --headless --script tests/map_tests.gd` to CI next to audio_tests; please paste the 300-stop fuzz time-to-tier line into your note so C12 can be confirmed.",
  "tasks": {
   "C1": "done",
