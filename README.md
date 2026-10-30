@@ -126,17 +126,13 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform C · Sound + Story** — 7/12 done
+**Platform C · Sound + Story** — 11/12 done
 
-- ⬜ How-to-play cards
-- ⬜ Loading tips
-- ⬜ Store listing + privacy policy
-- ⬜ Achievements data
 - ⬜ Re-check balance with playbot
 
-> C7: all sfx/ui/ambience peak -3 dB, music -6 dB, loops circular (clack onset at loop point is intentional), audio/ 3.0 MB. 6 old v1 wavs kept: ui/components/sfx.gd (B) still loads them; delete after B says Sfx migration 
+> C10 docs/STORE_LISTING.md + docs/PRIVACY.md. C11 content/achievements.json (30, uses only get_stats keys).
 
-<details><summary>Finished (7)</summary>
+<details><summary>Finished (11)</summary>
 
 - ✅ Audio generator (47 sounds)
 - ✅ Audio engine
@@ -145,27 +141,31 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ 400 items + solvability audit
 - ✅ Playbot + text polish
 - ✅ Audio QA
+- ✅ How-to-play cards
+- ✅ Loading tips
+- ✅ Store listing + privacy policy
+- ✅ Achievements data
 
 </details>
 
-**Platform D · World** — 5/11 done
+**Platform D · World** — 7/11 done
 
-- 🔄 Hotspots + item placement
-- ⬜ Camera + transitions
 - ⬜ Character generator
 - ⬜ Intro / title scene
 - ⬜ World performance + QA shots
 - ⬜ Door-open animation
 
-> D6: ItemArt spot items, idle shimmer via SHIMMER_IDLE_S, pickup arc, bigger tap targets, clock tap + lamp 2s hold signals on TrainWorld. Untested locally (no Godot). Lore scraps pending A lore_found.
+> D7: TrainWorld.camera_push_in(focus_x,amount)/camera_release() for interviews, car-crossing zoom pulse, look-ahead+brake shake kept. D6 done. Untested locally (no Godot); watching CI.
 
-<details><summary>Finished (5)</summary>
+<details><summary>Finished (7)</summary>
 
 - ✅ Seats + seated poses
 - ✅ Dress the 5 other cars
 - ✅ Ambient routine visuals
 - ✅ Scenery + weather
 - ✅ Station arrival
+- ✅ Hotspots + item placement
+- ✅ Camera + transitions
 
 </details>
 <!-- STATUS:END -->
