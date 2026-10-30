@@ -153,10 +153,10 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 **Platform D · World** — 10/12 done
 
-- ⬜ World performance + QA shots
+- 🔄 World performance + QA shots
 - ⬜ Travel-to-car camera + transition
 
-> D9: world/intro.tscn (script world/intro.gd, class Intro): train rolls into Platform Zero + title, tap to skip, signal finished; Intro.draw_train(ci,origin,car_w,t) reusable exterior. Shots w_intro_*. Untested locally. N
+> D10 partial: distance culling of cars/props/lights (0.15s tick), portrait QA shots w_*_pt added. Texture baking + frame-time numbers pending (no Godot locally; CI only). D1-D9 done.
 
 <details><summary>Finished (10)</summary>
 
