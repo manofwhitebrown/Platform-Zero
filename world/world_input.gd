@@ -6,6 +6,12 @@ extends Node2D
 ## - Always one "guided" interactable pulses (bench when carrying, else nearest item); the rest shimmer after 20 s idle.
 
 signal interacted(kind: String, id: String)
+signal brass_clock_tapped
+signal lamp_held
+
+const CLOCK_LOCAL: Vector2 = Vector2(870, 300)
+const LAMP_LOCAL: Vector2 = Vector2(990, 290)
+const LAMP_HOLD_S: float = 2.0
 
 const FLOOR_Y: float = 880.0
 const SPOT_Y: Dictionary = {"seat": 770.0, "rack": 380.0, "floor": 862.0, "bin": 838.0, "sill": 470.0, "curtain": 420.0, "table": 735.0}
@@ -23,6 +29,9 @@ var _ripple: Vector3 = Vector3(-1, 0, 0)  # x, y, age
 var _press_pos: Vector2 = Vector2.ZERO
 var _pressing: bool = false
 var _squash: Dictionary = {}
+var _fly: Dictionary = {}   # iid -> {from: Vector2, t: float}
+var _hold_t: float = 0.0
+var _hold_fired: bool = false
 
 
 func setup(p_world: Node2D, p_att: Passenger) -> void:
@@ -38,6 +47,13 @@ func _bench_x() -> float:
 		if String(c["id"]) == LP_ID:
 			return float(c["x"]) + BENCH_X_LOCAL
 	return 0.0
+
+
+func _lp_x() -> float:
+	for c in Sim.get_cars():
+		if String(c["id"]) == LP_ID:
+			return float(c["x"])
+	return 3600.0
 
 
 func _unlocked_at(x: float) -> bool:
@@ -91,8 +107,12 @@ func _unhandled_input(e: InputEvent) -> void:
 	if down:
 		_press_pos = pos
 		_pressing = true
+		_hold_t = 0.0
+		_hold_fired = false
 	elif up and _pressing:
 		_pressing = false
+		if _hold_fired:
+			return
 		if pos.distance_to(_press_pos) < 30.0:
 			tap_world(pos)
 
@@ -100,12 +120,16 @@ func _unhandled_input(e: InputEvent) -> void:
 ## Public so tests / ShotHook can drive it.
 func tap_world(pos: Vector2) -> void:
 	idle_s = 0.0
+	if pos.distance_to(Vector2(_lp_x(), 0) + CLOCK_LOCAL) < 100.0:
+		_ripple = Vector3(pos.x, pos.y, 0.0)
+		brass_clock_tapped.emit()
+		return
 	var hit: Dictionary = {}
-	var bd: float = 90.0
+	var bd: float = 120.0
 	for it in interactables():
 		var dx: float = absf(float(it["x"]) - pos.x)
 		var dy: float = absf(float(it["y"]) - 40.0 - pos.y)
-		if dx < bd and dy < 170.0:
+		if dx < bd and dy < 200.0:
 			bd = dx
 			hit = it
 	_ripple = Vector3(pos.x, clampf(pos.y, 700.0, FLOOR_Y), 0.0)
@@ -139,6 +163,15 @@ func _process(delta: float) -> void:
 		pending = {}
 	for k in _squash.keys():
 		_squash[k] = float(_squash[k]) + delta
+	for k2 in _fly.keys():
+		_fly[k2]["t"] = float(_fly[k2]["t"]) + delta
+		if float(_fly[k2]["t"]) > 0.45:
+			_fly.erase(k2)
+	if _pressing and not _hold_fired:
+		_hold_t += delta
+		if _hold_t >= LAMP_HOLD_S and _press_pos.distance_to(Vector2(_lp_x(), 0) + LAMP_LOCAL) < 110.0:
+			_hold_fired = true
+			lamp_held.emit()
 	queue_redraw()
 
 
@@ -149,6 +182,7 @@ func _arrive(it: Dictionary) -> void:
 			var r: Dictionary = Sim.pick_up(String(it["id"]))
 			if bool(r.get("ok", false)):
 				_squash[String(r["iid"])] = 0.0
+				_fly[String(r["iid"])] = {"from": Vector2(float(it["x"]), float(it["y"])), "t": 0.0}
 				attendant.play("hand")
 				get_tree().create_timer(0.7).timeout.connect(func() -> void:
 					if attendant.anim == "hand":
@@ -171,10 +205,6 @@ func _icon(item: Dictionary) -> Texture2D:
 
 
 func _draw_item(item: Dictionary, p: Vector2, sz: float, squash_t: float = -1.0) -> void:
-	var tex: Texture2D = _icon(item)
-	if tex == null:
-		return
-	var tint: Color = Color(String(item.get("tint", "#ffffff")))
 	var sx: float = 1.0
 	var sy: float = 1.0
 	if squash_t >= 0.0 and squash_t < 0.5:
@@ -183,7 +213,7 @@ func _draw_item(item: Dictionary, p: Vector2, sz: float, squash_t: float = -1.0)
 		sy = 1.0 + 0.35 * k
 	var r := Rect2(p.x - sz * sx * 0.5, p.y - sz * sy, sz * sx, sz * sy)
 	draw_circle(p + Vector2(0, -sz * 0.45), sz * 0.8, Color(1, 0.85, 0.45, 0.16))
-	draw_texture_rect(tex, r, false, tint)
+	ItemArt.draw(self, item, r)
 
 
 func _chip(p: Vector2, text: String, strong: bool) -> void:
@@ -201,7 +231,10 @@ func _chip(p: Vector2, text: String, strong: bool) -> void:
 func _draw() -> void:
 	var px: float = float(Sim.get_player().get("x", 0.0))
 	var g: Dictionary = guided()
-	var shimmer_all: bool = idle_s > 20.0
+	var shimmer_all: bool = idle_s > Sim.SHIMMER_IDLE_S
+	var hl: Dictionary = {}
+	for h in Sim.get_highlights():
+		hl[String(h.get("id", ""))] = true
 	# items resting at spots
 	for it in interactables():
 		if String(it["kind"]) == "spot":
@@ -211,10 +244,10 @@ func _draw() -> void:
 				continue
 			var base: Vector2 = Vector2(float(it["x"]), float(it["y"]))
 			var bob: float = sin(_t * 2.0 + float(it["x"]) * 0.01) * 3.0
-			_draw_item(def, base + Vector2(0, bob), 54.0)
+			_draw_item(item if item.has("def_id") else def, base + Vector2(0, bob), 60.0)
 	# interactable markers
 	for it in interactables():
-		var is_g: bool = not g.is_empty() and it["id"] == g["id"]
+		var is_g: bool = (not g.is_empty() and it["id"] == g["id"]) or (hl.has(String(it["id"])) and String(it["kind"]) == "spot" and bool(it["active"]) and Sim.get_tutorial().get("stage", "done") != "done")
 		if not is_g and not (shimmer_all and bool(it["active"])):
 			continue
 		var c := Vector2(float(it["x"]), float(it["y"]) - 20.0)
@@ -236,4 +269,9 @@ func _draw() -> void:
 		var def2: Dictionary = Content.object_by_id(String(item2.get("def_id", "")))
 		if not def2.is_empty():
 			var hp: Vector2 = Vector2(px, FLOOR_Y - 330.0 + sin(_t * 3.0) * 4.0)
-			_draw_item(def2, hp, 64.0, float(_squash.get(carrying, -1.0)))
+			if _fly.has(carrying):
+				var fk: float = clampf(float(_fly[carrying]["t"]) / 0.45, 0.0, 1.0)
+				var fe: float = 1.0 - pow(1.0 - fk, 3.0)
+				var from: Vector2 = _fly[carrying]["from"]
+				hp = from.lerp(hp, fe) + Vector2(0, -sin(fk * PI) * 90.0)
+			_draw_item(item2 if item2.has("def_id") else def2, hp, 68.0, float(_squash.get(carrying, -1.0)))

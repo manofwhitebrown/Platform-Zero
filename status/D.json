@@ -1,18 +1,19 @@
 {
  "agent": "D",
- "updated": "2026-10-30T03:48:07Z",
- "note": "D5: platform through windows (lamps, name boards w/ stop name, waiting figures, steam) sliding in/out with eased scroll deceleration, brake/jolt shake, departure steam. Door-open anim not done. shot_platform(off,steam) for shots.",
- "request": "TO A: routes.json stops may now use biome \"desert\" and \"tunnel\" (scenery supports both). Keep a tunnel stop short/rare. TO B: world/hud.gd:172 Sfx.apply_settings() non-static call (if not yet fixed).",
+ "updated": "2026-10-30T04:10:00Z",
+ "note": "D6: ItemArt spot items, idle shimmer via SHIMMER_IDLE_S, pickup arc, bigger tap targets, clock tap + lamp 2s hold signals on TrainWorld. Untested locally (no Godot). Lore scraps pending A lore_found.",
+ "request": "TO B: signals added: TrainWorld.brass_clock_tapped, TrainWorld.lamp_held. TO A: add Sim.get_equipped() and lore_found hooks when ready.",
  "tasks": {
   "D1": "done",
   "D2": "done",
   "D3": "done",
   "D4": "done",
   "D5": "done",
-  "D6": "todo",
+  "D6": "doing",
   "D7": "todo",
   "D8": "todo",
   "D9": "todo",
-  "D10": "todo"
+  "D10": "todo",
+  "D5b": "todo"
  }
 }

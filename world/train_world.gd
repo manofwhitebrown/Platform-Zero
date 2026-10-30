@@ -7,6 +7,9 @@ const CAR_W: float = 1800.0
 const CAM_Y: float = 520.0
 const FLOOR_Y: float = 880.0   # feet line for actors
 
+signal brass_clock_tapped
+signal lamp_held
+
 var cam: Camera2D
 var scenery: Scenery
 var shells: Dictionary = {}
@@ -109,6 +112,8 @@ func _build() -> void:
 	bench = (load("res://bench/bench.tscn") as PackedScene).instantiate()
 	add_child(bench)
 	winput.interacted.connect(_on_interacted)
+	winput.brass_clock_tapped.connect(func() -> void: brass_clock_tapped.emit())
+	winput.lamp_held.connect(func() -> void: lamp_held.emit())
 	hud = Hud.new()
 	hud.world = self
 	add_child(hud)
