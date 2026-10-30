@@ -1,6 +1,6 @@
 # Platform Zero
 
-[![build](https://github.com/manofwhitebrown/Platform-Zero/actions/workflows/build.yml/badge.svg)](https://github.com/manofwhitebrown/Platform-Zero/actions/workflows/build.yml)
+[![build](https://img.shields.io/github/actions/workflow/status/manofwhitebrown/Platform-Zero/build.yml?branch=main&event=push&label=build)](https://github.com/manofwhitebrown/Platform-Zero/actions/workflows/build.yml)
 
 *You are the attendant of the Lost Property car on the Zero Line, a night train that never reaches its last stop.* Things get left behind. You find them, examine them, and hand them back to the people who lost them, or refuse the impostors who didn't.
 
