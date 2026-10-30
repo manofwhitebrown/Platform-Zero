@@ -261,6 +261,16 @@ func _process(delta: float) -> void:
 	_last_car = car_i
 	_door_k = maxf(0.0, _door_k - delta * 1.6)
 	_update_camera(delta)
+	var door_k: float = 0.0
+	match st:
+		"arriving":
+			door_k = clampf((ph - 0.88) / 0.12, 0.0, 1.0)
+		"stopped":
+			door_k = 1.0
+		"departing":
+			door_k = clampf(1.0 - ph / 0.12, 0.0, 1.0)
+	for k3 in shells:
+		(shells[k3] as CarShell).set_door(door_k)
 	var wheel: float = _scroll * 0.05
 	for k in shells:
 		(shells[k] as CarShell).set_wheels(wheel)

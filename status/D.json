@@ -1,7 +1,7 @@
 {
  "agent": "D",
- "updated": "2026-10-30T04:25:00Z",
- "note": "D7: TrainWorld.camera_push_in(focus_x,amount)/camera_release() for interviews, car-crossing zoom pulse, look-ahead+brake shake kept. D6 done. Untested locally (no Godot); watching CI.",
+ "updated": "2026-10-30T04:40:00Z",
+ "note": "D5b: doors moved to the boarding end (x=W-112..W-16, matches Sim door x), open/close eased with arriving/stopped/departing phase, warm light spill. Untested locally (no Godot). Next: D8.",
  "request": "TO B: signals brass_clock_tapped/lamp_held on TrainWorld; call TrainWorld.camera_push_in(Sim.get_counter_x()) when an interview opens, camera_release() on close. TO A: Sim.get_equipped() + lore_found hooks wanted.",
  "tasks": {
   "D1": "done",
@@ -14,6 +14,6 @@
   "D8": "todo",
   "D9": "todo",
   "D10": "todo",
-  "D5b": "todo"
+  "D5b": "done"
  }
 }

@@ -27,6 +27,7 @@ var kind: String = "lp"
 var car_id: String = ""
 var unlocked: bool = true
 var wheel_rot: float = 0.0
+var door_open: float = 0.0
 var _style: Dictionary = STYLE["lp"]
 
 
@@ -41,6 +42,13 @@ func setup(c: Dictionary) -> void:
 func set_wheels(rot: float) -> void:
 	wheel_rot = rot
 	queue_redraw()
+
+
+func set_door(k: float) -> void:
+	k = clampf(k, 0.0, 1.0)
+	if absf(k - door_open) > 0.004:
+		door_open = k
+		queue_redraw()
 
 
 func window_rects() -> Array:
@@ -142,8 +150,8 @@ func _draw() -> void:
 		draw_colored_polygon(PackedVector2Array([Vector2(cx, cy - 14), Vector2(cx + 16, cy), Vector2(cx, cy + 14), Vector2(cx - 16, cy)]), Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.28))
 	Dr.vgrad(self, Rect2(0, Y_FLOOR + 100, W, 40), Color(0, 0, 0, 0), Color(0, 0, 0, 0.45))
 
-	# --- door at the rear end of the car
-	_door(Rect2(8, Y_WIN0 + 30, 96, Y_FLOOR - Y_WIN0 - 30), wood)
+	# --- door at the front end (x = W-60 is where Sim boards/leaves passengers)
+	_door(Rect2(W - 112, Y_WIN0 + 30, 96, Y_FLOOR - Y_WIN0 - 30), wood)
 
 	# --- underframe + bogies + rail
 	Dr.vgrad(self, Rect2(0, Y_BODY_END, W, 60), Color("#10242c"), Color("#050d11"))
@@ -196,6 +204,16 @@ func _clip_line(a: Vector2, b: Vector2, rc: Rect2, col: Color) -> void:
 
 
 func _door(rc: Rect2, wood: Color) -> void:
+	if door_open > 0.01:
+		# open: warm platform light spills through the doorway, the leaf folds back to its hinge
+		Dr.vgrad(self, rc, Color(1.0, 0.82, 0.5, 0.55 * door_open), Color(0.95, 0.6, 0.3, 0.3 * door_open))
+		draw_rect(Rect2(rc.position.x - 6, Y_FLOOR - 4, rc.size.x + 12, 8), Color(1, 0.85, 0.5, 0.35 * door_open))
+		draw_rect(rc, Pal.BRASS, false, 5.0)
+		var lw: float = maxf(10.0, rc.size.x * (1.0 - 0.88 * door_open))
+		var leaf := Rect2(rc.position.x, rc.position.y, lw, rc.size.y)
+		Dr.vgrad(self, leaf, Dr.shade(wood, 0.8), Dr.shade(wood, 0.55))
+		draw_rect(leaf, Pal.BRASS, false, 3.0)
+		return
 	Dr.vgrad(self, rc, Dr.shade(wood, 0.95), Dr.shade(wood, 0.7))
 	draw_rect(rc, Pal.BRASS, false, 5.0)
 	var gl := Rect2(rc.position.x + 16, rc.position.y + 24, rc.size.x - 32, 120)
