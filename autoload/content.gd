@@ -37,6 +37,7 @@ var objects: Array = []
 var owners: Array = []
 ## Human-readable problems found while loading (also sent to push_warning).
 var warnings: Array = []
+var lore: Array = []
 
 var _object_index: Dictionary = {}
 var _owner_index: Dictionary = {}
@@ -58,6 +59,7 @@ func reload() -> void:
 	economy = _load_dict("res://content/economy.json")
 	arcs = (_load_dict("res://content/arcs.json").get("arcs", {}) as Dictionary)
 	names = _load_dict(DEFAULT_NAMES_PATH)
+	lore = (_load_dict("res://content/lore.json").get("lore", []) as Array)
 	_rebuild()
 
 

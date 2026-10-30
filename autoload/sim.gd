@@ -94,6 +94,10 @@ var _last_seen: int = 0  # unix seconds of the last save/pause (A6.1)
 var _paused_at: int = 0
 var _saves_n: int = 0
 var _load_notice: String = ""
+var last_offline_report: Dictionary = {}  # set by apply_offline(); GameRoot reads it on cold start
+var _lore_found: Array = []
+var _stats: Dictionary = {}
+var _play_days: Array = []
 
 
 func _ready() -> void:
@@ -178,6 +182,10 @@ func new_game(seed_value: int) -> void:
 	_next_pid = 0
 	_idle_t = 0.0
 	_pending_stop_spawn = false
+	_lore_found = []
+	_stats = {}
+	_play_days = []
+	_note_day()
 	_build_cars()
 	_reseed()
 	_train = {"state": "moving", "stop": _stop_info(0), "phase_t": 0.0, "speed": 1.0, "time_of_day": 0.78, "weather": "clear"}
@@ -323,6 +331,8 @@ func _on_stopped(offline: bool = false) -> void:
 			if sp != "":
 				_place_item_at_spot(iid, sp)
 	_recover.clear()
+	_stat_add("stops")
+	_maybe_spawn_lore()
 	var spawned: Array = _amb_ref().take_dropped()
 	var n_items: int = rng.randi_range(1, 4)
 	for i in range(n_items):
@@ -818,6 +828,128 @@ func _touch() -> void:
 	_idle_t = 0.0
 
 
+# ======================= lore, stats, equipped (A6.5) =======================
+func _stat_add(k: String, n: int = 1) -> void:
+	_stats[k] = int(_stats.get(k, 0)) + n
+
+
+func _note_day() -> void:
+	var day: String = Time.get_date_string_from_system(true)
+	if _play_days.has(day):
+		return
+	_play_days.append(day)
+	if _play_days.size() > 400:
+		_play_days = _play_days.slice(_play_days.size() - 400)
+
+
+func get_lore_found() -> Array:
+	return _lore_found.duplicate()
+
+
+func _lore_on_train() -> Array:
+	var out: Array = []
+	for it in _items.values():
+		if String(it.get("lore_id", "")) != "" and String(it["loc"]) == "spot":
+			out.append(String(it["lore_id"]))
+	return out
+
+
+## Roughly one scrap every third stop, only in cars the player can reach and tiers already earned.
+func _maybe_spawn_lore() -> void:
+	var tier: int = tier_for(rep)
+	var local: RandomNumberGenerator = _local_rng("lore|%d" % stop_index)
+	if not tutorial_done or local.randf() > 0.34 or not _lore_on_train().is_empty():
+		return
+	var cands: Array = []
+	for l in Content.lore:
+		var lid: String = String(l.get("id", ""))
+		if lid == "" or _lore_found.has(lid) or int(l.get("tier", 0)) > tier:
+			continue
+		cands.append(l)
+	if cands.is_empty():
+		return
+	var l: Dictionary = cands[local.randi_range(0, cands.size() - 1)]
+	var open: Array = []
+	for sp in _spots:
+		var car: Dictionary = _cars[_car_index(String(sp["car_id"]))]
+		if String(car["kind"]) == String(l.get("found_in", "lp")) and bool(car["unlocked"]) and String(sp["item_iid"]) == "" and String(sp["kind"]) != "seat":
+			open.append(String(sp["id"]))
+	if open.is_empty():
+		return
+	var spot_id: String = String(open[local.randi_range(0, open.size() - 1)])
+	_next_iid += 1
+	var iid: String = "i%d" % _next_iid
+	var item: Dictionary = {"iid": iid, "def_id": String(l["id"]), "lore_id": String(l["id"]), "name": String(l.get("title", "A scrap of paper")), "icon": "letter", "tint": "#EADFC8",
+		"rarity": String(l.get("rarity", "common")), "loc": "spot", "spot_id": spot_id, "clues_known": [], "unknown_attrs": [], "tag_note": ""}
+	_items[iid] = item
+	_set_spot_item(spot_id, iid)
+	Events.item_spawned.emit(item, spot_id)
+
+
+func _car_index(car_id: String) -> int:
+	for i in range(_cars.size()):
+		if _cars[i]["id"] == car_id:
+			return i
+	return 0
+
+
+func _collect_lore(sp: Dictionary, iid: String) -> Dictionary:
+	var lid: String = String(_items[iid]["lore_id"])
+	sp["item_iid"] = ""
+	_items.erase(iid)
+	if not _lore_found.has(lid):
+		_lore_found.append(lid)
+		_stat_add("lore_found")
+		Events.lore_found.emit(lid)
+		Events.toast.emit("A scrap for the Ledger: %s" % String(_lore_entry(lid).get("title", "")), "info")
+	Events.item_moved.emit(iid, "delivered")
+	return {"ok": true, "iid": iid, "lore": true, "lore_id": lid}
+
+
+func _lore_entry(lid: String) -> Dictionary:
+	for l in Content.lore:
+		if String(l.get("id", "")) == lid:
+			return l
+	return {}
+
+
+func get_lore() -> Array:
+	var out: Array = []
+	for lid in _lore_found:
+		var l: Dictionary = _lore_entry(String(lid))
+		if not l.is_empty():
+			out.append(l)
+	return out
+
+
+## Owned cosmetic upgrade ids, e.g. ["brass_cap", "lantern_charm"].
+func get_equipped() -> Array:
+	var out: Array = []
+	for u in Content.shop.get("upgrades", []):
+		if String(u.get("kind", "")) == "cosmetic" and int(_upgrades.get(String(u["id"]), 0)) > 0:
+			out.append(String(u["id"]))
+	return out
+
+
+func get_stop_biome() -> String:
+	return String((_train.get("stop", {}) as Dictionary).get("biome", "plains"))
+
+
+func get_stats() -> Dictionary:
+	var streak: int = 0
+	var day_s: int = int(Time.get_unix_time_from_system() / 86400.0)
+	var have: Dictionary = {}
+	for d in _play_days:
+		have[int(Time.get_unix_time_from_datetime_string(String(d) + "T00:00:00") / 86400.0)] = true
+	while have.has(day_s - streak) or (streak == 0 and have.has(day_s - 1)):
+		if streak == 0 and not have.has(day_s):
+			day_s -= 1
+		streak += 1
+	return {"handovers": int(_stats.get("handovers", 0)), "refusals": int(_stats.get("refusals", 0)), "imposters_caught": int(_stats.get("imposters_caught", 0)),
+		"items_found": int(_stats.get("items_found", 0)), "stops": int(_stats.get("stops", 0)), "days_played": _play_days.size(), "streak": streak,
+		"tokens_total": int(_stats.get("tokens_total", 0)), "lore_found": _lore_found.size()}
+
+
 # ======================= queries =======================
 func get_cars() -> Array: return _cars
 func get_spots() -> Array: return _spots
@@ -890,7 +1022,7 @@ func _porter_work() -> int:
 		if n <= 0:
 			break
 		var iid: String = String(sp["item_iid"])
-		if iid != "" and String(sp["kind"]) != "seat" and _items.has(iid) and _items[iid]["loc"] == "spot":
+		if iid != "" and String(sp["kind"]) != "seat" and _items.has(iid) and _items[iid]["loc"] == "spot" and String(_items[iid].get("lore_id", "")) == "":
 			sp["item_iid"] = ""
 			_items[iid]["loc"] = "shelf"
 			_items[iid]["spot_id"] = ""
@@ -985,6 +1117,9 @@ func pick_up(spot_id: String) -> Dictionary:
 	for sp in _spots:
 		if sp["id"] == spot_id and String(sp["item_iid"]) != "":
 			var iid: String = String(sp["item_iid"])
+			if String(_items[iid].get("lore_id", "")) != "":
+				return _collect_lore(sp, iid)
+			_stat_add("items_found")
 			sp["item_iid"] = ""
 			_items[iid]["loc"] = "carried"
 			_items[iid]["spot_id"] = ""
@@ -1185,8 +1320,10 @@ func hand_over(iid: String, pid: String) -> Dictionary:
 		var beat: Dictionary = Content.arc_beat(String(p["owner_id"]), int(_owner_deliveries[String(p["owner_id"])]))
 		if not beat.is_empty():
 			res["arc_line"] = String(beat["line"])
+			Events.arc_beat.emit(String(p["owner_id"]), int(_owner_deliveries[String(p["owner_id"])]), String(beat["line"]))
 			Events.passenger_said.emit(pid, String(beat["line"]))
 			Events.toast.emit("%s: %s" % [String(w.get("name", "")), String(beat["line"])], "story")
+		_stat_add("handovers")
 		p["leave_mood"] = "happy"
 		_set_pstate(p, "receiving")
 		_queue.erase(pid)
@@ -1239,7 +1376,9 @@ func refuse(pid: String) -> Dictionary:
 	var res: Dictionary = {"ok": true, "was_imposter": was_imp, "tokens": 0, "rep": 0, "line": "Oh. Right. Sorry to bother you."}
 	var rl: RandomNumberGenerator = _local_rng("refuse|" + pid)
 	res["line"] = _pick_line(Content.lines("barks", ["refused", "imposter" if was_imp else "honest"]), rl, String(res["line"]))
+	_stat_add("refusals")
 	if was_imp:
+		_stat_add("imposters_caught")
 		res["tokens"] = 8
 		res["rep"] = 1
 		_add_tokens(8)
@@ -1319,6 +1458,8 @@ func tier_for(r: int) -> int:
 
 func _add_tokens(n: int) -> void:
 	tokens += n
+	if n > 0:
+		_stat_add("tokens_total", n)
 	_player["tokens"] = tokens
 	Events.tokens_changed.emit(tokens)
 
@@ -1397,6 +1538,7 @@ func apply_offline(elapsed_s: float, force: bool = false) -> Dictionary:
 	rpt["claimants_waiting"] = _active_claimants()
 	rpt["lines"] = _offline_lines(rpt)
 	Events.train_state_changed.emit("moving", _train["stop"])
+	last_offline_report = rpt
 	Events.offline_report.emit(rpt)
 	if autosave:
 		save_game()
@@ -1429,6 +1571,7 @@ func to_dict() -> Dictionary:
 		"train": _train.duplicate(true), "state_t": _state_t, "state_len": _state_len, "player": _player.duplicate(true), "next_iid": _next_iid, "next_pid": _next_pid,
 		"recover": _recover.duplicate(true), "delivered": _delivered_defs.duplicate(true), "owner_deliveries": _owner_deliveries.duplicate(true), "claims": _claims_log.duplicate(true),
 		"ambient": _amb_ref().to_dict(), "last_seen": int(Time.get_unix_time_from_system()), "saves_n": _saves_n,
+		"lore_found": _lore_found.duplicate(), "stats": _stats.duplicate(), "play_days": _play_days.duplicate(),
 	}
 
 
@@ -1451,6 +1594,10 @@ func from_dict(d: Dictionary) -> bool:
 	if d.is_empty():
 		return false
 	_saves_n = int(d.get("saves_n", 0))
+	_lore_found = (d.get("lore_found", []) as Array).duplicate()
+	_stats = (d.get("stats", {}) as Dictionary).duplicate()
+	_play_days = (d.get("play_days", []) as Array).duplicate()
+	_note_day()
 	_build_cars()
 	seed_base = int(d.get("seed_base", 1))
 	stop_index = int(d.get("stop_index", 0))
