@@ -342,6 +342,62 @@
     }
    ],
    "frames": 20
+  },
+  {
+   "id": "ui_settings",
+   "milestone": "M5",
+   "title": "Settings (portrait)",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "open_screen",
+     "args": [
+      "settings"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_settings_land",
+   "milestone": "M5",
+   "title": "Settings (landscape)",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "open_screen",
+     "args": [
+      "settings"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 20
   }
  ]
 }

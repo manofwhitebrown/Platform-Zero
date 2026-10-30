@@ -376,7 +376,6 @@ func _show_story(iid: String, _pid: String, res: Dictionary) -> void:
 		var tw: Tween = create_tween().set_parallel(true)
 		tw.tween_property(card, "scale", Vector2.ONE, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		tw.tween_property(card, "modulate:a", 1.0, 0.25)
-	Sfx.play("correct")
 
 
 func _on_card_input(e: InputEvent) -> void:

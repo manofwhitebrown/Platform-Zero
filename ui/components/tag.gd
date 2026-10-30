@@ -43,7 +43,7 @@ func swing(initial: bool = false) -> void:
 func _gui_input(e: InputEvent) -> void:
 	var pressed: bool = (e is InputEventMouseButton and e.pressed) or (e is InputEventScreenTouch and e.pressed)
 	if pressed:
-		Sfx.play("tap")
+		Audio.play("ui_tap")
 		swing()
 		tapped.emit()
 

@@ -170,21 +170,21 @@ class HudView extends Control:
 				var gr: Node = hud.world.get_parent()
 				if gr is GameRoot:
 					(gr as GameRoot).open_screen("ledger")
-					Sfx.play("tap")
+					Audio.play("ui_tap")
 					get_viewport().set_input_as_handled()
 					return
 			if shop_rect.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
 				var gr2: Node = hud.world.get_parent()
 				if gr2 is GameRoot:
 					(gr2 as GameRoot).open_screen("shop")
-					Sfx.play("tap")
+					Audio.play("ui_tap")
 					get_viewport().set_input_as_handled()
 					return
 			if night_rect.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
 				var gr3: Node = hud.world.get_parent()
 				if gr3 is GameRoot:
 					(gr3 as GameRoot).open_screen("daily")
-					Sfx.play("tap")
+					Audio.play("ui_tap")
 					get_viewport().set_input_as_handled()
 					return
 			if skip_rect.has_point((e as InputEventMouseButton).position):
@@ -205,47 +205,14 @@ func _ready() -> void:
 
 
 func _build_sheet() -> void:
+	## Settings now live in SettingsScreen (ScreenManager overlay); `sheet` stays as a hidden stub.
 	sheet = PanelContainer.new()
-	sheet.add_theme_stylebox_override("panel", Pal.panel_style(Pal.NIGHT, Pal.BRASS))
-	sheet.set_anchors_preset(Control.PRESET_CENTER)
 	sheet.visible = false
-	var col := VBoxContainer.new()
-	col.add_theme_constant_override("separation", 18)
-	sheet.add_child(col)
-	var title := Label.new()
-	title.text = "Settings"
-	title.add_theme_font_size_override("font_size", 44)
-	title.add_theme_color_override("font_color", Pal.LAMP)
-	col.add_child(title)
-	for opt in [["sound", "Sound", true], ["haptics", "Haptics", true], ["reduced_motion", "Reduce motion", false]]:
-		var b := UButton.new()
-		b.toggle_mode = true
-		b.custom_minimum_size = Vector2(560, 110)
-		b.text = String(opt[1])
-		b.button_pressed = Settings.get_bool(String(opt[0]), bool(opt[2]))
-		var key: String = String(opt[0])
-		var lbl: String = String(opt[1])
-		b.text = "%s: %s" % [lbl, "On" if b.button_pressed else "Off"]
-		b.toggled.connect(func(on: bool) -> void:
-			Settings.set_bool(key, on)
-			b.text = "%s: %s" % [lbl, "On" if on else "Off"]
-			if key == "sound" or key == "haptics":
-				(Sfx._inst.apply_settings() if Sfx._inst != null else null))
-		col.add_child(b)
-	var done := UButton.new()
-	done.text = "Close"
-	done.custom_minimum_size = Vector2(560, 110)
-	done.pressed.connect(toggle_sheet)
-	col.add_child(done)
-	var holder := Control.new()
-	holder.set_anchors_preset(Control.PRESET_FULL_RECT)
-	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(holder)
-	holder.add_child(sheet)
-	sheet.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	add_child(sheet)
 
 
 func toggle_sheet() -> void:
-	sheet.visible = not sheet.visible
-	sheet.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	Sfx.play("tap")
+	var gr: Node = world.get_parent()
+	if gr is GameRoot:
+		(gr as GameRoot).open_screen("settings")
+	Audio.play("ui_open")

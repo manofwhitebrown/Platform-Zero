@@ -31,7 +31,8 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	theme = load("res://ui/theme/unclaimed_theme.tres")
 	Settings.apply_all()
-	add_child(Sfx.new())
+	Audio.apply_settings()
+	Settings.apply_volumes()
 	world = (load("res://world/train_world.tscn") as PackedScene).instantiate()
 	add_child(world)
 	screens = ScreenManager.new()
@@ -45,12 +46,15 @@ func _ready() -> void:
 	Events.daily_completed.connect(func(_d: Dictionary) -> void:
 		await get_tree().create_timer(2.5).timeout
 		open_screen("daily"))
+	screens.register("settings", func(_a: Dictionary) -> Control: return SettingsScreen.new(screens))
 	screens.register("shop", func(_a: Dictionary) -> Control: return Shop.new(screens))
 	screens.register("ledger", func(_a: Dictionary) -> Control: return Ledger.new(screens))
 	get_tree().set_auto_accept_quit(false)
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--daily="):
 			daily_demo.call_deferred(a.substr(8))
+		if a == "--settings":
+			open_screen.call_deferred("settings")
 		if a == "--welcome":
 			welcome_demo.call_deferred()
 		if a.begins_with("--shop="):

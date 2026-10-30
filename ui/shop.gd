@@ -93,7 +93,7 @@ func _row(u: Dictionary) -> void:
 		b.text = "Wearing" if on else "Wear"
 		b.pressed.connect(func() -> void:
 			Settings.set_bool("equip_" + id, not Settings.get_bool("equip_" + id, false))
-			Sfx.play("tap")
+			Audio.play("ui_tap")
 			_refresh())
 	elif bool(u["maxed"]):
 		b.text = "Owned"
@@ -104,8 +104,8 @@ func _row(u: Dictionary) -> void:
 		b.pressed.connect(func() -> void:
 			var r: Dictionary = Sim.buy(id)
 			if bool(r.get("ok", false)):
-				Sfx.play("correct")
-				Sfx.buzz(30)
+				Audio.play("token_clink")
+				Haptics.buzz(30)
 				_refresh()
 				_pop(id))
 	hb.add_child(b)

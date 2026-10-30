@@ -55,8 +55,8 @@ class BenchView extends Control:
 		fresh[String(clue.get("id", ""))] = 0.0
 		pop_t = 0.0
 		pop_text = String(clue.get("text", ""))
-		Sfx.play("clue")
-		Sfx.buzz(30)
+		Audio.play("clue_found")
+		Haptics.buzz(30)
 
 	func items() -> Array:
 		return Sim.get_items_at("bench")
@@ -124,22 +124,22 @@ class BenchView extends Control:
 
 	func _press(p: Vector2) -> void:
 		if close_r.has_point(p):
-			Sfx.play("tap")
+			Audio.play("ui_tap")
 			b.close()
 			return
 		for th in thumbs:
 			if (th["r"] as Rect2).has_point(p):
 				sel = String(th["iid"])
 				prog = 0.0
-				Sfx.play("tap")
+				Audio.play("ui_tap")
 				return
 		for i in range(rail.size()):
 			if (rail[i] as Rect2).grow(10).has_point(p):
 				tool = TOOLS[i]
 				prog = 0.0
 				bounce[tool] = 0.0
-				Sfx.play("tap")
-				Sfx.buzz(15)
+				Audio.tool_sound(tool)
+				Haptics.buzz(15)
 				return
 		if sel == "":
 			return
@@ -206,7 +206,7 @@ class BenchView extends Control:
 				if emit_acc > 0.28:
 					emit_acc = 0.0
 					parts.append({"p": item_c, "v": Vector2.ZERO, "life": 0.9, "max": 0.9, "col": Color(Pal.LAMP, 0.7), "kind": "ring", "r": 20.0})
-					Sfx.buzz(10)
+					Haptics.buzz(10)
 			"nose":
 				prog += delta * float(RATE[tool])
 				_emit(item_c + Vector2(randf_range(-item_sz * 0.3, item_sz * 0.3), -item_sz * 0.2), 1, Color(0.8, 0.9, 0.8, 0.55), Vector2(randf_range(-20, 20), -90))
@@ -215,7 +215,7 @@ class BenchView extends Control:
 			down = false
 			done[key] = true
 			var r: Dictionary = Sim.reveal(sel, tool)
-			Sfx.buzz(40)
+			Haptics.buzz(40)
 			if bool(r.get("nothing", false)) or not bool(r.get("ok", false)):
 				say("Nothing for the %s here. Try another tool." % LABELS[tool].to_lower())
 			else:
@@ -536,7 +536,7 @@ func open(tool: String = "") -> void:
 	view.modulate.a = 0.0
 	var tw: Tween = create_tween()
 	tw.tween_property(view, "modulate:a", 1.0, 0.18)
-	Sfx.play("drop")
+	Audio.play("paper_rustle")
 
 
 func close() -> void:

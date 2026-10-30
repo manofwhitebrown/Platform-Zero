@@ -77,7 +77,7 @@ func _build() -> void:
 		cp.pressed.connect(func() -> void:
 			DisplayServer.clipboard_set(String(d.get("share", "")))
 			Events.toast.emit("Share card copied.", "good")
-			Sfx.play("tap"))
+			Audio.play("ui_tap"))
 		v.add_child(cp)
 	elif avail:
 		var go := UButton.new()
