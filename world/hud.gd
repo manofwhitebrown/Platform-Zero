@@ -16,6 +16,7 @@ class HudView extends Control:
 	var hud: Hud
 	var coin: Texture2D
 	var inset: float = 0.0
+	var skip_rect: Rect2 = Rect2()
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -107,6 +108,13 @@ class HudView extends Control:
 			Dr.rrect(self, cr, 20, Color(Pal.PARCHMENT, 0.96))
 			draw_rect(cr.grow(-6), Color(Pal.BRASS, 0.5), false, 2.0)
 			txt(cr.position + Vector2(0, 45), chip, 30, Pal.INK, w, HORIZONTAL_ALIGNMENT_CENTER)
+		# quiet tutorial skip
+		skip_rect = Rect2()
+		if String(Sim.get_tutorial().get("stage", "done")) != "done":
+			skip_rect = Rect2(vs.x / 2.0 + minf(vs.x - 60, 880.0) / 2.0 - 170, bar.end.y + 92, 170, 72)
+			var sr: Rect2 = skip_rect.grow_individual(0, -12, 0, -12)
+			Dr.rrect(self, sr, 18, Color(Pal.DEEP, 0.55))
+			txt(Vector2(sr.position.x, sr.position.y + 34), "Skip intro", 24, Color(Pal.PARCHMENT, 0.8), sr.size.x, HORIZONTAL_ALIGNMENT_CENTER)
 		# toasts
 		var ty: float = bar.end.y + (110.0 if chip != "" else 14.0) + 90.0
 		for tt in toasts:
@@ -130,6 +138,10 @@ class HudView extends Control:
 
 	func _input(e: InputEvent) -> void:
 		if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+			if skip_rect.has_point((e as InputEventMouseButton).position):
+				Sim.skip_tutorial()
+				get_viewport().set_input_as_handled()
+				return
 			if gear.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
 				hud.toggle_sheet()
 				get_viewport().set_input_as_handled()

@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T03:04:05Z",
+ "updated": "2026-10-30T03:21:30Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -26,8 +26,9 @@
   "B1.4": "done",
   "B1.5": "done",
   "B1.6": "done",
-  "B5.0": "doing"
+  "B5.0": "done",
+  "B5.1": "done"
  },
- "note": "B5.0: ui/game_root.tscn (theme, Settings, Sfx, TrainWorld, ScreenManager overlay stack, safe insets, Android back) is main_scene now (one-line project.godot change). Shot ui_fresh_launch added to tests/shots.json.",
+ "note": "B5.0/B5.1 done: game_root is main scene; fixed red build (hud Sfx call) and zero-size HUD; HUD has Skip intro pill; first-minute flow verified headless (pick->bench->reveal->handover, 7 tokens). Next B5.2 ItemArt.",
  "request": ""
 }
