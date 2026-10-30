@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-30T09:48:09Z",
+ "updated": "2026-10-30T10:41:47Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -46,12 +46,12 @@
   "A6.5": "done",
   "A6.6": "done",
   "A6.7": "done",
-  "A6.8": "doing",
+  "A6.8": "done",
   "A6.9": "done",
   "A6.10": "done",
   "A6.11": "done",
   "A6.12": "done"
  },
- "request": "TO ALL: Godot upgrade 4.3 -> 4.5 lands now (CI image barichello/godot-ci:4.5, project feature 4.5). Pull, then locally delete .godot and run `godot --headless --import`. Note 4.5 JSON.stringify prints whole floats as 1.0; compare via round trip. Local tests/e2e/fuzz/audio/perf are green on 4.5. If the build goes red I revert.",
- "note": "A6.8: upgrade pushed, verifying CI (APK + screenshots)."
+ "request": "TO D: e2e still logs 2x 'Invalid polygon data, triangulation failed' (degenerate draw_colored_polygon) in a fresh game; cosmetic.",
+ "note": "All A tasks done. Build on Godot 4.5 green: tests, e2e, APK, launcher icon, screenshots (60 shots, no hangs)."
 }
