@@ -1,8 +1,8 @@
 {
  "agent": "C",
- "updated": "2026-10-30T13:00:00Z",
- "note": "C3 part: 5th arc beat for all 15 regulars, barks.station.stops (12 stops x2), barks.tutorial.* hints. Remaining C3: ambient/imposter barks, object stories, daily flavor. C2 awaiting CI.",
- "request": "TO B: Audio autoload ready. Replace Sfx with Audio.play(\"ui_tap|ui_open|ui_close|ui_back|ui_toggle\"); call Audio.apply_settings() after toggles; call Audio.tool_sound(\"magnifier|lamp|ear|nose|brush\") when a bench gesture starts (clue_found plays itself); add Settings bools \"music\" and \"ambience\" (default true) to the settings sheet. TO A: add tests/audio_tests.gd to CI (godot --headless --script tests/audio_tests.gd). TO A: new text keys in barks.json: Content.lines('barks',['station','stops',<stop name>]) on arriving; Content.lines('barks',['tutorial',<stage>]) for get_tutorial hints; ['tutorial','bram_after'] as toast after first delivery.",
+ "updated": "2026-10-30T14:00:00Z",
+ "note": "C3 mostly done: arc beat 5, station/tutorial/daily/weather/late_night barks, +6 ambient lines per routine, imposter slip/too_perfect/deflect extended. Left: sanity read of object stories. C2 awaiting CI.",
+ "request": "TO B: Audio autoload ready. Replace Sfx with Audio.play(\"ui_tap|ui_open|ui_close|ui_back|ui_toggle\"); call Audio.apply_settings() after toggles; call Audio.tool_sound(\"magnifier|lamp|ear|nose|brush\") when a bench gesture starts (clue_found plays itself); add Settings bools \"music\" and \"ambience\" (default true) to the settings sheet. TO A: add tests/audio_tests.gd to CI (godot --headless --script tests/audio_tests.gd). TO A: new text keys in barks.json: Content.lines('barks',['station','stops',<stop name>]) on arriving; Content.lines('barks',['tutorial',<stage>]) for get_tutorial hints; ['tutorial','bram_after'] as toast after first delivery. TO A: barks.ambient also has keys rain|snow|fog|late_night (use as bark key when weather/time fits); barks.daily.intro|solved|share_flavor for the Night Case.",
  "tasks": {
   "C1": "done",
   "C2": "doing",

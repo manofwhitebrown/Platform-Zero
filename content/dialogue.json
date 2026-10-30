@@ -214,36 +214,54 @@
   "slip": {
    "calm": [
     "Oh, it's {value}. Quite certain. Quite.",
-    "It's definitely {value}. I know my things."
+    "It's definitely {value}. I know my things.",
+    "It's {value}. I'd stake my reputation on {value}.",
+    "Oh, {value}. The only possible answer."
    ],
    "hurried": [
     "{value}! Obviously {value}! Don't question me!",
-    "{value}! Yes! Go!"
+    "{value}! Yes! Go!",
+    "{value}! I said {value}! Why is nobody listening?",
+    "It's {value}, yes, no time, {value}!"
    ],
    "worried": [
     "It's {value}. It's {value}, isn't it? It's {value}.",
-    "{value}, I'm positive. Mostly positive."
+    "{value}, I'm positive. Mostly positive.",
+    "{value}. Definitely. No, wait. Definitely {value}.",
+    "It's {value}. Isn't it? It's {value}. Good."
    ],
    "shy": [
     "It's {value}. Sorry. I mean it is {value}.",
-    "{value}. I... think that's right."
+    "{value}. I... think that's right.",
+    "{value}. Um. Yes. That's what I said.",
+    "I, um, it's {value}. Definitely."
    ],
    "grumpy": [
     "{value}. Why would I lie about {value}?",
-    "{value}, and don't give me that look."
+    "{value}, and don't give me that look.",
+    "{value}. Write it down if you like.",
+    "It's {value}, and I won't be repeating myself."
    ]
   },
   "too_perfect": [
    "Exactly {value}, precisely, down to the last detail.",
    "I'd describe it as {value}, ahem, in every particular.",
    "Oh yes, {value}, as I told the other attendant. And the one before.",
-   "{value}. I've said it so many times it's practically a hymn."
+   "{value}. I've said it so many times it's practically a hymn.",
+   "Right down to the last stitch, exactly {value}, precisely as one would.",
+   "It's {value}. Naturally. I memorised it earlier. I mean, I remember it.",
+   "I could describe {value} in my sleep. I have, I think.",
+   "{value}. Perfectly. Smoothly. As is correct."
   ],
   "deflect": [
    "Does it matter? It's mine, that's what matters.",
    "I'd rather not say. Sentimental reasons.",
    "Why all the questions? Just hand it over.",
-   "Hm. I can't think. It's been a long day."
+   "Hm. I can't think. It's been a long day.",
+   "Details, details. It's mine. Next question.",
+   "I'd rather not go through it all again, if you don't mind.",
+   "Sentimental. Very. Let's leave it at that.",
+   "Why all the questions? Just hand it over, there's a dear."
   ]
  },
  "empty": {

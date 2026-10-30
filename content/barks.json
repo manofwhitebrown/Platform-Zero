@@ -9,7 +9,13 @@
    "Shh. The detective is about to say something obvious.",
    "Page two hundred. Page two hundred and one. Page two hundred.",
    "Lovely story. Far too many sheep.",
-   "Mm. The butler again."
+   "Mm. The butler again.",
+   "I've read this page four times. It's still the best page.",
+   "The butler did it. Or the vicar. The page is damp.",
+   "Shh, the detective's about to explain everything.",
+   "Somebody's folded down the best part. I forgive them.",
+   "Chapter twelve is shorter. Chapter twelve is a lie.",
+   "I'd read the ending, but the train might end first."
   ],
   "napping": [
    "Zzz... no, the other soup...",
@@ -19,7 +25,13 @@
    "Snrk. Pardon. Dreaming of trains.",
    "Don't mind me. I'm resting my eyes. Both of them.",
    "Zzz... it was a very large biscuit...",
-   "Mhm... tell the moon I'll be right there..."
+   "Mhm... tell the moon I'll be right there...",
+   "Five more stops. Wake me for pudding.",
+   "I wasn't sleeping. I was resting my eyes, loudly.",
+   "Mm. The wheels sing the best lullabies.",
+   "No, no, I'm awake. I'm only dreaming with my eyes shut.",
+   "Zzz... tell the cat it's fine...",
+   "If I snore, it's the train. It's always the train."
   ],
   "eating": [
    "Best pie east of anywhere.",
@@ -29,7 +41,13 @@
    "One more sausage roll and then I'm a sensible person.",
    "The jam is on the wrong side of the plate. I like it.",
    "Mm. Pickled something. Delightful.",
-   "Do not look at my pudding. It's shy."
+   "Do not look at my pudding. It's shy.",
+   "This sandwich has seen more stops than I have.",
+   "A crumb for the pigeon, a crumb for me.",
+   "Tea, toast, and a very long view. Perfect.",
+   "Someone's made soup in a flask. Heroic.",
+   "I saved the best bit for last, and then ate it first.",
+   "Pie by lamplight tastes twice as good."
   ],
   "staring": [
    "Look. A horse. Standing about.",
@@ -39,7 +57,13 @@
    "Fog's coming in. Cosy, isn't it?",
    "That hill looks like a sleeping cat.",
    "Every window is a tiny film.",
-   "I wonder who lives in the lighthouse. Gulls, mostly."
+   "I wonder who lives in the lighthouse. Gulls, mostly.",
+   "The moon is keeping pace. Polite of it.",
+   "Is that a hill, or a very large sleeping dog?",
+   "I could watch the dark go by all night. And I do.",
+   "There's a light in that window. Someone's up late, like us.",
+   "Every station's a little stage. Somebody's always waiting.",
+   "The glass is cold. The view is warm. Funny."
   ],
   "chatting": [
    "And then she said, 'It's not a hat, it's a nest.'",
@@ -49,7 +73,13 @@
    "I'm only saying the tea was better last year.",
    "Wait, wait, say it again, slower.",
    "You never told me you could whistle!",
-   "We should have brought a map. Or a goat. Something useful."
+   "We should have brought a map. Or a goat. Something useful.",
+   "No, I said the soup was hot, not the soup was *sad*.",
+   "She tipped her hat and I tipped mine. We've not spoken since.",
+   "I'm only saying, a train should have a map.",
+   "He told me it was a secret. So of course I told everyone.",
+   "We've met before. Or I've met someone very like you.",
+   "And that's when the lamp went out. Spooky, no? It was just the lamp."
   ],
   "kids": [
    "Mum! The train is breathing on the window!",
@@ -59,7 +89,13 @@
    "I'm not looking at anything. I'm looking at everything.",
    "The moon is following us. I checked.",
    "Can the train go faster? Just a bit? Politely?",
-   "I found a button! It's mine now. It's a lucky button."
+   "I found a button! It's mine now. It's a lucky button.",
+   "Are we nearly there? Are we nearly nearly?",
+   "I'm going to count all the stars. I'm up to six.",
+   "The train waved at me! With its steam!",
+   "I found a button. Is it mine? It's mine now.",
+   "Mum, is the moon following us or are we following the moon?",
+   "Shh. The seats are dreaming."
   ],
   "vendor": [
    "Tea! Hot tea! Mostly hot!",
@@ -69,7 +105,13 @@
    "Tea, madam? Tea, sir? Tea, small gentleman?",
    "Peppermints! Dangerously cool!",
    "Sandwiches, cut on the diagonal, as nature intended!",
-   "Mind your toes, I'm a trolley with ambitions."
+   "Mind your toes, I'm a trolley with ambitions.",
+   "Sandwiches! Mostly sandwich!",
+   "Biscuits, three for a button!",
+   "Hot chestnuts! Hotter than the Dining car!",
+   "Lemonade! Sour enough to wake the conductor!",
+   "Tea! Strong enough to hold the spoon up!",
+   "Postcards of every stop! Some of them accurate!"
   ],
   "conductor": [
    "Tickets, please. Tickets, kindly. Tickets, if you've a moment.",
@@ -79,7 +121,13 @@
    "Punctual to the minute. Give or take eleven.",
    "Everything is in hand. Mostly mine.",
    "Evening, attendant. Anything interesting under the seats?",
-   "The line is long and the night is longer."
+   "The line is long and the night is longer.",
+   "Mind the step. Mind the other step.",
+   "All tickets are valid, if you believe in them.",
+   "I punch holes in tickets and, occasionally, in rumours.",
+   "Next stop: soon. Possibly sooner.",
+   "Anyone lost? The Lost Property car is just down there. Mind the lamp.",
+   "The train will arrive when the train arrives."
   ],
   "boarding": [
    "Is this the right train? It feels right.",
@@ -87,7 +135,11 @@
    "Window seat, please, window seat, window seat.",
    "Platform Zero? Never heard of it. I love it.",
    "Just made it! My coat wasn't so lucky.",
-   "Is anyone sitting here? Is anything sitting here?"
+   "Is anyone sitting here? Is anything sitting here?",
+   "Room for one more? I travel light. Mostly regrets.",
+   "I'm sure I had a ticket. It's somewhere. Probably.",
+   "This feels like the right train. It feels like it's been waiting.",
+   "Mind my bag. It's full of other people's umbrellas."
   ],
   "leaving": [
    "That's me. Safe travels, everyone.",
@@ -95,7 +147,35 @@
    "Mind the step. It minds me.",
    "Home at last. Or a version of home.",
    "Off I pop. Don't wait up.",
-   "Whoever took my seat, enjoy it. It's lumpy."
+   "Whoever took my seat, enjoy it. It's lumpy.",
+   "Thank you for having me. Mind my seat, it's warm.",
+   "Goodnight, train. Don't wait up.",
+   "That's my stop. I think. I hope. It's lovely, anyway.",
+   "Safe travels. Keep your things close."
+  ],
+  "rain": [
+   "Listen to the rain on the roof. Best seat in the house.",
+   "Wet tracks, warm lamps. I'll take it.",
+   "Every drop thinks it's the only one. Charming.",
+   "Rain's good for a story. Not so good for a hat."
+  ],
+  "snow": [
+   "Snow! The whole world's gone quiet and polite.",
+   "The window's frosted over. Someone's drawn a very small train.",
+   "Cold Spoon weather. Mittens, everyone.",
+   "Every flake's different. I've not checked them all."
+  ],
+  "fog": [
+   "Fog. The train's feeling its way, like a cat.",
+   "I can't see the platform. I can feel it, though.",
+   "Everything's soft in fog. Even the signals look sleepy.",
+   "Is that a station, or a cloud with ambition?"
+  ],
+  "late_night": [
+   "It's very late, or very early. Same train either way.",
+   "Everyone's quieter after midnight. Even the wheels.",
+   "Night shift on the Zero Line. Tea's on me.",
+   "Past midnight the lamps seem to hum together."
   ]
  },
  "claimant_intro": {
@@ -363,6 +443,29 @@
   "bram_after": [
    "Bram grins, black-handed and delighted. 'Tea in the engine room, any time.'",
    "Bram tips an imaginary hat. 'You've the knack, attendant.'"
+  ]
+ },
+ "daily": {
+  "intro": [
+   "Tonight's case comes in on the night post. Someone is missing something.",
+   "A new case, wrapped in brown paper and mystery.",
+   "The Night Case is on the bench. The lamp is warm. Shall we?",
+   "Someone's lost something dear, and left a note. A thin one.",
+   "Same train, same lamp, a different puzzle."
+  ],
+  "solved": [
+   "Case closed. The owner left whistling.",
+   "That's the one. Quietly, a small miracle.",
+   "You've done it. The lamp seems brighter.",
+   "Handed over, thanked, and gone into the night.",
+   "Another thing found. Another small relief."
+  ],
+  "share_flavor": [
+   "The Zero Line never loses a thing for good.",
+   "Found it again tonight.",
+   "One more lost thing, home safe.",
+   "The lamp stayed lit.",
+   "Nothing is truly lost on the Zero Line."
   ]
  }
 }
