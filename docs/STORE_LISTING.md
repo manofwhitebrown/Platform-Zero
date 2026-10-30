@@ -25,7 +25,7 @@ Scraps of lore are tucked away in the cars, if you care to find out why the trai
 - Five hand tools to examine every lost item
 - Dozens of owners with moods you can read
 - Spot imposters and refuse them for a bonus
-- Hundreds of hand-described objects, each with a story
+- Hundreds of different objects, each with a story
 - Six train cars to unlock, each dressed by hand
 - Idle progress: the train keeps rolling while you are away
 - A new Night Case every day
