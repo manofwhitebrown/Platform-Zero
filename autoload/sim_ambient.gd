@@ -25,6 +25,8 @@ const ROUTINE_WEIGHTS: Dictionary = {
 const LEAVE_CHANCE: float = 0.35
 const DROP_CHANCE: float = 0.30
 const BARK_RANGE: float = 1200.0
+const COARSE_RANGE: float = 1500.0  # seated people farther than this from the attendant tick coarsely
+const COARSE_STEP: float = 1.0
 const WALK_SPEED: float = 120.0
 const CONDUCTOR_SPEED: float = 110.0
 const VENDOR_SPEED: float = 70.0
@@ -324,6 +326,13 @@ func tick(p: Dictionary, dt: float) -> void:
 	if role != "":
 		_tick_walker(p, dt, role)
 		return
+	if String(p["state"]) == "seated" and absf(float(p["x"]) - float(sim._player["x"])) > COARSE_RANGE:
+		var acc: float = float(p.get("acc", 0.0)) + dt
+		if acc < COARSE_STEP:
+			p["acc"] = acc
+			return
+		dt = acc
+		p["acc"] = 0.0
 	match String(p["state"]):
 		"seated":
 			p["r_t"] = float(p["r_t"]) - dt

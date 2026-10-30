@@ -79,6 +79,8 @@ jobs:
         run: godot --headless --script tests/run_tests.gd 2>&1 | tee -a /tmp/ci.log
       - name: Fuzz + balance report (300 stops, 3 bots)
         run: godot --headless --script tests/fuzz.gd -- --stops=300 2>&1 | grep -vE "^$" | tee -a /tmp/ci.log
+      - name: Sim performance budget (40 passengers, <1 ms/frame)
+        run: godot --headless --script tests/perf.gd 2>&1 | grep -E "perf|PERF" | tee -a /tmp/ci.log
       - name: Export APK
         run: |
           mkdir -p build
