@@ -2,7 +2,7 @@ extends SceneTree
 ## Headless test runner: godot --headless --script tests/run_tests.gd
 ## A-C3: loads EVERY script and scene, instantiates every scene, checks every autoload.
 
-const AUTOLOADS: PackedStringArray = ["Events", "Clock", "Content", "GameState", "Mystery", "Sim", "Cheats"]
+const AUTOLOADS: PackedStringArray = ["Events", "Clock", "Content", "Sim", "Cheats", "Audio"]
 const SKIP_DIRS: PackedStringArray = [".godot", ".git", "tests", "build", "generated"]
 
 var failures: int = 0
