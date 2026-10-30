@@ -281,6 +281,10 @@ func _on_said(pid: String, line: String) -> void:
 	for p in Sim.get_passengers():
 		if String(p["pid"]) == pid:
 			nm = String(p.get("name", ""))
+	if actors.has(pid) and is_instance_valid(actors[pid]):
+		var ap: Variant = actors[pid]
+		if ap is Passenger:
+			(ap as Passenger).talk(line.length())
 	_bubbles[pid] = {"text": line, "shown": 0.0, "age": 0.0, "name": nm, "blip_at": 0}
 
 

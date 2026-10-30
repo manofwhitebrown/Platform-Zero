@@ -39,6 +39,7 @@ var _walk_target: float = NAN
 var _walk_speed: float = 0.0
 var held: String = ""        # prop in the front hand: book | cup | trolley | punch
 var _hand_f: Vector2 = Vector2.ZERO
+var _talk: float = 0.0      # >0 while speaking (mouth flaps)
 var _hid: float = 0.0      # shy peek: how hidden (0..1)
 
 const KEYS := ["hip", "lean", "tf", "tb", "kf", "kb", "sf", "ef", "sb", "eb", "head", "hand_x", "hand_y"]
@@ -48,23 +49,55 @@ static func make_look(seed_i: int) -> Dictionary:
 	var r := RandomNumberGenerator.new()
 	r.seed = seed_i
 	var builds: Array = BUILDS.keys()
+	var age: String = ["young", "adult", "adult", "elder"][r.randi() % 4]
 	var kid: bool = r.randf() < 0.1
+	if kid:
+		age = "kid"
+	var hair_c: Color = HAIRS[r.randi() % HAIRS.size()]
+	if r.randf() < 0.35:   # off-palette dyes / natural variation so hundreds stay distinct
+		hair_c = Color.from_hsv(r.randf_range(0.02, 0.12), r.randf_range(0.2, 0.8), r.randf_range(0.18, 0.75))
+	if age == "elder":
+		hair_c = hair_c.lerp(Color("#cfcfcf"), r.randf_range(0.55, 1.0))
+	var facial: String = ["none", "none", "mustache", "stubble", "beard"][r.randi() % 5]
+	var acc: String = ["none", "none", "glasses", "pipe"][r.randi() % 4]
+	if facial == "beard":
+		acc = "beard"
+	if kid or age == "young":
+		facial = "none" if acc != "beard" else facial
+	var skin_c: Color = (SKIN[r.randi() % SKIN.size()] as Color).lerp(Color.from_hsv(0.07, 0.4, 0.6), r.randf_range(0.0, 0.12))
 	return {
-		"skin": "#" + (SKIN[r.randi() % SKIN.size()] as Color).to_html(false),
-		"hair": "#" + (HAIRS[r.randi() % HAIRS.size()] as Color).to_html(false),
+		"skin": "#" + skin_c.to_html(false),
+		"hair": "#" + hair_c.to_html(false),
 		"coat": "#" + (COATS[r.randi() % COATS.size()] as Color).to_html(false),
 		"hat": HAT_KINDS[r.randi() % HAT_KINDS.size()],
-		"accessory": ["none", "none", "glasses", "beard", "pipe"][r.randi() % 5],
+		"accessory": acc,
 		"build": "small" if kid else builds[r.randi() % builds.size()],
-		"height": 0.7 if kid else r.randf_range(0.92, 1.08),
+		"height": 0.7 if kid else r.randf_range(0.9, 1.1),
 		"hair_style": HAIR_STYLES[r.randi() % HAIR_STYLES.size()],
 		"pants": "#" + (Color.from_hsv(r.randf(), 0.25, 0.35)).to_html(false),
 		"shoes": "#2a1d14",
+		"age": age,
+		"outfit": ["plain", "stripe", "vest", "patch", "plain"][r.randi() % 5],
+		"eye": "#" + (["#2a2018", "#3b5a7a", "#4a6a3a", "#6a4a22"][r.randi() % 4] as String).trim_prefix("#"),
+		"facial": facial,
+		"freckles": r.randf() < 0.18,
+		"extra": ["none", "none", "none", "bowtie", "earring", "badge"][r.randi() % 6],
 	}
 
 
+## Fills only the NEW cosmetic keys (never identity keys) so regulars keep their look.
+static func complete_look(l: Dictionary, pid: String) -> Dictionary:
+	var base: Dictionary = make_look(hash(pid))
+	for k in ["age", "outfit", "eye", "freckles", "extra"]:
+		if not l.has(k):
+			l[k] = base[k]
+	if not l.has("facial"):
+		l["facial"] = "beard" if String(l.get("accessory", "")) == "beard" else base["facial"] if String(l.get("accessory", "none")) == "none" else "none"
+	return l
+
+
 func setup(p_look: Dictionary, p_mood: String = "calm", p_pid: String = "") -> void:
-	look = p_look if not p_look.is_empty() else make_look(hash(p_pid))
+	look = complete_look(p_look.duplicate(), p_pid) if not p_look.is_empty() else make_look(hash(p_pid))
 	mood = p_mood
 	pid = p_pid
 	_next_blink = randf_range(1.5, 4.0)
@@ -72,6 +105,11 @@ func setup(p_look: Dictionary, p_mood: String = "calm", p_pid: String = "") -> v
 	play("idle")
 	_snap()
 	queue_redraw()
+
+
+## Mouth sync for passenger_said: flap for roughly the line's length.
+func talk(line_len: int) -> void:
+	_talk = clampf(float(line_len) * 0.05, 0.6, 4.0)
 
 
 func play(a: String) -> void:
@@ -114,6 +152,7 @@ func _process(dt: float) -> void:
 	_t += dt
 	_emote_t += dt
 	_blink -= dt
+	_talk = maxf(0.0, _talk - dt)
 	_next_blink -= dt
 	if _next_blink <= 0.0:
 		_blink = 0.14
@@ -409,6 +448,23 @@ func _torso(hip: Vector2, sh: Vector2, lean: float, coat: Color, bw: float) -> v
 		var bp: Vector2 = hip.lerp(sh, 0.3 + i * 0.24) + perp * 6.0
 		draw_circle(bp, 3.0, Pal.BRASS)
 	draw_line(sh + perp * half_t, hip + perp * half_b, Color(1, 0.95, 0.8, 0.2), 3.0)
+	match String(look.get("outfit", "plain")):
+		"stripe":
+			for si in range(4):
+				var sp: Vector2 = hip.lerp(sh, 0.18 + si * 0.2)
+				draw_line(sp - perp * half_b * 0.9, sp + perp * half_b * 0.9, Color(1, 1, 1, 0.16), 4.0)
+		"vest":
+			draw_colored_polygon(PackedVector2Array([hip.lerp(sh, 0.12) - perp * half_b * 0.5, hip.lerp(sh, 0.12) + perp * half_b * 0.5, sh + perp * half_t * 0.5, sh - perp * half_t * 0.5]), Color(0, 0, 0, 0.22))
+		"patch":
+			var pp: Vector2 = hip.lerp(sh, 0.45) + perp * half_b * 0.35
+			draw_rect(Rect2(pp.x - 8, pp.y - 8, 16, 16), Pal.PARCHMENT.darkened(0.1))
+			draw_rect(Rect2(pp.x - 8, pp.y - 8, 16, 16), Color(0, 0, 0, 0.3), false, 1.5)
+	var ex: String = String(look.get("extra", "none"))
+	if ex == "bowtie":
+		draw_colored_polygon(PackedVector2Array([sh + Vector2(-14, 8), sh + Vector2(0, 14), sh + Vector2(-14, 22)]), Pal.SIGNAL)
+		draw_colored_polygon(PackedVector2Array([sh + Vector2(14, 8), sh + Vector2(0, 14), sh + Vector2(14, 22)]), Pal.SIGNAL)
+	elif ex == "badge":
+		draw_circle(hip.lerp(sh, 0.7) + perp * half_t * 0.5, 6.0, Pal.BRASS)
 	# collar
 	draw_colored_polygon(PackedVector2Array([sh - perp * 18, sh + perp * 18, sh + Vector2(0, 16)]), Dr.shade(coat, 1.2))
 	if String(look.get("hat", "")) == "scarf" or String(look.get("accessory", "")) == "scarfneck":
@@ -442,7 +498,7 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 	else:
 		draw_circle(ey, 7.0, Color.WHITE)
 		var look_off: float = 2.5 if anim != "tap" else 0.0
-		draw_circle(ey + Vector2(look_off, 1), 4.2, Color("#2a2018"))
+		draw_circle(ey + Vector2(look_off, 1), 4.2, Color(String(look.get("eye", "#2a2018"))))
 		draw_circle(ey + Vector2(look_off + 1.5, -1), 1.4, Color.WHITE)
 	# brows by mood
 	var bt: float = -22.0
@@ -458,7 +514,10 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 	# mouth
 	var m: Vector2 = c + Vector2(22, 26)
 	var happy: bool = anim == "hop" or anim == "wave"
-	if happy:
+	if _talk > 0.0:
+		var open: float = 0.25 + 0.75 * absf(sin(_t * 17.0 + sin(_t * 5.0) * 2.0))
+		Dr.rrect(self, Rect2(m.x - 8, m.y - 4, 16, 3.0 + 12.0 * open), 5.0, Color("#4a1a1a"))
+	elif happy:
 		draw_arc(m + Vector2(0, -4), 12.0, 0.2, PI - 0.2, 10, Color("#6b2a2a"), 4.0)
 	elif anim == "slump" or mood == "worried":
 		draw_arc(m + Vector2(0, 10), 10.0, PI + 0.4, TAU - 0.4, 10, Color("#6b2a2a"), 4.0)
@@ -466,6 +525,20 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 		draw_line(m + Vector2(-8, 3), m + Vector2(10, 0), Color("#6b2a2a"), 4.0)
 	else:
 		draw_arc(m + Vector2(0, -2), 8.0, 0.3, PI - 0.3, 8, Color("#6b2a2a"), 3.0)
+	# face extras
+	if bool(look.get("freckles", false)):
+		for fi in range(5):
+			draw_circle(c + Vector2(12 + (fi % 3) * 7, 10 + int(fi / 3) * 6), 1.6, Dr.shade(skin, 0.7))
+	if String(look.get("age", "")) == "elder":
+		draw_line(ey + Vector2(-10, 12), ey + Vector2(8, 14), Dr.shade(skin, 0.8), 2.0)
+		draw_line(m + Vector2(-12, -6), m + Vector2(-8, 8), Dr.shade(skin, 0.82), 2.0)
+	var fac: String = String(look.get("facial", "none"))
+	if fac == "mustache":
+		draw_colored_polygon(PackedVector2Array([m + Vector2(-14, -10), m + Vector2(18, -10), m + Vector2(26, -2), m + Vector2(4, -4), m + Vector2(-12, 0)]), Dr.shade(hair, 0.9))
+	elif fac == "stubble":
+		draw_arc(c + Vector2(4, 14), 30.0, 0.2, PI - 0.2, 14, Color(hair.r, hair.g, hair.b, 0.35), 8.0)
+	if String(look.get("extra", "none")) == "earring":
+		draw_circle(c + Vector2(-26, 15), 3.5, Pal.BRASS)
 	# accessories
 	var acc: String = String(look.get("accessory", "none"))
 	if acc == "beard":
@@ -500,6 +573,9 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 			draw_colored_polygon(_dome(c + Vector2(0, -14), 42.0, 30.0), Color("#3a4a50"))
 			draw_rect(Rect2(c.x + 16, c.y - 18, 40, 8), Color("#2a3438"))
 			draw_circle(c + Vector2(4, -34), 4.0, Pal.BRASS)
+			if (look.get("cosmetics", []) as Array).has("brass_cap"):
+				draw_arc(c + Vector2(0, -16), 40.0, PI * 1.05, PI * 1.95, 16, Pal.BRASS, 5.0)
+				draw_circle(c + Vector2(4, -38), 7.0, Pal.BRASS)
 		"top":
 			Dr.rrect(self, Rect2(c.x - 54, c.y - 30, 108, 12), 5.0, Color("#15181c"))
 			Dr.rrect(self, Rect2(c.x - 30, c.y - 100, 62, 76), 8.0, Color("#1c2126"))

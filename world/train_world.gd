@@ -98,6 +98,9 @@ func _build() -> void:
 	attendant.position = Vector2(_follow_x, FLOOR_Y)
 	add_child(attendant)
 	attendant.setup({"skin": "#e8b88f", "hair": "#2a1d14", "coat": "#12303B", "hat": "cap", "accessory": "none", "build": "avg", "height": 1.0, "hair_style": "short", "pants": "#1a2a33", "shoes": "#14100d"}, "calm", "attendant")
+	if Sim.has_method("get_equipped"):
+		attendant.look["cosmetics"] = Sim.call("get_equipped")
+		attendant.queue_redraw()
 	crowd = Crowd.new()
 	add_child(crowd)
 	crowd.setup(self)
