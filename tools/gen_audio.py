@@ -498,6 +498,26 @@ def toast():
     return verb(tine(mtof(88), 0.9, 0.7) + tine(mtof(91), 0.9, 0.35) * 0.0, 0.4, 0.2)
 
 
+def map_open():
+    out = np.zeros(int(1.1 * SR))
+    put(out, paper_rustle()[:int(0.5 * SR)] * 0.5, 0.0)
+    put(out, bell(mtof(79), 0.9, 0.5), 0.12)
+    put(out, bell(mtof(84), 0.8, 0.3), 0.26)
+    return verb(lp(out, 5000), 0.4, 0.2)
+
+
+def map_close():
+    out = np.zeros(int(0.9 * SR))
+    put(out, bell(mtof(84), 0.6, 0.35), 0.0)
+    put(out, bell(mtof(76), 0.7, 0.4), 0.1)
+    put(out, page_flip()[:int(0.35 * SR)] * 0.5, 0.18)
+    return verb(lp(out, 5000), 0.4, 0.2)
+
+
+def map_select():
+    return lp(bell(mtof(86), 0.35, 0.6) + 0.4 * bell(mtof(74), 0.35, 0.4), 6000)
+
+
 def blip(mood, k):
     base = dict(calm=300, hurried=420, worried=270, shy=520, grumpy=165)[mood] * (0.85, 1.0, 1.12, 1.3)[k]
     dur = dict(calm=.09, hurried=.055, worried=.12, shy=.07, grumpy=.11)[mood]
@@ -695,6 +715,9 @@ def main():
     one("ui_back", ui_tone([520], 0.08, 0.5), "ui", -14)
     one("ui_toggle", ui_tone([740, 880], 0.045, 0.5), "ui", -14)
     one("toast", toast(), "ui", -12)
+    one("map_open", map_open(), "ui", -12)
+    one("map_close", map_close(), "ui", -13)
+    one("map_select", map_select(), "ui", -14)
     # voices
     for mood in ("calm", "hurried", "worried", "shy", "grumpy"):
         group("blip_" + mood, [blip(mood, k) for k in range(4)], "sfx", -14)

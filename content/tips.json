@@ -160,6 +160,18 @@
   {
    "text": "Every lost thing has an owner somewhere. That is the whole job.",
    "kind": "lore"
+  },
+  {
+   "text": "The little train icon opens the map. Tap a car to see what is in it.",
+   "kind": "hint"
+  },
+  {
+   "text": "Locked cars show on the map too. They open as your reputation grows.",
+   "kind": "hint"
+  },
+  {
+   "text": "The map shows where claimants wait and where items are lying about.",
+   "kind": "hint"
   }
  ]
 }

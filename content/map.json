@@ -1,0 +1,35 @@
+{
+ "_doc": "Owned by AI-C. Train map text per car id. Shape: {cars:{car_id:{name,desc(<=70),lock_hint}}}. lock_hint is shown only while the car is locked (unlock tiers: sleep 1, obs 2, lug 3); lp/pass/dine are open at the start and have no hint.",
+ "cars": {
+  "car_obs": {
+   "name": "Observation",
+   "desc": "Big windows, quiet chairs, and a very good view of nowhere.",
+   "lock_hint": "The windows are shuttered for now. A little more reputation and someone will open them."
+  },
+  "car_sleep": {
+   "name": "Sleeper",
+   "desc": "Curtained bunks where things slip down the back.",
+   "lock_hint": "The curtains are drawn. Return a few more things and the porter will let you in."
+  },
+  "car_lp": {
+   "name": "Lost Property",
+   "desc": "Your counter, your bench, your lamp. Home, more or less.",
+   "lock_hint": ""
+  },
+  "car_pass": {
+   "name": "Passenger",
+   "desc": "Rows of seats, each one hiding something small.",
+   "lock_hint": ""
+  },
+  "car_dine": {
+   "name": "Dining",
+   "desc": "Tea, cutlery and the odd glove under a tablecloth.",
+   "lock_hint": ""
+  },
+  "car_lug": {
+   "name": "Luggage",
+   "desc": "Racks and trunks, and the heaviest things people forget.",
+   "lock_hint": "The door is locked and the key is with the guard. Keep building your name."
+  }
+ }
+}

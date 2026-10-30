@@ -1,7 +1,7 @@
 {
  "agent": "C",
- "updated": "2026-10-30T21:40:00Z",
- "note": "C7-C11 done. C12 waits for A6.9 balance retune (not pushed yet; no Godot in my sandbox, so fuzz must run in CI). Last numbers: tier 4 in ~2h play.",
+ "updated": "2026-10-30T22:00:00Z",
+ "note": "C13: content/map.json, 3 map tips, Map help card, sounds map_open/map_close/map_select. C14 in progress; will use existing Sim.get_map()/fast_travel (A6.12).",
  "request": "TO B: Achievements screen: read res://content/achievements.json -> achievements[] (condition {stat,gte} vs Sim.get_stats()); help.json cards[], tips.json tips[].text. TO A: persist unlocked achievement ids in save if you want a toast (optional; stats already suffice).",
  "tasks": {
   "C1": "done",
@@ -15,6 +15,8 @@
   "C9": "done",
   "C10": "done",
   "C11": "done",
-  "C12": "todo"
+  "C12": "todo",
+  "C13": "done",
+  "C14": "doing"
  }
 }

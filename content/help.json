@@ -64,6 +64,14 @@
     "Once a day, one special case turns up: a single item, a single owner, one chance to solve it.",
     "Come back tomorrow for the next. Streaks are only for fun."
    ]
+  },
+  {
+   "id": "map",
+   "title": "The train map",
+   "lines": [
+    "Tap the little train in the corner to see every car at a glance, lit where you are.",
+    "Tap a car, then Go there. Locked cars open as your reputation grows."
+   ]
   }
  ]
 }

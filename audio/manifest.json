@@ -180,6 +180,33 @@
   ],
   "volume_db": -22
  },
+ "map_close": {
+  "bus": "ui",
+  "file": "res://audio/map_close.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/map_close.wav"
+  ],
+  "volume_db": -13
+ },
+ "map_open": {
+  "bus": "ui",
+  "file": "res://audio/map_open.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/map_open.wav"
+  ],
+  "volume_db": -12
+ },
+ "map_select": {
+  "bus": "ui",
+  "file": "res://audio/map_select.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/map_select.wav"
+  ],
+  "volume_db": -14
+ },
  "music_cozy": {
   "bus": "music",
   "file": "res://audio/music_cozy.ogg",
