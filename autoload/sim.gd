@@ -984,7 +984,7 @@ func fast_travel(car_id: String) -> Dictionary:
 		if String(row["id"]) != car_id:
 			continue
 		if not bool(row["unlocked"]):
-			return {"ok": false, "reason": "locked", "unlock_tier": int(row["unlock_tier"]), "tier_rep": int(row["tier_rep"]), "hint": "Reach reputation tier %d to open the %s car." % [int(row["unlock_tier"]), String(row["name"])]}
+			return {"ok": false, "reason": "locked", "unlock_tier": int(row["unlock_tier"]), "tier_rep": int(row["tier_rep"]), "hint": "Earn %d reputation to open the %s car." % [int(row["tier_rep"]), String(row["name"])]}
 		if not bool(row["reachable"]):
 			return {"ok": false, "reason": "tutorial", "hint": "Hand over your first lost thing, then you can walk the whole train."}
 		if bool(row["here"]):

@@ -140,7 +140,7 @@ class HudView extends Control:
 		var shr: Rect2 = shop_rect.grow_individual(0, -12, 0, -12)
 		Dr.rrect(self, shr, 18, Color(Pal.BRASS, 0.85))
 		if coin != null:
-			draw_texture_rect(coin, Rect2(shr.position + Vector2(10, 3), Vector2(42, 42)), false, Pal.DEEP)
+			draw_texture_rect(coin, Rect2(shr.position + Vector2(10, 3), Vector2(42, 42)), false)
 		txt(Vector2(shr.position.x + 58, shr.position.y + 34), "Shop", 28, Pal.DEEP)
 		# night case pill (hidden during the tutorial and for cheated runs)
 		night_rect = Rect2()
