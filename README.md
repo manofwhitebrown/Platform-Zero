@@ -21,16 +21,15 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 43/47 done
+**Platform A · Engine** — 44/47 done
 
 - ⬜ Godot 4.5 upgrade (last)
-- 🔄 Balance retune
 - ⬜ End-to-end test
 - ⬜ CI hygiene
 
-> A6.5 done: last_offline_report, Events.arc_beat/lore_found, lore pickups (letter icon, 1 per ~3 stops, collected on pick_up), get_lore_found/get_lore/get_stats/get_equipped/get_stop_biome, desert+tunnel stops. Next: A6.9
+> A6.9: tier rep thresholds now 0/15/60/250/950 (sim.gd). Smart bot active play: tier1 14m, tier2 68m, tier3 256m, tier4 1010m (~17h). 15-min daily sessions: tier2 day4, tier3 day10, tier4 day45; ~1h/day: t3 ~day 4, t4 ~2.
 
-<details><summary>Finished (43)</summary>
+<details><summary>Finished (44)</summary>
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
@@ -75,18 +74,18 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Requests from other AIs
 - ✅ Retire v1 code
 - ✅ Cheat tests
+- ✅ Balance retune
 
 </details>
 
-**Platform B · Screens** — 35/38 done
+**Platform B · Screens** — 36/38 done
 
 - ⬜ UI QA pass
 - ⬜ Help + tips
-- ⬜ Lore + achievements
 
-> B5.9 Back Office (ui/back_office.gd, clock x5 then lamp hold, hidden unless Cheats.is_available). Interview camera push-in wired. Next B5.13/B5.12/B5.11.
+> B5.13 Ledger Lore (found/locked via Sim.get_lore_found) + Medals tab (achievements.json vs get_stats). Arc toasts already arrive via Events.toast. Next B5.12 Help+tips, B5.11 QA.
 
-<details><summary>Finished (35)</summary>
+<details><summary>Finished (36)</summary>
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -123,6 +122,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Settings
 - ✅ Back Office cheat panel
 - ✅ Audio wiring
+- ✅ Lore + achievements
 
 </details>
 
