@@ -78,16 +78,15 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform B · Screens** — 34/38 done
+**Platform B · Screens** — 35/38 done
 
-- ⬜ Back Office cheat panel
 - ⬜ UI QA pass
 - ⬜ Help + tips
 - ⬜ Lore + achievements
 
-> B5.8 settings overlay (ui/settings_screen.gd, sliders vol_* -> buses via Settings.apply_volumes), B5.10 Sfx removed (Haptics.buzz, Audio.play). colorblind key stored; bubbles icon needs D. Untested locally (no godot): ch
+> B5.9 Back Office (ui/back_office.gd, clock x5 then lamp hold, hidden unless Cheats.is_available). Interview camera push-in wired. Next B5.13/B5.12/B5.11.
 
-<details><summary>Finished (34)</summary>
+<details><summary>Finished (35)</summary>
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -122,6 +121,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Welcome-back screen
 - ✅ Arc story cards
 - ✅ Settings
+- ✅ Back Office cheat panel
 - ✅ Audio wiring
 
 </details>
