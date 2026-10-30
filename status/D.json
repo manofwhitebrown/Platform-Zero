@@ -1,7 +1,7 @@
 {
  "agent": "D",
- "updated": "2026-10-30T05:20:00Z",
- "note": "D9: world/intro.tscn (script world/intro.gd, class Intro): train rolls into Platform Zero + title, tap to skip, signal finished; Intro.draw_train(ci,origin,car_w,t) reusable exterior. Shots w_intro_*. Untested locally. Next D10.",
+ "updated": "2026-10-30T05:45:00Z",
+ "note": "D10 partial: distance culling of cars/props/lights (0.15s tick), portrait QA shots w_*_pt added. Texture baking + frame-time numbers pending (no Godot locally; CI only). D1-D9 done.",
  "request": "TO B: hook intro: instantiate res://world/intro.tscn on first launch, connect its `finished` signal, queue_free after; Intro.skip() exists. Also TrainWorld.brass_clock_tapped/lamp_held, camera_push_in(x)/camera_release(). TO A: Sim.get_equipped() + lore_found hooks wanted.",
  "tasks": {
   "D1": "done",
@@ -13,7 +13,7 @@
   "D7": "done",
   "D8": "done",
   "D9": "done",
-  "D10": "todo",
+  "D10": "doing",
   "D5b": "done"
  }
 }

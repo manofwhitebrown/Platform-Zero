@@ -264,6 +264,7 @@ func _process(delta: float) -> void:
 	_last_car = car_i
 	_door_k = maxf(0.0, _door_k - delta * 1.6)
 	_update_camera(delta)
+	_cull()
 	var door_k: float = 0.0
 	match st:
 		"arriving":
@@ -316,6 +317,29 @@ func camera_push_in(focus_x: float, amount: float = 1.0) -> void:
 
 func camera_release() -> void:
 	_push = 0.0
+
+
+## Perf: only draw/simulate what is near the camera (cars, props, point lights). Cheap, no allocations.
+var _cull_t: float = 0.0
+func _cull() -> void:
+	_cull_t -= get_process_delta_time()
+	if _cull_t > 0.0 and not _force.has("cull_now"):
+		return
+	_cull_t = 0.15
+	var vis: Vector2 = get_viewport().get_visible_rect().size
+	var half: float = vis.x * 0.5 / maxf(cam.zoom.x, 0.01) + CAR_W * 0.5 + 260.0
+	var cx: float = cam.position.x
+	for k in shells:
+		var sh: CarShell = shells[k] as CarShell
+		sh.visible = absf(sh.position.x + CAR_W * 0.5 - cx) < half
+	for cp in car_props:
+		var n: Node2D = cp as Node2D
+		n.visible = absf(n.position.x + CAR_W * 0.5 - cx) < half
+		n.set_process(n.visible)
+	for l in lights:
+		var ln: Node2D = l as Node2D
+		if is_instance_valid(ln):
+			ln.visible = absf(ln.position.x - cx) < half
 
 
 func shot_scene(biome_s: String, weather_s: String, tod: float) -> void:

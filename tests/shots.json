@@ -1429,6 +1429,238 @@
     }
    ],
    "frames": 20
+  },
+  {
+   "id": "w_car_obs_pt",
+   "milestone": "M2",
+   "title": "D10 QA portrait: D2 car dressing: obs",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      900
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "w_car_sleep_pt",
+   "milestone": "M2",
+   "title": "D10 QA portrait: D2 car dressing: sleep",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      2700
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "w_car_pass_pt",
+   "milestone": "M2",
+   "title": "D10 QA portrait: D2 car dressing: pass",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "w_car_lug_pt",
+   "milestone": "M2",
+   "title": "D10 QA portrait: D2 car dressing: lug",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      9900
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "w_biome_snow_peaks_pt",
+   "milestone": "M2",
+   "title": "D10 QA portrait: D4 scenery: snow snow",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "shot_scene",
+     "args": [
+      "snow",
+      "snow",
+      0.85
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 60
+  },
+  {
+   "id": "w_weather_rain_pt",
+   "milestone": "M2",
+   "title": "D10 QA portrait: D4 scenery: city rain",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "shot_scene",
+     "args": [
+      "city",
+      "rain",
+      0.9
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 60
   }
  ]
 }
