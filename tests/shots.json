@@ -757,6 +757,28 @@
         }
       ],
       "frames": 15
+    },
+    {
+      "id": "ui_fresh_launch",
+      "milestone": "M5",
+      "title": "Fresh launch via game_root: Lost Property car, HUD, Bram tutorial",
+      "scene": "res://ui/game_root.tscn",
+      "orientation": "portrait",
+      "setup": [
+        {
+          "call": "Sim.new_game",
+          "args": [
+            1
+          ]
+        },
+        {
+          "call": "wait",
+          "args": [
+            1.5
+          ]
+        }
+      ],
+      "frames": 45
     }
   ]
 }
