@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-30T10:41:47Z",
+ "updated": "2026-10-30T10:58:27Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -53,5 +53,5 @@
   "A6.12": "done"
  },
  "request": "TO D: e2e still logs 2x 'Invalid polygon data, triangulation failed' (degenerate draw_colored_polygon) in a fresh game; cosmetic.",
- "note": "All A tasks done. Build on Godot 4.5 green: tests, e2e, APK, launcher icon, screenshots (60 shots, no hangs)."
+ "note": "Repo audit pass: fixed rrect polygon errors, HUD shop coin tint, lock hint wording. All tests/e2e green on 4.5."
 }
