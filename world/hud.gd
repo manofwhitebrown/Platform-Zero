@@ -19,7 +19,7 @@ class HudView extends Control:
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
-		set_anchors_preset(Control.PRESET_FULL_RECT)
+		set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		coin = load("res://assets/icons/coin.svg")
 		tok_shown = float(Sim.tokens)
 		Events.tokens_changed.connect(func(_n: int) -> void: tok_pop = 0.0)
