@@ -10,6 +10,7 @@ const FLOOR_Y: float = 880.0   # feet line for actors
 var cam: Camera2D
 var scenery: Scenery
 var shells: Dictionary = {}
+var car_props: Array = []
 var props: LPProps
 var lights: Array = []
 var modulate_node: CanvasModulate
@@ -64,6 +65,7 @@ func _build() -> void:
 			cp.position = sh.position
 			cp.setup(String(c["kind"]), String(c["id"]), false, bool(c.get("unlocked", true)))
 			add_child(cp)
+			car_props.append(cp)
 		if String(c["kind"]) == "lp":
 			props = LPProps.new()
 			props.position = sh.position
@@ -90,6 +92,7 @@ func _build() -> void:
 			cf.position = Vector2(float(c2["x"]), 0)
 			cf.setup(String(c2["kind"]), String(c2["id"]), true, bool(c2.get("unlocked", true)))
 			add_child(cf)
+			car_props.append(cf)
 	attendant.z_index = 3
 	winput = WorldInput.new()
 	add_child(winput)
@@ -115,6 +118,16 @@ func _build() -> void:
 	vignette_rect.material = mat
 	_fx_layer.add_child(vignette_rect)
 	_update_camera(0.0)
+	Events.car_unlocked.connect(_on_car_unlocked)
+
+
+func _on_car_unlocked(car_id: String) -> void:
+	for c in Sim.get_cars():
+		if String(c["id"]) == car_id and shells.has(car_id):
+			(shells[car_id] as CarShell).setup(c)
+	for cp in car_props:
+		if (cp as CarProps).car_id == car_id:
+			(cp as CarProps).modulate = Color.WHITE
 
 
 static func _light_tex() -> Texture2D:
@@ -144,9 +157,31 @@ func _make_light(pos: Vector2, scale_f: float, energy: float, col: Color) -> Poi
 	return l
 
 
+const LAMP_COL: Dictionary = {"pass": Color(1.0, 0.85, 0.55), "dine": Color(1.0, 0.7, 0.4), "sleep": Color(0.85, 0.7, 1.0), "obs": Color(0.6, 0.78, 1.0), "lug": Color(1.0, 0.78, 0.4)}
+
+
+func _add_dust(x0: float) -> void:
+	var p := CPUParticles2D.new()
+	p.position = Vector2(x0 + 900.0, 620.0)
+	p.amount = 14
+	p.lifetime = 9.0
+	p.preprocess = 9.0
+	p.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	p.emission_rect_extents = Vector2(860.0, 220.0)
+	p.gravity = Vector2(0.0, -3.0)
+	p.initial_velocity_min = 2.0
+	p.initial_velocity_max = 8.0
+	p.scale_amount_min = 1.5
+	p.scale_amount_max = 3.0
+	p.color = Color(1.0, 0.9, 0.65, 0.35)
+	add_child(p)
+
+
 func _add_car_lights(c: Dictionary) -> void:
 	var x0: float = float(c["x"])
-	var warm: Color = Color(1.0, 0.82, 0.5)
+	var warm: Color = LAMP_COL.get(String(c["kind"]), Color(1.0, 0.82, 0.5))
+	if String(c["kind"]) != "lp":
+		_add_dust(x0)
 	for lx in [330.0, 900.0, 1470.0]:
 		_make_light(Vector2(x0 + lx, 200), 6.0, 1.0, warm)
 	# window-cool wash from the night outside

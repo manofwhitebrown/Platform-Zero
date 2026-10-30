@@ -1,784 +1,974 @@
 {
-  "version": 1,
-  "_doc": "Owned by AI-B. Read by the screenshot runner (A0.5). Each shot: render `scene` at `size`, run `setup` calls in order (autoload.method with args; 'wait' = seconds of sim time), wait `frames` rendered frames, save docs/screens/<id>.png. orientation is 'portrait' (1080x1920) or 'landscape' (1920x1080). Add a shot whenever a scene is added.",
-  "sizes": {
-    "portrait": [
-      1080,
-      1920
-    ],
-    "landscape": [
-      1920,
-      1080
-    ]
-  },
-  "shots": [
-    {
-      "id": "m1_actor_lineup",
-      "milestone": "M1",
-      "title": "Actor rig: attendant, 15 regulars, ambient",
-      "scene": "res://actors/lineup.tscn",
-      "orientation": "portrait",
-      "setup": [],
-      "frames": 45
-    },
-    {
-      "id": "m1_highlight",
-      "milestone": "M1",
-      "title": "Guided highlight on the bin item + prompt chip",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.player_move_to",
-          "args": [
-            4300
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            1.5
-          ]
-        }
-      ],
-      "frames": 30
-    },
-    {
-      "id": "m1_carry",
-      "milestone": "M1",
-      "title": "Item picked up, carried over head, bench highlighted",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "tap_world",
-          "args": [
-            4350,
-            780
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            2.5
-          ]
-        }
-      ],
-      "frames": 20
-    },
-    {
-      "id": "m1_car_portrait",
-      "milestone": "M1",
-      "title": "Lost Property car (portrait)",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "frames": 90
-    },
-    {
-      "id": "m1_car_landscape",
-      "milestone": "M1",
-      "title": "Lost Property car (landscape)",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "landscape",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "frames": 90
-    },
-    {
-      "id": "m1_claimant_bubble",
-      "milestone": "M1",
-      "title": "Bram at the counter: speech bubble, interview buttons, item tray",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.tick",
-          "args": [
-            11.0
-          ]
-        }
-      ],
-      "frames": 150
-    },
-    {
-      "id": "m1_tray",
-      "milestone": "M1",
-      "title": "Carrying the mitten with Bram waiting: item tray + interview",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.tick",
-          "args": [
-            11.0
-          ]
-        },
-        {
-          "call": "Sim.player_move_to",
-          "args": [
-            4350
-          ]
-        },
-        {
-          "call": "Sim.tick",
-          "args": [
-            1.0
-          ]
-        },
-        {
-          "call": "Sim.pick_up",
-          "args": [
-            "car_lp_s3"
-          ]
-        },
-        {
-          "call": "claim_ask",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "frames": 170
-    },
-    {
-      "id": "m1_handover",
-      "milestone": "M1",
-      "title": "Correct handover: confetti, hearts, story card",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.tick",
-          "args": [
-            11.0
-          ]
-        },
-        {
-          "call": "Sim.player_move_to",
-          "args": [
-            4350
-          ]
-        },
-        {
-          "call": "Sim.tick",
-          "args": [
-            1.0
-          ]
-        },
-        {
-          "call": "Sim.pick_up",
-          "args": [
-            "car_lp_s3"
-          ]
-        },
-        {
-          "call": "handover_front",
-          "args": []
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.3
-          ]
-        }
-      ],
-      "frames": 3
-    },
-    {
-      "id": "m1_story_card",
-      "milestone": "M1",
-      "title": "Story card after the first delivery",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.tick",
-          "args": [
-            11.0
-          ]
-        },
-        {
-          "call": "Sim.player_move_to",
-          "args": [
-            4350
-          ]
-        },
-        {
-          "call": "Sim.tick",
-          "args": [
-            1.0
-          ]
-        },
-        {
-          "call": "Sim.pick_up",
-          "args": [
-            "car_lp_s3"
-          ]
-        },
-        {
-          "call": "handover_front",
-          "args": []
-        },
-        {
-          "call": "wait",
-          "args": [
-            2.6
-          ]
-        }
-      ],
-      "frames": 40
-    },
-    {
-      "id": "m1_claimant_landscape",
-      "milestone": "M1",
-      "title": "Claimant at the counter (landscape)",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "landscape",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.tick",
-          "args": [
-            11.0
-          ]
-        },
-        {
-          "call": "claim_ask",
-          "args": [
-            0
-          ]
-        }
-      ],
-      "frames": 170
-    },
-    {
-      "id": "m1_bench_tool",
-      "milestone": "M1",
-      "title": "Bench close-up with the magnifier active",
-      "scene": "res://bench/bench.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.pick_up",
-          "args": [
-            "car_lp_s3"
-          ]
-        },
-        {
-          "call": "Sim.place_on_bench",
-          "args": [
-            "i101"
-          ]
-        },
-        {
-          "call": "tool",
-          "args": [
-            "magnifier"
-          ]
-        }
-      ],
-      "frames": 90
-    },
-    {
-      "id": "m1_tutorial",
-      "milestone": "M1",
-      "title": "First-minute tutorial arrow at the bin",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Cheats.run",
-          "args": [
-            "trigger_first_minute",
-            true
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            6.0
-          ]
-        }
-      ],
-      "frames": 60
-    },
-    {
-      "id": "m2_car_pass",
-      "milestone": "M2",
-      "title": "Passenger car with ambient passengers",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.skip_tutorial",
-          "args": []
-        },
-        {
-          "call": "Sim.player_move_to",
-          "args": [
-            5400
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            8.0
-          ]
-        }
-      ],
-      "frames": 90
-    },
-    {
-      "id": "m2_car_dine",
-      "milestone": "M2",
-      "title": "Dining car",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "landscape",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Sim.skip_tutorial",
-          "args": []
-        },
-        {
-          "call": "Sim.player_move_to",
-          "args": [
-            7200
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            8.0
-          ]
-        }
-      ],
-      "frames": 90
-    },
-    {
-      "id": "m2_station_arrival",
-      "milestone": "M2",
-      "title": "Station arrival with platform and board",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "landscape",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "Cheats.run",
-          "args": [
-            "skip_next_stop",
-            true
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            10.0
-          ]
-        }
-      ],
-      "frames": 90
-    },
-    {
-      "id": "m3_ledger",
-      "milestone": "M3",
-      "title": "Ledger book (Claims page)",
-      "scene": "res://ui/ledger/ledger.tscn",
-      "orientation": "portrait",
-      "setup": [],
-      "frames": 60
-    },
-    {
-      "id": "m3_shop",
-      "milestone": "M3",
-      "title": "Shop page",
-      "scene": "res://ui/ledger/ledger.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "page",
-          "args": [
-            "shop"
-          ]
-        }
-      ],
-      "frames": 60
-    },
-    {
-      "id": "m4_welcome_back",
-      "milestone": "M4",
-      "title": "Welcome-back scene",
-      "scene": "res://ui/welcome_back.tscn",
-      "orientation": "portrait",
-      "setup": [],
-      "frames": 90
-    },
-    {
-      "id": "m5_back_office",
-      "milestone": "M5",
-      "title": "Back Office lock screen (test hash)",
-      "scene": "res://ui/cheats/back_office.tscn",
-      "orientation": "portrait",
-      "setup": [],
-      "frames": 60
-    },
-    {
-      "id": "m1_bench_magnifier",
-      "milestone": "M1",
-      "title": "Bench close-up: magnifier in use",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "bench_demo",
-          "args": [
-            "magnifier",
-            0.6
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.4
-          ]
-        }
-      ],
-      "frames": 12
-    },
-    {
-      "id": "m1_bench_lamp",
-      "milestone": "M1",
-      "title": "Bench close-up: lamp in use",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "bench_demo",
-          "args": [
-            "lamp",
-            0.6
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.4
-          ]
-        }
-      ],
-      "frames": 12
-    },
-    {
-      "id": "m1_bench_ear",
-      "milestone": "M1",
-      "title": "Bench close-up: ear in use",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "bench_demo",
-          "args": [
-            "ear",
-            0.6
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.4
-          ]
-        }
-      ],
-      "frames": 12
-    },
-    {
-      "id": "m1_bench_nose",
-      "milestone": "M1",
-      "title": "Bench close-up: nose in use",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "bench_demo",
-          "args": [
-            "nose",
-            0.5
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.4
-          ]
-        }
-      ],
-      "frames": 12
-    },
-    {
-      "id": "m1_bench_brush",
-      "milestone": "M1",
-      "title": "Bench close-up: brush in use",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "bench_demo",
-          "args": [
-            "brush",
-            0.6
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.4
-          ]
-        }
-      ],
-      "frames": 12
-    },
-    {
-      "id": "m1_bench_clue",
-      "milestone": "M1",
-      "title": "Bench close-up: clue landed on strip",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "bench_demo",
-          "args": [
-            "magnifier",
-            1.0
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.4
-          ]
-        }
-      ],
-      "frames": 12
-    },
-    {
-      "id": "m1_bench_landscape",
-      "milestone": "M1",
-      "title": "Bench close-up (landscape)",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "landscape",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "bench_demo",
-          "args": [
-            "lamp",
-            0.6
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.4
-          ]
-        }
-      ],
-      "frames": 12
-    },
-    {
-      "id": "m1_hud",
-      "milestone": "M1",
-      "title": "HUD: tokens, tier, stop timer, tutorial chip",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "hud_toast",
-          "args": [
-            "Welcome aboard, attendant."
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.6
-          ]
-        }
-      ],
-      "frames": 15
-    },
-    {
-      "id": "m1_hud_landscape",
-      "milestone": "M1",
-      "title": "HUD (landscape)",
-      "scene": "res://world/train_world.tscn",
-      "orientation": "landscape",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            0.6
-          ]
-        }
-      ],
-      "frames": 15
-    },
-    {
-      "id": "ui_fresh_launch",
-      "milestone": "M5",
-      "title": "Fresh launch via game_root: Lost Property car, HUD, Bram tutorial",
-      "scene": "res://ui/game_root.tscn",
-      "orientation": "portrait",
-      "setup": [
-        {
-          "call": "Sim.new_game",
-          "args": [
-            1
-          ]
-        },
-        {
-          "call": "wait",
-          "args": [
-            1.5
-          ]
-        }
-      ],
-      "frames": 45
-    }
+ "version": 1,
+ "_doc": "Owned by AI-B. Read by the screenshot runner (A0.5). Each shot: render `scene` at `size`, run `setup` calls in order (autoload.method with args; 'wait' = seconds of sim time), wait `frames` rendered frames, save docs/screens/<id>.png. orientation is 'portrait' (1080x1920) or 'landscape' (1920x1080). Add a shot whenever a scene is added.",
+ "sizes": {
+  "portrait": [
+   1080,
+   1920
+  ],
+  "landscape": [
+   1920,
+   1080
   ]
+ },
+ "shots": [
+  {
+   "id": "m1_actor_lineup",
+   "milestone": "M1",
+   "title": "Actor rig: attendant, 15 regulars, ambient",
+   "scene": "res://actors/lineup.tscn",
+   "orientation": "portrait",
+   "setup": [],
+   "frames": 45
+  },
+  {
+   "id": "m1_highlight",
+   "milestone": "M1",
+   "title": "Guided highlight on the bin item + prompt chip",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      4300
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      1.5
+     ]
+    }
+   ],
+   "frames": 30
+  },
+  {
+   "id": "m1_carry",
+   "milestone": "M1",
+   "title": "Item picked up, carried over head, bench highlighted",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "tap_world",
+     "args": [
+      4350,
+      780
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      2.5
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "m1_car_portrait",
+   "milestone": "M1",
+   "title": "Lost Property car (portrait)",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "m1_car_landscape",
+   "milestone": "M1",
+   "title": "Lost Property car (landscape)",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "m1_claimant_bubble",
+   "milestone": "M1",
+   "title": "Bram at the counter: speech bubble, interview buttons, item tray",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.tick",
+     "args": [
+      11.0
+     ]
+    }
+   ],
+   "frames": 150
+  },
+  {
+   "id": "m1_tray",
+   "milestone": "M1",
+   "title": "Carrying the mitten with Bram waiting: item tray + interview",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.tick",
+     "args": [
+      11.0
+     ]
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      4350
+     ]
+    },
+    {
+     "call": "Sim.tick",
+     "args": [
+      1.0
+     ]
+    },
+    {
+     "call": "Sim.pick_up",
+     "args": [
+      "car_lp_s3"
+     ]
+    },
+    {
+     "call": "claim_ask",
+     "args": [
+      1
+     ]
+    }
+   ],
+   "frames": 170
+  },
+  {
+   "id": "m1_handover",
+   "milestone": "M1",
+   "title": "Correct handover: confetti, hearts, story card",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.tick",
+     "args": [
+      11.0
+     ]
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      4350
+     ]
+    },
+    {
+     "call": "Sim.tick",
+     "args": [
+      1.0
+     ]
+    },
+    {
+     "call": "Sim.pick_up",
+     "args": [
+      "car_lp_s3"
+     ]
+    },
+    {
+     "call": "handover_front",
+     "args": []
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.3
+     ]
+    }
+   ],
+   "frames": 3
+  },
+  {
+   "id": "m1_story_card",
+   "milestone": "M1",
+   "title": "Story card after the first delivery",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.tick",
+     "args": [
+      11.0
+     ]
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      4350
+     ]
+    },
+    {
+     "call": "Sim.tick",
+     "args": [
+      1.0
+     ]
+    },
+    {
+     "call": "Sim.pick_up",
+     "args": [
+      "car_lp_s3"
+     ]
+    },
+    {
+     "call": "handover_front",
+     "args": []
+    },
+    {
+     "call": "wait",
+     "args": [
+      2.6
+     ]
+    }
+   ],
+   "frames": 40
+  },
+  {
+   "id": "m1_claimant_landscape",
+   "milestone": "M1",
+   "title": "Claimant at the counter (landscape)",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.tick",
+     "args": [
+      11.0
+     ]
+    },
+    {
+     "call": "claim_ask",
+     "args": [
+      0
+     ]
+    }
+   ],
+   "frames": 170
+  },
+  {
+   "id": "m1_bench_tool",
+   "milestone": "M1",
+   "title": "Bench close-up with the magnifier active",
+   "scene": "res://bench/bench.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.pick_up",
+     "args": [
+      "car_lp_s3"
+     ]
+    },
+    {
+     "call": "Sim.place_on_bench",
+     "args": [
+      "i101"
+     ]
+    },
+    {
+     "call": "tool",
+     "args": [
+      "magnifier"
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "m1_tutorial",
+   "milestone": "M1",
+   "title": "First-minute tutorial arrow at the bin",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Cheats.run",
+     "args": [
+      "trigger_first_minute",
+      true
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      6.0
+     ]
+    }
+   ],
+   "frames": 60
+  },
+  {
+   "id": "m2_car_pass",
+   "milestone": "M2",
+   "title": "Passenger car with ambient passengers",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      5400
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "m2_car_dine",
+   "milestone": "M2",
+   "title": "Dining car",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      7200
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "m2_station_arrival",
+   "milestone": "M2",
+   "title": "Station arrival with platform and board",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Cheats.run",
+     "args": [
+      "skip_next_stop",
+      true
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      10.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "m3_ledger",
+   "milestone": "M3",
+   "title": "Ledger book (Claims page)",
+   "scene": "res://ui/ledger/ledger.tscn",
+   "orientation": "portrait",
+   "setup": [],
+   "frames": 60
+  },
+  {
+   "id": "m3_shop",
+   "milestone": "M3",
+   "title": "Shop page",
+   "scene": "res://ui/ledger/ledger.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "page",
+     "args": [
+      "shop"
+     ]
+    }
+   ],
+   "frames": 60
+  },
+  {
+   "id": "m4_welcome_back",
+   "milestone": "M4",
+   "title": "Welcome-back scene",
+   "scene": "res://ui/welcome_back.tscn",
+   "orientation": "portrait",
+   "setup": [],
+   "frames": 90
+  },
+  {
+   "id": "m5_back_office",
+   "milestone": "M5",
+   "title": "Back Office lock screen (test hash)",
+   "scene": "res://ui/cheats/back_office.tscn",
+   "orientation": "portrait",
+   "setup": [],
+   "frames": 60
+  },
+  {
+   "id": "m1_bench_magnifier",
+   "milestone": "M1",
+   "title": "Bench close-up: magnifier in use",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "bench_demo",
+     "args": [
+      "magnifier",
+      0.6
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 12
+  },
+  {
+   "id": "m1_bench_lamp",
+   "milestone": "M1",
+   "title": "Bench close-up: lamp in use",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "bench_demo",
+     "args": [
+      "lamp",
+      0.6
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 12
+  },
+  {
+   "id": "m1_bench_ear",
+   "milestone": "M1",
+   "title": "Bench close-up: ear in use",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "bench_demo",
+     "args": [
+      "ear",
+      0.6
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 12
+  },
+  {
+   "id": "m1_bench_nose",
+   "milestone": "M1",
+   "title": "Bench close-up: nose in use",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "bench_demo",
+     "args": [
+      "nose",
+      0.5
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 12
+  },
+  {
+   "id": "m1_bench_brush",
+   "milestone": "M1",
+   "title": "Bench close-up: brush in use",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "bench_demo",
+     "args": [
+      "brush",
+      0.6
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 12
+  },
+  {
+   "id": "m1_bench_clue",
+   "milestone": "M1",
+   "title": "Bench close-up: clue landed on strip",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "bench_demo",
+     "args": [
+      "magnifier",
+      1.0
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 12
+  },
+  {
+   "id": "m1_bench_landscape",
+   "milestone": "M1",
+   "title": "Bench close-up (landscape)",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "bench_demo",
+     "args": [
+      "lamp",
+      0.6
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 12
+  },
+  {
+   "id": "m1_hud",
+   "milestone": "M1",
+   "title": "HUD: tokens, tier, stop timer, tutorial chip",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "hud_toast",
+     "args": [
+      "Welcome aboard, attendant."
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.6
+     ]
+    }
+   ],
+   "frames": 15
+  },
+  {
+   "id": "m1_hud_landscape",
+   "milestone": "M1",
+   "title": "HUD (landscape)",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.6
+     ]
+    }
+   ],
+   "frames": 15
+  },
+  {
+   "id": "ui_fresh_launch",
+   "milestone": "M5",
+   "title": "Fresh launch via game_root: Lost Property car, HUD, Bram tutorial",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      1.5
+     ]
+    }
+   ],
+   "frames": 45
+  },
+  {
+   "id": "w_car_obs",
+   "milestone": "M2",
+   "title": "D2 car dressing: obs",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      900
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "w_car_sleep",
+   "milestone": "M2",
+   "title": "D2 car dressing: sleep",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      2700
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "w_car_pass",
+   "milestone": "M2",
+   "title": "D2 car dressing: pass",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "w_car_dine",
+   "milestone": "M2",
+   "title": "D2 car dressing: dine",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      8100
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  },
+  {
+   "id": "w_car_lug",
+   "milestone": "M2",
+   "title": "D2 car dressing: lug",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      9900
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 90
+  }
+ ]
 }

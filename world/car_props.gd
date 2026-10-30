@@ -50,12 +50,29 @@ func _draw() -> void:
 			for k in range(HALF):
 				_table((slot_x(2 * k) + slot_x(2 * k + 1)) * 0.5, k)
 		return
+	_wall_dress()
+	for i in range(8):
+		var sx: float = 150.0 + 200.0 * float(i)
+		var sk: String = String((Sim.SPOT_LAYOUT.get(kind, Sim.SPOT_LAYOUT["lp"]) as Array)[i])
+		match sk:
+			"rack": _spot_rack(sx, i)
+			"sill": _spot_sill(sx)
+			"curtain": _spot_curtain(sx, i)
+			"table": _spot_shelf(sx)
 	for s in range(SLOTS):
 		_seat(slot_x(s), orient(s), s)
 	for j in range(SPOT_SEATS.size()):
 		_seat(float(SPOT_SEATS[j]), 1 if j == 0 else -1, 20 + j)
 	if kind == "sleep":
 		_bunk_curtains()
+	for i in range(8):
+		var sx2: float = 150.0 + 200.0 * float(i)
+		var sk2: String = String((Sim.SPOT_LAYOUT.get(kind, Sim.SPOT_LAYOUT["lp"]) as Array)[i])
+		if sk2 == "bin":
+			_spot_bin(sx2)
+		elif sk2 == "floor":
+			_spot_mat(sx2, i)
+	_signature()
 
 
 func _rr(rc: Rect2, rad: float, col: Color) -> void:
@@ -247,3 +264,135 @@ func _table(mx: float, k: int) -> void:
 		draw_rect(Rect2(mx - 40.0, 758.0, 14.0, 10.0), Color("#e8e2d4"))
 	else:
 		draw_rect(Rect2(mx + 24.0, 758.0, 14.0, 10.0), Color("#e8e2d4"))
+
+
+# ---------------------------------------------------------------- D2: spot props (hotspot = visible prop)
+func _spot_rack(x: float, i: int) -> void:
+	# brass luggage rack with a rope net and bag silhouettes (item rests at y~380)
+	var y: float = 396.0
+	draw_line(Vector2(x - 78.0, y), Vector2(x + 78.0, y), Pal.BRASS, 5.0)
+	draw_line(Vector2(x - 78.0, y + 22.0), Vector2(x + 78.0, y + 22.0), Pal.BRASS, 3.0)
+	for bx in [x - 78.0, x + 78.0]:
+		draw_line(Vector2(bx, y), Vector2(bx, y + 22.0), Pal.BRASS, 3.0)
+		draw_line(Vector2(bx, y + 22.0), Vector2(bx + (14.0 if bx < x else -14.0), 440.0), Pal.BRASS, 3.0)
+	for k in range(-5, 6):
+		draw_line(Vector2(x + k * 14.0, y + 3.0), Vector2(x + k * 12.0, y + 21.0), Color(0.9, 0.8, 0.55, 0.45), 1.5)
+	var bag: Color = ([Color("#4a3a2a"), Color("#5a2f2c"), Color("#2f4a52")][i % 3]) as Color
+	_rr(Rect2(x - 60.0 + 8.0 * (i % 2), 362.0, 44.0, 32.0), 6.0, bag)
+	draw_rect(Rect2(x - 52.0 + 8.0 * (i % 2), 370.0, 28.0, 3.0), Pal.BRASS)
+
+
+func _spot_sill(x: float) -> void:
+	# brass-edged ledge in front of the window (item rests at y~470)
+	draw_rect(Rect2(x - 70.0, 474.0, 140.0, 12.0), Color("#6a4a2a"))
+	draw_rect(Rect2(x - 70.0, 474.0, 140.0, 3.0), Color(1, 0.9, 0.6, 0.5))
+	draw_rect(Rect2(x - 74.0, 486.0, 148.0, 4.0), Pal.BRASS)
+	draw_colored_polygon(PackedVector2Array([Vector2(x - 60.0, 490.0), Vector2(x + 60.0, 490.0), Vector2(x + 48.0, 506.0), Vector2(x - 48.0, 506.0)]), Color(0, 0, 0, 0.25))
+
+
+func _spot_curtain(x: float, i: int) -> void:
+	# window curtain tied back on both sides, with a fold to hide things in (item at y~420)
+	var col: Color = Color("#6a3040") if kind != "sleep" else Color("#5a3a74")
+	draw_rect(Rect2(x - 86.0, 126.0, 172.0, 7.0), Pal.BRASS)
+	for side in [-1.0, 1.0]:
+		var ax: float = x + side * 74.0
+		draw_colored_polygon(PackedVector2Array([Vector2(ax - 16.0, 134.0), Vector2(ax + 16.0, 134.0), Vector2(ax + (10.0 if side > 0.0 else 8.0), 400.0), Vector2(ax + 22.0, 474.0), Vector2(ax - 22.0, 474.0), Vector2(ax - (8.0 if side > 0.0 else 10.0), 400.0)]), col)
+		for f in range(-2, 3):
+			draw_line(Vector2(ax + f * 6.0, 140.0), Vector2(ax + f * 8.0, 470.0), Color(0, 0, 0, 0.22), 2.0)
+		draw_rect(Rect2(ax - 14.0, 392.0, 28.0, 8.0), Pal.BRASS)
+	draw_arc(Vector2(x, 134.0), 48.0, 0.15, PI - 0.15, 12, Dr.shade(col, 0.8), 6.0)
+
+
+func _spot_shelf(x: float) -> void:
+	# wall shelf on two brass brackets (item rests at y~735)
+	draw_rect(Rect2(x - 44.0, 746.0, 88.0, 8.0), Color("#6a4a2a"))
+	draw_rect(Rect2(x - 44.0, 746.0, 88.0, 2.0), Color(1, 0.9, 0.6, 0.5))
+	for bx in [x - 30.0, x + 30.0]:
+		draw_line(Vector2(bx, 754.0), Vector2(bx, 780.0), Pal.BRASS, 4.0)
+		draw_line(Vector2(bx, 780.0), Vector2(bx - 12.0, 754.0), Pal.BRASS, 2.0)
+
+
+func _spot_bin(x: float) -> void:
+	# wicker bin (item at y~838)
+	var w: Color = Color("#8a6a3a")
+	draw_colored_polygon(PackedVector2Array([Vector2(x - 34.0, 826.0), Vector2(x + 34.0, 826.0), Vector2(x + 28.0, 874.0), Vector2(x - 28.0, 874.0)]), w)
+	for k in range(5):
+		draw_line(Vector2(x - 32.0 + k * 3.0, 832.0 + k * 9.0), Vector2(x + 32.0 - k * 3.0, 832.0 + k * 9.0), Color(0, 0, 0, 0.28), 2.0)
+	draw_rect(Rect2(x - 36.0, 822.0, 72.0, 6.0), Dr.shade(w, 0.7))
+
+
+func _spot_mat(x: float, i: int) -> void:
+	# a worn mat with a dark floor shadow (item at y~862)
+	var c: Color = ([Color("#7a3a32"), Color("#3a5a6a"), Color("#8a7a4a")][i % 3]) as Color
+	_rr(Rect2(x - 52.0, 862.0, 104.0, 14.0), 5.0, c)
+	draw_rect(Rect2(x - 52.0, 862.0, 104.0, 3.0), Color(1, 1, 1, 0.14))
+	draw_rect(Rect2(x - 44.0, 868.0, 88.0, 2.0), Color(1, 0.9, 0.6, 0.35))
+
+
+# ---------------------------------------------------------------- D2: per-car signature props
+func _wall_dress() -> void:
+	match kind:
+		"pass":
+			for wi in range(4):   # half-drawn blinds
+				var wx: float = 100.0 + 400.0 * float(wi)
+				var d: float = 24.0 + 40.0 * _h(wi, 7)
+				draw_rect(Rect2(wx, 130.0, 340.0, d), Color("#d9cfb4"))
+				for ly in range(0, int(d), 8):
+					draw_line(Vector2(wx, 134.0 + ly), Vector2(wx + 340.0, 134.0 + ly), Color(0, 0, 0, 0.13), 2.0)
+				draw_rect(Rect2(wx, 130.0 + d, 340.0, 4.0), Pal.BRASS)
+			# route map + punch box on the pillar walls
+			_rr(Rect2(450.0, 520.0, 40.0, 56.0), 3.0, Color("#e9dfc8"))
+			draw_line(Vector2(456.0, 560.0), Vector2(484.0, 530.0), Color("#c8503c"), 2.0)
+		"dine":
+			# menu board
+			_rr(Rect2(870.0, 515.0, 120.0, 90.0), 5.0, Color("#1b2a2a"))
+			draw_rect(Rect2(870.0, 515.0, 120.0, 90.0), Pal.BRASS, false, 4.0)
+			for ly in range(0, 5):
+				draw_line(Vector2(884.0, 536.0 + ly * 14.0), Vector2(884.0 + 60.0 + 30.0 * _h(ly, 3), 536.0 + ly * 14.0), Color(0.93, 0.9, 0.8, 0.7), 3.0)
+			# kitchen pass-through hatch (right end)
+			_rr(Rect2(1650.0, 560.0, 110.0, 80.0), 4.0, Color("#0e1a1c"))
+			draw_rect(Rect2(1650.0, 560.0, 110.0, 80.0), Pal.BRASS, false, 5.0)
+			draw_rect(Rect2(1650.0, 638.0, 110.0, 8.0), Color("#6a4a2a"))
+			draw_rect(Rect2(1664.0, 604.0, 24.0, 34.0), Color("#c9c3b4"))
+			draw_rect(Rect2(1700.0, 612.0, 20.0, 26.0), Color("#c8503c"))
+			for t in range(-1, 2):   # hanging pendant lamps over the tables
+				pass
+		"sleep":
+			# star-pattern valance in the ceiling cove
+			for k in range(26):
+				draw_circle(Vector2(60.0 + 66.0 * float(k), 78.0 + 18.0 * _h(k, 5)), 2.2, Color(1, 0.9, 0.6, 0.55))
+		"obs":
+			# brass rail below the windows + star dome in the cove
+			draw_line(Vector2(0.0, 520.0), Vector2(1800.0, 520.0), Pal.BRASS, 5.0)
+			for px in range(40, 1800, 220):
+				draw_line(Vector2(px, 520.0), Vector2(px, 560.0), Pal.BRASS, 3.0)
+			draw_rect(Rect2(0.0, 76.0, 1800.0, 44.0), Color("#0b1a30"))
+			for k in range(70):
+				draw_circle(Vector2(1800.0 * _h(k, 11), 78.0 + 40.0 * _h(k, 12)), 1.2 + 1.4 * _h(k, 13), Color(1, 0.95, 0.8, 0.4 + 0.5 * _h(k, 14)))
+		"lug":
+			# stencilled wall tags and hanging lanterns
+			for k in range(5):
+				var tx: float = 280.0 + 340.0 * float(k)
+				draw_line(Vector2(tx, 130.0), Vector2(tx, 168.0), Color("#2a2018"), 2.0)
+				_rr(Rect2(tx - 10.0, 168.0, 20.0, 26.0), 3.0, Color("#e2cfa8"))
+
+
+func _signature() -> void:
+	match kind:
+		"obs":   # brass telescope on a tripod
+			var c := Vector2(1020.0, 872.0)
+			draw_line(c, c + Vector2(-30.0, -90.0), Pal.BRASS, 4.0)
+			draw_line(c, c + Vector2(30.0, -90.0), Pal.BRASS, 4.0)
+			draw_line(c, c + Vector2(0.0, -96.0), Dr.shade(Pal.BRASS, 0.7), 4.0)
+			draw_line(c + Vector2(-34.0, -92.0), c + Vector2(70.0, -150.0), Color("#c9a24a"), 12.0)
+			draw_circle(c + Vector2(70.0, -150.0), 9.0, Color("#6a8a96"))
+		"sleep":   # slippers by the bunks
+			for sx in [372.0, 892.0, 1412.0]:
+				_rr(Rect2(sx, 866.0, 26.0, 10.0), 4.0, Color("#8a3a4a"))
+				_rr(Rect2(sx + 30.0, 866.0, 26.0, 10.0), 4.0, Color("#8a3a4a"))
+		"lug":   # lantern glow bodies
+			for k in range(3):
+				var lx: float = 560.0 + 520.0 * float(k)
+				draw_line(Vector2(lx, 130.0), Vector2(lx, 250.0), Color("#2a2018"), 2.0)
+				_rr(Rect2(lx - 12.0, 250.0, 24.0, 34.0), 5.0, Color(1.0, 0.8, 0.4))
+				draw_rect(Rect2(lx - 14.0, 246.0, 28.0, 6.0), Pal.BRASS)
