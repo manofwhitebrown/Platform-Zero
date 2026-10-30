@@ -9,6 +9,7 @@ func _ready() -> void:
 	size = Vector2(56, 56)
 
 func _process(_d: float) -> void:
+	position = Vector2(get_viewport_rect().size.x - 70.0, 190.0)
 	var v: bool = Sim.cheated
 	if visible != v:
 		visible = v

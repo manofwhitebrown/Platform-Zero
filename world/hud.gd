@@ -89,8 +89,8 @@ class HudView extends Control:
 		var lo: float = float(th[tier])
 		var hi: float = float(th[tier + 1]) if tier + 1 < th.size() else lo
 		var frac: float = 1.0 if hi <= lo else clampf((float(Sim.rep) - lo) / (hi - lo), 0.0, 1.0)
-		var rw: float = minf(vs.x * 0.13, 140.0)
-		var rx: float = bar.end.x - 224 - rw
+		var rw: float = minf(vs.x * 0.1, 110.0)
+		var rx: float = bar.position.x + 224  # left of the stop name, clear of map/book/gear buttons
 		txt(Vector2(rx, bar.position.y + 40), "Tier %d" % (tier + 1), 26, Pal.LAMP, rw)
 		var rb := Rect2(rx, bar.position.y + 54, rw, 14)
 		Dr.rrect(self, rb, 7, Color(0, 0, 0, 0.5))

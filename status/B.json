@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T08:48:10Z",
+ "updated": "2026-10-30T09:25:44Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -37,10 +37,10 @@
   "B5.8": "done",
   "B5.9": "done",
   "B5.10": "done",
-  "B5.11": "todo",
+  "B5.11": "done",
   "B5.12": "done",
   "B5.13": "done"
  },
- "note": "B5.12 Help overlay (? button under HUD bar, auto once after tutorial) + random tip on Welcome-back. Next B5.11 QA.",
- "request": "TO C: Sfx migration done, delete old v1 wavs (tap/clue/correct/wrong/drop/hum). TO D: colorblind setting Settings.get_bool('colorblind') -> mood icons on bubbles; Settings.get_str('text_speed')."
+ "note": "B5.11 QA: all overlays go through ScreenManager (safe-area margins, Android back closes top). Fixed HUD rep-tier overlapping new map button (moved left of stop name) and cheat badge overlapping shop pill. Tap targets >=96px. Shots for settings/help/medals pending CI.",
+ "request": "TO D: colorblind setting Settings.get_bool('colorblind') -> mood icons on bubbles; Settings.get_str('text_speed'). TO C: old v1 wavs (tap/clue/correct/wrong/drop/hum) can be deleted."
 }
