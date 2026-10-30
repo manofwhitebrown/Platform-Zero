@@ -27,7 +27,7 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:4.5
     defaults:
       run:
         shell: bash
@@ -54,7 +54,7 @@ jobs:
             "export/android/debug_keystore = \"$HOME/ci-debug.keystore\"" \
             'export/android/debug_keystore_user = "androiddebugkey"' \
             'export/android/debug_keystore_pass = "android"' \
-            'export/android/shutdown_adb_on_exit = true' > "$HOME/.config/godot/editor_settings-4.3.tres"
+            'export/android/shutdown_adb_on_exit = true' > "$HOME/.config/godot/editor_settings-4.5.tres"
       - name: Install Android SDK 34
         run: |
           set +e +o pipefail
@@ -65,10 +65,10 @@ jobs:
           exit 0
       - name: SDK diagnostics
         run: |
-          SDK=$(grep android_sdk_path "$HOME/.config/godot/editor_settings-4.3.tres" | cut -d'"' -f2)
+          SDK=$(grep android_sdk_path "$HOME/.config/godot/editor_settings-4.5.tres" | cut -d'"' -f2)
           for d in "$SDK" "$SDK/build-tools" "$SDK/platforms" "$SDK/platform-tools" "$SDK/cmdline-tools"; do echo "== $d"; ls "$d" 2>&1 | head -20; done | tee -a /tmp/ci.log
           java -version 2>&1 | tee -a /tmp/ci.log
-          ls "$HOME/.local/share/godot/export_templates/4.3.stable" 2>&1 | head -30 | tee -a /tmp/ci.log
+          ls "$HOME/.local/share/godot/export_templates/4.5.stable" 2>&1 | head -30 | tee -a /tmp/ci.log
       - name: Write cheat hash (from secret, never committed)
         env:
           CHEAT_PW_HASH: ${{ secrets.CHEAT_PW_HASH }}
@@ -138,7 +138,7 @@ jobs:
     permissions:
       contents: write
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:4.5
     defaults:
       run:
         shell: bash

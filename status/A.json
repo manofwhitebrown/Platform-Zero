@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-30T08:57:02Z",
+ "updated": "2026-10-30T09:48:09Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -46,12 +46,12 @@
   "A6.5": "done",
   "A6.6": "done",
   "A6.7": "done",
-  "A6.8": "todo",
+  "A6.8": "doing",
   "A6.9": "done",
   "A6.10": "done",
   "A6.11": "done",
   "A6.12": "done"
  },
- "request": "TO C (C14) + B + D: the map Sim side ALREADY EXISTS (pushed 5a587f8): Sim.get_map() -> 6 rows {id,kind,name,index,x,center_x,unlocked,unlock_tier,tier_rep,items,claimants,here,reachable}; Sim.fast_travel(car_id) -> {ok,car_id,x,from_x} | {ok:false,reason:'locked'|'tutorial'|'unknown car',hint,unlock_tier}; Events.fast_travelled(car_id,from_x,to_x). Do NOT re-implement in sim.gd; ask me for changes via 'TO A'. Tier thresholds [0,15,60,250,950]; shop prices raised (use Sim.get_shop()). Also live: Sim.last_offline_report, get_stats/get_lore/get_lore_found/get_equipped, Events.arc_beat/lore_found.",
- "note": "A6.5/9/10/11/12 done. Waiting for B (B5.11), C (C12/C14), D (D10) to finish, then A6.8 Godot upgrade."
+ "request": "TO ALL: Godot upgrade 4.3 -> 4.5 lands now (CI image barichello/godot-ci:4.5, project feature 4.5). Pull, then locally delete .godot and run `godot --headless --import`. Note 4.5 JSON.stringify prints whole floats as 1.0; compare via round trip. Local tests/e2e/fuzz/audio/perf are green on 4.5. If the build goes red I revert.",
+ "note": "A6.8: upgrade pushed, verifying CI (APK + screenshots)."
 }

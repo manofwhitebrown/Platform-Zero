@@ -165,9 +165,9 @@ func _test_save_roundtrip() -> void:
 	_check(_sim.load_game(), "load_game succeeds")
 	var after: Dictionary = _sim.to_dict()
 	for key in ["tokens", "rep", "stop_index", "queue", "next_iid", "next_pid", "first_delivery_done", "rng_state"]:
-		_check(JSON.stringify(before[key]) == JSON.stringify(after[key]), "round-trip keeps " + key)
-	_check(JSON.stringify(before["items"]) == JSON.stringify(after["items"]), "round-trip keeps items")
-	_check(JSON.stringify(before["passengers"]) == JSON.stringify(after["passengers"]), "round-trip keeps passengers")
+		_check(_norm(before[key]) == _norm(after[key]), "round-trip keeps " + key)
+	_check(_norm(before["items"]) == _norm(after["items"]), "round-trip keeps items")
+	_check(_norm(before["passengers"]) == _norm(after["passengers"]), "round-trip keeps passengers")
 	_check(JSON.stringify(_sim.get_queue()) == JSON.stringify(q_before), "queue order preserved")
 	_sim.tick(30.0)
 
@@ -781,3 +781,8 @@ func _test_cheats_complete() -> void:
 	cheats._fails = 0
 	cheats._locked_until_ms = 0
 	_rm(log_path)
+
+
+## Godot 4.5 prints whole floats as "1.0" where 4.3 printed "1"; compare after a JSON round trip.
+func _norm(v: Variant) -> String:
+	return JSON.stringify(JSON.parse_string(JSON.stringify(v)))
