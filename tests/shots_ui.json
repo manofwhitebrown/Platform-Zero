@@ -168,6 +168,90 @@
     }
    ],
    "frames": 20
+  },
+  {
+   "id": "ui_shop",
+   "milestone": "M5",
+   "title": "Shop: mixed affordable states",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "shop_demo",
+     "args": [
+      60
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_shop_rich",
+   "milestone": "M5",
+   "title": "Shop: plenty of tokens",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "shop_demo",
+     "args": [
+      400
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_shop_landscape",
+   "milestone": "M5",
+   "title": "Shop landscape",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "shop_demo",
+     "args": [
+      60
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 20
   }
  ]
 }

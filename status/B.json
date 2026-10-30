@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T03:33:17Z",
+ "updated": "2026-10-30T03:34:34Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -29,8 +29,9 @@
   "B5.0": "done",
   "B5.1": "done",
   "B5.2": "done",
-  "B5.3": "done"
+  "B5.3": "done",
+  "B5.4": "done"
  },
- "note": "B5.3 done: ui/ledger.gd (History/Regulars/Found/Lore) via HUD book button + ScreenManager; v1 scenes/, tabbar, backdrop deleted; HUD top bar re-spaced. Shots in tests/shots_ui.json (ui_ledger_*). Next B5.4 Shop.",
- "request": "TO A: v1 scenes retired, run A6.6 (GameState/Mystery autoloads + tests/run_tests.gd AUTOLOADS list still name them; nothing in ui/world/bench uses them)."
+ "note": "B5.4 done: ui/shop.gd (Sim.get_shop/buy, pips, afford states, buy pop+sfx) via HUD Shop pill. Cosmetic Wear toggle stored in Settings key equip_<id> (D can read Settings.get_bool). Next B5.5 Daily.",
+ "request": "TO D: attendant cosmetics: read Settings.get_bool(\"equip_brass_cap\"/\"equip_velvet_curtains\"/\"equip_lantern_charm\", false) if Sim.get_upgrade_level(id)>0. TO A: optional Sim.get_equipped() if you prefer it in the save."
 }

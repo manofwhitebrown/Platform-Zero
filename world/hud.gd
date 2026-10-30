@@ -18,6 +18,7 @@ class HudView extends Control:
 	var inset: float = 0.0
 	var skip_rect: Rect2 = Rect2()
 	var book: Rect2 = Rect2()
+	var shop_rect: Rect2 = Rect2()
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -117,6 +118,13 @@ class HudView extends Control:
 			Dr.rrect(self, cr, 20, Color(Pal.PARCHMENT, 0.96))
 			draw_rect(cr.grow(-6), Color(Pal.BRASS, 0.5), false, 2.0)
 			txt(cr.position + Vector2(0, 45), chip, 30, Pal.INK, w, HORIZONTAL_ALIGNMENT_CENTER)
+		# shop pill
+		shop_rect = Rect2(14, bar.end.y + 92, 190, 72)
+		var shr: Rect2 = shop_rect.grow_individual(0, -12, 0, -12)
+		Dr.rrect(self, shr, 18, Color(Pal.BRASS, 0.85))
+		if coin != null:
+			draw_texture_rect(coin, Rect2(shr.position + Vector2(10, 3), Vector2(42, 42)), false, Pal.DEEP)
+		txt(Vector2(shr.position.x + 58, shr.position.y + 34), "Shop", 28, Pal.DEEP)
 		# quiet tutorial skip
 		skip_rect = Rect2()
 		if String(Sim.get_tutorial().get("stage", "done")) != "done":
@@ -151,6 +159,13 @@ class HudView extends Control:
 				var gr: Node = hud.world.get_parent()
 				if gr is GameRoot:
 					(gr as GameRoot).open_screen("ledger")
+					Sfx.play("tap")
+					get_viewport().set_input_as_handled()
+					return
+			if shop_rect.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
+				var gr2: Node = hud.world.get_parent()
+				if gr2 is GameRoot:
+					(gr2 as GameRoot).open_screen("shop")
 					Sfx.play("tap")
 					get_viewport().set_input_as_handled()
 					return
