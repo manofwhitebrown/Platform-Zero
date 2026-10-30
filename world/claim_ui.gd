@@ -314,14 +314,11 @@ func _show_story(iid: String, _pid: String, res: Dictionary) -> void:
 	title.add_theme_font_size_override("font_size", 44)
 	title.add_theme_color_override("font_color", Pal.INK)
 	v.add_child(title)
-	var tex := TextureRect.new()
-	tex.texture = load("res://assets/icons/%s.svg" % String(item.get("icon", def.get("icon", "key"))))
-	tex.modulate = Color(String(item.get("tint", def.get("tint", "#ffffff"))))
-	tex.custom_minimum_size = Vector2(0, 150)
-	tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	v.add_child(tex)
+	var art := Ledger.ArtBox.new()
+	art.item = item if not item.is_empty() else def
+	art.custom_minimum_size = Vector2(0, 170)
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(art)
 	var story := Label.new()
 	story.text = String(res.get("story", ""))
 	story.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -330,6 +327,29 @@ func _show_story(iid: String, _pid: String, res: Dictionary) -> void:
 	story.add_theme_color_override("font_color", Pal.INK)
 	story.custom_minimum_size = Vector2(700, 0)
 	v.add_child(story)
+	var arc: String = String(res.get("arc_line", ""))
+	if arc != "":
+		var ab := PanelContainer.new()
+		ab.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ab.add_theme_stylebox_override("panel", Pal.panel_style(Color(Pal.BRASS, 0.22), Pal.BRASS, 16))
+		var av := VBoxContainer.new()
+		av.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ab.add_child(av)
+		var ah := Label.new()
+		ah.text = "A NEW CHAPTER"
+		ah.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		ah.add_theme_font_size_override("font_size", 22)
+		ah.add_theme_color_override("font_color", Color(0.55, 0.4, 0.16))
+		av.add_child(ah)
+		var al := Label.new()
+		al.text = "\"%s\"" % arc
+		al.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		al.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		al.add_theme_font_size_override("font_size", 28)
+		al.add_theme_color_override("font_color", Pal.INK)
+		al.custom_minimum_size = Vector2(660, 0)
+		av.add_child(al)
+		v.add_child(ab)
 	var rew := Label.new()
 	rew.text = "+%d tokens     +%d reputation" % [int(res.get("tokens", 0)), int(res.get("rep", 0))]
 	rew.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

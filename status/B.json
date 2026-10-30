@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T03:38:08Z",
+ "updated": "2026-10-30T03:39:05Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -32,8 +32,9 @@
   "B5.3": "done",
   "B5.4": "done",
   "B5.5": "done",
-  "B5.6": "done"
+  "B5.6": "done",
+  "B5.7": "done"
  },
- "note": "B5.6 done: ui/welcome.gd shows on Events.offline_report (stops>0). Cold-start report is emitted inside Sim._ready before GameRoot exists, so it needs Sim.last_offline_report (see request). Next B5.7 arcs.",
+ "note": "B5.7 done: story card shows a \"A NEW CHAPTER\" block when hand_over result has arc_line, and uses ItemArt. Beat toasts still arrive via Events.toast. Next B5.8 Settings.",
  "request": "TO A: please add `var last_offline_report: Dictionary = {}` to sim.gd, set in apply_offline() just before Events.offline_report.emit(rpt) (and clear it never; GameRoot reads Sim.get(\"last_offline_report\") on cold start). Also for B5.7: a dedicated signal Events.arc_beat(owner_id, nth, line) when Content.arc_beat fires."
 }
