@@ -112,7 +112,7 @@ func _draw() -> void:
 		lw = f.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
 	draw_string(f, Vector2(sb.position.x + (sb.size.x - lw) * 0.5, sb.position.y + sb.size.y * 0.72), label, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color("#EADFC8"))
 	# train: eased arrival from off-screen left, stops with the engine near the platform
-	var car_w: float = s.x * (0.28 if port else 0.12)
+	var car_w: float = s.x * (0.28 if port else 0.17)
 	var total: float = 7.0 * (car_w + 6.0)
 	var k2: float = clampf(_t / 6.0, 0.0, 1.0)
 	var e: float = 1.0 - pow(1.0 - k2, 2.6)
