@@ -126,18 +126,17 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform C · Sound + Story** — 6/12 done
+**Platform C · Sound + Story** — 7/12 done
 
-- ⬜ Audio QA
 - ⬜ How-to-play cards
 - ⬜ Loading tips
 - ⬜ Store listing + privacy policy
 - ⬜ Achievements data
 - ⬜ Re-check balance with playbot
 
-> All C tasks done. Final read-through of 914 strings: no typos/double spaces/odd placeholders; names consistent. Balance numbers sent to A (fuzz.gd).
+> C7: all sfx/ui/ambience peak -3 dB, music -6 dB, loops circular (clack onset at loop point is intentional), audio/ 3.0 MB. 6 old v1 wavs kept: ui/components/sfx.gd (B) still loads them; delete after B says Sfx migration 
 
-<details><summary>Finished (6)</summary>
+<details><summary>Finished (7)</summary>
 
 - ✅ Audio generator (47 sounds)
 - ✅ Audio engine
@@ -145,19 +144,20 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Lore collectibles
 - ✅ 400 items + solvability audit
 - ✅ Playbot + text polish
+- ✅ Audio QA
 
 </details>
 
 **Platform D · World** — 5/11 done
 
-- ⬜ Hotspots + item placement
+- 🔄 Hotspots + item placement
 - ⬜ Camera + transitions
 - ⬜ Character generator
 - ⬜ Intro / title scene
 - ⬜ World performance + QA shots
-- ⬜ Station door-open animation
+- ⬜ Door-open animation
 
-> D5: platform through windows (lamps, name boards w/ stop name, waiting figures, steam) sliding in/out with eased scroll deceleration, brake/jolt shake, departure steam. Door-open anim not done. shot_platform(off,steam) f
+> D6: ItemArt spot items, idle shimmer via SHIMMER_IDLE_S, pickup arc, bigger tap targets, clock tap + lamp 2s hold signals on TrainWorld. Untested locally (no Godot). Lore scraps pending A lore_found.
 
 <details><summary>Finished (5)</summary>
 
