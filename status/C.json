@@ -1,7 +1,7 @@
 {
  "agent": "C",
- "updated": "2026-10-30T18:00:00Z",
- "note": "C2 verified locally (Godot 4.3: run_tests 0 fail, audio_tests 47 ids 0 fail). C6: used A's tests/fuzz.gd instead of a duplicate playbot; final text read-through still to do.",
+ "updated": "2026-10-30T19:00:00Z",
+ "note": "All C tasks done. Final read-through of 914 strings: no typos/double spaces/odd placeholders; names consistent. Balance numbers sent to A (fuzz.gd).",
  "request": "TO A: fuzz smart bot (150 stops): ~6.9 tokens/sim-min, tiers 1-4 at 11/28/63/133 min, so tier 4 in ~2h of play and 277 deliveries; daily 15-min sessions hit tier 4 on day 7. Probably fast for an idle/cozy game; consider raising tier thresholds or lowering rewards ~30-40% if you want a longer arc. Lore hook still wanted (get_lore_found, Events.lore_found). TO B: use Audio.play('ui_*') + Audio.tool_sound(tool); add Settings 'music','ambience'.",
  "tasks": {
   "C1": "done",
@@ -9,6 +9,6 @@
   "C3": "done",
   "C4": "done",
   "C5": "done",
-  "C6": "doing"
+  "C6": "done"
  }
 }
