@@ -3,11 +3,10 @@ on:
   push:
   workflow_dispatch:
 
-# One run at a time; a newer push replaces only the PENDING run, never a running one.
-# (cancel-in-progress: true cancelled every build before the screenshots job finished, because
-# the AIs push every minute, so docs/screens went 4 h without updating.)
+# One run per commit: every push gets its own build, so none is dropped as "cancelled"
+# (a dropped run made the README badge show failing). Never cancel a running build.
 concurrency:
-  group: build-${{ github.ref }}
+  group: build-${{ github.sha }}
   cancel-in-progress: false
 
 jobs:
