@@ -3,26 +3,258 @@
 /usr/bin/timeout
 /usr/bin/xvfb-run
 /usr/bin/xauth
-libfontconfig.so.1: cannot open shared object file: No such file or directory
 4.5.stable.official.876b29033
 == run
-libfontconfig.so.1: cannot open shared object file: No such file or directory
 Godot Engine v4.5.stable.official.876b29033 - https://godotengine.org
-libXcursor.so.1: cannot open shared object file: No such file or directory
-ERROR: Can't load XCursor dynamically.
-   at: DisplayServerX11 (platform/linuxbsd/x11/display_server_x11.cpp:6746)
-WARNING: Display driver x11 failed, falling back to wayland.
-     at: setup2 (main/main.cpp:3220)
-libwayland-cursor.so.0: cannot open shared object file: No such file or directory
-WARNING: Can't load the Wayland cursor library.
-     at: init (platform/linuxbsd/wayland/wayland_thread.cpp:4292)
-ERROR: Could not initialize the Wayland thread.
-   at: DisplayServerWayland (platform/linuxbsd/wayland/display_server_wayland.cpp:1903)
-ERROR: Can't create the Wayland display server.
-   at: create_func (platform/linuxbsd/wayland/display_server_wayland.cpp:1873)
-ERROR: Unable to create DisplayServer, all display drivers failed.
-Use "--headless" command line argument to run the engine in headless mode if this is desired (e.g. for continuous integration).
-   at: setup2 (main/main.cpp:3230)
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+libdbus-1.so.3: cannot open shared object file: No such file or directory
+OpenGL API 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 20.1.2, 256 bits)
+libpulse.so.0: cannot open shared object file: No such file or directory
+libpulse.so.0: cannot open shared object file: No such file or directory
+ERROR: Condition "status < 0" is true. Returning: ERR_CANT_OPEN
+
+shoot: START m1_actor_lineup
+shoot: START m1_highlight
+shoot: START m1_carry
+shoot: START m1_car_portrait
+shoot: START m1_car_landscape
+shoot: START m1_claimant_bubble
+shoot: START m1_tray
+shoot: START m1_handover
+shoot: START m1_story_card
+shoot: START m1_claimant_landscape
+shoot: START m1_bench_tool
+SHOT WARN m1_bench_tool: cannot call tool
+shoot: START m1_tutorial
+shoot: START m2_car_pass
+shoot: START m2_car_dine
+shoot: START m2_station_arrival
+shoot: START m1_bench_magnifier
+shoot: START m1_bench_lamp
+shoot: START m1_bench_ear
+shoot: START m1_bench_nose
+shoot: START m1_bench_brush
+shoot: START m1_bench_clue
+shoot: START m1_bench_landscape
+shoot: START m1_hud
+shoot: START m1_hud_landscape
+shoot: START ui_fresh_launch
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START w_car_obs
+shoot: START w_car_sleep
+shoot: START w_car_pass
+shoot: START w_car_dine
+shoot: START w_car_lug
+shoot: START w_biome_snow_peaks
+shoot: START w_biome_desert
+shoot: START w_biome_tunnel
+shoot: START w_weather_rain
+shoot: START w_weather_fog
+shoot: START w_biome_forest_day
+shoot: START w_station_stopped
+shoot: START w_station_stopped_p
+shoot: START w_station_departing
+shoot: START w_station_arriving
+shoot: START w_intro_portrait
+shoot: START w_intro_landscape
+shoot: START w_car_obs_pt
+shoot: START w_car_sleep_pt
+shoot: START w_car_pass_pt
+shoot: START w_car_lug_pt
+shoot: START w_biome_snow_peaks_pt
+shoot: START w_weather_rain_pt
+shoot: START w_fast_travel_pt
+shoot: START w_fast_travel
+shoot: START ui_ledger_history
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_ledger_regulars
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_ledger_found
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_ledger_lore
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_ledger_empty
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_ledger_landscape
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_shop
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_shop_rich
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_shop_landscape
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_daily_fresh
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_daily_solved
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_welcome_back
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_settings
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_settings_land
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_ledger_achievements
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_help
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_help_land
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_map
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_map_locked
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: START ui_map_land
+WARNING: Orientation not supported by this display server.
+     at: screen_set_orientation (servers/display_server.cpp:563)
+     GDScript backtrace (most recent call first):
+         [0] apply_orientation (res://ui/components/settings.gd:70)
+         [1] apply_all (res://ui/components/settings.gd:25)
+         [2] _ready (res://ui/game_root.gd:33)
+         [3] _shoot (res://tools/shoot.gd:132)
+         [4] _run (res://tools/shoot.gd:49)
+shoot: 70 ok, 0 skipped, 0 failed
 WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
      at: cleanup (core/object/object.cpp:2514)
-godot exit code: 1
+ERROR: 16 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:795)
