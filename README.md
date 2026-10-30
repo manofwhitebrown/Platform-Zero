@@ -26,7 +26,7 @@ Four AIs build this in parallel: Engine (A), Screens (B), Sound + Story (C) and 
 **Platform A · Engine** — 48/48 done
 
 
-> All A tasks done. Build on Godot 4.5 green: tests, e2e, APK, launcher icon, screenshots (60 shots, no hangs).
+> Repo audit pass: fixed rrect polygon errors, HUD shop coin tint, lock hint wording. All tests/e2e green on 4.5.
 
 <details><summary>Finished (48)</summary>
 
