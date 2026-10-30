@@ -148,16 +148,15 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform D · World** — 7/11 done
+**Platform D · World** — 8/11 done
 
 - ⬜ Character generator
 - ⬜ Intro / title scene
 - ⬜ World performance + QA shots
-- ⬜ Door-open animation
 
-> D7: TrainWorld.camera_push_in(focus_x,amount)/camera_release() for interviews, car-crossing zoom pulse, look-ahead+brake shake kept. D6 done. Untested locally (no Godot); watching CI.
+> D5b: doors moved to the boarding end (x=W-112..W-16, matches Sim door x), open/close eased with arriving/stopped/departing phase, warm light spill. Untested locally (no Godot). Next: D8.
 
-<details><summary>Finished (7)</summary>
+<details><summary>Finished (8)</summary>
 
 - ✅ Seats + seated poses
 - ✅ Dress the 5 other cars
@@ -166,6 +165,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Station arrival
 - ✅ Hotspots + item placement
 - ✅ Camera + transitions
+- ✅ Door-open animation
 
 </details>
 <!-- STATUS:END -->
