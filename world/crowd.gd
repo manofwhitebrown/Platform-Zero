@@ -294,7 +294,7 @@ func _update_bubbles(dt: float) -> void:
 		var b: Dictionary = _bubbles[pid]
 		var total: int = String(b["text"]).length()
 		var before: float = float(b["shown"])
-		b["shown"] = minf(float(total), before + dt * CHARS_PER_S)
+		b["shown"] = minf(float(total), before + dt * CHARS_PER_S * _speed_mul())
 		if int(float(b["shown"])) > int(before) and int(float(b["shown"])) % 2 == 0:
 			var ch: String = String(b["text"]).substr(maxi(0, int(float(b["shown"])) - 1), 1)
 			if ch != " " and ch != "":
@@ -374,6 +374,36 @@ func _draw_fx(ci: CanvasItem) -> void:
 		ci.draw_line(p - d, p + d, col, maxf(3.0, w * 0.55 * maxf(sx, 0.3)))
 
 
+func _speed_mul() -> float:
+	match Settings.get_str("text_speed", "normal"):
+		"slow":
+			return 0.6
+		"fast":
+			return 1.8
+		"instant":
+			return 50.0
+	return 1.0
+
+
+## Colorblind aid: a shape per mood in the bubble corner (never colour alone).
+func _mood_glyph(ci: CanvasItem, c: Vector2, mood: String, fade: float) -> void:
+	var col := Color(Pal.INK.r, Pal.INK.g, Pal.INK.b, fade)
+	ci.draw_circle(c, 17.0, Color(Pal.BRASS.r, Pal.BRASS.g, Pal.BRASS.b, 0.35 * fade))
+	match mood:
+		"hurried":
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-9, -9), c + Vector2(0, 0), c + Vector2(-9, 9)]), col)
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(1, -9), c + Vector2(10, 0), c + Vector2(1, 9)]), col)
+		"worried":
+			ci.draw_polyline(PackedVector2Array([c + Vector2(-10, 2), c + Vector2(-5, -4), c + Vector2(0, 2), c + Vector2(5, -4), c + Vector2(10, 2)]), col, 3.0)
+		"grumpy":
+			ci.draw_line(c + Vector2(-8, -8), c + Vector2(8, 8), col, 4.0)
+			ci.draw_line(c + Vector2(8, -8), c + Vector2(-8, 8), col, 4.0)
+		"shy":
+			ci.draw_circle(c, 4.0, col)
+		_:
+			ci.draw_arc(c, 8.0, 0, TAU, 16, col, 3.0)
+
+
 func _draw_bubble(ci: CanvasItem, pid: String, b: Dictionary) -> void:
 	var a: Passenger = actors.get(pid) as Passenger
 	if a == null:
@@ -415,6 +445,8 @@ func _draw_bubble(ci: CanvasItem, pid: String, b: Dictionary) -> void:
 	var tail := PackedVector2Array([Vector2(tx - 16, rect.end.y - 2), Vector2(tx + 16, rect.end.y - 2), Vector2(a.position.x, head_y - 8.0)])
 	ci.draw_colored_polygon(tail, Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.97 * fade))
 	var y: float = rect.position.y + 16.0
+	if Settings.get_bool("colorblind", false):
+		_mood_glyph(ci, Vector2(rect.end.x - 26.0, rect.position.y + 26.0), String(a.mood), fade)
 	if nm != "":
 		ci.draw_string(font, Vector2(rect.position.x + 22, y + 22), nm.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(Pal.BRASS.r * 0.8, Pal.BRASS.g * 0.7, Pal.BRASS.b * 0.5, fade))
 		y += head_h

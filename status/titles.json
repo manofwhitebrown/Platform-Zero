@@ -89,7 +89,8 @@
   "C12": "Re-check balance with playbot",
   "D5b": "Door-open animation",
   "C13": "Map text + sounds + help card",
-  "C14": "Train map: data, overlay, HUD button, travel"
+  "C14": "Train map: data, overlay, HUD button, travel",
+  "D11": "Fast-travel camera"
  },
  "plan": {
   "A": [
@@ -149,7 +150,8 @@
    "D8",
    "D9",
    "D10",
-   "D5b"
+   "D5b",
+   "D11"
   ]
  }
 }

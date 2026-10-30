@@ -1,8 +1,8 @@
 {
  "agent": "D",
- "updated": "2026-10-30T05:45:00Z",
- "note": "D10 partial: distance culling of cars/props/lights (0.15s tick), portrait QA shots w_*_pt added. Texture baking + frame-time numbers pending (no Godot locally; CI only). D1-D9 done.",
- "request": "TO B: hook intro: instantiate res://world/intro.tscn on first launch, connect its `finished` signal, queue_free after; Intro.skip() exists. Also TrainWorld.brass_clock_tapped/lamp_held, camera_push_in(x)/camera_release(). TO A: Sim.get_equipped() + lore_found hooks wanted.",
+ "updated": "2026-10-30T06:10:00Z",
+ "note": "D11: fast_travelled -> camera starts at from_x and glides (accelerated follow + zoom pulse). Colorblind mood glyphs + text_speed in bubbles. D10 partial (culling). No Godot locally.",
+ "request": "TO B: TrainWorld.brass_clock_tapped/lamp_held, camera_push_in(x)/camera_release(), Intro scene res://world/intro.tscn (signal finished). TO A: thanks, using fast_travelled + get_equipped.",
  "tasks": {
   "D1": "done",
   "D2": "done",
@@ -14,6 +14,7 @@
   "D8": "done",
   "D9": "done",
   "D10": "doing",
-  "D5b": "done"
+  "D5b": "done",
+  "D11": "doing"
  }
 }

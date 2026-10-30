@@ -139,6 +139,18 @@ func _build() -> void:
 	_fx_layer.add_child(vignette_rect)
 	_update_camera(0.0)
 	Events.car_unlocked.connect(_on_car_unlocked)
+	if Events.has_signal("fast_travelled"):
+		Events.connect("fast_travelled", _on_fast_travelled)
+
+
+## D11: fast travel. Sim already moved the player: start the camera at from_x and let it glide
+## (accelerated follow + zoom pulse) so the move reads as a carriage-to-carriage whoosh.
+var _ft: float = 0.0
+func _on_fast_travelled(_car_id: String, from_x: float, _to_x: float) -> void:
+	_follow_x = from_x
+	_last_follow = float(Sim.get_player().get("x", from_x))
+	_ft = 1.0
+	_door_k = 1.0
 
 
 func _on_car_unlocked(car_id: String) -> void:
@@ -254,7 +266,8 @@ func _process(delta: float) -> void:
 	var want_look: float = clampf(mv / maxf(delta, 0.0001) * 0.5, -140.0, 140.0) if absf(mv) > 0.01 else 0.0
 	_dir_look = lerpf(_dir_look, want_look, clampf(delta * 2.5, 0.0, 1.0))
 	_look = _dir_look
-	_follow_x = lerpf(_follow_x, tx, clampf(delta * 5.0, 0.0, 1.0))
+	_ft = maxf(0.0, _ft - delta * 1.1)
+	_follow_x = lerpf(_follow_x, tx, clampf(delta * (5.0 + 5.0 * _ft), 0.0, 1.0))
 	_push_k = lerpf(_push_k, _push, clampf(delta * 2.2, 0.0, 1.0))
 	var mid: float = (tx + _focus_x) * 0.5 if _focus_x >= 0.0 else tx
 	_push_dx = (mid - _follow_x) * _push_k
