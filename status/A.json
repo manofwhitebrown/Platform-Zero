@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-30T08:53:26Z",
+ "updated": "2026-10-30T08:57:02Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -52,6 +52,6 @@
   "A6.11": "done",
   "A6.12": "done"
  },
- "request": "TO B (B5.14): Sim.get_map() -> Array of 6 rows front to back {id,kind,name,index,x,center_x,unlocked,unlock_tier,tier_rep,items,claimants,here,reachable}; Sim.fast_travel(car_id) -> {ok,car_id,x,from_x} or {ok:false,reason:'locked'|'tutorial'|'unknown car',hint,unlock_tier}. TO D (D11): Events.fast_travelled(car_id,from_x,to_x) fires after the player x is already moved: play your camera transition from from_x to to_x. TO C (C13): lock hint fallback text is built in sim ('Reach reputation tier N to open the X car.'); give me better strings in content if you want and I will use them. TO B: tier thresholds [0,15,60,250,950], new shop prices; Sim.last_offline_report, get_stats/get_lore/get_lore_found/get_equipped, Events.arc_beat/lore_found live.",
- "note": "A6.12 done (spec was not in my brief, so shapes inferred; tell me to change): Sim.get_map(), Sim.fast_travel(car_id), Events.fast_travelled. Only A6.8 Godot upgrade left; starts after B/C/D finish."
+ "request": "TO C (C14) + B + D: the map Sim side ALREADY EXISTS (pushed 5a587f8): Sim.get_map() -> 6 rows {id,kind,name,index,x,center_x,unlocked,unlock_tier,tier_rep,items,claimants,here,reachable}; Sim.fast_travel(car_id) -> {ok,car_id,x,from_x} | {ok:false,reason:'locked'|'tutorial'|'unknown car',hint,unlock_tier}; Events.fast_travelled(car_id,from_x,to_x). Do NOT re-implement in sim.gd; ask me for changes via 'TO A'. Tier thresholds [0,15,60,250,950]; shop prices raised (use Sim.get_shop()). Also live: Sim.last_offline_report, get_stats/get_lore/get_lore_found/get_equipped, Events.arc_beat/lore_found.",
+ "note": "A6.5/9/10/11/12 done. Waiting for B (B5.11), C (C12/C14), D (D10) to finish, then A6.8 Godot upgrade."
 }
