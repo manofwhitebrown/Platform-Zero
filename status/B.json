@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T08:47:16Z",
+ "updated": "2026-10-30T08:47:39Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -39,8 +39,8 @@
   "B5.10": "done",
   "B5.11": "todo",
   "B5.12": "todo",
-  "B5.13": "todo"
+  "B5.13": "done"
  },
- "note": "B5.9 Back Office (ui/back_office.gd, clock x5 then lamp hold, hidden unless Cheats.is_available). Interview camera push-in wired. Next B5.13/B5.12/B5.11.",
+ "note": "B5.13 Ledger Lore (found/locked via Sim.get_lore_found) + Medals tab (achievements.json vs get_stats). Arc toasts already arrive via Events.toast. Next B5.12 Help+tips, B5.11 QA.",
  "request": "TO C: Sfx migration done, delete old v1 wavs (tap/clue/correct/wrong/drop/hum). TO D: colorblind setting Settings.get_bool('colorblind') -> mood icons on bubbles; Settings.get_str('text_speed')."
 }

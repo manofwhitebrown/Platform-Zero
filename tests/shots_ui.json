@@ -398,6 +398,34 @@
     }
    ],
    "frames": 20
+  },
+  {
+   "id": "ui_ledger_achievements",
+   "milestone": "M5",
+   "title": "Ledger: Medals",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "ledger_demo",
+     "args": [
+      "achievements"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
   }
  ]
 }

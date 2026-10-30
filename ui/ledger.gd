@@ -60,7 +60,7 @@ func _ready() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	col.add_child(row)
-	for k in [["history", "History"], ["regulars", "Regulars"], ["collection", "Found"], ["lore", "Lore"]]:
+	for k in [["history", "History"], ["regulars", "Regulars"], ["collection", "Found"], ["lore", "Lore"], ["achievements", "Medals"]]:
 		var b := UButton.new()
 		b.text = String(k[1])
 		b.toggle_mode = true
@@ -91,6 +91,7 @@ func _show(id: String) -> void:
 		"history": _history()
 		"regulars": _regulars()
 		"collection": _collection()
+		"achievements": _achievements()
 		_: _lore()
 
 
@@ -206,32 +207,73 @@ func _collection() -> void:
 		grid.add_child(v)
 
 
+func _json_list(path: String, key: String) -> Array:
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return []
+	var d: Variant = JSON.parse_string(f.get_as_text())
+	if d is Dictionary and (d as Dictionary).get(key) is Array:
+		return d[key]
+	return []
+
+
+const CAR_NAMES: Dictionary = {"obs": "Observation", "sleep": "Sleeper", "lp": "Lost Property", "pass": "Passenger", "dine": "Dining", "lug": "Luggage"}
+
+
+func _silhouette(icon: String, dimmed: bool = true) -> ArtBox:
+	var a := ArtBox.new()
+	a.item = {"icon": icon, "tint": "#B8893E", "name": "locked"}
+	a.custom_minimum_size = Vector2(110, 110)
+	a.dim = dimmed
+	return a
+
+
 func _lore() -> void:
-	var tier: int = Sim.tier_for(Sim.rep)
-	var scraps: Array = []
-	var f := FileAccess.open("res://content/lore.json", FileAccess.READ)
-	if f != null:
-		var d: Variant = JSON.parse_string(f.get_as_text())
-		if d is Dictionary:
-			for k in d:
-				if d[k] is Array:
-					scraps = d[k]
-		elif d is Array:
-			scraps = d
-	var shown: int = 0
+	var scraps: Array = _json_list("res://content/lore.json", "lore")
+	var found: Array = Sim.get_lore_found()
+	var n: int = 0
 	for s in scraps:
-		if not (s is Dictionary):
-			continue
-		var open: bool = int(s.get("tier", 0)) <= tier
+		if found.has(String(s.get("id", ""))):
+			n += 1
+	_body.add_child(_lbl("%d of %d scraps found" % [n, scraps.size()], 30, Pal.MIST))
+	for s in scraps:
+		var open: bool = found.has(String(s.get("id", "")))
 		var hb := _card(0)
+		hb.add_child(_silhouette("letter", not open))
 		var v := VBoxContainer.new()
 		v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		v.add_child(_lbl(String(s.get("title", "")) if open else "A scrap you have not earned yet", 30, Pal.INK, true))
+		v.add_child(_lbl(String(s.get("title", "")) if open else "A scrap not yet found", 30, Pal.INK, true))
 		if open:
 			v.add_child(_lbl(String(s.get("text", "")), 26, Color(Pal.INK, 0.85), true))
-			shown += 1
 		else:
-			v.add_child(_lbl("Reputation tier %d" % (int(s.get("tier", 0)) + 1), 22, Color(Pal.INK, 0.6)))
+			v.add_child(_lbl("Try the %s car." % String(CAR_NAMES.get(String(s.get("found_in", "")), "train")), 24, Color(Pal.INK, 0.6)))
 		hb.add_child(v)
 	if scraps.is_empty():
 		_empty("Nothing written yet.", "Scraps of the Zero Line's story will gather here.")
+
+
+func _achievements() -> void:
+	var list: Array = _json_list("res://content/achievements.json", "achievements")
+	var st: Dictionary = Sim.get_stats()
+	var n: int = 0
+	for a in list:
+		var c: Dictionary = a.get("condition", {})
+		if int(st.get(String(c.get("stat", "")), 0)) >= int(c.get("gte", 1)):
+			n += 1
+	_body.add_child(_lbl("%d of %d earned" % [n, list.size()], 30, Pal.MIST))
+	for a in list:
+		var c2: Dictionary = a.get("condition", {})
+		var cur: int = int(st.get(String(c2.get("stat", "")), 0))
+		var need: int = int(c2.get("gte", 1))
+		var done: bool = cur >= need
+		var hb := _card(0)
+		hb.add_child(_silhouette("ticket" if done else "letter", not done))
+		var v := VBoxContainer.new()
+		v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		v.add_child(_lbl(String(a.get("title", "")) if done else "???", 30, Pal.INK, true))
+		v.add_child(_lbl(String(a.get("desc", "")), 24, Color(Pal.INK, 0.8 if done else 0.55), true))
+		if not done:
+			v.add_child(_lbl("%d / %d" % [cur, need], 22, Color(Pal.INK, 0.55)))
+		hb.add_child(v)
+	if list.is_empty():
+		_empty("No milestones yet.", "Small victories will be written down here.")
