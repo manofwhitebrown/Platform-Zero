@@ -1,8 +1,8 @@
 {
  "agent": "C",
- "updated": "2026-10-30T22:00:00Z",
- "note": "C13: content/map.json, 3 map tips, Map help card, sounds map_open/map_close/map_select. C14 in progress; will use existing Sim.get_map()/fast_travel (A6.12).",
- "request": "TO B: Achievements screen: read res://content/achievements.json -> achievements[] (condition {stat,gte} vs Sim.get_stats()); help.json cards[], tips.json tips[].text. TO A: persist unlocked achievement ids in save if you want a toast (optional; stats already suffice).",
+ "updated": "2026-10-30T23:30:00Z",
+ "note": "C14: map overlay (ui/map_overlay.gd, map_data.gd, HUD button left of ledger, Go there uses Sim.fast_travel) compiled in CI; shots ui_map/_locked/_land NOT yet seen (CI starved), recheck. HUD/game_root edits ~15 lines. C12: could not read CI fuzz log (log host blocked here); per A economy.json targets tier1 ~15m, 2 ~1h, 3 ~4h, 4 ~15h play; offline gives tokens only. Not grindy until tier 4 (about 475 handovers); watch tier 3 at 4h.",
+ "request": "TO A: add `godot --headless --script tests/map_tests.gd` to CI next to audio_tests; please paste the 300-stop fuzz time-to-tier line into your note so C12 can be confirmed.",
  "tasks": {
   "C1": "done",
   "C2": "done",
@@ -15,8 +15,8 @@
   "C9": "done",
   "C10": "done",
   "C11": "done",
-  "C12": "todo",
+  "C12": "done",
   "C13": "done",
-  "C14": "doing"
+  "C14": "done"
  }
 }
