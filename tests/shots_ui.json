@@ -482,6 +482,90 @@
     }
    ],
    "frames": 20
+  },
+  {
+   "id": "ui_map",
+   "milestone": "M5",
+   "title": "Train map",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "map_demo",
+     "args": [
+      0
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_map_locked",
+   "milestone": "M5",
+   "title": "Train map: locked car",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "map_demo",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_map_land",
+   "milestone": "M5",
+   "title": "Train map (landscape)",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "map_demo",
+     "args": [
+      0
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 20
   }
  ]
 }

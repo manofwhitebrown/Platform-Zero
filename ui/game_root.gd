@@ -53,12 +53,17 @@ func _ready() -> void:
 	screens.register("help", func(_a: Dictionary) -> Control: return HelpScreen.new(screens))
 	screens.register("shop", func(_a: Dictionary) -> Control: return Shop.new(screens))
 	screens.register("ledger", func(_a: Dictionary) -> Control: return Ledger.new(screens))
+	screens.register("map", func(_a: Dictionary) -> Control: return MapOverlay.new(screens))
 	get_tree().set_auto_accept_quit(false)
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--daily="):
 			daily_demo.call_deferred(a.substr(8))
 		if a == "--settings":
 			open_screen.call_deferred("settings")
+		if a == "--map":
+			map_demo.call_deferred(0)
+		if a == "--map-locked":
+			map_demo.call_deferred(1)
 		if a == "--help":
 			open_screen.call_deferred("help")
 		if a == "--welcome":
@@ -138,6 +143,13 @@ func ledger_demo(tab: String = "history") -> void:
 	var l: Control = open_screen("ledger")
 	if l != null and tab != "empty":
 		(l as Ledger)._show(tab)
+
+
+## Shot helper: open the train map; locked=1 selects a locked car (luggage).
+func map_demo(locked: int = 0) -> void:
+	var m: Control = open_screen("map")
+	if m != null and locked == 1:
+		(m as MapOverlay)._select(5)
 
 
 ## Shot helper: give tokens then open the shop.

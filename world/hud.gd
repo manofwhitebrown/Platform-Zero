@@ -18,6 +18,8 @@ class HudView extends Control:
 	var inset: float = 0.0
 	var skip_rect: Rect2 = Rect2()
 	var book: Rect2 = Rect2()
+	var map_rect: Rect2 = Rect2()
+	var map_icon: Texture2D
 	var shop_rect: Rect2 = Rect2()
 	var night_rect: Rect2 = Rect2()
 	var help_rect: Rect2 = Rect2()
@@ -26,6 +28,7 @@ class HudView extends Control:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 		set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		coin = load("res://assets/icons/coin.svg")
+		map_icon = load("res://assets/icons/map.svg")
 		tok_shown = float(Sim.tokens)
 		Events.tokens_changed.connect(func(_n: int) -> void: tok_pop = 0.0)
 		Events.toast.connect(func(s: String, k: String) -> void:
@@ -109,6 +112,12 @@ class HudView extends Control:
 		draw_line(bk.get_center() + Vector2(0, -bk.size.y / 2.0), bk.get_center() + Vector2(0, bk.size.y / 2.0), Pal.BRASS, 3.0)
 		for i in range(3):
 			draw_line(bk.position + Vector2(8, 14 + i * 12), bk.position + Vector2(bk.size.x / 2.0 - 8, 14 + i * 12), Color(Pal.INK, 0.5), 2.0)
+		# train map button
+		map_rect = Rect2(book.position.x - 100, bar.position.y + 6, 96, 84)
+		var mr: Rect2 = map_rect.grow(-14)
+		Dr.rrect(self, mr, 8, Pal.BRASS)
+		if map_icon != null:
+			draw_texture_rect(map_icon, mr.grow(-4), false, Pal.DEEP)
 		# context chip
 		var chip: String = _context()
 		if chip != "":
@@ -178,6 +187,12 @@ class HudView extends Control:
 				if gr is GameRoot:
 					(gr as GameRoot).open_screen("ledger")
 					Audio.play("ui_tap")
+					get_viewport().set_input_as_handled()
+					return
+			if map_rect.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
+				var gm: Node = hud.world.get_parent()
+				if gm is GameRoot:
+					(gm as GameRoot).open_screen("map")
 					get_viewport().set_input_as_handled()
 					return
 			if shop_rect.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
