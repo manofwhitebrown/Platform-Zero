@@ -1,0 +1,165 @@
+{
+ "_doc": "Owned by AI-C. Loading / idle tips for B. Shape: {tips:[{text(<=90 chars), kind: tool|hint|lore}]}. Pick one at random per loading screen; 'tool' tips are hints about the five bench tools.",
+ "tips": [
+  {
+   "text": "The Magnifier reads initials and station stamps.",
+   "kind": "tool"
+  },
+  {
+   "text": "The Lamp shows true colour and what a thing is made of.",
+   "kind": "tool"
+  },
+  {
+   "text": "Hold the Ear to anything that rattles, ticks or hums.",
+   "kind": "tool"
+  },
+  {
+   "text": "The Nose remembers: lavender, pipe smoke, wet wool.",
+   "kind": "tool"
+  },
+  {
+   "text": "The Brush reveals wear. Well-loved things look it.",
+   "kind": "tool"
+  },
+  {
+   "text": "Claimants rarely lie about the colour. Imposters get one detail wrong.",
+   "kind": "hint"
+  },
+  {
+   "text": "Shy owners answer better if you do not rush them.",
+   "kind": "hint"
+  },
+  {
+   "text": "Grumpy does not mean guilty. It usually means cold.",
+   "kind": "hint"
+  },
+  {
+   "text": "Hurried owners give short answers. Ask the sharp question first.",
+   "kind": "hint"
+  },
+  {
+   "text": "Worried owners remember the little things. Let them talk.",
+   "kind": "hint"
+  },
+  {
+   "text": "Check what an owner said against the bench, every time.",
+   "kind": "hint"
+  },
+  {
+   "text": "Your shelf never fills up. Keep everything.",
+   "kind": "hint"
+  },
+  {
+   "text": "A porter saves your legs. Worth the first tokens.",
+   "kind": "hint"
+  },
+  {
+   "text": "Refusing an imposter is a kindness to the real owner.",
+   "kind": "hint"
+  },
+  {
+   "text": "Items you cannot place now may suit someone at the next stop.",
+   "kind": "hint"
+  },
+  {
+   "text": "The Zero Line has no last stop. It has only the next one.",
+   "kind": "lore"
+  },
+  {
+   "text": "Everyone on board lost something they could not let go of.",
+   "kind": "lore"
+  },
+  {
+   "text": "The brass clock at the counter runs a little slow, on purpose.",
+   "kind": "lore"
+  },
+  {
+   "text": "Conductors never sit. They say it is for the view.",
+   "kind": "lore"
+  },
+  {
+   "text": "Some seats are always warm, whoever was last in them.",
+   "kind": "lore"
+  },
+  {
+   "text": "Under the seats is where the train keeps its secrets.",
+   "kind": "lore"
+  },
+  {
+   "text": "The tunnel is long, but never as long as it feels.",
+   "kind": "lore"
+  },
+  {
+   "text": "Rain on the roof means the dining car is at its best.",
+   "kind": "lore"
+  },
+  {
+   "text": "The night train smells of pipe smoke and oranges.",
+   "kind": "lore"
+  },
+  {
+   "text": "Nobody remembers boarding. Everybody remembers why.",
+   "kind": "lore"
+  },
+  {
+   "text": "Platform Zero is on no map, and on every ticket.",
+   "kind": "lore"
+  },
+  {
+   "text": "Lost mittens turn up in pairs, eventually.",
+   "kind": "lore"
+  },
+  {
+   "text": "The lamp over the bench has never once gone out.",
+   "kind": "lore"
+  },
+  {
+   "text": "Some passengers have ridden for years. They like the company.",
+   "kind": "lore"
+  },
+  {
+   "text": "A ticket stub can be the heaviest thing on the train.",
+   "kind": "lore"
+  },
+  {
+   "text": "The vendor's cart squeaks in B flat.",
+   "kind": "lore"
+  },
+  {
+   "text": "Snow muffles everything, even the whistle.",
+   "kind": "lore"
+  },
+  {
+   "text": "Desert nights are the quietest on the whole line.",
+   "kind": "lore"
+  },
+  {
+   "text": "Tea in the dining car is always just the right temperature.",
+   "kind": "lore"
+  },
+  {
+   "text": "Forget something tonight, and the Zero Line will keep it for you.",
+   "kind": "lore"
+  },
+  {
+   "text": "Night Case unsolved? It will wait for you until tomorrow.",
+   "kind": "hint"
+  },
+  {
+   "text": "Reputation only goes up. Take your time.",
+   "kind": "hint"
+  },
+  {
+   "text": "Tokens spent on lamp oil pay for themselves.",
+   "kind": "hint"
+  },
+  {
+   "text": "Glowing spots are worth a look. Something small is usually hiding.",
+   "kind": "hint"
+  },
+  {
+   "text": "Every lost thing has an owner somewhere. That is the whole job.",
+   "kind": "lore"
+  }
+ ]
+}

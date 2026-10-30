@@ -1,0 +1,69 @@
+{
+ "_doc": "Owned by AI-C. 8 'How to play' cards for B's Help screen. Shape: {cards:[{id,title(<=28),lines:[line1,line2]}]}, each line <=110 chars. Show in order. Tone: cozy, dry, no jargon.",
+ "cards": [
+  {
+   "id": "find",
+   "title": "Finding things",
+   "lines": [
+    "Things get left behind: under seats, on sills, behind curtains. Tap a glowing spot to pick one up.",
+    "Each stop brings fresh finds. Nothing is ever lost for good, just waiting."
+   ]
+  },
+  {
+   "id": "bench",
+   "title": "The bench and five tools",
+   "lines": [
+    "Set an item on the bench, then pick a tool: Magnifier, Lamp, Ear, Nose or Brush.",
+    "Each tool shows one kind of clue: marks, colour, sound, smell, wear. Try them all."
+   ]
+  },
+  {
+   "id": "interview",
+   "title": "Asking questions",
+   "lines": [
+    "When a claimant reaches the counter, ask up to three questions. Mood changes how they answer.",
+    "Write nothing down: the ledger remembers every answer for you."
+   ]
+  },
+  {
+   "id": "imposters",
+   "title": "Spotting imposters",
+   "lines": [
+    "Now and then someone claims an item that is not theirs. Exactly one detail will be wrong.",
+    "Check the clues against what they said. Refusing a fibber earns a small bonus."
+   ]
+  },
+  {
+   "id": "tokens",
+   "title": "Tokens and reputation",
+   "lines": [
+    "Every happy handover pays tokens. Spend them in the shop whenever you like.",
+    "Reputation grows with each good return and opens new tiers. It never goes down."
+   ]
+  },
+  {
+   "id": "cars",
+   "title": "New cars",
+   "lines": [
+    "As your reputation climbs, more cars of the Zero Line open to you: sleeper, observation, luggage.",
+    "Each has its own seats, quirks and things people forget."
+   ]
+  },
+  {
+   "id": "shop",
+   "title": "Porters and the shop",
+   "lines": [
+    "Porters carry finds to the shelf for you at every stop. A wider bench holds more at once.",
+    "Lamp oil, a UV lamp and a few cosy extras are in there too."
+   ]
+  },
+  {
+   "id": "daily",
+   "title": "The nightly case",
+   "lines": [
+    "Once a day, one special case turns up: a single item, a single owner, one chance to solve it.",
+    "Come back tomorrow for the next. Streaks are only for fun."
+   ]
+  }
+ ]
+}
