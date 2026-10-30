@@ -1397,6 +1397,38 @@
     }
    ],
    "frames": 60
+  },
+  {
+   "id": "w_intro_portrait",
+   "milestone": "D9",
+   "title": "Intro: train arrives at Platform Zero",
+   "scene": "res://world/intro.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "wait",
+     "args": [
+      5.0
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "w_intro_landscape",
+   "milestone": "D9",
+   "title": "Intro: train arrives at Platform Zero",
+   "scene": "res://world/intro.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "wait",
+     "args": [
+      5.0
+     ]
+    }
+   ],
+   "frames": 20
   }
  ]
 }
