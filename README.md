@@ -21,15 +21,14 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 44/47 done
+**Platform A · Engine** — 46/48 done
 
 - ⬜ Godot 4.5 upgrade (last)
-- ⬜ End-to-end test
-- ⬜ CI hygiene
+- ⬜ Map data + fast travel (Sim)
 
-> A6.9: tier rep thresholds now 0/15/60/250/950 (sim.gd). Smart bot active play: tier1 14m, tier2 68m, tier3 256m, tier4 1010m (~17h). 15-min daily sessions: tier2 day4, tier3 day10, tier4 day45; ~1h/day: t3 ~day 4, t4 ~2.
+> A6.10 e2e (tests/e2e.gd, CI step) and A6.11 (concurrency cancel-in-progress; templates ship in the godot-ci image) done. Only A6.8 Godot upgrade left; waits for B/C/D to finish.
 
-<details><summary>Finished (44)</summary>
+<details><summary>Finished (46)</summary>
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
@@ -75,17 +74,19 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Retire v1 code
 - ✅ Cheat tests
 - ✅ Balance retune
+- ✅ End-to-end test
+- ✅ CI hygiene
 
 </details>
 
-**Platform B · Screens** — 36/38 done
+**Platform B · Screens** — 37/39 done
 
 - ⬜ UI QA pass
-- ⬜ Help + tips
+- ⬜ Train map overlay + HUD button
 
-> B5.13 Ledger Lore (found/locked via Sim.get_lore_found) + Medals tab (achievements.json vs get_stats). Arc toasts already arrive via Events.toast. Next B5.12 Help+tips, B5.11 QA.
+> B5.12 Help overlay (? button under HUD bar, auto once after tutorial) + random tip on Welcome-back. Next B5.11 QA.
 
-<details><summary>Finished (36)</summary>
+<details><summary>Finished (37)</summary>
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -122,13 +123,15 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Settings
 - ✅ Back Office cheat panel
 - ✅ Audio wiring
+- ✅ Help + tips
 - ✅ Lore + achievements
 
 </details>
 
-**Platform C · Sound + Story** — 11/12 done
+**Platform C · Sound + Story** — 11/13 done
 
 - ⬜ Re-check balance with playbot
+- ⬜ Map text, lock hints, sounds
 
 > C7-C11 done. C12 waits for A6.9 balance retune (not pushed yet; no Godot in my sandbox, so fuzz must run in CI). Last numbers: tier 4 in ~2h play.
 
@@ -148,14 +151,14 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform D · World** — 9/11 done
+**Platform D · World** — 10/12 done
 
-- ⬜ Intro / title scene
 - ⬜ World performance + QA shots
+- ⬜ Travel-to-car camera + transition
 
-> D8: Passenger.make_look richer (age, outfit, eyes, facial hair, freckles, extras, dyed hair), complete_look fills new keys for any pid (regulars keep identity), mouth sync via talk() on passenger_said, brass_cap rendered
+> D9: world/intro.tscn (script world/intro.gd, class Intro): train rolls into Platform Zero + title, tap to skip, signal finished; Intro.draw_train(ci,origin,car_w,t) reusable exterior. Shots w_intro_*. Untested locally. N
 
-<details><summary>Finished (9)</summary>
+<details><summary>Finished (10)</summary>
 
 - ✅ Seats + seated poses
 - ✅ Dress the 5 other cars
@@ -165,6 +168,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Hotspots + item placement
 - ✅ Camera + transitions
 - ✅ Character generator
+- ✅ Intro + title scene
 - ✅ Door-open animation
 
 </details>
