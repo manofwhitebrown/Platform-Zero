@@ -169,7 +169,7 @@ func _build_sheet() -> void:
 			Settings.set_bool(key, on)
 			b.text = "%s: %s" % [lbl, "On" if on else "Off"]
 			if key == "sound" or key == "haptics":
-				Sfx.apply_settings())
+				(Sfx._inst.apply_settings() if Sfx._inst != null else null))
 		col.add_child(b)
 	var done := UButton.new()
 	done.text = "Close"
