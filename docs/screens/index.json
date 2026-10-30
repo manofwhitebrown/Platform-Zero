@@ -1,6 +1,6 @@
 [
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_actor_lineup.png",
   "id": "m1_actor_lineup",
   "milestone": "M1",
@@ -9,7 +9,7 @@
   "title": "Actor rig: attendant, 15 regulars, ambient"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_highlight.png",
   "id": "m1_highlight",
   "milestone": "M1",
@@ -18,7 +18,7 @@
   "title": "Guided highlight on the bin item + prompt chip"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_carry.png",
   "id": "m1_carry",
   "milestone": "M1",
@@ -27,7 +27,7 @@
   "title": "Item picked up, carried over head, bench highlighted"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_car_portrait.png",
   "id": "m1_car_portrait",
   "milestone": "M1",
@@ -36,7 +36,7 @@
   "title": "Lost Property car (portrait)"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_car_landscape.png",
   "id": "m1_car_landscape",
   "milestone": "M1",
@@ -45,7 +45,7 @@
   "title": "Lost Property car (landscape)"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_claimant_bubble.png",
   "id": "m1_claimant_bubble",
   "milestone": "M1",
@@ -54,7 +54,7 @@
   "title": "Bram at the counter: speech bubble, interview buttons, item tray"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_tray.png",
   "id": "m1_tray",
   "milestone": "M1",
@@ -63,7 +63,7 @@
   "title": "Carrying the mitten with Bram waiting: item tray + interview"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_handover.png",
   "id": "m1_handover",
   "milestone": "M1",
@@ -72,7 +72,7 @@
   "title": "Correct handover: confetti, hearts, story card"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_story_card.png",
   "id": "m1_story_card",
   "milestone": "M1",
@@ -81,7 +81,7 @@
   "title": "Story card after the first delivery"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_claimant_landscape.png",
   "id": "m1_claimant_landscape",
   "milestone": "M1",
@@ -90,7 +90,7 @@
   "title": "Claimant at the counter (landscape)"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_bench_tool.png",
   "id": "m1_bench_tool",
   "milestone": "M1",
@@ -99,7 +99,7 @@
   "title": "Bench close-up with the magnifier active"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_tutorial.png",
   "id": "m1_tutorial",
   "milestone": "M1",
@@ -108,7 +108,7 @@
   "title": "First-minute tutorial arrow at the bin"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m2_car_pass.png",
   "id": "m2_car_pass",
   "milestone": "M2",
@@ -117,7 +117,7 @@
   "title": "Passenger car with ambient passengers"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m2_car_dine.png",
   "id": "m2_car_dine",
   "milestone": "M2",
@@ -126,7 +126,7 @@
   "title": "Dining car"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m2_station_arrival.png",
   "id": "m2_station_arrival",
   "milestone": "M2",
@@ -135,7 +135,7 @@
   "title": "Station arrival with platform and board"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_bench_magnifier.png",
   "id": "m1_bench_magnifier",
   "milestone": "M1",
@@ -144,7 +144,7 @@
   "title": "Bench close-up: magnifier in use"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_bench_lamp.png",
   "id": "m1_bench_lamp",
   "milestone": "M1",
@@ -153,7 +153,7 @@
   "title": "Bench close-up: lamp in use"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_bench_ear.png",
   "id": "m1_bench_ear",
   "milestone": "M1",
@@ -162,7 +162,7 @@
   "title": "Bench close-up: ear in use"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_bench_nose.png",
   "id": "m1_bench_nose",
   "milestone": "M1",
@@ -171,7 +171,7 @@
   "title": "Bench close-up: nose in use"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_bench_brush.png",
   "id": "m1_bench_brush",
   "milestone": "M1",
@@ -180,7 +180,7 @@
   "title": "Bench close-up: brush in use"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_bench_clue.png",
   "id": "m1_bench_clue",
   "milestone": "M1",
@@ -189,7 +189,7 @@
   "title": "Bench close-up: clue landed on strip"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_bench_landscape.png",
   "id": "m1_bench_landscape",
   "milestone": "M1",
@@ -198,7 +198,7 @@
   "title": "Bench close-up (landscape)"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_hud.png",
   "id": "m1_hud",
   "milestone": "M1",
@@ -207,7 +207,7 @@
   "title": "HUD: tokens, tier, stop timer, tutorial chip"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "m1_hud_landscape.png",
   "id": "m1_hud_landscape",
   "milestone": "M1",
@@ -216,7 +216,7 @@
   "title": "HUD (landscape)"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_fresh_launch.png",
   "id": "ui_fresh_launch",
   "milestone": "M5",
@@ -225,7 +225,7 @@
   "title": "Fresh launch via game_root: Lost Property car, HUD, Bram tutorial"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_car_obs.png",
   "id": "w_car_obs",
   "milestone": "M2",
@@ -234,7 +234,7 @@
   "title": "D2 car dressing: obs"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_car_sleep.png",
   "id": "w_car_sleep",
   "milestone": "M2",
@@ -243,7 +243,7 @@
   "title": "D2 car dressing: sleep"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_car_pass.png",
   "id": "w_car_pass",
   "milestone": "M2",
@@ -252,7 +252,7 @@
   "title": "D2 car dressing: pass"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_car_dine.png",
   "id": "w_car_dine",
   "milestone": "M2",
@@ -261,7 +261,7 @@
   "title": "D2 car dressing: dine"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_car_lug.png",
   "id": "w_car_lug",
   "milestone": "M2",
@@ -270,7 +270,7 @@
   "title": "D2 car dressing: lug"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_biome_snow_peaks.png",
   "id": "w_biome_snow_peaks",
   "milestone": "M2",
@@ -279,7 +279,7 @@
   "title": "D4 scenery: snow snow"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_biome_desert.png",
   "id": "w_biome_desert",
   "milestone": "M2",
@@ -288,7 +288,7 @@
   "title": "D4 scenery: desert clear"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_biome_tunnel.png",
   "id": "w_biome_tunnel",
   "milestone": "M2",
@@ -297,7 +297,7 @@
   "title": "D4 scenery: tunnel clear"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_weather_rain.png",
   "id": "w_weather_rain",
   "milestone": "M2",
@@ -306,7 +306,7 @@
   "title": "D4 scenery: city rain"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_weather_fog.png",
   "id": "w_weather_fog",
   "milestone": "M2",
@@ -315,7 +315,7 @@
   "title": "D4 scenery: sea fog"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_biome_forest_day.png",
   "id": "w_biome_forest_day",
   "milestone": "M2",
@@ -324,7 +324,7 @@
   "title": "D4 scenery: forest clear"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_station_stopped.png",
   "id": "w_station_stopped",
   "milestone": "M2",
@@ -333,7 +333,7 @@
   "title": "D5 station: w_station_stopped"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_station_stopped_p.png",
   "id": "w_station_stopped_p",
   "milestone": "M2",
@@ -342,7 +342,7 @@
   "title": "D5 station: w_station_stopped_p"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_station_departing.png",
   "id": "w_station_departing",
   "milestone": "M2",
@@ -351,7 +351,7 @@
   "title": "D5 station: w_station_departing"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "w_station_arriving.png",
   "id": "w_station_arriving",
   "milestone": "M2",
@@ -360,7 +360,7 @@
   "title": "D5 station: w_station_arriving"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_ledger_history.png",
   "id": "ui_ledger_history",
   "milestone": "M5",
@@ -369,7 +369,7 @@
   "title": "Ledger: History"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_ledger_regulars.png",
   "id": "ui_ledger_regulars",
   "milestone": "M5",
@@ -378,7 +378,7 @@
   "title": "Ledger: Regulars"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_ledger_found.png",
   "id": "ui_ledger_found",
   "milestone": "M5",
@@ -387,7 +387,7 @@
   "title": "Ledger: Found"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_ledger_lore.png",
   "id": "ui_ledger_lore",
   "milestone": "M5",
@@ -396,7 +396,7 @@
   "title": "Ledger: Lore"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_ledger_empty.png",
   "id": "ui_ledger_empty",
   "milestone": "M5",
@@ -405,7 +405,7 @@
   "title": "Ledger: empty state"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_ledger_landscape.png",
   "id": "ui_ledger_landscape",
   "milestone": "M5",
@@ -414,7 +414,7 @@
   "title": "Ledger landscape"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_shop.png",
   "id": "ui_shop",
   "milestone": "M5",
@@ -423,7 +423,7 @@
   "title": "Shop: mixed affordable states"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_shop_rich.png",
   "id": "ui_shop_rich",
   "milestone": "M5",
@@ -432,7 +432,7 @@
   "title": "Shop: plenty of tokens"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_shop_landscape.png",
   "id": "ui_shop_landscape",
   "milestone": "M5",
@@ -441,7 +441,7 @@
   "title": "Shop landscape"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_daily_fresh.png",
   "id": "ui_daily_fresh",
   "milestone": "M5",
@@ -450,7 +450,7 @@
   "title": "Night Case: today's case"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_daily_solved.png",
   "id": "ui_daily_solved",
   "milestone": "M5",
@@ -459,7 +459,7 @@
   "title": "Night Case: solved + share card"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_welcome_back.png",
   "id": "ui_welcome_back",
   "milestone": "M5",
@@ -468,7 +468,7 @@
   "title": "Welcome back: while you were away"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_settings.png",
   "id": "ui_settings",
   "milestone": "M5",
@@ -477,12 +477,21 @@
   "title": "Settings (portrait)"
  },
  {
-  "commit": "ee0f372",
+  "commit": "a6c4df8",
   "file": "ui_settings_land.png",
   "id": "ui_settings_land",
   "milestone": "M5",
   "orientation": "landscape",
   "size": "1920x1080",
   "title": "Settings (landscape)"
+ },
+ {
+  "commit": "a6c4df8",
+  "file": "ui_ledger_achievements.png",
+  "id": "ui_ledger_achievements",
+  "milestone": "M5",
+  "orientation": "portrait",
+  "size": "1080x1920",
+  "title": "Ledger: Medals"
  }
 ]
