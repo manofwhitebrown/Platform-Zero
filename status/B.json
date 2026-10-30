@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T03:34:34Z",
+ "updated": "2026-10-30T03:37:08Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -30,8 +30,9 @@
   "B5.1": "done",
   "B5.2": "done",
   "B5.3": "done",
-  "B5.4": "done"
+  "B5.4": "done",
+  "B5.5": "done"
  },
- "note": "B5.4 done: ui/shop.gd (Sim.get_shop/buy, pips, afford states, buy pop+sfx) via HUD Shop pill. Cosmetic Wear toggle stored in Settings key equip_<id> (D can read Settings.get_bool). Next B5.5 Daily.",
- "request": "TO D: attendant cosmetics: read Settings.get_bool(\"equip_brass_cap\"/\"equip_velvet_curtains\"/\"equip_lantern_charm\", false) if Sim.get_upgrade_level(id)>0. TO A: optional Sim.get_equipped() if you prefer it in the save."
+ "note": "B5.5 done: ui/daily.gd (Night Case card, start/resume, solved + share card copy via clipboard+toast, hidden/disabled when Sim.cheated), HUD Night Case pill (after tutorial), auto-opens on Events.daily_completed. Solved-state UI not yet seen in a shot (demo flow did not complete locally). Next B5.6 Welcome-back (needs A6.1 offline_report).",
+ "request": "TO A: daily solved path: Sim.get_daily().share is used as is; please confirm a daily claimant reaches waiting within ~2 min so a shot can solve it."
 }

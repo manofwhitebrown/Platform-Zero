@@ -19,6 +19,7 @@ class HudView extends Control:
 	var skip_rect: Rect2 = Rect2()
 	var book: Rect2 = Rect2()
 	var shop_rect: Rect2 = Rect2()
+	var night_rect: Rect2 = Rect2()
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -125,6 +126,16 @@ class HudView extends Control:
 		if coin != null:
 			draw_texture_rect(coin, Rect2(shr.position + Vector2(10, 3), Vector2(42, 42)), false, Pal.DEEP)
 		txt(Vector2(shr.position.x + 58, shr.position.y + 34), "Shop", 28, Pal.DEEP)
+		# night case pill (hidden during the tutorial and for cheated runs)
+		night_rect = Rect2()
+		if String(Sim.get_tutorial().get("stage", "done")) == "done" and not Sim.cheated:
+			night_rect = Rect2(214, bar.end.y + 92, 290, 72)
+			var nr: Rect2 = night_rect.grow_individual(0, -12, 0, -12)
+			var solved: bool = bool(Sim.get_daily().get("done", false))
+			Dr.rrect(self, nr, 18, Color(Pal.MIST, 0.35) if solved else Color(Pal.LAMP, 0.9))
+			draw_circle(nr.position + Vector2(30, 24), 13, Pal.DEEP)
+			draw_circle(nr.position + Vector2(36, 20), 12, Color(Pal.LAMP, 0.9) if not solved else Color(Pal.MIST, 0.6))
+			txt(Vector2(nr.position.x + 56, nr.position.y + 34), "Night Case", 26, Pal.DEEP)
 		# quiet tutorial skip
 		skip_rect = Rect2()
 		if String(Sim.get_tutorial().get("stage", "done")) != "done":
@@ -166,6 +177,13 @@ class HudView extends Control:
 				var gr2: Node = hud.world.get_parent()
 				if gr2 is GameRoot:
 					(gr2 as GameRoot).open_screen("shop")
+					Sfx.play("tap")
+					get_viewport().set_input_as_handled()
+					return
+			if night_rect.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
+				var gr3: Node = hud.world.get_parent()
+				if gr3 is GameRoot:
+					(gr3 as GameRoot).open_screen("daily")
 					Sfx.play("tap")
 					get_viewport().set_input_as_handled()
 					return

@@ -14,9 +14,13 @@ class ArtBox extends Control:
 	func _draw() -> void:
 		if item.is_empty():
 			return
-		ItemArt.draw(self, item, Rect2(Vector2.ZERO, size), {"finish": size.x > 90})
+		var m: float = minf(size.x, size.y)
+		var r := Rect2((size - Vector2(m, m)) / 2.0, Vector2(m, m))
+		ItemArt.draw(self, item, r, {"finish": m > 90})
 		if dim:
-			draw_rect(Rect2(Vector2.ZERO, size), Color(Pal.DEEP, 0.7))
+			var ic: Texture2D = ItemArt.icon_tex(item)
+			if ic != null:
+				draw_texture_rect(ic, r, false, Color(Pal.DEEP, 0.75))
 
 
 static func _lbl(text: String, sz: int, col: Color, wrap: bool = false) -> Label:

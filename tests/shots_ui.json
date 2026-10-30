@@ -252,6 +252,70 @@
     }
    ],
    "frames": 20
+  },
+  {
+   "id": "ui_daily_fresh",
+   "milestone": "M5",
+   "title": "Night Case: today's case",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "daily_demo",
+     "args": [
+      "fresh"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 20
+  },
+  {
+   "id": "ui_daily_solved",
+   "milestone": "M5",
+   "title": "Night Case: solved + share card",
+   "scene": "res://ui/game_root.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "daily_demo",
+     "args": [
+      "solved"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.4
+     ]
+    }
+   ],
+   "frames": 20
   }
  ]
 }

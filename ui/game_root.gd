@@ -36,10 +36,16 @@ func _ready() -> void:
 	add_child(world)
 	screens = ScreenManager.new()
 	add_child(screens)
+	screens.register("daily", func(_a: Dictionary) -> Control: return Daily.new(screens))
+	Events.daily_completed.connect(func(_d: Dictionary) -> void:
+		await get_tree().create_timer(2.5).timeout
+		open_screen("daily"))
 	screens.register("shop", func(_a: Dictionary) -> Control: return Shop.new(screens))
 	screens.register("ledger", func(_a: Dictionary) -> Control: return Ledger.new(screens))
 	get_tree().set_auto_accept_quit(false)
 	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--daily="):
+			daily_demo.call_deferred(a.substr(8))
 		if a.begins_with("--shop="):
 			shop_demo.call_deferred(int(a.substr(7)))
 		if a.begins_with("--ledger="):
@@ -86,3 +92,28 @@ func ledger_demo(tab: String = "history") -> void:
 func shop_demo(tokens: int = 60) -> void:
 	Sim.tokens = tokens
 	open_screen("shop")
+
+
+## Shot helper: "fresh" shows the unstarted case, "solved" plays it to completion first.
+func daily_demo(state: String = "fresh") -> void:
+	if state == "solved":
+		Sim.start_daily()
+		var d: Dictionary = Sim.get_daily()
+		var iid: String = ""
+		for sp in Sim.get_spots():
+			var cand: String = String(sp["item_iid"])
+			if cand != "" and String(Sim.get_item(cand).get("def_id", "")) == String(d["def_id"]):
+				iid = cand
+				Sim.pick_up(String(sp["id"]))
+		if iid != "":
+			Sim.place_on_bench(iid)
+			Sim.reveal(iid, "magnifier")
+			for i in 120:
+				Sim.tick(1.0)
+				for p in Sim.get_passengers():
+					if String(p.get("owner_id", "")) == String(d["owner_id"]) and String(p["kind"]) != "ambient" and (String(p["state"]) == "waiting" or String(p["state"]) == "asking"):
+						Sim.hand_over(iid, String(p["pid"]))
+						break
+				if bool(Sim.get_daily().get("done", false)):
+					break
+	open_screen("daily")
