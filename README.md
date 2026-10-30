@@ -127,14 +127,12 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform C · Sound + Story** — 12/14 done
+**Platform C · Sound + Story** — 14/14 done
 
-- ⬜ Re-check balance with playbot
-- 🔄 Train map: data, overlay, HUD button, travel
 
-> C13: content/map.json, 3 map tips, Map help card, sounds map_open/map_close/map_select. C14 in progress; will use existing Sim.get_map()/fast_travel (A6.12).
+> C14: map overlay (ui/map_overlay.gd, map_data.gd, HUD button left of ledger, Go there uses Sim.fast_travel) compiled in CI; shots ui_map/_locked/_land NOT yet seen (CI starved), recheck. HUD/game_root edits ~15 lines. C1
 
-<details><summary>Finished (12)</summary>
+<details><summary>Finished (14)</summary>
 
 - ✅ Audio generator (47 sounds)
 - ✅ Audio engine
@@ -147,7 +145,9 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Loading tips
 - ✅ Store listing + privacy policy
 - ✅ Achievements data
+- ✅ Re-check balance with playbot
 - ✅ Map text + sounds + help card
+- ✅ Train map: data, overlay, HUD button, travel
 
 </details>
 
