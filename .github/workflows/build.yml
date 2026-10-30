@@ -153,7 +153,10 @@ jobs:
         env:
           LIBGL_ALWAYS_SOFTWARE: "1"
         run: |
-          timeout 2700 xvfb-run -a -s "-screen 0 1920x1920x24" godot --rendering-driver opengl3 --script tools/shoot.gd 2>&1 | grep -vi "alsa\|audio" | tee docs/screens/shoot.log | tail -30
+          mkdir -p docs/screens
+          timeout 2700 xvfb-run -a -s "-screen 0 1920x1920x24" godot --rendering-driver opengl3 --script tools/shoot.gd > /tmp/shoot.log 2>&1 || true
+          grep -vi "alsa\|audio" /tmp/shoot.log > docs/screens/shoot.log || true
+          tail -30 docs/screens/shoot.log
           ls -la docs/screens
       - uses: actions/upload-artifact@v4
         with:
