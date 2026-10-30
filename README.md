@@ -75,14 +75,13 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Balance retune
 - ✅ End-to-end test
 - ✅ CI hygiene
-- ✅ Map data + fast travel (Sim)
+- ✅ A6.12
 
 </details>
 
-**Platform B · Screens** — 37/39 done
+**Platform B · Screens** — 37/38 done
 
 - ⬜ UI QA pass
-- ⬜ Train map overlay + HUD button
 
 > B5.12 Help overlay (? button under HUD bar, auto once after tutorial) + random tip on Welcome-back. Next B5.11 QA.
 
@@ -128,10 +127,11 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform C · Sound + Story** — 11/13 done
+**Platform C · Sound + Story** — 11/14 done
 
 - ⬜ Re-check balance with playbot
-- ⬜ Map text, lock hints, sounds
+- ⬜ Map text + sounds + help card
+- ⬜ Train map: data, overlay, HUD button, travel
 
 > C7-C11 done. C12 waits for A6.9 balance retune (not pushed yet; no Godot in my sandbox, so fuzz must run in CI). Last numbers: tier 4 in ~2h play.
 
@@ -151,10 +151,9 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform D · World** — 10/12 done
+**Platform D · World** — 10/11 done
 
 - 🔄 World performance + QA shots
-- ⬜ Travel-to-car camera + transition
 
 > D10 partial: distance culling of cars/props/lights (0.15s tick), portrait QA shots w_*_pt added. Texture baking + frame-time numbers pending (no Godot locally; CI only). D1-D9 done.
 

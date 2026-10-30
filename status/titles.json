@@ -88,10 +88,8 @@
   "C11": "Achievements data",
   "C12": "Re-check balance with playbot",
   "D5b": "Door-open animation",
-  "A6.12": "Map data + fast travel (Sim)",
-  "B5.14": "Train map overlay + HUD button",
-  "C13": "Map text, lock hints, sounds",
-  "D11": "Travel-to-car camera + transition"
+  "C13": "Map text + sounds + help card",
+  "C14": "Train map: data, overlay, HUD button, travel"
  },
  "plan": {
   "A": [
@@ -106,8 +104,7 @@
    "A6.8",
    "A6.9",
    "A6.10",
-   "A6.11",
-   "A6.12"
+   "A6.11"
   ],
   "B": [
    "B5.0",
@@ -123,8 +120,7 @@
    "B5.10",
    "B5.11",
    "B5.12",
-   "B5.13",
-   "B5.14"
+   "B5.13"
   ],
   "C": [
    "C1",
@@ -139,7 +135,8 @@
    "C10",
    "C11",
    "C12",
-   "C13"
+   "C13",
+   "C14"
   ],
   "D": [
    "D1",
@@ -152,8 +149,7 @@
    "D8",
    "D9",
    "D10",
-   "D5b",
-   "D11"
+   "D5b"
   ]
  }
 }
