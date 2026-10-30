@@ -39,7 +39,10 @@ static func shade(c: Color, f: float) -> Color:
 
 
 ## Rounded rect via polygon (corner radius r).
-static func rrect(ci: CanvasItem, rc: Rect2, rad: float, col: Color) -> void:
+static func rrect(ci: CanvasItem, rc: Rect2, rad_in: float, col: Color) -> void:
+	if rc.size.x <= 0.5 or rc.size.y <= 0.5:
+		return
+	var rad: float = clampf(rad_in, 0.0, minf(rc.size.x, rc.size.y) * 0.5 - 0.01)  # a radius past half the size self-intersects
 	var pts := PackedVector2Array()
 	var corners: Array = [
 		[Vector2(rc.end.x - rad, rc.position.y + rad), -PI / 2.0],
