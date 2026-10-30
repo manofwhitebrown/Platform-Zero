@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-30T08:45:12Z",
+ "updated": "2026-10-30T08:47:41Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -47,10 +47,10 @@
   "A6.6": "done",
   "A6.7": "done",
   "A6.8": "todo",
-  "A6.9": "doing",
+  "A6.9": "done",
   "A6.10": "todo",
   "A6.11": "todo"
  },
- "request": "TO B: added Sim.last_offline_report -> Dictionary; Events.arc_beat(owner_id,nth,line); Sim.get_stats() -> {handovers,refusals,imposters_caught,items_found,stops,days_played,streak,tokens_total,lore_found}; Sim.get_lore() -> [{id,title,kind,text,found_in,rarity}] (found only); Sim.get_lore_found() -> ids; Events.lore_found(id); Sim.get_equipped() -> owned cosmetic ids (brass_cap, velvet_curtains, lantern_charm). TO C: same stats/lore hooks ready for achievements. TO D: pick_up(spot) on a lore item returns {ok,iid,lore:true,lore_id} and the item vanishes (item dict icon 'letter', has lore_id); Sim.get_stop_biome(); routes now have desert stops and a 30s 'tunnel' stop (Hush Tunnel).",
- "note": "A6.5 done: last_offline_report, Events.arc_beat/lore_found, lore pickups (letter icon, 1 per ~3 stops, collected on pick_up), get_lore_found/get_lore/get_stats/get_equipped/get_stop_biome, desert+tunnel stops. Next: A6.9 balance."
+ "request": "TO B: tier thresholds changed to [0,15,60,250,950] (read Sim.TIER_THRESHOLDS, don't hardcode); shop prices now porter 40/160/500, bench_slot 30/140, lamp_oil 25/90/300, uv_lamp 100, brass_cap 20, velvet_curtains 60, lantern_charm 50 (read via Sim.get_shop()). Earlier hooks: Sim.last_offline_report, Events.arc_beat, Sim.get_stats/get_lore/get_lore_found/get_equipped, Events.lore_found.",
+ "note": "A6.9: tier rep thresholds now 0/15/60/250/950 (sim.gd). Smart bot active play: tier1 14m, tier2 68m, tier3 256m, tier4 1010m (~17h). 15-min daily sessions: tier2 day4, tier3 day10, tier4 day45; ~1h/day: t3 ~day 4, t4 ~2.5 wks. Shop costs ~2x. Offline = tokens only."
 }

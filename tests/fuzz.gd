@@ -150,7 +150,8 @@ func _play(bot: String) -> void:
 	var last_progress_t: float = 0.0
 	var worst_wait: float = 0.0
 	var t_wall: int = Time.get_ticks_msec()
-	while _sim.stop_index < _stops and guard < 400000:
+	var limit: int = 520 if bot == "smart" else _stops
+	while _sim.stop_index < limit and guard < 1200000:
 		guard += 1
 		var did: bool = false
 		match bot:
@@ -329,7 +330,7 @@ func _daily_model() -> void:
 	_tier_at = {}
 	var day_tier: Dictionary = {}
 	var stats: Dictionary = {"delivered": 0, "refused": 0, "wrong": 0}
-	for day in range(1, 31):
+	for day in range(1, 61):
 		var end_t: float = _sim.clock_s + 15.0 * 60.0  # one 15-minute session per day
 		while _sim.clock_s < end_t:
 			if not _smart_step(stats):

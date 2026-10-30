@@ -201,10 +201,10 @@ func _test_v1_migration() -> void:
 	_sim.v1_save_path = "user://test_v1_save.json"
 	_sim.save_path = "user://test_no_v2_save.json"
 	var f: FileAccess = FileAccess.open(_sim.v1_save_path, FileAccess.WRITE)
-	f.store_string(JSON.stringify({"version": 1, "coins": 42, "reputation": 12, "matched": ["obj_001", "obj_004"], "owner_matches": {"own_001": 1}}))
+	f.store_string(JSON.stringify({"version": 1, "coins": 42, "reputation": 20, "matched": ["obj_001", "obj_004"], "owner_matches": {"own_001": 1}}))
 	f.close()
 	_check(_sim.load_game(), "v1 save migrates")
-	_check(_sim.tokens == 42 and _sim.rep == 12, "v1 tokens/rep carried over")
+	_check(_sim.tokens == 42 and _sim.rep == 20, "v1 tokens/rep carried over")
 	_check(int(_sim.get_player()["tier"]) == 1, "v1 reputation maps to tier 1")
 	_check(_sim.tutorial_done and _sim.first_delivery_done, "migrated players skip the tutorial")
 	_check(_sim.get_ledger()["catalog"].has("obj_001"), "v1 delivered items land in the catalog")
@@ -302,7 +302,7 @@ func _test_imposters() -> void:
 	# tier 2+ games actually produce imposters over time and the queue stays sane
 	_sim.new_game(21)
 	_sim.skip_tutorial()
-	_sim._add_rep(40)
+	_sim._add_rep(70)
 	var saw_imposter: bool = false
 	for i in range(3000):
 		_sim.tick(1.0)
@@ -461,11 +461,11 @@ func _test_car_unlocks() -> void:
 	ev.car_unlocked.connect(rec)
 	var locked: Array = _sim.get_cars().filter(func(c): return not bool(c["unlocked"])).map(func(c): return c["id"])
 	_check(locked.has("car_sleep") and locked.has("car_obs") and locked.has("car_lug"), "sleeper/observation/luggage start locked")
-	_sim._add_rep(10)
+	_sim._add_rep(15)
 	_check(got == ["car_sleep"], "tier 1 unlocks the sleeper only (%s)" % str(got))
-	_sim._add_rep(20)
+	_sim._add_rep(45)
 	_check(got == ["car_sleep", "car_obs"], "tier 2 unlocks the observation car (%s)" % str(got))
-	_sim._add_rep(40)
+	_sim._add_rep(190)
 	_check(got == ["car_sleep", "car_obs", "car_lug"], "tier 3 unlocks the luggage car (%s)" % str(got))
 	ev.car_unlocked.disconnect(rec)
 	# items only land in unlocked cars; spot kinds differ per car kind
@@ -557,7 +557,7 @@ func _test_shop() -> void:
 	_check(_sim.get_bench_cap() == 3, "bench cap starts at 3")
 	_check(bool(_sim.buy("bench_slot")["ok"]) and _sim.get_bench_cap() == 4, "bench upgrade works")
 	_check(bool(_sim.buy("bench_slot")["ok"]) and not bool(_sim.buy("bench_slot")["ok"]), "bench upgrade maxes out")
-	_check(_sim.tokens == 500 - 30 - 80, "costs deducted")
+	_check(_sim.tokens == 500 - 30 - 140, "costs deducted")
 	_check(_sim._boosted(10, "common") == 10, "no lamp oil, no boost")
 	_sim.buy("lamp_oil")
 	_check(_sim._boosted(10, "common") == 11, "lamp oil +10%")

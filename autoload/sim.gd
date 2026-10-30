@@ -21,7 +21,7 @@ const SPOT_LAYOUT: Dictionary = {
 	"obs": ["seat", "sill", "sill", "floor", "rack", "bin", "curtain", "seat"],
 	"lug": ["seat", "rack", "rack", "floor", "rack", "floor", "bin", "seat"],
 }
-const TIER_THRESHOLDS: Array = [0, 10, 30, 70, 150]
+const TIER_THRESHOLDS: Array = [0, 15, 60, 250, 950]
 const TOKEN_BY_RARITY: Dictionary = {"common": 5, "odd": 8, "rare": 15}
 const REP_BY_RARITY: Dictionary = {"common": 1, "odd": 2, "rare": 3}
 const TOOL_ATTRS: Dictionary = {

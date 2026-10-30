@@ -1,5 +1,5 @@
 {
- "_doc": "Owned by AI-A. Tuning knobs read by Sim. Tier 2 (rep 30) is ~20 deliveries, about 1-2 sessions.",
+ "_doc": "Owned by AI-A. Tuning knobs read by Sim. Tier thresholds (rep 15/60/250/950) live in sim.gd; smart-player pace: tier1 ~15 min, tier2 ~1 h, tier3 ~4 h, tier4 ~15 h of play (about 2-3 weeks at ~1 h/day). Offline gives tokens only, far slower than play.",
  "token_by_rarity": {
   "common": 5,
   "odd": 8,
