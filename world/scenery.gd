@@ -11,6 +11,8 @@ const BIOMES: Dictionary = {
 	"snow":   {"hill1": Color("#c7d8e6"), "hill2": Color("#a9bfd2"), "ground": Color("#dbe6ef"), "feature": "pines", "snow": true},
 	"sea":    {"hill1": Color("#264a5e"), "hill2": Color("#1b3a4c"), "ground": Color("#14303f"), "feature": "waves", "snow": false},
 	"city":   {"hill1": Color("#1b2a3c"), "hill2": Color("#121e2c"), "ground": Color("#0d1722"), "feature": "buildings", "snow": false},
+	"desert": {"hill1": Color("#6a3a3a"), "hill2": Color("#4a2a2e"), "ground": Color("#3a2224"), "feature": "cacti", "snow": false},
+	"tunnel": {"hill1": Color("#0a0f12"), "hill2": Color("#06090b"), "ground": Color("#05080a"), "feature": "none", "snow": false},
 	"forest": {"hill1": Color("#18382f"), "hill2": Color("#102a24"), "ground": Color("#0c211c"), "feature": "pines", "snow": false},
 }
 
@@ -108,7 +110,11 @@ func _draw() -> void:
 		hill2 = hill2.lerp(Color("#1f2f44"), night * 0.75)
 	_hills(0.05, 0.02, 90.0, 55.0, hill1, 1.0)
 	_hills(0.14, 0.06, 70.0, 35.0, hill2, 2.0)
+	if biome == "snow":
+		_peaks(night)
 	_features(String(b["feature"]), b, night)
+	if biome == "desert":   # permanent dusk glow low on the horizon
+		_vstrip(Rect2(0, hy - 260.0 * zoom, vis.x, 300.0 * zoom), Color(0.95, 0.5, 0.3, 0.0), Color(0.95, 0.5, 0.3, 0.32), 14)
 	# near ground strip visible at the bottom of the windows, then the track bed below the car
 	var ground: Color = (b["ground"] as Color)
 	if bool(b["snow"]):
@@ -141,7 +147,45 @@ func _draw() -> void:
 			draw_rect(Rect2(sx, fy - 80.0 * zoom, 14.0 * zoom, 200.0 * zoom), Color("#0a1216"))
 			draw_circle(Vector2(sx + 7.0 * zoom, fy - 80.0 * zoom), 9.0 * zoom, Color(1.0, 0.8, 0.45, 0.35 + 0.6 * night))
 	_vstrip(Rect2(0, fy + 90.0 * zoom, vis.x, maxf(0.0, vis.y - fy - 90.0 * zoom)), Color(0.03, 0.06, 0.08, 1), Color(0.01, 0.02, 0.03, 1), 6)
+	if biome == "tunnel":
+		_tunnel()
 	_weather(b, night)
+
+
+func _peaks(night: float) -> void:
+	var hy: float = _sy(HORIZON_Y + 10.0)
+	var lx: float = _layer_x(0.08, 0.03)
+	var tile: float = 420.0
+	var first: int = int(floor((lx - vis.x * 0.5 / zoom) / tile)) - 1
+	var cnt: int = int(vis.x / (tile * zoom)) + 4
+	var rock: Color = Color("#7a8fa6").lerp(Color("#27384e"), night * 0.8)
+	var capc: Color = Color("#f2f7fb").lerp(Color("#8fa4bd"), night * 0.7)
+	for i in range(first, first + cnt):
+		var sx: float = (float(i) * tile + _hash(float(i) * 2.3) * 160.0 - lx) * zoom + vis.x * 0.5
+		var h: float = (220.0 + _hash(float(i) + 5.0) * 200.0) * zoom
+		var w: float = (190.0 + _hash(float(i) + 8.0) * 80.0) * zoom
+		draw_colored_polygon(PackedVector2Array([Vector2(sx - w, hy), Vector2(sx, hy - h), Vector2(sx + w, hy)]), rock)
+		draw_colored_polygon(PackedVector2Array([Vector2(sx - w * 0.28, hy - h * 0.72), Vector2(sx, hy - h), Vector2(sx + w * 0.28, hy - h * 0.72), Vector2(sx + w * 0.1, hy - h * 0.6), Vector2(sx - w * 0.08, hy - h * 0.68)]), capc)
+
+
+func _tunnel() -> void:
+	var by: float = _sy(1086.0)
+	draw_rect(Rect2(0, 0, vis.x, by), Color("#04070a"))
+	# brick arches + passing wall lamps (parallax-fast)
+	var lx: float = scroll * 4.0 + cam_pos.x * 1.0
+	var tile: float = 360.0
+	var first: int = int(floor((lx - vis.x * 0.5 / zoom) / tile)) - 1
+	var cnt: int = int(vis.x / (tile * zoom)) + 4
+	for i in range(first, first + cnt):
+		var sx: float = (float(i) * tile - lx) * zoom + vis.x * 0.5
+		draw_rect(Rect2(sx, 0, 26.0 * zoom, by), Color("#0b1217"))
+		var ly: float = _sy(300.0)
+		draw_circle(Vector2(sx + 13.0 * zoom, ly), 90.0 * zoom, Color(1.0, 0.75, 0.4, 0.07))
+		draw_circle(Vector2(sx + 13.0 * zoom, ly), 40.0 * zoom, Color(1.0, 0.75, 0.4, 0.14))
+		draw_circle(Vector2(sx + 13.0 * zoom, ly), 10.0 * zoom, Color(1.0, 0.9, 0.6, 0.95))
+	for k in range(5):
+		var yy: float = _sy(160.0 + float(k) * 90.0)
+		draw_rect(Rect2(0, yy, vis.x, 2.0), Color(1, 1, 1, 0.025))
 
 
 func _vstrip(rc: Rect2, c0: Color, c1: Color, steps: int) -> void:
@@ -231,6 +275,20 @@ func _features(kind: String, b: Dictionary, night: float) -> void:
 					for wxi in range(3):
 						if _hash(float(i) * 31.0 + float(wy) * 7.0 + float(wxi)) > 0.55:
 							draw_rect(Rect2(bx + (10.0 + wxi * 24.0) * zoom, hy - bh + (14.0 + wy * 26.0) * zoom, 12.0 * zoom, 14.0 * zoom), Color(1.0, 0.82, 0.5, 0.35 + 0.5 * night))
+		"cacti":
+			var tile4: float = 340.0
+			var lx6: float = _layer_x(0.5, 0.6)
+			var first4: int = int(floor((lx6 - vis.x * 0.5 / zoom) / tile4)) - 1
+			var cnt4: int = int(vis.x / (tile4 * zoom)) + 4
+			for i in range(first4, first4 + cnt4):
+				var cx: float = (float(i) * tile4 + _hash(float(i) * 1.7) * 160.0 - lx6) * zoom + vis.x * 0.5
+				var ch: float = (80.0 + _hash(float(i) + 4.0) * 70.0) * zoom
+				var cc: Color = Color("#1a1618")
+				draw_rect(Rect2(cx - 7.0 * zoom, hy - ch, 14.0 * zoom, ch), cc)
+				draw_rect(Rect2(cx - 28.0 * zoom, hy - ch * 0.7, 8.0 * zoom, ch * 0.35), cc)
+				draw_rect(Rect2(cx - 28.0 * zoom, hy - ch * 0.4, 28.0 * zoom, 7.0 * zoom), cc)
+				draw_rect(Rect2(cx + 20.0 * zoom, hy - ch * 0.85, 8.0 * zoom, ch * 0.4), cc)
+				draw_rect(Rect2(cx, hy - ch * 0.5, 28.0 * zoom, 7.0 * zoom), cc)
 		"waves":
 			var lx5: float = _layer_x(0.2, 0.9)
 			for r in range(4):
@@ -250,6 +308,13 @@ func _features(kind: String, b: Dictionary, night: float) -> void:
 
 func _weather(b: Dictionary, night: float) -> void:
 	if weather == "rain":
+		var cyc: float = fmod(time_s + 3.0, 13.0)
+		if cyc < 0.35:
+			var fl: float = (1.0 - cyc / 0.35) * (0.55 + 0.45 * sin(cyc * 70.0))
+			draw_rect(Rect2(0, 0, vis.x, vis.y), Color(0.85, 0.92, 1.0, 0.42 * fl))
+			var bx: float = fposmod(floorf((time_s + 3.0) / 13.0) * 377.0, vis.x * 0.8) + vis.x * 0.1
+			var by0: float = _sy(HORIZON_Y - 330.0)
+			draw_polyline(PackedVector2Array([Vector2(bx, by0), Vector2(bx - 22.0, by0 + 70.0 * zoom), Vector2(bx + 10.0, by0 + 120.0 * zoom), Vector2(bx - 30.0, by0 + 200.0 * zoom), Vector2(bx - 12.0, _sy(HORIZON_Y))]), Color(1, 1, 1, fl), 3.0 * zoom)
 		var rng := RandomNumberGenerator.new()
 		for i in range(90):
 			rng.seed = i * 31

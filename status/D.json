@@ -1,13 +1,13 @@
 {
  "agent": "D",
- "updated": "2026-10-30T03:34:38Z",
- "note": "D3: seated routine poses (read w/ page turn, nap+zzz, eat+steam cup, stare, chat gestures, kids swinging legs), vendor trolley, conductor punch; driven from Sim routine in crowd.gd. Boarding/leaving via door x + train-state lean left to D5/D7.",
- "request": "TO B: world/hud.gd:172 calls Sfx.apply_settings() but ui/components/sfx.gd declares it non-static -> parse error (breaks train_world compile in headless import). Use an instance or make it static.",
+ "updated": "2026-10-30T03:44:51Z",
+ "note": "D4: scenery adds desert + tunnel biomes, snow peaks, lightning flashes in rain, GlassFx (rain drops/fog on window glass). TrainWorld.shot_scene(biome,weather,tod) forces the view for shots. Biomes plains/snow/sea/city/forest/desert/tunnel.",
+ "request": "TO A: routes.json stops may now use biome \"desert\" and \"tunnel\" (scenery supports both). Keep a tunnel stop short/rare. TO B: world/hud.gd:172 Sfx.apply_settings() non-static call (if not yet fixed).",
  "tasks": {
   "D1": "done",
   "D2": "done",
   "D3": "done",
-  "D4": "todo",
+  "D4": "done",
   "D5": "todo",
   "D6": "todo",
   "D7": "todo",

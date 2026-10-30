@@ -969,6 +969,246 @@
     }
    ],
    "frames": 90
+  },
+  {
+   "id": "w_biome_snow_peaks",
+   "milestone": "M2",
+   "title": "D4 scenery: snow snow",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "shot_scene",
+     "args": [
+      "snow",
+      "snow",
+      0.85
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 60
+  },
+  {
+   "id": "w_biome_desert",
+   "milestone": "M2",
+   "title": "D4 scenery: desert clear",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "shot_scene",
+     "args": [
+      "desert",
+      "clear",
+      0.76
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 60
+  },
+  {
+   "id": "w_biome_tunnel",
+   "milestone": "M2",
+   "title": "D4 scenery: tunnel clear",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "shot_scene",
+     "args": [
+      "tunnel",
+      "clear",
+      0.85
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 60
+  },
+  {
+   "id": "w_weather_rain",
+   "milestone": "M2",
+   "title": "D4 scenery: city rain",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "shot_scene",
+     "args": [
+      "city",
+      "rain",
+      0.9
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 60
+  },
+  {
+   "id": "w_weather_fog",
+   "milestone": "M2",
+   "title": "D4 scenery: sea fog",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "shot_scene",
+     "args": [
+      "sea",
+      "fog",
+      0.3
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 60
+  },
+  {
+   "id": "w_biome_forest_day",
+   "milestone": "M2",
+   "title": "D4 scenery: forest clear",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      6300
+     ]
+    },
+    {
+     "call": "shot_scene",
+     "args": [
+      "forest",
+      "clear",
+      0.5
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      8.0
+     ]
+    }
+   ],
+   "frames": 60
   }
  ]
 }

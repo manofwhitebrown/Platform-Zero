@@ -10,6 +10,8 @@ const FLOOR_Y: float = 880.0   # feet line for actors
 var cam: Camera2D
 var scenery: Scenery
 var shells: Dictionary = {}
+var glass: GlassFx
+var _force: Dictionary = {}   # screenshot/debug override: biome, weather, tod
 var car_props: Array = []
 var props: LPProps
 var lights: Array = []
@@ -71,6 +73,9 @@ func _build() -> void:
 			props.position = sh.position
 			add_child(props)
 			_add_lp_lights(sh.position)
+
+	glass = GlassFx.new()
+	add_child(glass)
 
 	cam = Camera2D.new()
 	cam.position = Vector2(float(Sim.get_player().get("x", 4500.0)), CAM_Y)
@@ -217,7 +222,10 @@ func _process(delta: float) -> void:
 	if props:
 		props.sway(sway_a)
 	var vis: Vector2 = get_viewport().get_visible_rect().size
-	scenery.push_state(cam.get_screen_center_position(), cam.zoom.x, vis, _scroll, float(train.get("time_of_day", 0.8)), String((train.get("stop", {}) as Dictionary).get("biome", "plains")), String(train.get("weather", "clear")), _t)
+	var biome_s: String = String(_force.get("biome", (train.get("stop", {}) as Dictionary).get("biome", "plains")))
+	var weather_s: String = String(_force.get("weather", train.get("weather", "clear")))
+	scenery.push_state(cam.get_screen_center_position(), cam.zoom.x, vis, _scroll, float(_force.get("tod", train.get("time_of_day", 0.8))), biome_s, weather_s, _t)
+	glass.set_state(weather_s, _t, cam.get_screen_center_position().x, vis.x * 0.5 / maxf(cam.zoom.x, 0.01))
 	if vignette_rect and vignette_rect.material:
 		(vignette_rect.material as ShaderMaterial).set_shader_parameter("t", fmod(_t, 10.0))
 		(vignette_rect.material as ShaderMaterial).set_shader_parameter("res", vis)
@@ -239,6 +247,11 @@ func _update_camera(_delta: float) -> void:
 
 ## Shot helpers: tools/shoot.gd calls bare setup names as methods on the scene root,
 ## ShotHook goes through shot_setup(). Both end up here.
+## Screenshot/debug: force the view outside the windows (biome, weather, time of day 0..1).
+func shot_scene(biome_s: String, weather_s: String, tod: float) -> void:
+	_force = {"biome": biome_s, "weather": weather_s, "tod": tod}
+
+
 func tap_world(x: float, y: float = 800.0) -> void:
 	winput.tap_world(Vector2(x, y))
 
