@@ -144,6 +144,7 @@ func _entry(e: Dictionary) -> Control:
 			sl.step = 1
 			sl.value = float(args.get("default", 0))
 			sl.custom_minimum_size = Vector2(0, 64)
+			SettingsScreen.style_slider(sl)
 			sl.value_changed.connect(func(v: float) -> void: l.text = "%s: %d" % [label, int(v)])
 			box.add_child(sl)
 			var ap := UButton.new()

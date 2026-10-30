@@ -60,6 +60,7 @@ func _slider(key: String, label: String) -> void:
 	sl.step = 0.05
 	sl.value = Settings.get_float(key, 1.0)
 	sl.custom_minimum_size = Vector2(0, 64)
+	style_slider(sl)
 	sl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sl.value_changed.connect(func(v: float) -> void:
 		Settings.set_float(key, v)
@@ -170,3 +171,33 @@ func _ask_reset() -> void:
 		mgr.close_all()
 		get_tree().reload_current_scene())
 	_reset_row.add_child(go)
+
+
+static var _grab: ImageTexture
+
+
+## Brass-styled slider (default Godot slider is thin grey with a tiny dot).
+static func style_slider(sl: HSlider) -> void:
+	if _grab == null:
+		var img := Image.create(56, 56, false, Image.FORMAT_RGBA8)
+		for y in 56:
+			for x in 56:
+				var d: float = Vector2(x - 27.5, y - 27.5).length()
+				if d <= 26.0:
+					img.set_pixel(x, y, Pal.LAMP if d > 20.0 else Pal.BRASS.lightened(0.15))
+		_grab = ImageTexture.create_from_image(img)
+	var bg := StyleBoxFlat.new()
+	bg.bg_color = Color(Pal.DEEP, 0.9)
+	bg.set_corner_radius_all(10)
+	bg.content_margin_top = 10
+	bg.content_margin_bottom = 10
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Pal.BRASS
+	fill.set_corner_radius_all(10)
+	fill.content_margin_top = 10
+	fill.content_margin_bottom = 10
+	sl.add_theme_stylebox_override("slider", bg)
+	sl.add_theme_stylebox_override("grabber_area", fill)
+	sl.add_theme_stylebox_override("grabber_area_highlight", fill)
+	sl.add_theme_icon_override("grabber", _grab)
+	sl.add_theme_icon_override("grabber_highlight", _grab)
