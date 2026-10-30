@@ -463,49 +463,6 @@
    "frames": 90
   },
   {
-   "id": "m3_ledger",
-   "milestone": "M3",
-   "title": "Ledger book (Claims page)",
-   "scene": "res://ui/ledger/ledger.tscn",
-   "orientation": "portrait",
-   "setup": [],
-   "frames": 60
-  },
-  {
-   "id": "m3_shop",
-   "milestone": "M3",
-   "title": "Shop page",
-   "scene": "res://ui/ledger/ledger.tscn",
-   "orientation": "portrait",
-   "setup": [
-    {
-     "call": "page",
-     "args": [
-      "shop"
-     ]
-    }
-   ],
-   "frames": 60
-  },
-  {
-   "id": "m4_welcome_back",
-   "milestone": "M4",
-   "title": "Welcome-back scene",
-   "scene": "res://ui/welcome_back.tscn",
-   "orientation": "portrait",
-   "setup": [],
-   "frames": 90
-  },
-  {
-   "id": "m5_back_office",
-   "milestone": "M5",
-   "title": "Back Office lock screen (test hash)",
-   "scene": "res://ui/cheats/back_office.tscn",
-   "orientation": "portrait",
-   "setup": [],
-   "frames": 60
-  },
-  {
    "id": "m1_bench_magnifier",
    "milestone": "M1",
    "title": "Bench close-up: magnifier in use",
