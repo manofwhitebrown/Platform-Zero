@@ -1661,6 +1661,94 @@
     }
    ],
    "frames": 60
+  },
+  {
+   "id": "w_fast_travel_pt",
+   "milestone": "M2",
+   "title": "D11 fast travel to dining car",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "portrait",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      8100
+     ]
+    },
+    {
+     "call": "Sim.fast_travel",
+     "args": [
+      "car_dine"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 30
+  },
+  {
+   "id": "w_fast_travel",
+   "milestone": "M2",
+   "title": "D11 fast travel to dining car",
+   "scene": "res://world/train_world.tscn",
+   "orientation": "landscape",
+   "setup": [
+    {
+     "call": "Sim.new_game",
+     "args": [
+      1
+     ]
+    },
+    {
+     "call": "Sim._add_rep",
+     "args": [
+      200
+     ]
+    },
+    {
+     "call": "Sim.skip_tutorial",
+     "args": []
+    },
+    {
+     "call": "Sim.player_move_to",
+     "args": [
+      8100
+     ]
+    },
+    {
+     "call": "Sim.fast_travel",
+     "args": [
+      "car_dine"
+     ]
+    },
+    {
+     "call": "wait",
+     "args": [
+      0.5
+     ]
+    }
+   ],
+   "frames": 30
   }
  ]
 }

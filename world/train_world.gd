@@ -309,7 +309,7 @@ func _update_camera(_delta: float) -> void:
 	var portrait: bool = vis.y > vis.x
 	var want_w: float = 1080.0 if portrait else 1920.0
 	var z: float = vis.x / want_w
-	z *= 1.0 + 0.12 * _push_k - 0.03 * sin(_door_k * PI)
+	z *= 1.0 + 0.12 * _push_k - (0.03 + 0.04 * _ft) * sin(_door_k * PI)
 	cam.zoom = Vector2(z, z)
 	var half_w: float = want_w * 0.5
 	var min_x: float = half_w - 60.0

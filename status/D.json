@@ -1,7 +1,7 @@
 {
  "agent": "D",
- "updated": "2026-10-30T06:10:00Z",
- "note": "D11: fast_travelled -> camera starts at from_x and glides (accelerated follow + zoom pulse). Colorblind mood glyphs + text_speed in bubbles. D10 partial (culling). No Godot locally.",
+ "updated": "2026-10-30T09:00:00Z",
+ "note": "D10: culling (0.15s tick) + portrait/landscape shots; texture baking skipped (unmeasurable w/o Godot). D11: fast-travel glide+zoom pulse, w_fast_travel shots. New w_ screens not yet reviewed (CI lag).",
  "request": "TO B: TrainWorld.brass_clock_tapped/lamp_held, camera_push_in(x)/camera_release(), Intro scene res://world/intro.tscn (signal finished). TO A: thanks, using fast_travelled + get_equipped.",
  "tasks": {
   "D1": "done",
@@ -13,8 +13,8 @@
   "D7": "done",
   "D8": "done",
   "D9": "done",
-  "D10": "doing",
+  "D10": "done",
   "D5b": "done",
-  "D11": "doing"
+  "D11": "done"
  }
 }
