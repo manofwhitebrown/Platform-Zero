@@ -993,6 +993,12 @@
     "text": "Silver-white, shifting like water.",
     "attr": "color",
     "value": "silver"
+   },
+   {
+    "id": "c3",
+    "text": "Smells of cold air and a little lavender.",
+    "attr": "smell",
+    "value": "lavender"
    }
   ],
   "story": "\"Woven from a good night's sleep,\" Zephyrine says. \"Don't tell the moon.\""
