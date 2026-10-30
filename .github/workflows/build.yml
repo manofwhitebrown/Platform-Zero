@@ -8,6 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: No secrets in the repo
+        run: |
+          if git grep -nE "github_pat_|ghp_[A-Za-z0-9]{20}|const HASH *:?=" -- . ':!.github' ; then
+            echo "::error title=Secret in repo::a token or cheat hash is committed"; exit 1
+          fi
       - name: Validate content
         run: python3 tools/validate_content.py --strict
 

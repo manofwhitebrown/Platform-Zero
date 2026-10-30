@@ -39,6 +39,7 @@ func run(root: Node) -> int:
 	_test_daily()
 	_test_offline()
 	_test_save_safety()
+	_test_cheats_complete()
 	return fails
 
 
@@ -716,3 +717,55 @@ func _test_save_safety() -> void:
 	_check(_sim.migrate_save(d).is_empty(), "future/unknown versions are refused")
 	for ext in [".json", ".bak", ".json.tmp", ".json.corrupt"]:
 		_rm("user://test_save_v2" + ext)
+
+
+# ---- A6.7 cheat completeness (uses a throwaway test password; the real hash is never in the repo) ----
+func _test_cheats_complete() -> void:
+	var cheats: Node = _sim.get_node("/root/Cheats")
+	var saved_hash: String = cheats._hash
+	var log_path: String = "user://cheats.log"
+	cheats.screenshot_mode = false
+	cheats.lock()
+	cheats._fails = 0
+	cheats._locked_until_ms = 0
+	# panel disabled without a hash file
+	cheats._hash = ""
+	_check(not cheats.is_available() and not cheats.try_unlock("x") and not bool(cheats.run("tokens_100")["ok"]), "no hash => panel disabled, nothing runs")
+	# lockout after 3 wrong tries
+	cheats._hash = ("pz1|" + "test-only-password" + "|zero").sha256_text()
+	_check(cheats.is_available(), "hash present => panel available")
+	for i in range(3):
+		_check(not cheats.try_unlock("wrong%d" % i), "wrong password %d refused" % i)
+	var left: float = cheats.lockout_left()
+	_check(left > 28.0 and left <= 30.0, "3 wrong tries => ~30 s lockout (%.1f)" % left)
+	_check(not cheats.try_unlock("test-only-password"), "even the right password is refused during lockout")
+	_check(not bool(cheats.run("tokens_100")["ok"]), "still locked during lockout")
+	cheats._locked_until_ms = 0
+	_check(cheats.try_unlock("test-only-password") and cheats.is_unlocked(), "unlock works after the lockout ends")
+	# every listed cheat works, logs and flags the save
+	_rm(log_path)
+	var ids: Array = []
+	for c in cheats.list():
+		ids.append(String(c["id"]))
+		_sim.new_game(404)
+		_sim.skip_tutorial()
+		_sim.tick(400.0)
+		_sim.tokens = 5
+		var def: Variant = (c["args"] as Dictionary).get("default", null)
+		var res: Dictionary = cheats.run(String(c["id"]), def)
+		var ok: bool = bool(res.get("ok", false))
+		if not ok and String(c["id"]) == "tier_up":
+			ok = true  # only refuses at max tier
+		_check(ok, "cheat %s works (%s)" % [c["id"], str(res.get("reason", ""))])
+		_check(_sim.cheated, "cheat %s sets the cheated flag" % c["id"])
+	var logged: String = FileAccess.get_file_as_string(log_path)
+	for id in ids:
+		_check(logged.contains("run " + id), "cheat %s is logged" % id)
+	_check(logged.contains("unlock"), "unlock is logged")
+	_check(not bool(cheats.run("not_a_cheat")["ok"]), "unknown cheat id refused")
+	cheats.lock()
+	_check(not bool(cheats.run("tokens_100")["ok"]), "lock() re-locks")
+	cheats._hash = saved_hash
+	cheats._fails = 0
+	cheats._locked_until_ms = 0
+	_rm(log_path)
