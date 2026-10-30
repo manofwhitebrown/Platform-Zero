@@ -1,6 +1,6 @@
 {
  "agent": "A",
- "updated": "2026-10-30T08:47:41Z",
+ "updated": "2026-10-30T08:48:37Z",
  "tasks": {
   "A1": "done",
   "A2": "done",
@@ -48,9 +48,9 @@
   "A6.7": "done",
   "A6.8": "todo",
   "A6.9": "done",
-  "A6.10": "todo",
-  "A6.11": "todo"
+  "A6.10": "done",
+  "A6.11": "done"
  },
- "request": "TO B: tier thresholds changed to [0,15,60,250,950] (read Sim.TIER_THRESHOLDS, don't hardcode); shop prices now porter 40/160/500, bench_slot 30/140, lamp_oil 25/90/300, uv_lamp 100, brass_cap 20, velvet_curtains 60, lantern_charm 50 (read via Sim.get_shop()). Earlier hooks: Sim.last_offline_report, Events.arc_beat, Sim.get_stats/get_lore/get_lore_found/get_equipped, Events.lore_found.",
- "note": "A6.9: tier rep thresholds now 0/15/60/250/950 (sim.gd). Smart bot active play: tier1 14m, tier2 68m, tier3 256m, tier4 1010m (~17h). 15-min daily sessions: tier2 day4, tier3 day10, tier4 day45; ~1h/day: t3 ~day 4, t4 ~2.5 wks. Shop costs ~2x. Offline = tokens only."
+ "request": "TO D: e2e run logs 'Invalid polygon data, triangulation failed' (canvas_item_add_polygon) twice in a fresh game, some draw_colored_polygon with degenerate/collinear points; harmless but noisy, find with godot --headless --script tests/e2e.gd. TO B: A6.9 prices/thresholds as noted before; Sim.get_stats/get_lore/last_offline_report all live.",
+ "note": "A6.10 e2e (tests/e2e.gd, CI step) and A6.11 (concurrency cancel-in-progress; templates ship in the godot-ci image) done. Only A6.8 Godot upgrade left; waits for B/C/D to finish."
 }

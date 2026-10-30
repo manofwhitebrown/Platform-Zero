@@ -3,6 +3,12 @@ on:
   push:
   workflow_dispatch:
 
+# A6.11: a newer push cancels older queued/running builds (the screenshot commit step is atomic
+# enough: it only runs after the render finishes and retries on a lost push race).
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -82,6 +88,12 @@ jobs:
         run: godot --headless --script tests/parse_all.gd 2>&1 | tee -a /tmp/ci.log; test ${PIPESTATUS[0]} -eq 0
       - name: Run tests
         run: godot --headless --script tests/run_tests.gd 2>&1 | tee -a /tmp/ci.log
+      - name: End-to-end (boots the main scene, plays a full loop)
+        run: |
+          godot --headless --script tests/e2e.gd > /tmp/e2e.log 2>&1; rc=$?
+          tee -a /tmp/ci.log < /tmp/e2e.log
+          if grep -E "SCRIPT ERROR|Parse Error|E2E FAIL" /tmp/e2e.log; then echo "::error title=End-to-end test failed::see log"; exit 1; fi
+          exit $rc
       - name: Audio tests (ids, files, manifest)
         run: godot --headless --script tests/audio_tests.gd 2>&1 | tee -a /tmp/ci.log
       - name: Fuzz + balance report (300 stops, 3 bots)
