@@ -79,13 +79,12 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform B · Screens** — 37/38 done
+**Platform B · Screens** — 38/38 done
 
-- ⬜ UI QA pass
 
-> B5.12 Help overlay (? button under HUD bar, auto once after tutorial) + random tip on Welcome-back. Next B5.11 QA.
+> B5.11 QA: all overlays go through ScreenManager (safe-area margins, Android back closes top). Fixed HUD rep-tier overlapping new map button (moved left of stop name) and cheat badge overlapping shop pill. Tap targets >=9
 
-<details><summary>Finished (37)</summary>
+<details><summary>Finished (38)</summary>
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -122,6 +121,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Settings
 - ✅ Back Office cheat panel
 - ✅ Audio wiring
+- ✅ UI QA pass
 - ✅ Help + tips
 - ✅ Lore + achievements
 
