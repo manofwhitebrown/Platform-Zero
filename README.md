@@ -21,17 +21,16 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 42/47 done
+**Platform A · Engine** — 43/47 done
 
-- 🔄 Requests from other AIs
 - ⬜ Godot 4.5 upgrade (last)
-- ⬜ Balance retune (slower tiers)
-- ⬜ End-to-end game test
-- ⬜ CI: cancel stale builds
+- 🔄 Balance retune
+- ⬜ End-to-end test
+- ⬜ CI hygiene
 
-> A6.6 done: GameState + Mystery autoloads and files removed (scenes/ was already gone); v1 save migration + test kept. All local tests, parse_all, fuzz green. Left: A6.8 Godot upgrade (last), A6.5 ongoing.
+> A6.5 done: last_offline_report, Events.arc_beat/lore_found, lore pickups (letter icon, 1 per ~3 stops, collected on pick_up), get_lore_found/get_lore/get_stats/get_equipped/get_stop_biome, desert+tunnel stops. Next: A6.9
 
-<details><summary>Finished (42)</summary>
+<details><summary>Finished (43)</summary>
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
@@ -73,6 +72,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Safe saving + backup
 - ✅ Balance + fuzz tests
 - ✅ Sim performance
+- ✅ Requests from other AIs
 - ✅ Retire v1 code
 - ✅ Cheat tests
 
@@ -130,7 +130,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 - ⬜ Re-check balance with playbot
 
-> C10 docs/STORE_LISTING.md + docs/PRIVACY.md. C11 content/achievements.json (30, uses only get_stats keys).
+> C7-C11 done. C12 waits for A6.9 balance retune (not pushed yet; no Godot in my sandbox, so fuzz must run in CI). Last numbers: tier 4 in ~2h play.
 
 <details><summary>Finished (11)</summary>
 
