@@ -107,13 +107,16 @@ func _draw() -> void:
 	var fs: int = int(sb.size.y * 0.6)
 	var label: String = "PLATFORM ZERO"
 	var lw: float = f.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
+	if lw > sb.size.x * 0.88:
+		fs = int(float(fs) * sb.size.x * 0.88 / lw)
+		lw = f.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
 	draw_string(f, Vector2(sb.position.x + (sb.size.x - lw) * 0.5, sb.position.y + sb.size.y * 0.72), label, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color("#EADFC8"))
 	# train: eased arrival from off-screen left, stops with the engine near the platform
-	var car_w: float = s.x * (0.5 if port else 0.2)
+	var car_w: float = s.x * (0.28 if port else 0.12)
 	var total: float = 7.0 * (car_w + 6.0)
 	var k2: float = clampf(_t / 6.0, 0.0, 1.0)
 	var e: float = 1.0 - pow(1.0 - k2, 2.6)
-	var stop_x: float = s.x * 0.62 - total
+	var stop_x: float = s.x * 0.58 - total
 	var start_x: float = -total - car_w * 2.0
 	var ox: float = lerpf(start_x, stop_x, e)
 	var sway: float = sin(_t * 9.0) * 1.5 * (1.0 - e)
@@ -136,7 +139,7 @@ func _draw() -> void:
 	draw_string(f, Vector2((s.x - sw) * 0.5, ty + tfs * 0.5), sub, HORIZONTAL_ALIGNMENT_LEFT, -1, sfs, Color(0.92, 0.87, 0.78, ta * 0.85))
 	# tap hint
 	if _t > 3.5:
-		var ha: float = 0.35 + 0.3 * sin(_t * 3.0)
+		var ha: float = 0.6 + 0.3 * sin(_t * 3.0)
 		var hint: String = "tap to begin"
 		var hw: float = f.get_string_size(hint, HORIZONTAL_ALIGNMENT_LEFT, -1, int(sfs)).x
 		draw_string(f, Vector2((s.x - hw) * 0.5, s.y * 0.93), hint, HORIZONTAL_ALIGNMENT_LEFT, -1, sfs, Color(0.92, 0.87, 0.78, ha))
