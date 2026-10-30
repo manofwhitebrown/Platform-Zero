@@ -14,7 +14,7 @@ def load(x):
     return t
 def block():
     out = []
-    for x, label in (("A","Engine"),("B","Front")):
+    for x, label in (("A","Engine"),("B","Screens"),("C","Sound + Story"),("D","World")):
         t = load(x); t = [i for i in t if i.get("state")!="skip" or True]
         done = sum(1 for i in t if i.get("state")=="done"); total = sum(1 for i in t if i.get("state")!="skip")
         out.append(f"**Platform {x} · {label}** — {done}/{total} done\n")
