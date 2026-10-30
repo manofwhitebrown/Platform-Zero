@@ -52,6 +52,11 @@ func _ready() -> void:
 		var q := Ledger._lbl(String(lines[0]), 28, Color(Pal.INK, 0.85), true)
 		q.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(q)
+	var tip: String = HelpScreen.random_tip()
+	if tip != "":
+		var tl := Ledger._lbl("Tip: " + tip, 24, Color(Pal.INK, 0.6), true)
+		tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(tl)
 	var b := UButton.new()
 	b.text = "Back to the train"
 	b.custom_minimum_size = Vector2(0, 110)

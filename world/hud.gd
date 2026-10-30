@@ -20,6 +20,7 @@ class HudView extends Control:
 	var book: Rect2 = Rect2()
 	var shop_rect: Rect2 = Rect2()
 	var night_rect: Rect2 = Rect2()
+	var help_rect: Rect2 = Rect2()
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -119,6 +120,12 @@ class HudView extends Control:
 			Dr.rrect(self, cr, 20, Color(Pal.PARCHMENT, 0.96))
 			draw_rect(cr.grow(-6), Color(Pal.BRASS, 0.5), false, 2.0)
 			txt(cr.position + Vector2(0, 45), chip, 30, Pal.INK, w, HORIZONTAL_ALIGNMENT_CENTER)
+		# help button
+		help_rect = Rect2(14, bar.end.y + 176, 96, 84)
+		var hc: Vector2 = help_rect.get_center()
+		draw_circle(hc, 32, Color(Pal.DEEP, 0.85))
+		draw_arc(hc, 32, 0, TAU, 32, Color(Pal.BRASS, 0.9), 3.0)
+		txt(Vector2(hc.x - 30, hc.y + 15), "?", 44, Pal.PARCHMENT, 60.0, HORIZONTAL_ALIGNMENT_CENTER)
 		# shop pill
 		shop_rect = Rect2(14, bar.end.y + 92, 190, 72)
 		var shr: Rect2 = shop_rect.grow_individual(0, -12, 0, -12)
@@ -185,6 +192,13 @@ class HudView extends Control:
 				if gr3 is GameRoot:
 					(gr3 as GameRoot).open_screen("daily")
 					Audio.play("ui_tap")
+					get_viewport().set_input_as_handled()
+					return
+			if help_rect.has_point((e as InputEventMouseButton).position) and not hud.world.get("bench").is_open:
+				var gr4: Node = hud.world.get_parent()
+				if gr4 is GameRoot:
+					(gr4 as GameRoot).open_screen("help")
+					Audio.play("ui_open")
 					get_viewport().set_input_as_handled()
 					return
 			if skip_rect.has_point((e as InputEventMouseButton).position):

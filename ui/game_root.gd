@@ -50,6 +50,7 @@ func _ready() -> void:
 	if Cheats.is_available():
 		screens.register("backoffice", func(_a: Dictionary) -> Control: return BackOffice.new(screens))
 		_arm_secret()
+	screens.register("help", func(_a: Dictionary) -> Control: return HelpScreen.new(screens))
 	screens.register("shop", func(_a: Dictionary) -> Control: return Shop.new(screens))
 	screens.register("ledger", func(_a: Dictionary) -> Control: return Ledger.new(screens))
 	get_tree().set_auto_accept_quit(false)
@@ -58,6 +59,8 @@ func _ready() -> void:
 			daily_demo.call_deferred(a.substr(8))
 		if a == "--settings":
 			open_screen.call_deferred("settings")
+		if a == "--help":
+			open_screen.call_deferred("help")
 		if a == "--welcome":
 			welcome_demo.call_deferred()
 		if a.begins_with("--shop="):
@@ -89,6 +92,16 @@ func _arm_secret() -> void:
 	bl.layer = 16
 	add_child(bl)
 	bl.add_child(CheatBadge.new())
+
+
+func _process(_d: float) -> void:
+	# Show the how-to-play cards once, right after the tutorial finishes.
+	if world == null or screens == null or Settings.get_bool("help_seen", false):
+		return
+	if String(Sim.get_tutorial().get("stage", "done")) == "done" and not screens.is_open() and not bool(world.get("bench").is_open):
+		Settings.set_bool("help_seen", true)
+		if Sim.get_stats().get("handovers", 0) > 0 or Sim.get_stats().get("items_found", 0) > 0:
+			open_screen("help")
 
 
 func open_screen(screen_name: String, args: Dictionary = {}) -> Control:
