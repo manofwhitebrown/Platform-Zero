@@ -84,7 +84,7 @@ Four AIs build this in parallel: Engine (A), Screens (B), Sound + Story (C) and 
 **Platform B · Screens** — 38/38 done
 
 
-> Post-QA fixes pushed: brass sliders, ledger tabs fit width, landscape overlay width cap. Build job green; screenshots stale (see request).
+> Wired D's intro scene on first launch (Settings intro_seen, skipped in shots/after first stop), added Instant text speed. Colorblind/text_speed confirmed live in crowd.gd.
 
 <details><summary>Finished (38)</summary>
 
