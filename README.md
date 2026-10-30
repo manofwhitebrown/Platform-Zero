@@ -151,11 +151,12 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform D · World** — 10/11 done
+**Platform D · World** — 10/12 done
 
 - 🔄 World performance + QA shots
+- 🔄 Fast-travel camera
 
-> D10 partial: distance culling of cars/props/lights (0.15s tick), portrait QA shots w_*_pt added. Texture baking + frame-time numbers pending (no Godot locally; CI only). D1-D9 done.
+> D11: fast_travelled -> camera starts at from_x and glides (accelerated follow + zoom pulse). Colorblind mood glyphs + text_speed in bubbles. D10 partial (culling). No Godot locally.
 
 <details><summary>Finished (10)</summary>
 
