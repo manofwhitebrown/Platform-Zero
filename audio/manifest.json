@@ -1,0 +1,444 @@
+{
+ "blip_calm": {
+  "bus": "sfx",
+  "file": "res://audio/blip_calm_1.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/blip_calm_1.wav",
+   "res://audio/blip_calm_2.wav",
+   "res://audio/blip_calm_3.wav",
+   "res://audio/blip_calm_4.wav"
+  ],
+  "volume_db": -14
+ },
+ "blip_grumpy": {
+  "bus": "sfx",
+  "file": "res://audio/blip_grumpy_1.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/blip_grumpy_1.wav",
+   "res://audio/blip_grumpy_2.wav",
+   "res://audio/blip_grumpy_3.wav",
+   "res://audio/blip_grumpy_4.wav"
+  ],
+  "volume_db": -14
+ },
+ "blip_hurried": {
+  "bus": "sfx",
+  "file": "res://audio/blip_hurried_1.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/blip_hurried_1.wav",
+   "res://audio/blip_hurried_2.wav",
+   "res://audio/blip_hurried_3.wav",
+   "res://audio/blip_hurried_4.wav"
+  ],
+  "volume_db": -14
+ },
+ "blip_shy": {
+  "bus": "sfx",
+  "file": "res://audio/blip_shy_1.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/blip_shy_1.wav",
+   "res://audio/blip_shy_2.wav",
+   "res://audio/blip_shy_3.wav",
+   "res://audio/blip_shy_4.wav"
+  ],
+  "volume_db": -14
+ },
+ "blip_worried": {
+  "bus": "sfx",
+  "file": "res://audio/blip_worried_1.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/blip_worried_1.wav",
+   "res://audio/blip_worried_2.wav",
+   "res://audio/blip_worried_3.wav",
+   "res://audio/blip_worried_4.wav"
+  ],
+  "volume_db": -14
+ },
+ "brake_squeal": {
+  "bus": "sfx",
+  "file": "res://audio/brake_squeal.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/brake_squeal.wav"
+  ],
+  "volume_db": -6
+ },
+ "car_unlocked": {
+  "bus": "sfx",
+  "file": "res://audio/car_unlocked.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/car_unlocked.wav"
+  ],
+  "volume_db": -6
+ },
+ "chuff": {
+  "bus": "sfx",
+  "file": "res://audio/chuff.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/chuff.wav"
+  ],
+  "volume_db": -9
+ },
+ "clue_found": {
+  "bus": "sfx",
+  "file": "res://audio/clue_found.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/clue_found.wav"
+  ],
+  "volume_db": -8
+ },
+ "counter_bell": {
+  "bus": "sfx",
+  "file": "res://audio/counter_bell.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/counter_bell.wav"
+  ],
+  "volume_db": -8
+ },
+ "cutlery": {
+  "bus": "sfx",
+  "file": "res://audio/cutlery_1.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/cutlery_1.wav",
+   "res://audio/cutlery_2.wav",
+   "res://audio/cutlery_3.wav"
+  ],
+  "volume_db": -16
+ },
+ "dining_murmur": {
+  "bus": "ambience",
+  "file": "res://audio/dining_murmur.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/dining_murmur.ogg"
+  ],
+  "volume_db": -14
+ },
+ "door_slide": {
+  "bus": "sfx",
+  "file": "res://audio/door_slide.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/door_slide.wav"
+  ],
+  "volume_db": -8
+ },
+ "footstep": {
+  "bus": "sfx",
+  "file": "res://audio/footstep_1.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/footstep_1.wav",
+   "res://audio/footstep_2.wav",
+   "res://audio/footstep_3.wav"
+  ],
+  "volume_db": -16
+ },
+ "handover_success": {
+  "bus": "sfx",
+  "file": "res://audio/handover_success.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/handover_success.wav"
+  ],
+  "volume_db": -6
+ },
+ "knock_grumpy": {
+  "bus": "sfx",
+  "file": "res://audio/knock_grumpy.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/knock_grumpy.wav"
+  ],
+  "volume_db": -7
+ },
+ "knock_shy": {
+  "bus": "sfx",
+  "file": "res://audio/knock_shy.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/knock_shy.wav"
+  ],
+  "volume_db": -10
+ },
+ "lamp_hum_loop": {
+  "bus": "ambience",
+  "file": "res://audio/lamp_hum_loop.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/lamp_hum_loop.ogg"
+  ],
+  "volume_db": -22
+ },
+ "music_cozy": {
+  "bus": "music",
+  "file": "res://audio/music_cozy.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/music_cozy.ogg"
+  ],
+  "volume_db": -14
+ },
+ "music_suspense": {
+  "bus": "music",
+  "file": "res://audio/music_suspense.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/music_suspense.ogg"
+  ],
+  "volume_db": -16
+ },
+ "music_travel": {
+  "bus": "music",
+  "file": "res://audio/music_travel.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/music_travel.ogg"
+  ],
+  "volume_db": -14
+ },
+ "page_flip": {
+  "bus": "sfx",
+  "file": "res://audio/page_flip.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/page_flip.wav"
+  ],
+  "volume_db": -12
+ },
+ "paper_rustle": {
+  "bus": "sfx",
+  "file": "res://audio/paper_rustle.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/paper_rustle.wav"
+  ],
+  "volume_db": -12
+ },
+ "rail_clack_fast": {
+  "bus": "ambience",
+  "file": "res://audio/rail_clack_fast.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/rail_clack_fast.ogg"
+  ],
+  "volume_db": -10
+ },
+ "rail_clack_slow": {
+  "bus": "ambience",
+  "file": "res://audio/rail_clack_slow.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/rail_clack_slow.ogg"
+  ],
+  "volume_db": -10
+ },
+ "rain_loop": {
+  "bus": "ambience",
+  "file": "res://audio/rain_loop.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/rain_loop.ogg"
+  ],
+  "volume_db": -12
+ },
+ "refuse": {
+  "bus": "sfx",
+  "file": "res://audio/refuse.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/refuse.wav"
+  ],
+  "volume_db": -9
+ },
+ "steam_hiss": {
+  "bus": "sfx",
+  "file": "res://audio/steam_hiss.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/steam_hiss.wav"
+  ],
+  "volume_db": -8
+ },
+ "thunder": {
+  "bus": "ambience",
+  "file": "res://audio/thunder.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/thunder.wav"
+  ],
+  "volume_db": -6
+ },
+ "tier_up": {
+  "bus": "sfx",
+  "file": "res://audio/tier_up.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/tier_up.wav"
+  ],
+  "volume_db": -5
+ },
+ "toast": {
+  "bus": "ui",
+  "file": "res://audio/toast.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/toast.wav"
+  ],
+  "volume_db": -12
+ },
+ "token_clink": {
+  "bus": "sfx",
+  "file": "res://audio/token_clink.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/token_clink.wav"
+  ],
+  "volume_db": -10
+ },
+ "tool_brush": {
+  "bus": "sfx",
+  "file": "res://audio/tool_brush.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/tool_brush.wav"
+  ],
+  "volume_db": -11
+ },
+ "tool_ear": {
+  "bus": "sfx",
+  "file": "res://audio/tool_ear.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/tool_ear.wav"
+  ],
+  "volume_db": -9
+ },
+ "tool_lamp": {
+  "bus": "sfx",
+  "file": "res://audio/tool_lamp.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/tool_lamp.wav"
+  ],
+  "volume_db": -9
+ },
+ "tool_magnifier": {
+  "bus": "sfx",
+  "file": "res://audio/tool_magnifier.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/tool_magnifier.wav"
+  ],
+  "volume_db": -9
+ },
+ "tool_nose": {
+  "bus": "sfx",
+  "file": "res://audio/tool_nose.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/tool_nose.wav"
+  ],
+  "volume_db": -11
+ },
+ "train_rumble_fast": {
+  "bus": "ambience",
+  "file": "res://audio/train_rumble_fast.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/train_rumble_fast.ogg"
+  ],
+  "volume_db": -8
+ },
+ "train_rumble_slow": {
+  "bus": "ambience",
+  "file": "res://audio/train_rumble_slow.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/train_rumble_slow.ogg"
+  ],
+  "volume_db": -8
+ },
+ "tunnel_whoosh": {
+  "bus": "ambience",
+  "file": "res://audio/tunnel_whoosh.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/tunnel_whoosh.wav"
+  ],
+  "volume_db": -8
+ },
+ "ui_back": {
+  "bus": "ui",
+  "file": "res://audio/ui_back.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/ui_back.wav"
+  ],
+  "volume_db": -14
+ },
+ "ui_close": {
+  "bus": "ui",
+  "file": "res://audio/ui_close.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/ui_close.wav"
+  ],
+  "volume_db": -13
+ },
+ "ui_open": {
+  "bus": "ui",
+  "file": "res://audio/ui_open.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/ui_open.wav"
+  ],
+  "volume_db": -13
+ },
+ "ui_tap": {
+  "bus": "ui",
+  "file": "res://audio/ui_tap.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/ui_tap.wav"
+  ],
+  "volume_db": -14
+ },
+ "ui_toggle": {
+  "bus": "ui",
+  "file": "res://audio/ui_toggle.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/ui_toggle.wav"
+  ],
+  "volume_db": -14
+ },
+ "whistle_depart": {
+  "bus": "sfx",
+  "file": "res://audio/whistle_depart.wav",
+  "loop": false,
+  "variants": [
+   "res://audio/whistle_depart.wav"
+  ],
+  "volume_db": -7
+ },
+ "wind_loop": {
+  "bus": "ambience",
+  "file": "res://audio/wind_loop.ogg",
+  "loop": true,
+  "variants": [
+   "res://audio/wind_loop.ogg"
+  ],
+  "volume_db": -14
+ }
+}
