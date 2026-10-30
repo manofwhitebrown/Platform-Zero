@@ -1,7 +1,7 @@
 {
  "_doc": "Templates for tools/gen_procedural.py -> content/generated.json (AI-A). Do not hand-edit generated.json; edit this and rerun: python3 tools/gen_procedural.py",
  "seed": 7,
- "count": 240,
+ "count": 400,
  "kinds": {
   "mitten": {
    "article_noun": "a mitten",

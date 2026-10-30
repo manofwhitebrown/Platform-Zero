@@ -43,7 +43,7 @@ def main():
     kinds = sorted(P["kinds"])
     colors = P["colors"]
     ot = P["owner_text"]
-    seen_names, seen_combo = set(), set()
+    seen_names, seen_combo, seen_sig = set(), set(), set()
     objects, owners = [], []
     i = 0
     guard = 0
@@ -69,12 +69,21 @@ def main():
             attrs.append(at)
         if rar == "rare" and not ({"initials", "station_stamp"} & set(attrs)):
             attrs[-1] = r.choice(["initials", "station_stamp"])
+        tools_of = {"initials": "m", "station_stamp": "m", "color": "l", "material": "l", "sound": "e", "smell": "n", "wear": "b"}
+        if len({tools_of[a] for a in attrs}) < 2:  # C5: never solvable by one tool alone
+            attrs[-1] = wpick(r, ot["clue_weights"], list(attrs) + ["color", "material"])
         vals = {
             "color": col, "material": mat, "smell": r.choice(k["smells"]), "sound": r.choice(k["sounds"]),
             "wear": r.choice(P["wear"]),
             "initials": "%s.%s." % (r.choice(string.ascii_uppercase), r.choice(string.ascii_uppercase)),
             "station_stamp": r.choice(stops),
         }
+        sig = frozenset((a, str(vals[a])) for a in attrs)
+        if sig in seen_sig:  # C5: no two items with identical clue sets
+            seen_combo.discard((kind, mat, col))
+            seen_names.discard(nm)
+            continue
+        seen_sig.add(sig)
         clues = []
         for ci, at in enumerate(attrs, 1):
             clues.append({"id": f"c{ci}", "text": r.choice(P["clue_text"][at]).format(v=vals[at]), "attr": at, "value": vals[at]})
