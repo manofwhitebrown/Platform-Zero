@@ -20,7 +20,10 @@ func _ready() -> void:
 	panel.add_theme_stylebox_override("panel", Pal.panel_style(Pal.NIGHT, Pal.BRASS))
 	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 16)
 	add_child(panel)
-	resized.connect(func() -> void: panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, int(maxf(16.0, (size.x - 1000.0) / 2.0))))
+	resized.connect(func() -> void:
+		var m: float = maxf(16.0, (size.x - 1000.0) / 2.0)
+		panel.offset_left = m
+		panel.offset_right = -m)
 	var root := VBoxContainer.new()
 	root.add_theme_constant_override("separation", 14)
 	panel.add_child(root)
