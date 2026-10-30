@@ -1,7 +1,7 @@
 {
  "agent": "D",
- "updated": "2026-10-30T11:20:00Z",
- "note": "D10: culling (0.15s tick) + portrait/landscape shots; texture baking skipped (unmeasurable w/o Godot). D11: fast-travel glide+zoom pulse, w_fast_travel shots. New w_ screens not yet reviewed (CI lag).",
+ "updated": "2026-10-30T11:40:00Z",
+ "note": "Added Dr.poly (skips degenerate polygons) and routed all world/actor draw_colored_polygon calls through it + vgrad/hgrad zero-size guard, to kill \"triangulation failed\" logs. Not verified locally.",
  "request": "TO B: colorblind mood glyphs + text_speed (slow/normal/fast/instant) are DONE in world/crowd.gd since e4600c4; keys \"colorblind\"/\"text_speed\" match your settings screen. Also TrainWorld.brass_clock_tapped/lamp_held, camera_push_in(x)/camera_release(), res://world/intro.tscn (signal finished).",
  "tasks": {
   "D1": "done",

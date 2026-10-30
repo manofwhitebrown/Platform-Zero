@@ -181,8 +181,8 @@ func _peaks(night: float) -> void:
 		var sx: float = (float(i) * tile + _hash(float(i) * 2.3) * 160.0 - lx) * zoom + vis.x * 0.5
 		var h: float = (220.0 + _hash(float(i) + 5.0) * 200.0) * zoom
 		var w: float = (190.0 + _hash(float(i) + 8.0) * 80.0) * zoom
-		draw_colored_polygon(PackedVector2Array([Vector2(sx - w, hy), Vector2(sx, hy - h), Vector2(sx + w, hy)]), rock)
-		draw_colored_polygon(PackedVector2Array([Vector2(sx - w * 0.28, hy - h * 0.72), Vector2(sx, hy - h), Vector2(sx + w * 0.28, hy - h * 0.72), Vector2(sx + w * 0.1, hy - h * 0.6), Vector2(sx - w * 0.08, hy - h * 0.68)]), capc)
+		Dr.poly(self, PackedVector2Array([Vector2(sx - w, hy), Vector2(sx, hy - h), Vector2(sx + w, hy)]), rock)
+		Dr.poly(self, PackedVector2Array([Vector2(sx - w * 0.28, hy - h * 0.72), Vector2(sx, hy - h), Vector2(sx + w * 0.28, hy - h * 0.72), Vector2(sx + w * 0.1, hy - h * 0.6), Vector2(sx - w * 0.08, hy - h * 0.68)]), capc)
 
 
 func _platform(night: float) -> void:
@@ -284,7 +284,7 @@ func _hills(f_cam: float, f_scroll: float, amp: float, base_lift: float, col: Co
 		pts.append(Vector2(sx, hy - (base_lift + h * amp + amp * 0.6) * zoom))
 	pts.append(Vector2(float(n) * step, hy + 60.0 * zoom))
 	pts.append(Vector2(-step, hy + 60.0 * zoom))
-	draw_colored_polygon(pts, col)
+	Dr.poly(self, pts, col)
 
 
 func _hash(n: float) -> float:
@@ -305,8 +305,8 @@ func _features(kind: String, b: Dictionary, night: float) -> void:
 				var sx: float = (wx - lx) * zoom + vis.x * 0.5
 				var h: float = (90.0 + _hash(float(i) + 9.0) * 90.0) * zoom
 				var col: Color = Color("#0e2620") if not snow else Color("#8fa8bd").lerp(Color("#1e2d41"), night * 0.8)
-				draw_colored_polygon(PackedVector2Array([Vector2(sx - 32 * zoom, hy), Vector2(sx, hy - h), Vector2(sx + 32 * zoom, hy)]), col)
-				draw_colored_polygon(PackedVector2Array([Vector2(sx - 26 * zoom, hy - h * 0.35), Vector2(sx, hy - h * 1.15), Vector2(sx + 26 * zoom, hy - h * 0.35)]), col)
+				Dr.poly(self, PackedVector2Array([Vector2(sx - 32 * zoom, hy), Vector2(sx, hy - h), Vector2(sx + 32 * zoom, hy)]), col)
+				Dr.poly(self, PackedVector2Array([Vector2(sx - 26 * zoom, hy - h * 0.35), Vector2(sx, hy - h * 1.15), Vector2(sx + 26 * zoom, hy - h * 0.35)]), col)
 		"poles":
 			var tile2: float = 520.0
 			var lx2: float = _layer_x(0.8, 1.0)

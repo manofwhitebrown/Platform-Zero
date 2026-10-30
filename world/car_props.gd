@@ -84,7 +84,7 @@ func _span(a: float, b: float, y0: float, y1: float) -> Rect2:
 
 
 func _floor_shadow(cx: float, half_w: float) -> void:
-	draw_colored_polygon(PackedVector2Array([Vector2(cx - half_w, FLOOR - 6), Vector2(cx + half_w, FLOOR - 6), Vector2(cx + half_w + 10, FLOOR + 6), Vector2(cx - half_w - 10, FLOOR + 6)]), Color(0, 0, 0, 0.3))
+	Dr.poly(self, PackedVector2Array([Vector2(cx - half_w, FLOOR - 6), Vector2(cx + half_w, FLOOR - 6), Vector2(cx + half_w + 10, FLOOR + 6), Vector2(cx - half_w - 10, FLOOR + 6)]), Color(0, 0, 0, 0.3))
 
 
 func _seat(cx: float, o: int, n: int) -> void:
@@ -159,7 +159,7 @@ func _seat_sleep(cx: float, o: int, n: int) -> void:
 	for k in range(3):
 		draw_line(Vector2(cx - 62.0 + (0.0 if o > 0 else 62.0) + 10.0 + k * 18.0, SEAT_TOP), Vector2(cx - 62.0 + (0.0 if o > 0 else 62.0) + 10.0 + k * 18.0, SEAT_TOP + 14.0), Color(1, 1, 1, 0.16), 3.0)
 	var px: float = cx - 40.0 * o
-	draw_colored_polygon(PackedVector2Array([Vector2(px - 24.0, SEAT_TOP - 6.0), Vector2(px + 24.0, SEAT_TOP - 6.0), Vector2(px + 20.0, SEAT_TOP - 26.0), Vector2(px - 20.0, SEAT_TOP - 26.0)]), Color("#efe6d2"))
+	Dr.poly(self, PackedVector2Array([Vector2(px - 24.0, SEAT_TOP - 6.0), Vector2(px + 24.0, SEAT_TOP - 6.0), Vector2(px + 20.0, SEAT_TOP - 26.0), Vector2(px - 20.0, SEAT_TOP - 26.0)]), Color("#efe6d2"))
 	# upper bunk: slab + mattress + brass rail
 	draw_rect(Rect2(cx - 62.0, 640.0, 124.0, 22.0), wood)
 	draw_rect(Rect2(cx - 62.0, 640.0, 124.0, 4.0), Color(1, 1, 1, 0.12))
@@ -170,7 +170,7 @@ func _seat_sleep(cx: float, o: int, n: int) -> void:
 	# reading lamp over the head
 	var lx: float = cx - 34.0 * o
 	draw_line(Vector2(lx, 666.0), Vector2(lx, 690.0), Pal.BRASS, 3.0)
-	draw_colored_polygon(PackedVector2Array([Vector2(lx - 12.0, 704.0), Vector2(lx + 12.0, 704.0), Vector2(lx + 6.0, 688.0), Vector2(lx - 6.0, 688.0)]), Pal.BRASS)
+	Dr.poly(self, PackedVector2Array([Vector2(lx - 12.0, 704.0), Vector2(lx + 12.0, 704.0), Vector2(lx + 6.0, 688.0), Vector2(lx - 6.0, 688.0)]), Pal.BRASS)
 	draw_rect(Rect2(lx - 8.0, 703.0, 16.0, 4.0), Color(1.0, 0.9, 0.55, 0.9))
 
 
@@ -184,7 +184,7 @@ func _bunk_curtains() -> void:
 		var top: float = 560.0
 		draw_rect(Rect2(x - 14.0, top - 4.0, 28.0, 6.0), Pal.BRASS)
 		var pts := PackedVector2Array([Vector2(x - 14.0, top), Vector2(x + 14.0, top), Vector2(x + 6.0, 700.0), Vector2(x + 16.0, 760.0), Vector2(x + 16.0, 876.0), Vector2(x - 16.0, 876.0), Vector2(x - 16.0, 760.0), Vector2(x - 6.0, 700.0)])
-		draw_colored_polygon(pts, col)
+		Dr.poly(self, pts, col)
 		for f in range(-2, 3):
 			draw_line(Vector2(x + f * 6.0, top + 6.0), Vector2(x + f * 7.0, 874.0), Color(0, 0, 0, 0.22), 2.0)
 		draw_rect(Rect2(x - 18.0, 722.0, 36.0, 8.0), Pal.BRASS)   # tie-back band
@@ -252,13 +252,13 @@ func _table(mx: float, k: int) -> void:
 	# cloth top + short drop with a red stripe
 	_rr(Rect2(mx - 52.0, 768.0, 104.0, 12.0), 4.0, cloth)
 	var drop := PackedVector2Array([Vector2(mx - 50.0, 779.0), Vector2(mx + 50.0, 779.0), Vector2(mx + 44.0, 806.0), Vector2(mx - 44.0, 806.0)])
-	draw_colored_polygon(drop, Dr.shade(cloth, 0.9))
+	Dr.poly(self, drop, Dr.shade(cloth, 0.9))
 	draw_rect(Rect2(mx - 48.0, 782.0, 96.0, 4.0), Color("#b8483a"))
 	for q in range(-3, 4):
 		draw_line(Vector2(mx + q * 14.0, 786.0), Vector2(mx + q * 12.0, 806.0), Color(0, 0, 0, 0.12), 2.0)
 	# small brass lamp with a glowing shade + cup + plate
 	draw_rect(Rect2(mx - 3.0, 744.0, 6.0, 24.0), Pal.BRASS)
-	draw_colored_polygon(PackedVector2Array([Vector2(mx - 16.0, 746.0), Vector2(mx + 16.0, 746.0), Vector2(mx + 8.0, 722.0), Vector2(mx - 8.0, 722.0)]), Color(1.0, 0.78, 0.4))
+	Dr.poly(self, PackedVector2Array([Vector2(mx - 16.0, 746.0), Vector2(mx + 16.0, 746.0), Vector2(mx + 8.0, 722.0), Vector2(mx - 8.0, 722.0)]), Color(1.0, 0.78, 0.4))
 	draw_rect(Rect2(mx - 16.0, 745.0, 32.0, 3.0), Pal.BRASS)
 	if k % 2 == 1:
 		draw_rect(Rect2(mx - 40.0, 758.0, 14.0, 10.0), Color("#e8e2d4"))
@@ -287,7 +287,7 @@ func _spot_sill(x: float) -> void:
 	draw_rect(Rect2(x - 70.0, 474.0, 140.0, 12.0), Color("#6a4a2a"))
 	draw_rect(Rect2(x - 70.0, 474.0, 140.0, 3.0), Color(1, 0.9, 0.6, 0.5))
 	draw_rect(Rect2(x - 74.0, 486.0, 148.0, 4.0), Pal.BRASS)
-	draw_colored_polygon(PackedVector2Array([Vector2(x - 60.0, 490.0), Vector2(x + 60.0, 490.0), Vector2(x + 48.0, 506.0), Vector2(x - 48.0, 506.0)]), Color(0, 0, 0, 0.25))
+	Dr.poly(self, PackedVector2Array([Vector2(x - 60.0, 490.0), Vector2(x + 60.0, 490.0), Vector2(x + 48.0, 506.0), Vector2(x - 48.0, 506.0)]), Color(0, 0, 0, 0.25))
 
 
 func _spot_curtain(x: float, i: int) -> void:
@@ -296,7 +296,7 @@ func _spot_curtain(x: float, i: int) -> void:
 	draw_rect(Rect2(x - 86.0, 126.0, 172.0, 7.0), Pal.BRASS)
 	for side in [-1.0, 1.0]:
 		var ax: float = x + side * 74.0
-		draw_colored_polygon(PackedVector2Array([Vector2(ax - 16.0, 134.0), Vector2(ax + 16.0, 134.0), Vector2(ax + (10.0 if side > 0.0 else 8.0), 400.0), Vector2(ax + 22.0, 474.0), Vector2(ax - 22.0, 474.0), Vector2(ax - (8.0 if side > 0.0 else 10.0), 400.0)]), col)
+		Dr.poly(self, PackedVector2Array([Vector2(ax - 16.0, 134.0), Vector2(ax + 16.0, 134.0), Vector2(ax + (10.0 if side > 0.0 else 8.0), 400.0), Vector2(ax + 22.0, 474.0), Vector2(ax - 22.0, 474.0), Vector2(ax - (8.0 if side > 0.0 else 10.0), 400.0)]), col)
 		for f in range(-2, 3):
 			draw_line(Vector2(ax + f * 6.0, 140.0), Vector2(ax + f * 8.0, 470.0), Color(0, 0, 0, 0.22), 2.0)
 		draw_rect(Rect2(ax - 14.0, 392.0, 28.0, 8.0), Pal.BRASS)
@@ -315,7 +315,7 @@ func _spot_shelf(x: float) -> void:
 func _spot_bin(x: float) -> void:
 	# wicker bin (item at y~838)
 	var w: Color = Color("#8a6a3a")
-	draw_colored_polygon(PackedVector2Array([Vector2(x - 34.0, 826.0), Vector2(x + 34.0, 826.0), Vector2(x + 28.0, 874.0), Vector2(x - 28.0, 874.0)]), w)
+	Dr.poly(self, PackedVector2Array([Vector2(x - 34.0, 826.0), Vector2(x + 34.0, 826.0), Vector2(x + 28.0, 874.0), Vector2(x - 28.0, 874.0)]), w)
 	for k in range(5):
 		draw_line(Vector2(x - 32.0 + k * 3.0, 832.0 + k * 9.0), Vector2(x + 32.0 - k * 3.0, 832.0 + k * 9.0), Color(0, 0, 0, 0.28), 2.0)
 	draw_rect(Rect2(x - 36.0, 822.0, 72.0, 6.0), Dr.shade(w, 0.7))

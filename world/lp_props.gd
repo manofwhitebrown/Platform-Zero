@@ -103,7 +103,7 @@ func _bench(rc: Rect2) -> void:
 	var lp: Vector2 = Vector2(rc.position.x + 40, rc.position.y)
 	draw_line(lp, lp + Vector2(0, -50), Pal.BRASS, 5.0)
 	draw_line(lp + Vector2(0, -50), lp + Vector2(36, -96), Pal.BRASS, 5.0)
-	draw_colored_polygon(PackedVector2Array([lp + Vector2(18, -112), lp + Vector2(66, -92), lp + Vector2(50, -76), lp + Vector2(10, -96)]), Color("#2f6a55"))
+	Dr.poly(self, PackedVector2Array([lp + Vector2(18, -112), lp + Vector2(66, -92), lp + Vector2(50, -76), lp + Vector2(10, -96)]), Color("#2f6a55"))
 	draw_circle(lp + Vector2(40, -80), 7.0, Color(1, 0.88, 0.5))
 	draw_rect(Rect2(lp.x - 14, lp.y - 6, 28, 8), Dr.shade(Pal.BRASS, 0.8))
 	# jar of pencils + parcel
@@ -144,7 +144,7 @@ func _tool_brush(p: Vector2) -> void:
 func _bin(base: Vector2) -> void:
 	# wicker basket centred on base.x, bottom at base.y
 	var pts := PackedVector2Array([base + Vector2(-46, -92), base + Vector2(46, -92), base + Vector2(36, 0), base + Vector2(-36, 0)])
-	draw_colored_polygon(pts, Color("#9a6f3c"))
+	Dr.poly(self, pts, Color("#9a6f3c"))
 	for i in range(6):
 		var y: float = base.y - 92 + i * 15
 		draw_line(Vector2(base.x - 46 + i * 1.6, y), Vector2(base.x + 46 - i * 1.6, y), Color(0.3, 0.18, 0.06, 0.55), 2.0)
@@ -152,7 +152,7 @@ func _bin(base: Vector2) -> void:
 		draw_line(Vector2(base.x + i * 14, base.y - 92), Vector2(base.x + i * 11, base.y), Color(1, 0.85, 0.5, 0.15), 2.0)
 	draw_rect(Rect2(base.x - 50, base.y - 98, 100, 8), Color("#b98a50"))
 	# peeking lost things (scarf + umbrella tip)
-	draw_colored_polygon(PackedVector2Array([base + Vector2(-30, -98), base + Vector2(-8, -128), base + Vector2(14, -98)]), Pal.SIGNAL)
+	Dr.poly(self, PackedVector2Array([base + Vector2(-30, -98), base + Vector2(-8, -128), base + Vector2(14, -98)]), Pal.SIGNAL)
 	draw_line(base + Vector2(26, -98), base + Vector2(40, -150), Color("#223a4a"), 5.0)
 	var sign_r := Rect2(base.x - 34, base.y - 74, 68, 32)
 	draw_rect(sign_r, Pal.PARCHMENT)
@@ -177,12 +177,12 @@ func _counter(rc: Rect2) -> void:
 	# service bell
 	var bp: Vector2 = Vector2(rc.end.x - 50, rc.position.y)
 	draw_arc(bp, 20.0, PI, TAU, 16, Pal.BRASS, 6.0)
-	draw_colored_polygon(_half_disc(bp, 20.0), Pal.BRASS)
+	Dr.poly(self, _half_disc(bp, 20.0), Pal.BRASS)
 	draw_rect(Rect2(bp.x - 24, bp.y - 4, 48, 5), Dr.shade(Pal.BRASS, 0.8))
 	draw_circle(bp + Vector2(0, -22), 4.0, Pal.BRASS)
 	# open ledger
 	var lg := Rect2(rc.position.x + 24, rc.position.y - 14, 84, 14)
-	draw_colored_polygon(PackedVector2Array([lg.position + Vector2(0, 0), lg.position + Vector2(42, -6), lg.position + Vector2(84, 0), lg.position + Vector2(84, 14), lg.position + Vector2(0, 14)]), Pal.PARCHMENT)
+	Dr.poly(self, PackedVector2Array([lg.position + Vector2(0, 0), lg.position + Vector2(42, -6), lg.position + Vector2(84, 0), lg.position + Vector2(84, 14), lg.position + Vector2(0, 14)]), Pal.PARCHMENT)
 	draw_line(lg.position + Vector2(42, -6), lg.position + Vector2(42, 14), Color(0, 0, 0, 0.35), 2.0)
 	for i in range(3):
 		draw_line(lg.position + Vector2(8, 3 + i * 3), lg.position + Vector2(36, 3 + i * 3), Color(0, 0, 0, 0.18), 1.0)
@@ -270,8 +270,8 @@ func _draw_hanging_lamp(ci: CanvasItem) -> void:
 	ci.draw_line(Vector2.ZERO, Vector2(0, 110), Pal.BRASS, 4.0)
 	ci.draw_circle(Vector2.ZERO, 8.0, Pal.BRASS)
 	var top := Vector2(0, 110)
-	ci.draw_colored_polygon(PackedVector2Array([top + Vector2(-16, 0), top + Vector2(16, 0), top + Vector2(46, 56), top + Vector2(-46, 56)]), Color("#2f6a55"))
-	ci.draw_colored_polygon(PackedVector2Array([top + Vector2(-8, 6), top + Vector2(8, 6), top + Vector2(24, 50), top + Vector2(-24, 50)]), Color(1, 0.9, 0.55, 0.55))
+	Dr.poly(ci, PackedVector2Array([top + Vector2(-16, 0), top + Vector2(16, 0), top + Vector2(46, 56), top + Vector2(-46, 56)]), Color("#2f6a55"))
+	Dr.poly(ci, PackedVector2Array([top + Vector2(-8, 6), top + Vector2(8, 6), top + Vector2(24, 50), top + Vector2(-24, 50)]), Color(1, 0.9, 0.55, 0.55))
 	ci.draw_rect(Rect2(top.x - 48, top.y + 54, 96, 6), Pal.BRASS)
 	ci.draw_circle(top + Vector2(0, 66), 15.0, Color(1, 0.92, 0.6))
 	ci.draw_circle(top + Vector2(0, 66), 26.0, Color(1, 0.85, 0.4, 0.25))

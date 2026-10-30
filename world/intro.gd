@@ -65,7 +65,7 @@ static func draw_train(ci: CanvasItem, origin: Vector2, car_w: float, t: float, 
 	ci.draw_rect(Rect2(lx, origin.y - lh - 14.0, car_w * 0.7, lh), Color("#0a1a21"))
 	ci.draw_rect(Rect2(lx + car_w * 0.45, origin.y - lh - 34.0, car_w * 0.2, 24.0), Color("#0a1a21"))
 	ci.draw_circle(Vector2(lx + car_w * 0.7, origin.y - lh * 0.5 - 14.0), h * 0.07, Color(1.0, 0.88, 0.5, 0.95))
-	ci.draw_colored_polygon(PackedVector2Array([Vector2(lx + car_w * 0.7, origin.y - lh * 0.5 - 14.0 - 14.0), Vector2(lx + car_w * 2.2, origin.y - lh * 0.5 - 90.0), Vector2(lx + car_w * 2.2, origin.y - lh * 0.5 + 60.0), Vector2(lx + car_w * 0.7, origin.y - lh * 0.5 + 0.0)]), Color(1.0, 0.88, 0.5, 0.07))
+	Dr.poly(ci, PackedVector2Array([Vector2(lx + car_w * 0.7, origin.y - lh * 0.5 - 14.0 - 14.0), Vector2(lx + car_w * 2.2, origin.y - lh * 0.5 - 90.0), Vector2(lx + car_w * 2.2, origin.y - lh * 0.5 + 60.0), Vector2(lx + car_w * 0.7, origin.y - lh * 0.5 + 0.0)]), Color(1.0, 0.88, 0.5, 0.07))
 
 
 func _draw() -> void:
@@ -86,7 +86,7 @@ func _draw() -> void:
 		var x: float = s.x * float(i) / 40.0
 		pts.append(Vector2(x, hy - 40.0 * sin(float(i) * 0.5) - 26.0 * sin(float(i) * 1.3 + 1.0)))
 	pts.append(Vector2(s.x, s.y))
-	draw_colored_polygon(pts, Color("#0e2c34"))
+	Dr.poly(self, pts, Color("#0e2c34"))
 	# platform + rail
 	var rail_y: float = s.y * (0.74 if port else 0.76)
 	draw_rect(Rect2(0, rail_y, s.x, s.y - rail_y), Color("#06141a"))

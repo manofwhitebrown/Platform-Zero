@@ -225,7 +225,7 @@ func _chip(p: Vector2, text: String, strong: bool) -> void:
 	draw_rect(r, Color(0, 0, 0, 0.0), false)
 	draw_string(f, Vector2(r.position.x + 18, r.position.y + 33), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 26, Pal.INK)
 	# tail
-	draw_colored_polygon(PackedVector2Array([p + Vector2(-9, 24), p + Vector2(9, 24), p + Vector2(0, 38)]), Pal.PARCHMENT if strong else Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.8))
+	Dr.poly(self, PackedVector2Array([p + Vector2(-9, 24), p + Vector2(9, 24), p + Vector2(0, 38)]), Pal.PARCHMENT if strong else Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.8))
 
 
 func _draw() -> void:

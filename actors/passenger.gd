@@ -440,7 +440,7 @@ func _torso(hip: Vector2, sh: Vector2, lean: float, coat: Color, bw: float) -> v
 	var cols := PackedColorArray([Dr.shade(coat, 0.7), Dr.shade(coat, 0.8), Dr.shade(coat, 1.1), Dr.shade(coat, 1.0)])
 	draw_polygon(pts, cols)
 	# coat flare below the belt
-	draw_colored_polygon(PackedVector2Array([hip - perp * (half_b + 4) + Vector2(0, 8), hip + perp * (half_b + 4) + Vector2(0, 8), hip + perp * (half_b + 12) + Vector2(2, 56), hip - perp * (half_b + 12) + Vector2(-2, 56)]), Dr.shade(coat, 0.82))
+	Dr.poly(self, PackedVector2Array([hip - perp * (half_b + 4) + Vector2(0, 8), hip + perp * (half_b + 4) + Vector2(0, 8), hip + perp * (half_b + 12) + Vector2(2, 56), hip - perp * (half_b + 12) + Vector2(-2, 56)]), Dr.shade(coat, 0.82))
 	# belt + buttons + rim light
 	draw_line(hip - perp * half_b + Vector2(0, 8), hip + perp * half_b + Vector2(0, 8), Color("#2a1d12"), 7.0)
 	draw_rect(Rect2(hip.x - 6, hip.y + 3, 12, 10), Pal.BRASS)
@@ -454,19 +454,19 @@ func _torso(hip: Vector2, sh: Vector2, lean: float, coat: Color, bw: float) -> v
 				var sp: Vector2 = hip.lerp(sh, 0.18 + si * 0.2)
 				draw_line(sp - perp * half_b * 0.9, sp + perp * half_b * 0.9, Color(1, 1, 1, 0.16), 4.0)
 		"vest":
-			draw_colored_polygon(PackedVector2Array([hip.lerp(sh, 0.12) - perp * half_b * 0.5, hip.lerp(sh, 0.12) + perp * half_b * 0.5, sh + perp * half_t * 0.5, sh - perp * half_t * 0.5]), Color(0, 0, 0, 0.22))
+			Dr.poly(self, PackedVector2Array([hip.lerp(sh, 0.12) - perp * half_b * 0.5, hip.lerp(sh, 0.12) + perp * half_b * 0.5, sh + perp * half_t * 0.5, sh - perp * half_t * 0.5]), Color(0, 0, 0, 0.22))
 		"patch":
 			var pp: Vector2 = hip.lerp(sh, 0.45) + perp * half_b * 0.35
 			draw_rect(Rect2(pp.x - 8, pp.y - 8, 16, 16), Pal.PARCHMENT.darkened(0.1))
 			draw_rect(Rect2(pp.x - 8, pp.y - 8, 16, 16), Color(0, 0, 0, 0.3), false, 1.5)
 	var ex: String = String(look.get("extra", "none"))
 	if ex == "bowtie":
-		draw_colored_polygon(PackedVector2Array([sh + Vector2(-14, 8), sh + Vector2(0, 14), sh + Vector2(-14, 22)]), Pal.SIGNAL)
-		draw_colored_polygon(PackedVector2Array([sh + Vector2(14, 8), sh + Vector2(0, 14), sh + Vector2(14, 22)]), Pal.SIGNAL)
+		Dr.poly(self, PackedVector2Array([sh + Vector2(-14, 8), sh + Vector2(0, 14), sh + Vector2(-14, 22)]), Pal.SIGNAL)
+		Dr.poly(self, PackedVector2Array([sh + Vector2(14, 8), sh + Vector2(0, 14), sh + Vector2(14, 22)]), Pal.SIGNAL)
 	elif ex == "badge":
 		draw_circle(hip.lerp(sh, 0.7) + perp * half_t * 0.5, 6.0, Pal.BRASS)
 	# collar
-	draw_colored_polygon(PackedVector2Array([sh - perp * 18, sh + perp * 18, sh + Vector2(0, 16)]), Dr.shade(coat, 1.2))
+	Dr.poly(self, PackedVector2Array([sh - perp * 18, sh + perp * 18, sh + Vector2(0, 16)]), Dr.shade(coat, 1.2))
 	if String(look.get("hat", "")) == "scarf" or String(look.get("accessory", "")) == "scarfneck":
 		pass
 
@@ -489,7 +489,7 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 	draw_circle(c + Vector2(6, 8), 36.0, Dr.shade(skin, 1.05))
 	draw_circle(c + Vector2(20, 14), 7.0, Color(0.9, 0.4, 0.4, 0.28 if mood != "shy" else 0.6))
 	# nose
-	draw_colored_polygon(PackedVector2Array([c + Vector2(34, 0), c + Vector2(48, 14), c + Vector2(32, 16)]), Dr.shade(skin, 0.94))
+	Dr.poly(self, PackedVector2Array([c + Vector2(34, 0), c + Vector2(48, 14), c + Vector2(32, 16)]), Dr.shade(skin, 0.94))
 	# eyes
 	var blink: bool = _blink > 0.0 or (anim == "peek" and _hid > 0.5)
 	var ey: Vector2 = c + Vector2(18, -6)
@@ -534,7 +534,7 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 		draw_line(m + Vector2(-12, -6), m + Vector2(-8, 8), Dr.shade(skin, 0.82), 2.0)
 	var fac: String = String(look.get("facial", "none"))
 	if fac == "mustache":
-		draw_colored_polygon(PackedVector2Array([m + Vector2(-14, -10), m + Vector2(18, -10), m + Vector2(26, -2), m + Vector2(4, -4), m + Vector2(-12, 0)]), Dr.shade(hair, 0.9))
+		Dr.poly(self, PackedVector2Array([m + Vector2(-14, -10), m + Vector2(18, -10), m + Vector2(26, -2), m + Vector2(4, -4), m + Vector2(-12, 0)]), Dr.shade(hair, 0.9))
 	elif fac == "stubble":
 		draw_arc(c + Vector2(4, 14), 30.0, 0.2, PI - 0.2, 14, Color(hair.r, hair.g, hair.b, 0.35), 8.0)
 	if String(look.get("extra", "none")) == "earring":
@@ -542,7 +542,7 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 	# accessories
 	var acc: String = String(look.get("accessory", "none"))
 	if acc == "beard":
-		draw_colored_polygon(PackedVector2Array([c + Vector2(-24, 14), c + Vector2(34, 18), c + Vector2(30, 50), c + Vector2(0, 62), c + Vector2(-22, 44)]), Dr.shade(hair, 0.9))
+		Dr.poly(self, PackedVector2Array([c + Vector2(-24, 14), c + Vector2(34, 18), c + Vector2(30, 50), c + Vector2(0, 62), c + Vector2(-22, 44)]), Dr.shade(hair, 0.9))
 		draw_arc(m + Vector2(0, -2), 8.0, 0.3, PI - 0.3, 8, Color("#4a1a1a"), 2.0)
 	elif acc == "glasses":
 		draw_arc(ey, 12.0, 0, TAU, 20, Color("#2a2018"), 3.0)
@@ -556,11 +556,11 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 	# front hair
 	match style:
 		"short":
-			draw_colored_polygon(PackedVector2Array([c + Vector2(-40, -4), c + Vector2(-30, -38), c + Vector2(10, -46), c + Vector2(38, -26), c + Vector2(30, -14), c + Vector2(0, -22), c + Vector2(-26, -6)]), hair)
+			Dr.poly(self, PackedVector2Array([c + Vector2(-40, -4), c + Vector2(-30, -38), c + Vector2(10, -46), c + Vector2(38, -26), c + Vector2(30, -14), c + Vector2(0, -22), c + Vector2(-26, -6)]), hair)
 		"long", "bob":
-			draw_colored_polygon(PackedVector2Array([c + Vector2(-40, 6), c + Vector2(-34, -38), c + Vector2(8, -48), c + Vector2(38, -24), c + Vector2(26, -18), c + Vector2(-6, -26), c + Vector2(-24, -4)]), hair)
+			Dr.poly(self, PackedVector2Array([c + Vector2(-40, 6), c + Vector2(-34, -38), c + Vector2(8, -48), c + Vector2(38, -24), c + Vector2(26, -18), c + Vector2(-6, -26), c + Vector2(-24, -4)]), hair)
 		"bun":
-			draw_colored_polygon(PackedVector2Array([c + Vector2(-38, 0), c + Vector2(-30, -38), c + Vector2(10, -46), c + Vector2(36, -24), c + Vector2(22, -16), c + Vector2(-10, -24), c + Vector2(-26, -6)]), hair)
+			Dr.poly(self, PackedVector2Array([c + Vector2(-38, 0), c + Vector2(-30, -38), c + Vector2(10, -46), c + Vector2(36, -24), c + Vector2(22, -16), c + Vector2(-10, -24), c + Vector2(-26, -6)]), hair)
 		"curly":
 			for i in range(7):
 				var a: float = PI + float(i) * PI / 6.0
@@ -570,7 +570,7 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 	# hats
 	match hat:
 		"cap":
-			draw_colored_polygon(_dome(c + Vector2(0, -14), 42.0, 30.0), Color("#3a4a50"))
+			Dr.poly(self, _dome(c + Vector2(0, -14), 42.0, 30.0), Color("#3a4a50"))
 			draw_rect(Rect2(c.x + 16, c.y - 18, 40, 8), Color("#2a3438"))
 			draw_circle(c + Vector2(4, -34), 4.0, Pal.BRASS)
 			if (look.get("cosmetics", []) as Array).has("brass_cap"):
@@ -582,7 +582,7 @@ func _head(c: Vector2, skin: Color, bw: float) -> void:
 			draw_rect(Rect2(c.x - 30, c.y - 46, 62, 12), Pal.SIGNAL)
 			draw_line(c + Vector2(-20, -96), c + Vector2(-20, -34), Color(1, 1, 1, 0.12), 3.0)
 		"scarf":
-			draw_colored_polygon(_dome(c + Vector2(-2, -8), 44.0, 38.0), Pal.SIGNAL.lerp(_c("coat"), 0.5))
+			Dr.poly(self, _dome(c + Vector2(-2, -8), 44.0, 38.0), Pal.SIGNAL.lerp(_c("coat"), 0.5))
 			draw_circle(c + Vector2(-34, 12), 12.0, Pal.SIGNAL.lerp(_c("coat"), 0.5))
 			draw_line(c + Vector2(-30, 14), c + Vector2(-38, 50), Pal.SIGNAL.lerp(_c("coat"), 0.5), 12.0)
 			for i in range(4):
@@ -611,7 +611,7 @@ func _draw_emote(head_c: Vector2) -> void:
 		"sweat":
 			var ph2: float = fmod(t * 1.2, 1.0)
 			var p: Vector2 = head_c + Vector2(30, -26 + ph2 * 40)
-			draw_colored_polygon(PackedVector2Array([p + Vector2(0, -12), p + Vector2(8, 4), p + Vector2(-8, 4)]), Color(0.6, 0.85, 1.0, 1.0 - ph2 * 0.6))
+			Dr.poly(self, PackedVector2Array([p + Vector2(0, -12), p + Vector2(8, 4), p + Vector2(-8, 4)]), Color(0.6, 0.85, 1.0, 1.0 - ph2 * 0.6))
 		"steam":
 			for i in range(3):
 				var ph3: float = fmod(t * 1.1 + float(i) * 0.33, 1.0)
@@ -638,13 +638,13 @@ func _draw_held() -> void:
 	match held:
 		"book":
 			var flip: float = fmod(_t, 7.0)
-			draw_colored_polygon(PackedVector2Array([h + Vector2(-4, -26), h + Vector2(30, -22), h + Vector2(30, 6), h + Vector2(-4, 4)]), Color("#e9dfc8"))
-			draw_colored_polygon(PackedVector2Array([h + Vector2(-8, -24), h + Vector2(-4, -26), h + Vector2(-4, 4), h + Vector2(-8, 6)]), Color("#7a3a32"))
+			Dr.poly(self, PackedVector2Array([h + Vector2(-4, -26), h + Vector2(30, -22), h + Vector2(30, 6), h + Vector2(-4, 4)]), Color("#e9dfc8"))
+			Dr.poly(self, PackedVector2Array([h + Vector2(-8, -24), h + Vector2(-4, -26), h + Vector2(-4, 4), h + Vector2(-8, 6)]), Color("#7a3a32"))
 			for i in range(3):
 				draw_line(h + Vector2(2, -18 + i * 7), h + Vector2(24, -16 + i * 7), Color(0, 0, 0, 0.3), 2.0)
 			if flip < 0.5:   # page turn
 				var w: float = sin(flip / 0.5 * PI) * 22.0
-				draw_colored_polygon(PackedVector2Array([h + Vector2(13, -24), h + Vector2(13 + w, -28), h + Vector2(13 + w, 2), h + Vector2(13, 5)]), Color("#f6efdc"))
+				Dr.poly(self, PackedVector2Array([h + Vector2(13, -24), h + Vector2(13 + w, -28), h + Vector2(13 + w, 2), h + Vector2(13, 5)]), Color("#f6efdc"))
 		"cup":
 			draw_rect(Rect2(h.x - 2, h.y - 22, 20, 18), Color("#efe6d2"))
 			draw_rect(Rect2(h.x - 2, h.y - 22, 20, 4), Color("#6a3a2a"))

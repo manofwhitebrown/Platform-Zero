@@ -391,8 +391,8 @@ func _mood_glyph(ci: CanvasItem, c: Vector2, mood: String, fade: float) -> void:
 	ci.draw_circle(c, 17.0, Color(Pal.BRASS.r, Pal.BRASS.g, Pal.BRASS.b, 0.35 * fade))
 	match mood:
 		"hurried":
-			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-9, -9), c + Vector2(0, 0), c + Vector2(-9, 9)]), col)
-			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(1, -9), c + Vector2(10, 0), c + Vector2(1, 9)]), col)
+			Dr.poly(ci, PackedVector2Array([c + Vector2(-9, -9), c + Vector2(0, 0), c + Vector2(-9, 9)]), col)
+			Dr.poly(ci, PackedVector2Array([c + Vector2(1, -9), c + Vector2(10, 0), c + Vector2(1, 9)]), col)
 		"worried":
 			ci.draw_polyline(PackedVector2Array([c + Vector2(-10, 2), c + Vector2(-5, -4), c + Vector2(0, 2), c + Vector2(5, -4), c + Vector2(10, 2)]), col, 3.0)
 		"grumpy":
@@ -443,7 +443,7 @@ func _draw_bubble(ci: CanvasItem, pid: String, b: Dictionary) -> void:
 	# tail towards the speaker
 	var tx: float = clampf(a.position.x, rect.position.x + 40.0, rect.end.x - 40.0)
 	var tail := PackedVector2Array([Vector2(tx - 16, rect.end.y - 2), Vector2(tx + 16, rect.end.y - 2), Vector2(a.position.x, head_y - 8.0)])
-	ci.draw_colored_polygon(tail, Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.97 * fade))
+	Dr.poly(ci, tail, Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.97 * fade))
 	var y: float = rect.position.y + 16.0
 	if Settings.get_bool("colorblind", false):
 		_mood_glyph(ci, Vector2(rect.end.x - 26.0, rect.position.y + 26.0), String(a.mood), fade)

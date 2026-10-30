@@ -2,12 +2,34 @@ class_name Dr
 extends RefCounted
 ## Small drawing helpers. Call from inside a CanvasItem's _draw, passing `self`.
 
+## Safe polygon: skips degenerate shapes (zero area / <3 pts / NaN) that make Godot log
+## "Invalid polygon data, triangulation failed".
+static func poly(ci: CanvasItem, pts: PackedVector2Array, col: Color) -> void:
+	var n: int = pts.size()
+	if n < 3:
+		return
+	var a: float = 0.0
+	for i in range(n):
+		var p: Vector2 = pts[i]
+		var q: Vector2 = pts[(i + 1) % n]
+		if is_nan(p.x) or is_nan(p.y) or is_inf(p.x) or is_inf(p.y):
+			return
+		a += p.x * q.y - q.x * p.y
+	if absf(a) < 1.0:
+		return
+	ci.draw_colored_polygon(pts, col)
+
+
 static func vgrad(ci: CanvasItem, r: Rect2, top: Color, bot: Color) -> void:
+	if r.size.x < 0.5 or r.size.y < 0.5:
+		return
 	var pts := PackedVector2Array([r.position, Vector2(r.end.x, r.position.y), r.end, Vector2(r.position.x, r.end.y)])
 	ci.draw_polygon(pts, PackedColorArray([top, top, bot, bot]))
 
 
 static func hgrad(ci: CanvasItem, r: Rect2, left: Color, right: Color) -> void:
+	if r.size.x < 0.5 or r.size.y < 0.5:
+		return
 	var pts := PackedVector2Array([r.position, Vector2(r.end.x, r.position.y), r.end, Vector2(r.position.x, r.end.y)])
 	ci.draw_polygon(pts, PackedColorArray([left, right, right, left]))
 

@@ -67,7 +67,7 @@ func _draw() -> void:
 
 	# --- curved roof, vents (above the cabin)
 	var roof := PackedVector2Array([Vector2(-4, Y_ROOF + 2), Vector2(W + 4, Y_ROOF + 2), Vector2(W - 40, Y_ROOF - 26), Vector2(W * 0.5, Y_ROOF - 46), Vector2(40, Y_ROOF - 26)])
-	draw_colored_polygon(roof, Color("#0f2630"))
+	Dr.poly(self, roof, Color("#0f2630"))
 	draw_line(Vector2(40, Y_ROOF - 26), Vector2(W * 0.5, Y_ROOF - 46), Color(1, 1, 1, 0.12), 3.0)
 	draw_line(Vector2(W * 0.5, Y_ROOF - 46), Vector2(W - 40, Y_ROOF - 26), Color(1, 1, 1, 0.06), 3.0)
 	for vx in [420.0, 900.0, 1380.0]:
@@ -114,7 +114,7 @@ func _draw() -> void:
 		var refl := PackedVector2Array([
 			rc.position + Vector2(rc.size.x * 0.12, 0), rc.position + Vector2(rc.size.x * 0.34, 0),
 			Vector2(rc.position.x + rc.size.x * 0.12, rc.end.y), Vector2(rc.position.x - rc.size.x * 0.10, rc.end.y)])
-		draw_colored_polygon(refl, Color(1, 1, 1, 0.045))
+		Dr.poly(self, refl, Color(1, 1, 1, 0.045))
 		# drop shadow from top frame
 		Dr.vgrad(self, Rect2(rc.position.x, rc.position.y, rc.size.x, 26), Color(0, 0, 0, 0.35), Color(0, 0, 0, 0))
 
@@ -147,7 +147,7 @@ func _draw() -> void:
 	for i in range(0, int(run.size.x), 48):
 		var cx: float = run.position.x + 24.0 + i
 		var cy: float = run.position.y + run.size.y * 0.5
-		draw_colored_polygon(PackedVector2Array([Vector2(cx, cy - 14), Vector2(cx + 16, cy), Vector2(cx, cy + 14), Vector2(cx - 16, cy)]), Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.28))
+		Dr.poly(self, PackedVector2Array([Vector2(cx, cy - 14), Vector2(cx + 16, cy), Vector2(cx, cy + 14), Vector2(cx - 16, cy)]), Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.28))
 	Dr.vgrad(self, Rect2(0, Y_FLOOR + 100, W, 40), Color(0, 0, 0, 0), Color(0, 0, 0, 0.45))
 
 	# --- door at the front end (x = W-60 is where Sim boards/leaves passengers)
