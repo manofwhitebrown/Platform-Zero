@@ -77,6 +77,8 @@ jobs:
         run: godot --headless --script tests/parse_all.gd 2>&1 | tee -a /tmp/ci.log; test ${PIPESTATUS[0]} -eq 0
       - name: Run tests
         run: godot --headless --script tests/run_tests.gd 2>&1 | tee -a /tmp/ci.log
+      - name: Fuzz + balance report (300 stops, 3 bots)
+        run: godot --headless --script tests/fuzz.gd -- --stops=300 2>&1 | grep -vE "^$" | tee -a /tmp/ci.log
       - name: Export APK
         run: |
           mkdir -p build

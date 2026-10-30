@@ -377,6 +377,16 @@ func _pick_def() -> String:
 			if gid != "" and not used.has(gid):
 				pool.append(gid)
 	if pool.is_empty():
+		# everything has been delivered once: recycle (the game is endless, nothing runs dry)
+		var live: Dictionary = {}
+		for it in _items.values():
+			if it["loc"] != "delivered":
+				live[String(it["def_id"])] = true
+		for o in Content.objects + Content.generated_objects:
+			var rid: String = String((o as Dictionary).get("id", ""))
+			if rid != "" and not live.has(rid):
+				pool.append(rid)
+	if pool.is_empty():
 		return ""
 	return String(pool[rng.randi_range(0, pool.size() - 1)])
 
@@ -418,6 +428,9 @@ func _spawn_item(def_id: String, spot_id: String) -> Dictionary:
 	var attrs: Array = []
 	for c in d.get("clues", []):
 		attrs.append(str(c.get("attr", "")))
+	for old_id in _items.keys():  # a recycled def: drop its old delivered copy so saves stay small
+		if _items[old_id]["def_id"] == def_id and _items[old_id]["loc"] == "delivered":
+			_items.erase(old_id)
 	_next_iid += 1
 	var iid: String = "i%d" % _next_iid
 	var item: Dictionary = {"iid": iid, "def_id": def_id, "name": d.get("name", def_id), "icon": d.get("icon", "key"), "tint": d.get("tint", "#FFFFFF"),
@@ -1165,7 +1178,8 @@ func hand_over(iid: String, pid: String) -> Dictionary:
 		item["loc"] = "delivered"
 		if String(_player["carrying"]) == iid:
 			_player["carrying"] = ""
-		_delivered_defs.append(String(item["def_id"]))
+		if not _delivered_defs.has(String(item["def_id"])):
+			_delivered_defs.append(String(item["def_id"]))
 		_daily_check_done(item)
 		_owner_deliveries[String(p["owner_id"])] = int(_owner_deliveries.get(String(p["owner_id"]), 0)) + 1
 		var beat: Dictionary = Content.arc_beat(String(p["owner_id"]), int(_owner_deliveries[String(p["owner_id"])]))
@@ -1186,6 +1200,8 @@ func hand_over(iid: String, pid: String) -> Dictionary:
 	elif is_imposter:
 		_recover.append(iid)
 		item["loc"] = "shelf"
+		if String(_player["carrying"]) == iid:
+			_player["carrying"] = ""
 		p["leave_mood"] = "happy"
 		_set_pstate(p, "receiving")
 		_queue.erase(pid)
