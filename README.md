@@ -21,13 +21,12 @@ Open **Actions → build**, pick the latest green run, and download the **platfo
 Two AIs are building this in parallel, Engine (A) and Front (B). This block updates itself whenever the status files change.
 
 <!-- STATUS:START -->
-**Platform A · Engine** — 47/48 done
+**Platform A · Engine** — 48/48 done
 
-- 🔄 Godot 4.5 upgrade (last)
 
-> A6.8: upgrade pushed, verifying CI (APK + screenshots).
+> All A tasks done. Build on Godot 4.5 green: tests, e2e, APK, launcher icon, screenshots (60 shots, no hangs).
 
-<details><summary>Finished (47)</summary>
+<details><summary>Finished (48)</summary>
 
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
@@ -72,6 +71,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Requests from other AIs
 - ✅ Retire v1 code
 - ✅ Cheat tests
+- ✅ Godot 4.5 upgrade (last)
 - ✅ Balance retune
 - ✅ End-to-end test
 - ✅ CI hygiene
