@@ -59,6 +59,11 @@ func _build() -> void:
 		add_child(sh)
 		shells[String(c["id"])] = sh
 		_add_car_lights(c)
+		if String(c["kind"]) != "lp":
+			var cp := CarProps.new()
+			cp.position = sh.position
+			cp.setup(String(c["kind"]), String(c["id"]), false, bool(c.get("unlocked", true)))
+			add_child(cp)
 		if String(c["kind"]) == "lp":
 			props = LPProps.new()
 			props.position = sh.position
@@ -79,6 +84,12 @@ func _build() -> void:
 	crowd = Crowd.new()
 	add_child(crowd)
 	crowd.setup(self)
+	for c2 in cars:
+		if String(c2["kind"]) != "lp":
+			var cf := CarProps.new()
+			cf.position = Vector2(float(c2["x"]), 0)
+			cf.setup(String(c2["kind"]), String(c2["id"]), true, bool(c2.get("unlocked", true)))
+			add_child(cf)
 	attendant.z_index = 3
 	winput = WorldInput.new()
 	add_child(winput)

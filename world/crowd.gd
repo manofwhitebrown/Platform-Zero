@@ -163,6 +163,8 @@ func _update_actor(a: Passenger, p: Dictionary, dt: float) -> void:
 		a.face = int(p.get("facing", -1))
 	else:
 		a.face = int(p.get("facing", a.face))
+	if state == "seated" and String(p.get("kind", "")) == "ambient" and String(p.get("role", "")) == "":
+		a.face = CarProps.orient(int(p.get("slot", 0)))   # sit the way the drawn seat faces
 	var lm: String = String(p.get("leave_mood", ""))
 	a.mood = String(p.get("mood", "calm"))
 	a.gait = lm if state == "leaving" or state == "receiving" else ""
