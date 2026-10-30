@@ -37,6 +37,8 @@ var _next_blink: float = 2.0
 var _speed: float = 0.0
 var _walk_target: float = NAN
 var _walk_speed: float = 0.0
+var held: String = ""        # prop in the front hand: book | cup | trolley | punch
+var _hand_f: Vector2 = Vector2.ZERO
 var _hid: float = 0.0      # shy peek: how hidden (0..1)
 
 const KEYS := ["hip", "lean", "tf", "tb", "kf", "kb", "sf", "ef", "sb", "eb", "head", "hand_x", "hand_y"]
@@ -139,6 +141,18 @@ func _process(dt: float) -> void:
 	queue_redraw()
 
 
+func _sit_base(p: Dictionary) -> void:
+	p["hip"] = 70.0
+	p["tf"] = 1.5
+	p["tb"] = 1.45
+	p["kf"] = 1.5
+	p["kb"] = 1.45
+	p["sf"] = 0.7
+	p["ef"] = 0.9
+	p["sb"] = 0.5
+	p["eb"] = 0.9
+
+
 func _compute(_dt: float) -> void:
 	var t: float = _t
 	var br: float = sin(t * 2.2) * 2.0
@@ -188,6 +202,50 @@ func _compute(_dt: float) -> void:
 			p["ef"] = 0.9
 			p["sb"] = 0.5
 			p["eb"] = 0.9
+		"sit_read":
+			_sit_base(p)
+			p["lean"] = 0.04
+			p["head"] = 0.32
+			p["sf"] = 1.15
+			p["ef"] = 1.75
+			p["sb"] = 1.0
+			p["eb"] = 1.9
+		"sit_nap":
+			_sit_base(p)
+			p["lean"] = 0.2 + sin(t * 1.4) * 0.02
+			p["head"] = 0.42
+			p["sf"] = 0.3
+			p["ef"] = 0.4
+			p["hip"] = 70.0 + sin(t * 1.4) * 1.5
+		"sit_eat":
+			_sit_base(p)
+			var cyc: float = (sin(t * 1.6) + 1.0) * 0.5
+			p["sf"] = 0.9 + cyc * 0.9
+			p["ef"] = 1.5 + cyc * 0.5
+			p["head"] = 0.08 + cyc * 0.12
+		"sit_stare":
+			_sit_base(p)
+			p["head"] = -0.1 + sin(t * 0.5) * 0.04
+			p["lean"] = -0.02
+		"sit_chat":
+			_sit_base(p)
+			var g: float = sin(t * 3.1)
+			p["sf"] = 0.9 + maxf(0.0, g) * 0.9
+			p["ef"] = 1.2 + g * 0.4
+			p["head"] = sin(t * 2.0) * 0.08
+			p["lean"] = 0.04 * sin(t * 1.3)
+		"sit_kids":
+			_sit_base(p)
+			p["kf"] = 1.2 + sin(t * 5.0) * 0.5
+			p["kb"] = 1.2 + sin(t * 5.0 + 2.2) * 0.5
+			p["tf"] = 1.4 + sin(t * 5.0) * 0.12
+			p["head"] = sin(t * 1.7) * 0.1
+			p["sf"] = 0.5
+			p["sb"] = 0.4
+		"punch":
+			p["sf"] = 1.3 + maxf(0.0, sin(t * 2.4)) * 0.5
+			p["ef"] = 1.3
+			p["lean"] = 0.03
 		"wave":
 			p["sf"] = 2.5 + sin(t * 9.0) * 0.25
 			p["ef"] = 0.5 + sin(t * 9.0) * 0.4
@@ -304,6 +362,7 @@ func _draw() -> void:
 	_head(head_c, skin, bw)
 	# front arm
 	_arm(shoulder + Vector2(4, 8), float(_cur["sf"]) + lean, float(_cur["ef"]), coat, skin, bw, false)
+	_draw_held()
 	_draw_emote(head_c)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
@@ -327,6 +386,8 @@ func _arm(sh: Vector2, a: float, el: float, sleeve: Color, skin: Color, bw: floa
 	_limb(sh, elbow, 20.0 * bw, sleeve)
 	_limb(elbow, hand, 18.0 * bw, Dr.shade(sleeve, 0.94))
 	draw_circle(hand, 11.0, skin if not back else Dr.shade(skin, 0.85))
+	if not back:
+		_hand_f = hand
 	draw_rect(Rect2(hand.x - 9, hand.y - 12, 18, 6), Color(1, 1, 1, 0.0))
 
 
@@ -494,3 +555,43 @@ func _heart(p: Vector2, r: float, col: Color) -> void:
 	draw_circle(p + Vector2(r * 0.5, 0), r * 0.6, col)
 	draw_line(p + Vector2(-r * 0.55, r * 0.25), p + Vector2(0, r * 1.25), col, r * 0.95)
 	draw_line(p + Vector2(r * 0.55, r * 0.25), p + Vector2(0, r * 1.25), col, r * 0.95)
+
+
+func _draw_held() -> void:
+	var h: Vector2 = _hand_f
+	match held:
+		"book":
+			var flip: float = fmod(_t, 7.0)
+			draw_colored_polygon(PackedVector2Array([h + Vector2(-4, -26), h + Vector2(30, -22), h + Vector2(30, 6), h + Vector2(-4, 4)]), Color("#e9dfc8"))
+			draw_colored_polygon(PackedVector2Array([h + Vector2(-8, -24), h + Vector2(-4, -26), h + Vector2(-4, 4), h + Vector2(-8, 6)]), Color("#7a3a32"))
+			for i in range(3):
+				draw_line(h + Vector2(2, -18 + i * 7), h + Vector2(24, -16 + i * 7), Color(0, 0, 0, 0.3), 2.0)
+			if flip < 0.5:   # page turn
+				var w: float = sin(flip / 0.5 * PI) * 22.0
+				draw_colored_polygon(PackedVector2Array([h + Vector2(13, -24), h + Vector2(13 + w, -28), h + Vector2(13 + w, 2), h + Vector2(13, 5)]), Color("#f6efdc"))
+		"cup":
+			draw_rect(Rect2(h.x - 2, h.y - 22, 20, 18), Color("#efe6d2"))
+			draw_rect(Rect2(h.x - 2, h.y - 22, 20, 4), Color("#6a3a2a"))
+			draw_arc(h + Vector2(18, -13), 6.0, -PI / 2.0, PI / 2.0, 8, Color("#efe6d2"), 3.0)
+			for i in range(2):
+				var ph: float = fmod(_t * 0.9 + i * 0.5, 1.0)
+				draw_circle(h + Vector2(8 + sin(_t * 3.0 + i) * 3.0, -28 - ph * 26), 4.0 + ph * 3.0, Color(1, 1, 1, 0.35 * (1.0 - ph)))
+		"punch":
+			draw_line(h, h + Vector2(22, -14), Color("#c9a24a"), 5.0)
+			draw_line(h, h + Vector2(24, -2), Color("#c9a24a"), 5.0)
+			draw_circle(h + Vector2(24, -8), 5.0, Color("#8a6a2a"))
+		"trolley":
+			var o := Vector2(78, 0)
+			draw_rect(Rect2(o.x, -104, 96, 10), Color("#6a4a2a"))
+			draw_rect(Rect2(o.x, -104, 96, 3), Color(1, 0.9, 0.6, 0.5))
+			draw_rect(Rect2(o.x + 4, -94, 88, 56), Color("#3a2a1c"))
+			draw_rect(Rect2(o.x + 8, -88, 80, 44), Color("#5a3a22"))
+			draw_line(Vector2(o.x - 8, -128), Vector2(o.x + 2, -104), Color("#c9a24a"), 4.0)
+			draw_line(Vector2(o.x - 8, -128), Vector2(o.x - 22, -126), Color("#c9a24a"), 4.0)
+			draw_circle(Vector2(o.x + 22, -22), 14.0, Color("#1b252b"))
+			draw_circle(Vector2(o.x + 78, -22), 14.0, Color("#1b252b"))
+			draw_circle(Vector2(o.x + 22, -22), 4.0, Color("#c9a24a"))
+			draw_circle(Vector2(o.x + 78, -22), 4.0, Color("#c9a24a"))
+			draw_rect(Rect2(o.x + 12, -124, 18, 20), Color("#d9d2c0"))
+			draw_rect(Rect2(o.x + 44, -118, 12, 14), Color("#c8503c"))
+			draw_rect(Rect2(o.x + 66, -120, 16, 16), Color("#efe6d2"))

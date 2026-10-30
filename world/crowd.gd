@@ -171,6 +171,16 @@ func _update_actor(a: Passenger, p: Dictionary, dt: float) -> void:
 	if lm == "annoyed" and state == "leaving":
 		a.mood = "grumpy"
 	var want: String = _anim_for(p, state, moving, float(info["still"]))
+	if String(p.get("kind", "")) == "ambient":
+		var rt: String = String(p.get("routine", ""))
+		var seated: bool = state == "seated"
+		if rt == "conductor" and not moving and state != "seated":
+			want = "punch" if float(info["still"]) > 0.4 else want
+		a.held = "book" if seated and rt == "reading" else ("cup" if seated and rt == "eating" else ("trolley" if rt == "vendor" else ("punch" if rt == "conductor" else "")))
+		if seated and rt == "napping" and a.emote == "":
+			a.do_emote("zzz")
+		elif rt != "napping" and a.emote == "zzz":
+			a.emote = ""
 	if a.anim != want:
 		a.play(want)
 	# fade in at the door
@@ -188,6 +198,13 @@ func _anim_for(p: Dictionary, state: String, moving: bool, still: float) -> Stri
 	var mood: String = String(p.get("mood", "calm"))
 	match state:
 		"seated":
+			match String(p.get("routine", "")):
+				"reading": return "sit_read"
+				"napping": return "sit_nap"
+				"eating": return "sit_eat"
+				"staring": return "sit_stare"
+				"chatting": return "sit_chat"
+				"kids": return "sit_kids"
 			return "sit"
 		"standing_up":
 			return "idle"

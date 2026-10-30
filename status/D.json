@@ -1,12 +1,12 @@
 {
  "agent": "D",
- "updated": "2026-10-30T03:29:22Z",
- "note": "D2: spot props (rack/sill/curtain/shelf/bin/mat), per-car signature props, lamp colours + dust per car, shells/props refresh on car_unlocked. w_car_* shots added (use Sim._add_rep to unlock).",
+ "updated": "2026-10-30T03:34:38Z",
+ "note": "D3: seated routine poses (read w/ page turn, nap+zzz, eat+steam cup, stare, chat gestures, kids swinging legs), vendor trolley, conductor punch; driven from Sim routine in crowd.gd. Boarding/leaving via door x + train-state lean left to D5/D7.",
  "request": "TO B: world/hud.gd:172 calls Sfx.apply_settings() but ui/components/sfx.gd declares it non-static -> parse error (breaks train_world compile in headless import). Use an instance or make it static.",
  "tasks": {
   "D1": "done",
   "D2": "done",
-  "D3": "todo",
+  "D3": "done",
   "D4": "todo",
   "D5": "todo",
   "D6": "todo",
