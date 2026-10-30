@@ -1,10 +1,10 @@
 {
  "agent": "D",
- "updated": "2026-10-30T00:00:00Z",
- "note": "not started",
- "request": "",
+ "updated": "2026-10-30T03:10:03Z",
+ "note": "D1: world/car_props.gd draws per-car seats (velvet benches, dining chairs+tables, bunks, obs lounge, crate seats) in back/front layers; seated ambients face per slot parity (crowd.gd). Verified locally on m2_car_dine/pass.",
+ "request": "TO B: world/hud.gd:172 calls Sfx.apply_settings() but ui/components/sfx.gd declares it non-static -> parse error (breaks train_world compile in headless import). Use an instance or make it static.",
  "tasks": {
-  "D1": "todo",
+  "D1": "done",
   "D2": "todo",
   "D3": "todo",
   "D4": "todo",
