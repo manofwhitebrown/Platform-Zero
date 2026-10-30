@@ -99,7 +99,7 @@ async function refresh(){
   try{
     const commits=await gh('/commits?per_page=60');
     for(const id of ['A','B','C','D']){
-      let st=null;try{st=JSON.parse(await gh('/contents/status/'+id+'.json',true))}catch(e){}
+      let st=null;try{st=JSON.parse(cfg.tok?await gh('/contents/status/'+id+'.json',true):await (await fetch('https://raw.githubusercontent.com/'+cfg.repo+'/main/status/'+id+'.json?t='+Date.now())).text())}catch(e){}
       plat(id,st,commits);
     }
     const runs=(await gh('/actions/runs?per_page=6')).workflow_runs||[];
