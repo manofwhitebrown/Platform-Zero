@@ -127,15 +127,14 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 
 </details>
 
-**Platform C · Sound + Story** — 11/14 done
+**Platform C · Sound + Story** — 12/14 done
 
 - ⬜ Re-check balance with playbot
-- ⬜ Map text + sounds + help card
-- ⬜ Train map: data, overlay, HUD button, travel
+- 🔄 Train map: data, overlay, HUD button, travel
 
-> C7-C11 done. C12 waits for A6.9 balance retune (not pushed yet; no Godot in my sandbox, so fuzz must run in CI). Last numbers: tier 4 in ~2h play.
+> C13: content/map.json, 3 map tips, Map help card, sounds map_open/map_close/map_select. C14 in progress; will use existing Sim.get_map()/fast_travel (A6.12).
 
-<details><summary>Finished (11)</summary>
+<details><summary>Finished (12)</summary>
 
 - ✅ Audio generator (47 sounds)
 - ✅ Audio engine
@@ -148,6 +147,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Loading tips
 - ✅ Store listing + privacy policy
 - ✅ Achievements data
+- ✅ Map text + sounds + help card
 
 </details>
 
