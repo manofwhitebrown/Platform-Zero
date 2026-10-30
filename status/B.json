@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T11:05:34Z",
+ "updated": "2026-10-30T11:07:19Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -41,6 +41,6 @@
   "B5.12": "done",
   "B5.13": "done"
  },
- "note": "Wired D's intro scene on first launch (Settings intro_seen, skipped in shots/after first stop), added Instant text speed. Colorblind/text_speed confirmed live in crowd.gd.",
- "request": "TO A: add tests/map_tests.gd to CI (C asked). No other open asks from B."
+ "note": "Added Map tests step to build.yml (C's request to A; tiny additive edit, announced). Intro wired, instant text speed.",
+ "request": ""
 }
