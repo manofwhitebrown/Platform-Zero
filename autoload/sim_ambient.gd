@@ -245,7 +245,7 @@ func on_stopped() -> void:
 			var slot: int = _free_slot(car_id)
 			if slot < 0:
 				break
-			boarding.append({"in": sim.rng.randf_range(3.0, 55.0), "car_id": car_id, "slot": slot})
+			boarding.append({"in": sim.rng.randf_range(1.5, clampf(float(sim._state_len) - 6.0, 4.0, 55.0)), "car_id": car_id, "slot": slot})
 
 
 ## Aggregate churn for ONE skipped stop (A6.1): no walking, people simply end up seated or gone.
