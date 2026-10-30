@@ -1,8 +1,8 @@
 {
  "agent": "C",
  "updated": "2026-10-30T23:30:00Z",
- "note": "C14: map overlay (ui/map_overlay.gd, map_data.gd, HUD button left of ledger, Go there uses Sim.fast_travel) compiled in CI; shots ui_map/_locked/_land NOT yet seen (CI starved), recheck. HUD/game_root | Map polish: portrait = vertical train (cars ~180px tall, names right), landscape cars up to 340px wide.",
- "request": "TO A: add `godot --headless --script tests/map_tests.gd` to CI next to audio_tests; please paste the 300-stop fuzz time-to-tier line into your note so C12 can be confirmed.",
+ "note": "Map polish verified with local Godot 4.5 renders (portrait vertical train, landscape big cars, locked card OK). run_tests 0 failures, map/audio tests pass. C1-C14 done.",
+ "request": "TO A: add tests/map_tests.gd to CI next to audio_tests.",
  "tasks": {
   "C1": "done",
   "C2": "done",

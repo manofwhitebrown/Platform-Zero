@@ -147,14 +147,15 @@ func _draw_horizontal() -> void:
 	Dr.vgrad(canvas, Rect2(Vector2.ZERO, sz), Color(Pal.DEEP, 0.9), Color(Pal.NIGHT, 0.9))
 	canvas.draw_rect(Rect2(Vector2.ZERO, sz), Color(Pal.BRASS, 0.5), false, 2.0)
 	var n: int = maxi(rows.size(), 1)
-	var margin: float = 22.0
-	var gap: float = 14.0
-	var cw: float = minf((sz.x - margin * 2.0 - gap * float(n - 1)) / float(n), 340.0)
-	var ch: float = minf(cw * 0.95, sz.y * 0.6)
+	var margin: float = maxf(22.0, sz.x * 0.03)
+	var gap: float = maxf(14.0, sz.x * 0.014)
+	var cw: float = minf((sz.x - margin * 2.0 - gap * float(n - 1)) / float(n), sz.y * 0.62)
+	var ch: float = minf(cw * 0.95, sz.y * 0.55)
 	var total: float = cw * float(n) + gap * float(n - 1)
 	var x0: float = (sz.x - total) / 2.0
 	var y0: float = sz.y * 0.5 - ch * 0.5 - 6.0
-	var rail_y: float = y0 + ch + 30.0
+	var wr_: float = clampf(cw * 0.07, 15.0, 34.0)
+	var rail_y: float = y0 + ch + wr_ * 1.7
 	canvas.draw_line(Vector2(0, rail_y), Vector2(sz.x, rail_y), Color(Pal.BRASS, 0.8), 4.0)
 	for i in range(0, int(sz.x / 28.0) + 1):
 		canvas.draw_line(Vector2(i * 28.0, rail_y + 2), Vector2(i * 28.0, rail_y + 12), Color(Pal.BRASS, 0.35), 3.0)
@@ -189,9 +190,9 @@ func _draw_horizontal() -> void:
 		canvas.draw_rect(Rect2(rc.end.x - 26, rc.position.y + ch * 0.58, 14, ch * 0.34), Color(Pal.INK, 0.45 if open_ else 0.2))
 		# wheels
 		for wx in [0.24, 0.76]:
-			var wc2 := Vector2(rc.position.x + cw * wx, rc.end.y + 14)
-			canvas.draw_circle(wc2, 15, Pal.BRASS if open_ else Color(Pal.BRASS, 0.3))
-			canvas.draw_circle(wc2, 6, Pal.DEEP)
+			var wc2 := Vector2(rc.position.x + cw * wx, rc.end.y + wr_ * 0.7)
+			canvas.draw_circle(wc2, clampf(cw * 0.07, 15.0, 34.0), Pal.BRASS if open_ else Color(Pal.BRASS, 0.3))
+			canvas.draw_circle(wc2, clampf(cw * 0.03, 6.0, 14.0), Pal.DEEP)
 		# tokens: red dot for waiting claimants, lamp dot for items
 		if open_ and int(r["claimants_waiting"]) > 0:
 			canvas.draw_circle(rc.position + Vector2(cw - 18, ch - 20), 11, Pal.SIGNAL)
@@ -199,18 +200,18 @@ func _draw_horizontal() -> void:
 			canvas.draw_circle(rc.position + Vector2(20, ch - 20), 9, Pal.BRASS)
 			canvas.draw_circle(rc.position + Vector2(20, ch - 20), 4, Pal.PARCHMENT)
 		if not open_:
-			_padlock(rc.get_center() + Vector2(0, ch * 0.12), minf(cw * 0.3, 40.0))
+			_padlock(rc.get_center() + Vector2(0, ch * 0.12), clampf(cw * 0.26, 40.0, 110.0))
 		# name
-		var fs: int = 21 if cw > 120.0 else 17
+		var fs: int = clampi(int(cw * 0.12), 17, 44)
 		var nm: String = String(r["name"])
 		var col: Color = Pal.PARCHMENT if open_ else Color(Pal.PARCHMENT, 0.4)
-		canvas.draw_string(font, Vector2(rc.position.x - gap * 0.5, rail_y + 52), nm, HORIZONTAL_ALIGNMENT_CENTER, cw + gap, fs, col)
+		canvas.draw_string(font, Vector2(rc.position.x - gap * 0.5, rail_y + float(fs) + 14.0), nm, HORIZONTAL_ALIGNMENT_CENTER, cw + gap, fs, col)
 		if here:
-			canvas.draw_string(font, Vector2(rc.position.x - gap * 0.5, y0 - 24 - (0.0 if Pal.reduced_motion() else absf(sin(t * 2.5)) * 6.0)), "you are here", HORIZONTAL_ALIGNMENT_CENTER, cw + gap, 20, Pal.LAMP)
+			canvas.draw_string(font, Vector2(rc.position.x - gap * 0.5, y0 - 24 - (0.0 if Pal.reduced_motion() else absf(sin(t * 2.5)) * 6.0)), "you are here", HORIZONTAL_ALIGNMENT_CENTER, cw + gap, clampi(int(cw * 0.1), 20, 38), Pal.LAMP)
 		if i == sel:
 			var br: Rect2 = rc.grow(6)
 			canvas.draw_rect(br, Pal.SIGNAL, false, 5.0)
-			canvas.draw_polygon(PackedVector2Array([Vector2(rc.get_center().x - 12, rail_y + 66), Vector2(rc.get_center().x + 12, rail_y + 66), Vector2(rc.get_center().x, rail_y + 80)]), PackedColorArray([Pal.SIGNAL]))
+			canvas.draw_polygon(PackedVector2Array([Vector2(rc.get_center().x - 12, rail_y + float(fs) + 28.0), Vector2(rc.get_center().x + 12, rail_y + float(fs) + 28.0), Vector2(rc.get_center().x, rail_y + float(fs) + 42.0)]), PackedColorArray([Pal.SIGNAL]))
 
 
 func _padlock(c: Vector2, s: float) -> void:
@@ -228,8 +229,8 @@ func _draw_vertical() -> void:
 	var n: int = maxi(rows.size(), 1)
 	var m: float = 18.0
 	var gap: float = 18.0
-	var ch: float = minf((sz.y - m * 2.0 - gap * float(n - 1)) / float(n), 180.0)
-	var cw: float = minf(sz.x * 0.38, 360.0)
+	var ch: float = minf((sz.y - m * 2.0 - gap * float(n - 1)) / float(n), 200.0)
+	var cw: float = minf(sz.x * 0.44, 440.0)
 	var total: float = ch * float(n) + gap * float(n - 1)
 	var y0: float = (sz.y - total) / 2.0
 	var x0: float = m + 24.0
@@ -272,7 +273,7 @@ func _draw_vertical() -> void:
 			_padlock(rc.get_center(), minf(ch * 0.4, 44.0))
 		var cy: float = rc.position.y + ch * 0.5
 		var tw: float = sz.x - tx - m - 10.0
-		canvas.draw_string(font, Vector2(tx, cy - 6), String(r["name"]), HORIZONTAL_ALIGNMENT_LEFT, tw, 38, Pal.PARCHMENT if open_ else Color(Pal.PARCHMENT, 0.4))
+		canvas.draw_string(font, Vector2(tx, cy - 8), String(r["name"]), HORIZONTAL_ALIGNMENT_LEFT, tw, 46, Pal.PARCHMENT if open_ else Color(Pal.PARCHMENT, 0.4))
 		var sub: String = ""
 		var sc: Color = Pal.MIST
 		if here:
@@ -282,6 +283,6 @@ func _draw_vertical() -> void:
 			sub = "Reputation %d needed" % int(r["tier_rep"])
 		else:
 			sub = "%d waiting · %d items" % [int(r["claimants_waiting"]), int(r["items_here"])]
-		canvas.draw_string(font, Vector2(tx, cy + 34), sub, HORIZONTAL_ALIGNMENT_LEFT, tw, 26, sc)
+		canvas.draw_string(font, Vector2(tx, cy + 40), sub, HORIZONTAL_ALIGNMENT_LEFT, tw, 30, sc)
 		if open_ and int(r["claimants_waiting"]) > 0:
 			canvas.draw_circle(Vector2(sz.x - m - 30, cy), 12, Pal.SIGNAL)
