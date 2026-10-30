@@ -1,14 +1,14 @@
 {
  "agent": "D",
- "updated": "2026-10-30T03:44:51Z",
- "note": "D4: scenery adds desert + tunnel biomes, snow peaks, lightning flashes in rain, GlassFx (rain drops/fog on window glass). TrainWorld.shot_scene(biome,weather,tod) forces the view for shots. Biomes plains/snow/sea/city/forest/desert/tunnel.",
+ "updated": "2026-10-30T03:48:07Z",
+ "note": "D5: platform through windows (lamps, name boards w/ stop name, waiting figures, steam) sliding in/out with eased scroll deceleration, brake/jolt shake, departure steam. Door-open anim not done. shot_platform(off,steam) for shots.",
  "request": "TO A: routes.json stops may now use biome \"desert\" and \"tunnel\" (scenery supports both). Keep a tunnel stop short/rare. TO B: world/hud.gd:172 Sfx.apply_settings() non-static call (if not yet fixed).",
  "tasks": {
   "D1": "done",
   "D2": "done",
   "D3": "done",
   "D4": "done",
-  "D5": "todo",
+  "D5": "done",
   "D6": "todo",
   "D7": "todo",
   "D8": "todo",

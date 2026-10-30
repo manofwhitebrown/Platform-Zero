@@ -11,6 +11,7 @@ var cam: Camera2D
 var scenery: Scenery
 var shells: Dictionary = {}
 var glass: GlassFx
+var _vspd: float = 1.0
 var _force: Dictionary = {}   # screenshot/debug override: biome, weather, tod
 var car_props: Array = []
 var props: LPProps
@@ -205,7 +206,33 @@ func _process(delta: float) -> void:
 	var spd: float = float(train.get("speed", 1.0))
 	if String(train.get("state", "moving")) == "stopped":
 		spd = 0.0
-	_scroll += delta * spd * 260.0
+	# visual speed eases down into the station and up out of it (Sim speed is a flag, not a curve)
+	var st: String = String(train.get("state", "moving"))
+	var ph: float = float(train.get("phase_t", 0.0))
+	var plat_off: float = 99999.0
+	var steam: float = 0.0
+	var brake: float = 0.0
+	match st:
+		"arriving":
+			spd = pow(1.0 - ph, 1.6)
+			plat_off = pow(1.0 - ph, 2.2) * 4600.0
+			brake = sin(ph * PI) * 0.8 * (1.0 if ph > 0.5 else 0.2)
+		"stopped":
+			spd = 0.0
+			plat_off = 0.0
+		"departing":
+			spd = ph * ph
+			plat_off = -pow(ph, 2.0) * 4600.0
+			steam = clampf(1.0 - ph * 3.0, 0.0, 1.0)
+			brake = maxf(0.0, 1.0 - ph * 5.0) * 0.8
+	_vspd = lerpf(_vspd, spd, clampf(delta * 6.0, 0.0, 1.0))
+	_scroll += delta * _vspd * 260.0
+	if _force.has("plat"):
+		plat_off = float(_force["plat"])
+		steam = float(_force.get("steam", 0.0))
+	scenery.set_station(plat_off, steam, String((train.get("stop", {}) as Dictionary).get("name", "")), int(hash(String((train.get("stop", {}) as Dictionary).get("name", ""))) & 0xff))
+	if is_instance_valid(cam):
+		cam.offset = Vector2(sin(_t * 41.0), sin(_t * 57.0) * 0.6) * 3.0 * brake
 	var p: Dictionary = Sim.get_player()
 	var tx: float = float(p.get("x", _follow_x))
 	var mv: float = tx - _last_follow
@@ -250,6 +277,12 @@ func _update_camera(_delta: float) -> void:
 ## Screenshot/debug: force the view outside the windows (biome, weather, time of day 0..1).
 func shot_scene(biome_s: String, weather_s: String, tod: float) -> void:
 	_force = {"biome": biome_s, "weather": weather_s, "tod": tod}
+
+
+## Screenshot/debug: park the platform alongside (plat 0) or mid-slide, with optional steam.
+func shot_platform(plat: float, steam: float = 0.0) -> void:
+	_force["plat"] = plat
+	_force["steam"] = steam
 
 
 func tap_world(x: float, y: float = 800.0) -> void:

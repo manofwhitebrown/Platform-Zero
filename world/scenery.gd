@@ -25,6 +25,10 @@ var biome: String = "plains"
 var weather: String = "clear"
 var time_s: float = 0.0
 var _stars: Array = []
+var plat_off: float = 99999.0   # platform slide offset in world px (0 = alongside the train)
+var plat_steam: float = 0.0     # departure steam puff 0..1
+var station_name: String = ""
+var stop_seed: int = 0
 
 
 func _ready() -> void:
@@ -44,6 +48,17 @@ func push_state(p_cam: Vector2, p_zoom: float, p_vis: Vector2, p_scroll: float, 
 	weather = p_weather
 	time_s = p_time
 	queue_redraw()
+
+
+func set_station(p_off: float, p_steam: float, p_name: String, p_seed: int) -> void:
+	plat_off = p_off
+	plat_steam = p_steam
+	station_name = p_name
+	stop_seed = p_seed
+
+
+func _sx(wx: float) -> float:
+	return (wx + plat_off - cam_pos.x) * zoom + vis.x * 0.5
 
 
 func _sy(wy: float) -> float:
@@ -121,6 +136,8 @@ func _draw() -> void:
 		ground = ground.lerp(Color("#2d3f55"), night * 0.8)
 	var gy0: float = _sy(HORIZON_Y + 30.0)
 	_vstrip(Rect2(0, gy0, vis.x, vis.y - gy0), ground, Dr.shade(ground, 0.55), 6)
+	if absf(plat_off) < 5200.0:
+		_platform(night)
 	# ballast + sleepers + foreground racing past under the car
 	var by: float = _sy(1086.0)
 	var gravel: Color = Color("#141d22").lerp(Color("#3a4a58"), 0.0 if not bool(b["snow"]) else 0.7 * (1.0 - night * 0.6))
@@ -166,6 +183,59 @@ func _peaks(night: float) -> void:
 		var w: float = (190.0 + _hash(float(i) + 8.0) * 80.0) * zoom
 		draw_colored_polygon(PackedVector2Array([Vector2(sx - w, hy), Vector2(sx, hy - h), Vector2(sx + w, hy)]), rock)
 		draw_colored_polygon(PackedVector2Array([Vector2(sx - w * 0.28, hy - h * 0.72), Vector2(sx, hy - h), Vector2(sx + w * 0.28, hy - h * 0.72), Vector2(sx + w * 0.1, hy - h * 0.6), Vector2(sx - w * 0.08, hy - h * 0.68)]), capc)
+
+
+func _platform(night: float) -> void:
+	var x0: float = _sx(2500.0)
+	var x1: float = _sx(6500.0)
+	var top: float = _sy(440.0)
+	var tint: Color = Color(1, 1, 1).lerp(Color(0.45, 0.5, 0.62), night * 0.7)
+	# slab + front wall + yellow safety edge
+	draw_rect(Rect2(x0, top, x1 - x0, 140.0 * zoom), Color("#6a7078") * tint)
+	draw_rect(Rect2(x0, top + 30.0 * zoom, x1 - x0, 110.0 * zoom), Color("#3c4249") * tint)
+	draw_rect(Rect2(x0, top, x1 - x0, 5.0 * zoom), Color("#e0b84e") * tint)
+	for i in range(int((x1 - x0) / (90.0 * zoom)) + 1):
+		draw_line(Vector2(x0 + i * 90.0 * zoom, top + 34.0 * zoom), Vector2(x0 + i * 90.0 * zoom, top + 138.0 * zoom), Color(0, 0, 0, 0.18), 2.0)
+	# lamp posts with lanterns
+	for i in range(7):
+		var lx: float = _sx(2700.0 + float(i) * 560.0)
+		draw_rect(Rect2(lx - 4.0 * zoom, _sy(250.0), 8.0 * zoom, 190.0 * zoom), Color("#10181c"))
+		draw_rect(Rect2(lx - 14.0 * zoom, _sy(236.0), 28.0 * zoom, 26.0 * zoom), Color(1.0, 0.82, 0.45))
+		draw_circle(Vector2(lx, _sy(249.0)), 70.0 * zoom, Color(1.0, 0.8, 0.45, 0.06 + 0.12 * night))
+		draw_circle(Vector2(lx, _sy(249.0)), 30.0 * zoom, Color(1.0, 0.8, 0.45, 0.12 + 0.2 * night))
+	# station name boards on two posts
+	for bx in [3900.0, 5400.0]:
+		var cx: float = _sx(bx)
+		var bw: float = 330.0 * zoom
+		draw_rect(Rect2(cx - bw * 0.42, _sy(330.0), 8.0 * zoom, 110.0 * zoom), Color("#10181c"))
+		draw_rect(Rect2(cx + bw * 0.42 - 8.0 * zoom, _sy(330.0), 8.0 * zoom, 110.0 * zoom), Color("#10181c"))
+		var br := Rect2(cx - bw * 0.5, _sy(250.0), bw, 84.0 * zoom)
+		draw_rect(br, Color("#12303b"))
+		draw_rect(br, Pal.BRASS, false, 4.0 * zoom)
+		draw_rect(Rect2(br.position.x + 8.0 * zoom, br.position.y + 8.0 * zoom, br.size.x - 16.0 * zoom, br.size.y - 16.0 * zoom), Color(Pal.PARCHMENT.r, Pal.PARCHMENT.g, Pal.PARCHMENT.b, 0.25), false, 2.0 * zoom)
+		draw_string(ThemeDB.fallback_font, Vector2(br.position.x, br.position.y + br.size.y * 0.62), station_name, HORIZONTAL_ALIGNMENT_CENTER, br.size.x, int(34.0 * zoom), Pal.PARCHMENT)
+	# waiting figures + luggage
+	var sd: int = stop_seed
+	for i in range(9):
+		var h1: float = _hash(float(sd * 13 + i) * 1.3)
+		var h2: float = _hash(float(sd * 7 + i) * 2.9)
+		var fx: float = _sx(2800.0 + float(i) * 400.0 + h1 * 160.0)
+		var fh: float = (62.0 + h2 * 22.0) * zoom
+		var col: Color = Color.from_hsv(h1, 0.25, 0.28 + 0.2 * h2) * tint
+		var fy: float = top + 4.0 * zoom
+		Dr.rrect(self, Rect2(fx - 14.0 * zoom, fy - fh, 28.0 * zoom, fh), 9.0 * zoom, col)
+		draw_circle(Vector2(fx, fy - fh - 10.0 * zoom), 12.0 * zoom, Color("#c9a487") * tint)
+		if h2 > 0.4:
+			draw_rect(Rect2(fx - 16.0 * zoom, fy - fh - 26.0 * zoom, 32.0 * zoom, 8.0 * zoom), col)
+			draw_rect(Rect2(fx - 10.0 * zoom, fy - fh - 40.0 * zoom, 20.0 * zoom, 16.0 * zoom), col)
+		if h1 > 0.5:
+			draw_rect(Rect2(fx + 16.0 * zoom, fy - 24.0 * zoom, 22.0 * zoom, 22.0 * zoom), Color("#5a3a22") * tint)
+	# steam drifting along the platform (puff on departure)
+	for k in range(6):
+		var ph: float = fmod(time_s * 0.18 + float(k) * 0.17, 1.0)
+		var sx: float = _sx(5200.0 + float(k) * 260.0) + ph * 60.0 * zoom
+		var sy: float = top - ph * 150.0 * zoom
+		draw_circle(Vector2(sx, sy), (30.0 + ph * 60.0) * zoom, Color(0.85, 0.9, 0.95, (0.09 + 0.3 * plat_steam) * (1.0 - ph)))
 
 
 func _tunnel() -> void:
