@@ -37,6 +37,7 @@ func _ready() -> void:
 	add_child(world)
 	screens = ScreenManager.new()
 	add_child(screens)
+	_maybe_intro.call_deferred()
 	screens.register("welcome", func(a: Dictionary) -> Control: return Welcome.new(screens, a))
 	Events.offline_report.connect(show_welcome)
 	var lr: Variant = Sim.get("last_offline_report")
@@ -72,6 +73,27 @@ func _ready() -> void:
 			shop_demo.call_deferred(int(a.substr(7)))
 		if a.begins_with("--ledger="):
 			ledger_demo.call_deferred(a.substr(9))
+
+
+## First launch only: play the title/intro scene over the world, tap to skip. Never in screenshot runs.
+func _maybe_intro() -> void:
+	if Settings.get_bool("intro_seen", false) or Cheats.screenshot_mode or not OS.get_cmdline_user_args().is_empty():
+		return
+	if Sim.tutorial_done or int(Sim.get_stats().get("stops", 0)) > 0:
+		Settings.set_bool("intro_seen", true)
+		return
+	var sc: Variant = load("res://world/intro.tscn")
+	if not (sc is PackedScene):
+		return
+	var layer := CanvasLayer.new()
+	layer.layer = 40
+	add_child(layer)
+	var intro: Node = (sc as PackedScene).instantiate()
+	layer.add_child(intro)
+	if intro.has_signal("finished"):
+		intro.connect("finished", func() -> void:
+			Settings.set_bool("intro_seen", true)
+			layer.queue_free())
 
 
 ## Secret entry: brass clock x5 within 4 s arms the lamp; then hold the lamp to open the Back Office.

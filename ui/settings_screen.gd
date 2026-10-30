@@ -122,7 +122,7 @@ func _build() -> void:
 	_toggle("haptics", "Haptics", true)
 	_toggle("reduced_motion", "Reduce motion", false)
 	_toggle("colorblind", "Mood icons on bubbles", false)
-	_choice("text_speed", "Text speed", [["slow", "Slow"], ["normal", "Normal"], ["fast", "Fast"]], "normal")
+	_choice("text_speed", "Text speed", [["slow", "Slow"], ["normal", "Normal"], ["fast", "Fast"], ["instant", "Instant"]], "normal")
 	_section("Screen")
 	_choice("orientation", "Orientation", [["auto", "Auto"], ["portrait", "Portrait"], ["landscape", "Landscape"]], "auto")
 	_section("Game")
