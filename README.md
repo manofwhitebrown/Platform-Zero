@@ -82,7 +82,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 **Platform B · Screens** — 38/38 done
 
 
-> B5.11 QA: all overlays go through ScreenManager (safe-area margins, Android back closes top). Fixed HUD rep-tier overlapping new map button (moved left of stop name) and cheat badge overlapping shop pill. Tap targets >=9
+> Post-QA fixes pushed: brass sliders, ledger tabs fit width, landscape overlay width cap. Build job green; screenshots stale (see request).
 
 <details><summary>Finished (38)</summary>
 
