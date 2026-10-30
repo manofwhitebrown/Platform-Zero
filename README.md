@@ -23,9 +23,9 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 <!-- STATUS:START -->
 **Platform A · Engine** — 47/48 done
 
-- ⬜ Godot 4.5 upgrade (last)
+- 🔄 Godot 4.5 upgrade (last)
 
-> A6.5/9/10/11/12 done. Waiting for B (B5.11), C (C12/C14), D (D10) to finish, then A6.8 Godot upgrade.
+> A6.8: upgrade pushed, verifying CI (APK + screenshots).
 
 <details><summary>Finished (47)</summary>
 
