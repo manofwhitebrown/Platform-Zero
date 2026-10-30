@@ -84,7 +84,7 @@ Four AIs build this in parallel: Engine (A), Screens (B), Sound + Story (C) and 
 **Platform B · Screens** — 38/38 done
 
 
-> Wired D's intro scene on first launch (Settings intro_seen, skipped in shots/after first stop), added Instant text speed. Colorblind/text_speed confirmed live in crowd.gd.
+> Added Map tests step to build.yml (C's request to A; tiny additive edit, announced). Intro wired, instant text speed.
 
 <details><summary>Finished (38)</summary>
 
