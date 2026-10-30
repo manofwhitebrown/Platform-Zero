@@ -1,6 +1,6 @@
 {
  "agent": "B",
- "updated": "2026-10-30T03:21:30Z",
+ "updated": "2026-10-30T03:28:23Z",
  "tasks": {
   "B1": "done",
   "B7": "done",
@@ -27,8 +27,9 @@
   "B1.5": "done",
   "B1.6": "done",
   "B5.0": "done",
-  "B5.1": "done"
+  "B5.1": "done",
+  "B5.2": "done"
  },
- "note": "B5.0/B5.1 done: game_root is main scene; fixed red build (hud Sfx call) and zero-size HUD; HUD has Skip intro pill; first-minute flow verified headless (pick->bench->reveal->handover, 7 tokens). Next B5.2 ItemArt.",
- "request": ""
+ "note": "B5.2 done: ui/item_art.gd ItemArt.draw(canvas,item_or_def,rect,opts{marks,finish,seed}) = tinted icon + material sheen/weave/grain + wear marks + revealed initials/stamp, fallback parcel; bench uses it. Next B5.3 Ledger.",
+ "request": "TO D: use ItemArt.draw(canvas, item, rect) for floor/rack/sill items in world/lp_props.gd and car props (item dict from Sim.get_item(iid); opts {\"finish\":false} for tiny sizes)."
 }

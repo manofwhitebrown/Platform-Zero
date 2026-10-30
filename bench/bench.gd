@@ -306,8 +306,6 @@ class BenchView extends Control:
 		txt(item_c + Vector2(-vs.x / 2.0, 260), "Pick something up and bring it here.", 32, Color(Pal.PARCHMENT, 0.7), vs.x if not land else stage.size.x, HORIZONTAL_ALIGNMENT_CENTER)
 
 	func _draw_item_stage(item: Dictionary) -> void:
-		var tx: Texture2D = icon_of(item)
-		var tint: Color = tint_of(item)
 		var pos: Vector2 = item_c
 		var sc: float = 1.0
 		var rot: float = -0.05 + (0.0 if Pal.reduced_motion() else sin(t * 1.3) * 0.015)
@@ -320,10 +318,7 @@ class BenchView extends Control:
 		draw_set_transform(item_c + Vector2(0, s * 0.46), 0.0, Vector2(1, 0.22))
 		draw_circle(Vector2.ZERO, s * 0.42, Color(0, 0, 0, 0.5))
 		draw_set_transform(pos, rot, Vector2(sc, sc))
-		if tx != null:
-			draw_texture_rect(tx, Rect2(-s * 0.5, -s * 0.5, s, s), false, tint)
-		else:
-			Dr.rrect(self, Rect2(-s * 0.3, -s * 0.3, s * 0.6, s * 0.6), 40, tint)
+		ItemArt.draw(self, item, Rect2(-s * 0.5, -s * 0.5, s, s), {"marks": true})
 		# brush wear marks
 		if tool == "brush" and prog > 0.0:
 			var rng := RandomNumberGenerator.new()
