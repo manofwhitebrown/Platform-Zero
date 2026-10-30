@@ -145,7 +145,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Xvfb + software GL
-        run: apt-get update -qq && apt-get install -y -qq xvfb xauth libgl1-mesa-dri libglx-mesa0 libegl1 git
+        run: apt-get update -qq && apt-get install -y -qq xvfb xauth libgl1-mesa-dri libglx-mesa0 libegl1 git libxcursor1 libxrandr2 libxinerama1 libxi6 libxext6 libxrender1 libxkbcommon0 libfontconfig1 libasound2t64 || apt-get install -y -qq libasound2
       - name: Import project
         run: godot --headless --import 2>&1 | tail -5 || true
       - name: Take screenshots (merged tests/shots*.json)
