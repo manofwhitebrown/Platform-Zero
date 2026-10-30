@@ -2,7 +2,7 @@ name: readme-status
 on:
   push:
     branches: [main]
-    paths: ['status/**']
+    paths: ['status/**', 'tools/update_readme.py']
   workflow_dispatch:
 permissions:
   contents: write
@@ -20,5 +20,4 @@ jobs:
           git diff --quiet README.md && exit 0
           git add README.md
           git commit -m "[bot] update README status [skip ci]"
-          git pull --rebase origin main
-          git push origin main
+          for i in 1 2 3 4 5; do git pull --rebase origin main && git push origin main && exit 0; sleep $((i*3)); done; exit 1

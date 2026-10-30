@@ -66,7 +66,7 @@ h3{margin:18px 0 6px;font-size:15px;color:var(--mist);font-weight:600}
 <script>
 const NAMES={A:['Engine','Sim, save, offline, tests, CI'],B:['Screens','Bench, HUD, menus, ledger, shop'],C:['Sound + Story','Audio, writing, content, lore'],D:['World','Cars, people, scenery, weather']};
 const TITLES={A1:'Scaffold + autoload stubs',A2:'Android export + CI build',A3:'Content loader + validator',A4:'Clock, save, offline arrivals',A5:'Inspect, match, reputation',A6:'Daily mystery + share text',A7:'40 objects content',A8:'Tests + integration fixes',B1:'Theme + UI kit',B7:'Icons, backdrop, shaders',B2:'Main scene + navigation',B3:'Counter + inspect popup',B4:'Owner visit + matching',B9:'15 owners content',B10:'40 objects + clue/hint alignment',I1:'App icon set',B5:'Shelf, catalog, gallery',B6:'Daily + share card',B8:'Audio, haptics, polish'};
-const normTasks=t=>(Array.isArray(t)?t:Object.entries(t||{}).map(([id,state])=>({id,title:TITLES[id]||id,state}))).filter(x=>!String(x.state).startsWith('cancel'));
+let PLAN={};const normTasks=(t,pid)=>{let a=(Array.isArray(t)?t:Object.entries(t||{}).map(([id,state])=>({id,title:TITLES[id]||id,state}))).filter(x=>!String(x.state).startsWith('cancel'));const have=new Set(a.map(x=>x.id));(PLAN[pid]||[]).forEach(i=>{if(!have.has(i))a.push({id:i,title:TITLES[i]||i,state:'todo'})});return a};
 const cfg={repo:localStorage.pzRepo||'manofwhitebrown/Platform-Zero',tok:localStorage.pzTok||''};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -83,7 +83,7 @@ function plat(id,st,commits){
   const mine=commits.filter(c=>c.commit.message.startsWith('['+id+']'));
   const last=mine[0]?.commit.author.date;
   const m=mins(last),cls=m<30?'ok':m<90?'warn':'bad';
-  const tasks=normTasks(st?.tasks),done=tasks.filter(t=>t.state==='done').length;
+  const tasks=normTasks(st?.tasks,id),done=tasks.filter(t=>t.state==='done').length;
   const pct=tasks.length?Math.round(done/tasks.length*100):0;
   const g={done:'✓',doing:'◐',todo:'○'};
   $('#'+id).innerHTML=`<div class="sign"><div class="letter">${id}</div><div><h2>${NAMES[id][0]}</h2><p>${NAMES[id][1]}</p></div>
@@ -97,6 +97,7 @@ function plat(id,st,commits){
 async function refresh(){
   $('#err').textContent='';
   try{
+    try{const m=await (await fetch('https://raw.githubusercontent.com/'+cfg.repo+'/main/status/titles.json?t='+Date.now())).json();Object.assign(TITLES,m.titles||{});PLAN=m.plan||{}}catch(e){}
     const commits=await gh('/commits?per_page=60');
     for(const id of ['A','B','C','D']){
       let st=null;try{st=JSON.parse(cfg.tok?await gh('/contents/status/'+id+'.json',true):await (await fetch('https://raw.githubusercontent.com/'+cfg.repo+'/main/status/'+id+'.json?t='+Date.now())).text())}catch(e){}

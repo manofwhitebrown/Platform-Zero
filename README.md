@@ -23,6 +23,13 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 <!-- STATUS:START -->
 **Platform A · Engine** — 42/44 done
 
+- 🔄 Requests from other AIs
+- ⬜ Godot 4.5 upgrade (last)
+
+> A6.6 done: GameState + Mystery autoloads and files removed (scenes/ was already gone); v1 save migration + test kept. All local tests, parse_all, fuzz green. Left: A6.8 Godot upgrade (last), A6.5 ongoing.
+
+<details><summary>Finished (42)</summary>
+
 - ✅ Scaffold + autoload stubs
 - ✅ Android export + CI build
 - ✅ Content loader + validator
@@ -30,13 +37,12 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Inspect, match, reputation
 - ✅ Daily mystery + share text
 - ✅ Tests + integration fixes
-- ➖ 40 objects content
-- ✅ A0.1
-- ✅ A-C1
-- ✅ A-C2
-- ✅ A-C3
-- ✅ A-C4
-- ✅ A-C5
+- ✅ Sim + Cheats stubs
+- ✅ Cleanup 1
+- ✅ Cleanup 2
+- ✅ Cleanup 3
+- ✅ Delete old v1 code
+- ✅ Cleanup 5
 - ✅ A0.2
 - ✅ A0.3
 - ✅ A0.5
@@ -51,25 +57,34 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ A2.2
 - ✅ A2.3
 - ✅ A2.4
-- ✅ A3.5
-- ✅ CI-race
-- ✅ A-cheat-stub
-- ✅ A5.1
-- ✅ A3.1
-- ✅ A3.2
-- ✅ A3.3
-- ✅ A3.4
-- ✅ A6.0
-- ✅ A6.1
-- ✅ A6.2
-- ✅ A6.3
-- ✅ A6.4
-- 🔄 A6.5
-- ✅ A6.6
-- ✅ A6.7
-- ⬜ A6.8
+- ✅ Barks, dialogue, names
+- ✅ Screenshot CI race fix
+- ✅ Cheat stub for screenshots
+- ✅ Cheat panel backend
+- ✅ Procedural content (240 items)
+- ✅ Shop + economy
+- ✅ Regular story arcs
+- ✅ Daily Night Case
+- ✅ Screenshot runner + script parse check
+- ✅ Offline progress
+- ✅ Safe saving + backup
+- ✅ Balance + fuzz tests
+- ✅ Sim performance
+- ✅ Retire v1 code
+- ✅ Cheat tests
 
-**Platform B · Screens** — 32/32 done
+</details>
+
+**Platform B · Screens** — 32/36 done
+
+- ⬜ Settings
+- ⬜ Back Office (cheat panel) UI
+- ⬜ Audio wiring
+- ⬜ UI QA pass
+
+> B5.7 done: story card shows a "A NEW CHAPTER" block when hand_over result has arc_line, and uses ItemArt. Beat toasts still arrive via Events.toast. Next B5.8 Settings.
+
+<details><summary>Finished (32)</summary>
 
 - ✅ Theme + UI kit
 - ✅ Icons, backdrop, shaders
@@ -81,7 +96,7 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ Daily + share card
 - ✅ Audio, haptics, polish
 - ✅ App icon set
-- ✅ 40 objects + clue/hint alignment
+- ✅ 40 objects + clue alignment
 - ✅ B-C1
 - ✅ B-C2
 - ✅ B-C3
@@ -89,42 +104,58 @@ Two AIs are building this in parallel, Engine (A) and Front (B). This block upda
 - ✅ B0.1
 - ✅ B0.2
 - ✅ B0.3
-- ✅ B1.1
-- ✅ B1.2
-- ✅ B1.3
-- ✅ B1.4
-- ✅ B1.5
-- ✅ B1.6
-- ✅ B5.0
-- ✅ B5.1
-- ✅ B5.2
-- ✅ B5.3
-- ✅ B5.4
-- ✅ B5.5
-- ✅ B5.6
-- ✅ B5.7
+- ✅ Train car shell
+- ✅ Actor rig
+- ✅ Tap-to-walk + highlights
+- ✅ Claimants, bubbles, interview UI
+- ✅ Bench + 5 tools
+- ✅ HUD
+- ✅ Train is the real main scene
+- ✅ Tutorial overlay
+- ✅ Shared item art
+- ✅ Ledger + retire v1 screens
+- ✅ Shop screen
+- ✅ Night Case screen
+- ✅ Welcome-back screen
+- ✅ Arc story cards
+
+</details>
 
 **Platform C · Sound + Story** — 6/6 done
 
-- ✅ C1
-- ✅ C2
-- ✅ C3
-- ✅ C4
-- ✅ C5
-- ✅ C6
+
+> All C tasks done. Final read-through of 914 strings: no typos/double spaces/odd placeholders; names consistent. Balance numbers sent to A (fuzz.gd).
+
+<details><summary>Finished (6)</summary>
+
+- ✅ Audio generator (47 sounds)
+- ✅ Audio engine
+- ✅ Story + writing pass
+- ✅ Lore collectibles
+- ✅ 400 items + solvability audit
+- ✅ Playbot + text polish
+
+</details>
 
 **Platform D · World** — 3/10 done
 
-- ✅ D1
-- ✅ D2
-- ✅ D3
-- ⬜ D4
-- ⬜ D5
-- ⬜ D6
-- ⬜ D7
-- ⬜ D8
-- ⬜ D9
-- ⬜ D10
+- ⬜ Scenery + weather
+- ⬜ Station arrival
+- ⬜ Hotspots + item placement
+- ⬜ Camera + transitions
+- ⬜ Character generator
+- ⬜ Intro / title scene
+- ⬜ World performance + QA shots
+
+> D3: seated routine poses (read w/ page turn, nap+zzz, eat+steam cup, stare, chat gestures, kids swinging legs), vendor trolley, conductor punch; driven from Sim routine in crowd.gd. Boarding/leaving via door x + train-st
+
+<details><summary>Finished (3)</summary>
+
+- ✅ Seats + seated poses
+- ✅ Dress the 5 other cars
+- ✅ Ambient routine visuals
+
+</details>
 <!-- STATUS:END -->
 
 Live view: **https://manofwhitebrown.github.io/Platform-Zero/**
